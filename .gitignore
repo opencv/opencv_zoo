@@ -1,0 +1,6 @@
+*.pyc
+
+benchmark/data
+benchmark/data/**
+
+.vscode
