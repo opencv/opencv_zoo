@@ -1,0 +1,22 @@
+Data:
+  name: "Images for Text Detection"
+  url: "https://drive.google.com/u/0/uc?id=1lTQdZUau7ujHBqp0P6M1kccnnJgO-dRj&export=download"
+  sha: "a40cf095ceb77159ddd2a5902f3b4329696dd866"
+  filename: "text.zip"
+  parentPath: "benchmark/data"
+
+Benchmark:
+  name: "Text Recognition Benchmark"
+  parentPath: "benchmark/data/text"
+  fileList:
+    - "1.jpg"
+    - "2.jpg"
+    - "3.jpg"
+  backend: "default"
+  target: "cpu"
+  useDetectionLabel: True
+  repeat: 100
+
+Model:
+  name: "CRNN"
+  modelPath: "models/text_recognition_crnn/text_recognition_crnn.onnx"

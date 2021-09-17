@@ -1,6 +1,5 @@
 *.pyc
-
-benchmark/data
-benchmark/data/**
+**/__pycache__
+**/__pycache__/**
 
 .vscode
