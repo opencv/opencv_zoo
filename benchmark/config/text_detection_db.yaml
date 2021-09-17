@@ -1,0 +1,27 @@
+Data:
+  name: "Images for Text Detection"
+  url: "https://drive.google.com/u/0/uc?id=1lTQdZUau7ujHBqp0P6M1kccnnJgO-dRj&export=download"
+  sha: "a40cf095ceb77159ddd2a5902f3b4329696dd866"
+  filename: "text.zip"
+  parentPath: "benchmark/data"
+
+Benchmark:
+  name: "Text Detection Benchmark"
+  parentPath: "benchmark/data/text"
+  fileList:
+    - "1.jpg"
+    - "2.jpg"
+    - "3.jpg"
+  backend: "default"
+  target: "cpu"
+  sizes: # [w, h], default original scale
+    - [640, 480]
+  repeat: 100
+
+Model:
+  name: "DB"
+  modelPath: "models/text_detection_db/text_detection_db.onnx"
+  binaryThreshold: 0.3
+  polygonThreshold: 0.5
+  maxCandidates: 200
+  unclipRatio: 2.0
