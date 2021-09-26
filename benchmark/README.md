@@ -10,6 +10,10 @@ Time is measured from data preprocess (resize is excluded), to a forward pass of
 
 1. Install `python >= 3.6`.
 2. Install dependencies: `pip install -r requirements.txt`.
+3. Download data for benchmarking.
+    1. Download all data: `python download_data.py`
+    2. Download one or more specified data: `python download_data.py face text`. Available data names can be found in `download_data.py`.
+    3. For users in China, you can download all data from https://pan.baidu.com/s/18sV8D4vXUb2xC9EG45k7bg (code: pvrw). Please place and extract data packages under `$OpenCV_Zoo/benchmark/data`.
 
 ## Benchmarking
 

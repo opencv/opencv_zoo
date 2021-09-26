@@ -7,7 +7,6 @@ import numpy as np
 import cv2 as cv
 
 from models import MODELS
-from download import Downloader
 
 parser = argparse.ArgumentParser("Benchmarks for OpenCV Zoo.")
 parser.add_argument('--cfg', '-c', type=str,
@@ -15,11 +14,11 @@ parser.add_argument('--cfg', '-c', type=str,
 args = parser.parse_args()
 
 class Timer:
-    def __init__(self):
+    def __init__(self, warmup=0, reduction='median'):
+        self._warmup = warmup
+        self._reduction = reduction
         self._tm = cv.TickMeter()
-
         self._time_record = []
-        self._average_time = 0
         self._calls = 0
 
     def start(self):
@@ -29,22 +28,121 @@ class Timer:
         self._tm.stop()
         self._calls += 1
         self._time_record.append(self._tm.getTimeMilli())
-        self._average_time = sum(self._time_record) / self._calls
         self._tm.reset()
 
     def reset(self):
         self._time_record = []
-        self._average_time = 0
         self._calls = 0
 
-    def getAverageTime(self):
-        return self._average_time
+    def getResult(self):
+        if self._reduction == 'median':
+            return self._getMedian(self._time_record[self._warmup:])
+        elif self._reduction == 'gmean':
+            return self._getGMean(self._time_record[self._warmup:])
+        else:
+            raise NotImplementedError()
 
+    def _getMedian(self, records):
+        ''' Return median time
+        '''
+        l = len(records)
+        mid = int(l / 2)
+        if l % 2 == 0:
+            return (records[mid] + records[mid - 1]) / 2
+        else:
+            return records[mid]
+
+    def _getGMean(self, records, drop_largest=3):
+        ''' Return geometric mean of time
+        '''
+        time_record_sorted = sorted(records, reverse=True)
+        return sum(records[drop_largest:]) / (self._calls - drop_largest)
+
+class Data:
+    def __init__(self, **kwargs):
+        self._path = kwargs.pop('path', None)
+        assert self._path, 'Benchmark[\'data\'][\'path\'] cannot be empty.'
+
+        self._files = kwargs.pop('files', None)
+        if not self._files:
+            print('Benchmark[\'data\'][\'files\'] is empty, loading all images by default.')
+            self._files = list()
+            for filename in os.listdir(self._path):
+                if filename.endswith('jpg') or filename.endswith('png'):
+                    self._files.append(filename)
+
+        self._use_label = kwargs.pop('useLabel', False)
+        if self._use_label:
+            self._labels = self._load_label()
+
+    def _load_label(self):
+        labels = dict.fromkeys(self._files, None)
+        for filename in self._files:
+            labels[filename] = np.loadtxt(os.path.join(self._path, '{}.txt'.format(filename[:-4])))
+        return labels
+
+    def __getitem__(self, idx):
+        image = cv.imread(os.path.join(self._path, self._files[idx]))
+        if self._use_label:
+            return self._files[idx], image, self._labels[self._files[idx]]
+        else:
+            return self._files[idx], image
+
+class Metric:
+    def __init__(self, **kwargs):
+        self._sizes = kwargs.pop('sizes', None)
+        self._warmup = kwargs.pop('warmup', 3)
+        self._repeat = kwargs.pop('repeat', 10)
+        assert self._warmup < self._repeat, 'The value of warmup must be smaller than the value of repeat.'
+        self._batch_size = kwargs.pop('batchSize', 1)
+        self._reduction = kwargs.pop('reduction', 'median')
+
+        self._timer = Timer(self._warmup, self._reduction)
+
+    def getReduction(self):
+        return self._reduction
+
+    def forward(self, model, *args, **kwargs):
+        img = args[0]
+        h, w, _ = img.shape
+        if not self._sizes:
+            self._sizes = [[w, h]]
+
+        results = dict()
+        self._timer.reset()
+        if len(args) == 1:
+            for size in self._sizes:
+                img_r = cv.resize(img, size)
+                model.setInputSize(size)
+                # TODO: batched inference
+                # input_data = [img] * self._batch_size
+                input_data = img_r
+                for _ in range(self._repeat+self._warmup):
+                    self._timer.start()
+                    model.infer(input_data)
+                    self._timer.stop()
+                results[str(size)] = self._timer.getResult()
+        else:
+            # TODO: batched inference
+            # input_data = [args] * self._batch_size
+            bboxes = args[1]
+            for idx, bbox in enumerate(bboxes):
+                for _ in range(self._repeat+self._warmup):
+                    self._timer.start()
+                    model.infer(img, bbox)
+                    self._timer.stop()
+                results['bbox{}'.format(idx)] = self._timer.getResult()
+
+        return results
 
 class Benchmark:
     def __init__(self, **kwargs):
-        self._fileList = kwargs.pop('fileList', None)
-        assert self._fileList, 'fileList cannot be empty'
+        self._data_dict = kwargs.pop('data', None)
+        assert self._data_dict, 'Benchmark[\'data\'] cannot be empty and must have path and files.'
+        self._data = Data(**self._data_dict)
+
+        self._metric_dict = kwargs.pop('metric', None)
+        self._metric = Metric(**self._metric_dict)
 
         backend_id = kwargs.pop('backend', 'default')
         available_backends = dict(
@@ -71,76 +169,22 @@ class Benchmark:
         )
         self._target = available_targets[target_id]
 
-        self._sizes = kwargs.pop('sizes', None)
-        self._repeat = kwargs.pop('repeat', 100)
-        self._parentPath = kwargs.pop('parentPath', 'benchmark/data')
-        self._useGroundTruth = kwargs.pop('useDetectionLabel', False) # If it is enable, 'sizes' will not work
-        assert (self._sizes and not self._useGroundTruth) or (not self._sizes and self._useGroundTruth), 'If \'useDetectionLabel\' is True, \'sizes\' should not exist.'
-
-        self._timer = Timer()
-        self._benchmark_results = dict.fromkeys(self._fileList, dict())
-
-        if self._useGroundTruth:
-            self.loadLabel()
-
-    def loadLabel(self):
-        self._labels = dict.fromkeys(self._fileList, None)
-        for imgName in self._fileList:
-            self._labels[imgName] = np.loadtxt(os.path.join(self._parentPath, '{}.txt'.format(imgName[:-4])))
+        self._benchmark_results = dict()
 
     def run(self, model):
         model.setBackend(self._backend)
         model.setTarget(self._target)
 
-        for imgName in self._fileList:
-            img = cv.imread(os.path.join(self._parentPath, imgName))
-            if self._useGroundTruth:
-                for idx, gt in enumerate(self._labels[imgName]):
-                    self._benchmark_results[imgName]['gt{}'.format(idx)] = self._run(
-                        model,
-                        img,
-                        gt,
-                        pbar_msg='  {}, gt{}'.format(imgName, idx)
-                    )
-            else:
-                if self._sizes is None:
-                    h, w, _ = img.shape
-                    model.setInputSize([w, h])
-                    self._benchmark_results[imgName][str([w, h])] = self._run(
-                        model,
-                        img,
-                        pbar_msg='  {}, original size {}'.format(imgName, str([w, h]))
-                    )
-                else:
-                    for size in self._sizes:
-                        imgResized = cv.resize(img, size)
-                        model.setInputSize(size)
-                        self._benchmark_results[imgName][str(size)] = self._run(
-                            model,
-                            imgResized,
-                            pbar_msg='  {}, size {}'.format(imgName, str(size))
-                        )
+        for data in self._data:
+            self._benchmark_results[data[0]] = self._metric.forward(model, *data[1:])
 
     def printResults(self):
-        print('  Results:')
         for imgName, results in self._benchmark_results.items():
-            print('    image: {}'.format(imgName))
+            print('  image: {}'.format(imgName))
             total_latency = 0
             for key, latency in results.items():
                 total_latency += latency
-                print('        {}, latency: {:.4f} ms'.format(key, latency))
-            print('        Average latency: {:.4f} ms'.format(total_latency / len(results)))
-
-    def _run(self, model, *args, **kwargs):
-        self._timer.reset()
-        pbar = tqdm.tqdm(range(self._repeat))
-        for _ in pbar:
-            pbar.set_description(kwargs.get('pbar_msg', None))
-
-            self._timer.start()
-            results = model.infer(*args)
-            self._timer.stop()
-        return self._timer.getAverageTime()
+                print('      {}, latency ({}): {:.4f} ms'.format(key, self._metric.getReduction(), latency))
 
 
 def build_from_cfg(cfg, registery):
@@ -160,15 +204,8 @@ if __name__ == '__main__':
         cfg = yaml.safe_load(f)
 
     # prepend PYTHONPATH to each path
-    prepend_pythonpath(cfg, key1='Data', key2='parentPath')
-    prepend_pythonpath(cfg, key1='Benchmark', key2='parentPath')
+    prepend_pythonpath(cfg['Benchmark'], key1='data', key2='path')
     prepend_pythonpath(cfg, key1='Model', key2='modelPath')
-
-
-    # Download data if not exist
-    print('Loading data:')
-    downloader = Downloader(**cfg['Data'])
-    downloader.get()
 
     # Instantiate benchmarking
     benchmark = Benchmark(**cfg['Benchmark'])
