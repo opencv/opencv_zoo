@@ -1,23 +1,18 @@
-Data:
-  name: "Images for Face Detection"
-  url: "https://drive.google.com/u/0/uc?id=1lOAliAIeOv4olM65YDzE55kn6XjiX2l6&export=download"
-  sha: "0ba67a9cfd60f7fdb65cdb7c55a1ce76c1193df1"
-  filename: "face_detection.zip"
-  parentPath: "benchmark/data"
-
 Benchmark:
   name: "Face Detection Benchmark"
-  parentPath: "benchmark/data/face_detection"
-  fileList:
-    - "group.jpg"
-    - "concerts.jpg"
-    - "dance.jpg"
+  data:
+    path: "benchmark/data/face"
+    files: ["group.jpg", "concerts.jpg", "dance.jpg"]
+  metric:
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [160, 120]
+      - [640, 480]
+    warmup: 3
+    repeat: 10
+    batchSize: 1
+    reduction: 'median'
   backend: "default"
   target: "cpu"
-  sizes: # [w, h], Omit to run at original scale
-    - [160, 120]
-    - [640, 480]
-  repeat: 100 # default 100
 
 Model:
   name: "YuNet"
