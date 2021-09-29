@@ -17,7 +17,7 @@ Hardware Setup:
 
 ***Important Notes***:
 - The time data that shown on the following tables presents the time elapsed from preprocess (resize is excluded), to a forward pass of a network, and postprocess to get final results.
-- The time data that shown on the following tables is averaged from a 100-time run.
+- The time data that shown on the following tables is the median of benchmark runs.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
 
 <!--
@@ -29,9 +29,10 @@ Hardware Setup:
 -->
 | Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) |
 |-------|------------|-----------------|--------------|
-| [YuNet](./models/face_detection_yunet) | 160x120 | 2.17   | 8.87    |
-| [DB](./models/text_detection_db)       | 640x480 | 148.65 | 2759.88 |
-| [CRNN](./models/text_recognition_crnn) | 100x32  | 23.23  | 235.87  |
+| [YuNet](./models/face_detection_yunet)   | 160x120 | 2.35   | 8.72    |
+| [DB](./models/text_detection_db)         | 640x480 | 137.38 | 2780.78 |
+| [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  |
+| [SFace](./models/face_recognition_sface) | 112x112 | 8.69 | 96.79 |
 
 
 ## License
