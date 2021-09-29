@@ -78,7 +78,7 @@ class Data:
     def _load_label(self):
         labels = dict.fromkeys(self._files, None)
         for filename in self._files:
-            labels[filename] = np.loadtxt(os.path.join(self._path, '{}.txt'.format(filename[:-4])))
+            labels[filename] = np.loadtxt(os.path.join(self._path, '{}.txt'.format(filename[:-4])), ndmin=2)
         return labels
 
     def __getitem__(self, idx):

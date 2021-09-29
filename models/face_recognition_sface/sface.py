@@ -32,18 +32,29 @@ class SFace:
     def setTarget(self, target_id):
         self._model.setPreferableTarget(target_id)
 
-    def match(self, image1, face1, image2, face2, dis_type=0):
-        aligned_image1 = self._alignCrop(image1, face1)
-        input_blob = cv.dnn.blobFromImage(aligned_image1)
-        self._model.setInput(input_blob)
-        feature1 = self._model.forward()
-        feature1 = feature1 / cv.norm(feature1)
+    def _preprocess(self, image, bbox):
+        aligned_image = self._alignCrop(image, bbox)
+        return cv.dnn.blobFromImage(aligned_image)
 
-        aligned_image2 = self._alignCrop(image2, face2)
-        input_blob = cv.dnn.blobFromImage(aligned_image2)
-        self._model.setInput(input_blob)
-        feature2 = self._model.forward()
-        feature2 = feature2 / cv.norm(feature2)
+    def infer(self, image, bbox):
+        # Preprocess
+        inputBlob = self._preprocess(image, bbox)
+
+        # Forward
+        self._model.setInput(inputBlob)
+        outputBlob = self._model.forward()
+
+        # Postprocess
+        results = self._postprocess(outputBlob)
+
+        return results
+
+    def _postprocess(self, outputBlob):
+        return outputBlob / cv.norm(outputBlob)
+
+    def match(self, image1, face1, image2, face2, dis_type=0):
+        feature1 = self.infer(image1, face1)
+        feature2 = self.infer(image2, face2)
 
         if dis_type == 0: # COSINE
             return np.sum(feature1 * feature2)
