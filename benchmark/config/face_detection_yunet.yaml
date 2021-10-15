@@ -1,7 +1,7 @@
 Benchmark:
   name: "Face Detection Benchmark"
   data:
-    path: "benchmark/data/face"
+    path: "benchmark/data/face/detection"
     files: ["group.jpg", "concerts.jpg", "dance.jpg"]
   metric:
     sizes: # [[w1, h1], ...], Omit to run at original scale

@@ -77,8 +77,8 @@ if __name__ == '__main__':
         # Print results
         print('{} faces detected.'.format(results.shape[0]))
         for idx, det in enumerate(results):
-            print('{}: [{:.0f}, {:.0f}] [{:.0f}, {:.0f}], {:.2f}'.format(
-                idx, det[0], det[1], det[2], det[3], det[-1])
+            print('{}: {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f} {:.0f}'.format(
+                idx, *det[:-1])
             )
 
         # Draw results on the input image
