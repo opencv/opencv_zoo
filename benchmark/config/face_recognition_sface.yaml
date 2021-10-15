@@ -1,0 +1,17 @@
+Benchmark:
+  name: "Face Recognition Benchmark"
+  data:
+    path: "benchmark/data/face/recognition"
+    files: ["Aaron_Tippin_0001.jpg", "Alvaro_Uribe_0028.jpg", "Alvaro_Uribe_0029.jpg", "Jose_Luis_Rodriguez_Zapatero_0001.jpg"]
+    useLabel: True
+  metric: # 'sizes' is omitted since this model requires input of fixed size
+    warmup: 3
+    repeat: 10
+    batchSize: 1
+    reduction: 'median'
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "SFace"
+  modelPath: "models/face_recognition_sface/face_recognition_sface.onnx"
