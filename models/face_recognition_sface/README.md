@@ -2,6 +2,8 @@
 
 SFace: Sigmoid-Constrained Hypersphere Loss for Robust Face Recognition
 
+SFace is contributed by [Yaoyao Zhong](https://github.com/zhongyy/SFace). [face_recognition_sface.onnx](./face_recognition_sface.onnx) is converted from the model from https://github.com/zhongyy/SFace thanks to [Chengrui Wang](https://github.com/crywang).
+
 Note:
 - There is [a PR for OpenCV adding this model](https://github.com/opencv/opencv/pull/20422) to work with OpenCV DNN in C++ implementation.
 - Support 5-landmark warp for now.
