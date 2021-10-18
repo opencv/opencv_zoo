@@ -1,0 +1,20 @@
+Benchmark:
+  name: "Image Classification Benchmark"
+  data:
+    path: "benchmark/data/image_classification"
+    files: ["coffee_mug.jpg", "umbrella.jpg", "wall_clock.jpg"]
+    toRGB: True
+    resize: [256, 256]
+    centerCrop: 224
+  metric:
+    warmup: 3
+    repeat: 10
+    batchSize: 1
+    reduction: 'median'
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "PPResNet"
+  modelPath: "models/image_classification_ppresnet/image_classification_ppresnet50.onnx"
+  labelPath: "models/image_classification_ppresnet/imagenet_labels.txt"

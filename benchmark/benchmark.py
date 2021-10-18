@@ -75,6 +75,10 @@ class Data:
         if self._use_label:
             self._labels = self._load_label()
 
+        self._to_rgb = kwargs.pop('toRGB', False)
+        self._resize = tuple(kwargs.pop('resize', []))
+        self._center_crop = kwargs.pop('centerCrop', None)
+
     def _load_label(self):
         labels = dict.fromkeys(self._files, None)
         for filename in self._files:
@@ -83,6 +87,19 @@ class Data:
 
     def __getitem__(self, idx):
         image = cv.imread(os.path.join(self._path, self._files[idx]))
+
+        if self._to_rgb:
+            image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        if self._resize:
+            image = cv.resize(image, self._resize)
+        if self._center_crop:
+            h, w, _ = image.shape
+            w_crop = int((w - self._center_crop) / 2.)
+            assert w_crop >= 0
+            h_crop = int((h - self._center_crop) / 2.)
+            assert h_crop >= 0
+            image = image[w_crop:w-w_crop, h_crop:h-h_crop, :]
+
         if self._use_label:
             return self._files[idx], image, self._labels[self._files[idx]]
         else:
@@ -113,7 +130,10 @@ class Metric:
         if len(args) == 1:
             for size in self._sizes:
                 img_r = cv.resize(img, size)
-                model.setInputSize(size)
+                try:
+                    model.setInputSize(size)
+                except:
+                    pass
                 # TODO: batched inference
                 # input_data = [img] * self._batch_size
                 input_data = img_r
@@ -192,11 +212,13 @@ def build_from_cfg(cfg, registery):
     obj = registery.get(obj_name)
     return obj(**cfg)
 
-def prepend_pythonpath(cfg, key1, key2):
-    pythonpath = os.environ['PYTHONPATH']
-    if cfg[key1][key2].startswith('/'):
-        return
-    cfg[key1][key2] = os.path.join(pythonpath, cfg[key1][key2])
+def prepend_pythonpath(cfg):
+    for k, v in cfg.items():
+        if isinstance(v, dict):
+            prepend_pythonpath(v)
+        else:
+            if 'path' in k.lower():
+                cfg[k] = os.path.join(os.environ['PYTHONPATH'], v)
 
 if __name__ == '__main__':
     assert args.cfg.endswith('yaml'), 'Currently support configs of yaml format only.'
@@ -204,8 +226,7 @@ if __name__ == '__main__':
         cfg = yaml.safe_load(f)
 
     # prepend PYTHONPATH to each path
-    prepend_pythonpath(cfg['Benchmark'], key1='data', key2='path')
-    prepend_pythonpath(cfg, key1='Model', key2='modelPath')
+    prepend_pythonpath(cfg)
 
     # Instantiate benchmarking
     benchmark = Benchmark(**cfg['Benchmark'])
