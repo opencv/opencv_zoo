@@ -177,6 +177,10 @@ data_downloaders = dict(
         url='https://drive.google.com/u/0/uc?id=1qcsrX3CIAGTooB-9fLKYwcvoCuMgjzGU&export=download',
         sha='987546f567f9f11d150eea78951024b55b015401',
         filename='image_classification.zip'),
+    human_segmentation=Downloader(name='human_segmentation',
+        url='https://drive.google.com/u/0/uc?id=1Kh0qXcAZCEaqwavbUZubhRwrn_8zY7IL&export=download',
+        sha='ac0eedfd8568570cad135acccd08a134257314d0',
+        filename='human_segmentation.zip')
 )
 
 if __name__ == '__main__':

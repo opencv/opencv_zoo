@@ -1,0 +1,18 @@
+Benchmark:
+  name: "Human Segmentation Benchmark"
+  data:
+    path: "benchmark/data/human_segmentation"
+    files: ["messi5.jpg", "100040721_1.jpg", "detect.jpg"]
+    toRGB: True
+    resize: [192, 192]
+  metric:
+    warmup: 3
+    repeat: 10
+    batchSize: 1
+    reduction: 'median'
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "PPHumanSeg"
+  modelPath: "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg.onnx"
