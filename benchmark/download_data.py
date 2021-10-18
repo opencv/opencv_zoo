@@ -173,6 +173,10 @@ data_downloaders = dict(
         url='https://drive.google.com/u/0/uc?id=1lTQdZUau7ujHBqp0P6M1kccnnJgO-dRj&export=download',
         sha='a40cf095ceb77159ddd2a5902f3b4329696dd866',
         filename='text.zip'),
+    image_classification=Downloader(name='image_classification',
+        url='https://drive.google.com/u/0/uc?id=1qcsrX3CIAGTooB-9fLKYwcvoCuMgjzGU&export=download',
+        sha='987546f567f9f11d150eea78951024b55b015401',
+        filename='image_classification.zip'),
 )
 
 if __name__ == '__main__':

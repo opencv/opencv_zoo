@@ -16,8 +16,8 @@ Hardware Setup:
 -->
 
 ***Important Notes***:
-- The time data that shown on the following tables presents the time elapsed from preprocess (resize is excluded), to a forward pass of a network, and postprocess to get final results.
-- The time data that shown on the following tables is the median of benchmark runs.
+- The time data that shown on the following table presents the time elapsed from preprocess (resize is excluded), to a forward pass of a network, and postprocess to get final results.
+- The time data that shown on the following table is the median of 10 runs. Different metrics may be applied to some specific models.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
 
 <!--
@@ -33,6 +33,7 @@ Hardware Setup:
 | [DB](./models/text_detection_db)         | 640x480 | 137.38 | 2780.78 |
 | [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  |
 | [SFace](./models/face_recognition_sface) | 112x112 | 8.69 | 96.79 |
+| [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58
 
 
 ## License
