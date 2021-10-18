@@ -34,7 +34,7 @@ Hardware Setup:
 | [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  |
 | [SFace](./models/face_recognition_sface) | 112x112 | 8.69 | 96.79 |
 | [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58
-
+| [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 |
 
 ## License
 
