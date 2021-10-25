@@ -18,14 +18,16 @@ Hardware Setup:
 - The time data that shown on the following table is the median of 10 runs. Different metrics may be applied to some specific models.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
 
-| Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) | GPU CUDA (ms) |
+| Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) | GPU CUDA (ms)* |
 |-------|------------|-----------------|--------------|---------------|
-| [YuNet](./models/face_detection_yunet)   | 160x120 | 1.45   | 6.22    | TBD |
-| [DB](./models/text_detection_db)         | 640x480 | 137.38 | 2780.78 | TBD |
-| [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  | TBD |
-| [SFace](./models/face_recognition_sface) | 112x112 | 8.65 | 99.20 | TBD |
-| [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58 TBD |
-| [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 | TBD |
+| [YuNet](./models/face_detection_yunet)   | 160x120 | 1.45   | 6.22    | 12.18 |
+| [DB](./models/text_detection_db)         | 640x480 | 137.38 | 2780.78 | 220.52 |
+| [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  | 196.15 |
+| [SFace](./models/face_recognition_sface) | 112x112 | 8.65 | 99.20 | 24.88 |
+| [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58 | 98.64 |
+| [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 | 67.97 |
+
+*: Batch size is 1.
 
 ## License
 
