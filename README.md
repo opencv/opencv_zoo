@@ -29,10 +29,10 @@ Hardware Setup:
 -->
 | Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) |
 |-------|------------|-----------------|--------------|
-| [YuNet](./models/face_detection_yunet)   | 160x120 | 2.35   | 8.72    |
+| [YuNet](./models/face_detection_yunet)   | 160x120 | 1.45   | 6.22    |
 | [DB](./models/text_detection_db)         | 640x480 | 137.38 | 2780.78 |
 | [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  |
-| [SFace](./models/face_recognition_sface) | 112x112 | 8.69 | 96.79 |
+| [SFace](./models/face_recognition_sface) | 112x112 | 8.65 | 99.20 |
 | [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58
 | [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 |
 
