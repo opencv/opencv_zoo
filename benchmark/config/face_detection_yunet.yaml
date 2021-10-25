@@ -20,4 +20,3 @@ Model:
   confThreshold: 0.6
   nmsThreshold: 0.3
   topK: 5000
-  keepTopK: 750
