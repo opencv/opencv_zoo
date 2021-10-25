@@ -25,7 +25,6 @@ parser.add_argument('--model', '-m', type=str, default='face_detection_yunet.onn
 parser.add_argument('--conf_threshold', type=float, default=0.9, help='Filter out faces of confidence < conf_threshold.')
 parser.add_argument('--nms_threshold', type=float, default=0.3, help='Suppress bounding boxes of iou >= nms_threshold.')
 parser.add_argument('--top_k', type=int, default=5000, help='Keep top_k bounding boxes before NMS.')
-parser.add_argument('--keep_top_k', type=int, default=750, help='Keep keep_top_k bounding boxes after NMS.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
@@ -62,8 +61,7 @@ if __name__ == '__main__':
                   inputSize=[320, 320],
                   confThreshold=args.conf_threshold,
                   nmsThreshold=args.nms_threshold,
-                  topK=args.top_k,
-                  keepTopK=args.keep_top_k)
+                  topK=args.top_k)
 
     # If input is an image
     if args.input is not None:

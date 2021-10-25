@@ -35,14 +35,13 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
     # Instantiate SFace for face recognition
-    recognizer = SFace(modelPath=args.model)
+    recognizer = SFace(modelPath=args.model, disType=args.dis_type)
     # Instantiate YuNet for face detection
     detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet.onnx',
                      inputSize=[320, 320],
                      confThreshold=0.9,
                      nmsThreshold=0.3,
-                     topK=5000,
-                     keepTopK=750)
+                     topK=5000)
 
     img1 = cv.imread(args.input1)
     img2 = cv.imread(args.input2)
@@ -56,16 +55,5 @@ if __name__ == '__main__':
     assert face2.shape[0] > 0, 'Cannot find a face in {}'.format(args.input2)
 
     # Match
-    distance = recognizer.match(img1, face1[0][:-1], img2, face2[0][:-1], args.dis_type)
-    print(distance)
-    if args.dis_type == 0:
-        dis_type = 'Cosine'
-        threshold = 0.363
-        result = 'same identity' if distance >= threshold else 'different identity'
-    elif args.dis_type == 1:
-        dis_type = 'Norm-L2'
-        threshold = 1.128
-        result = 'same identity' if distance <= threshold else 'different identity'
-    else:
-        raise NotImplementedError()
-    print('Using {} distance, threshold {}: {}.'.format(dis_type, threshold, result))
+    result = recognizer.match(img1, face1[0][:-1], img2, face2[0][:-1])
+    print('Result: {}.'.format('same identity' if result else 'different identities'))
