@@ -19,7 +19,7 @@ class YuNet:
         self._backendId = backendId
         self._targetId = targetId
 
-        self._model = cv.FaceDetectorYN.create(
+        self._model = cv.FaceDetectorYN_create(
             model=self._modelPath,
             config="",
             input_size=self._inputSize,
@@ -35,7 +35,7 @@ class YuNet:
 
     def setBackend(self, backendId):
         self._backendId = backendId
-        self._model = cv.FaceDetectorYN.create(
+        self._model = cv.FaceDetectorYN_create(
             model=self._modelPath,
             config="",
             input_size=self._inputSize,
@@ -47,7 +47,7 @@ class YuNet:
 
     def setTarget(self, targetId):
         self._targetId = targetId
-        self._model = cv.FaceDetectorYN.create(
+        self._model = cv.FaceDetectorYN_create(
             model=self._modelPath,
             config="",
             input_size=self._inputSize,
