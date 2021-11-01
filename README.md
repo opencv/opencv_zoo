@@ -28,8 +28,8 @@ Hardware Setup:
 | Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) | GPU CUDA (ms) |
 |-------|------------|-----------------|--------------|---------------|
 | [YuNet](./models/face_detection_yunet)   | 160x120 | 1.45   | 6.22    | 12.18 |
-| [DB-IC15](./models/text_detection_db)    | 640x480 | 142.91 | 2835.91 | TBD |
-| [DB-TD500](./models/text_detection_db)   | 640x480 | 142.91 | 2841.71 | 220.52 |
+| [DB-IC15](./models/text_detection_db)    | 640x480 | 142.91 | 2835.91 | 208.41 |
+| [DB-TD500](./models/text_detection_db)   | 640x480 | 142.91 | 2841.71 | 210.51 |
 | [CRNN](./models/text_recognition_crnn)   | 100x32  | 50.21  | 234.32  | 196.15 |
 | [SFace](./models/face_recognition_sface) | 112x112 | 8.65 | 99.20 | 24.88 |
 | [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58 | 98.64 |
