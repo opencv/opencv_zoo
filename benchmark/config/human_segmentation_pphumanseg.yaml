@@ -15,4 +15,4 @@ Benchmark:
 
 Model:
   name: "PPHumanSeg"
-  modelPath: "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg.onnx"
+  modelPath: "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx"
