@@ -26,7 +26,7 @@ def str2bool(v):
 parser = argparse.ArgumentParser(
     description="An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition (https://arxiv.org/abs/1507.05717)")
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_recognition_crnn.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_VGG_BiLSTM_CTC.onnx', help='Path to the model.')
 parser.add_argument('--width', type=int, default=736,
                     help='The width of input image being sent to the text detector.')
 parser.add_argument('--height', type=int, default=736,

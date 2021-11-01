@@ -2,7 +2,11 @@
 
 Real-time Scene Text Detection with Differentiable Binarization
 
-`text_detection_db.onnx` is trained on [TD500 dataset](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500)), which can detect both English & Chinese instances. It is obtained from [here](https://docs.opencv.org/master/d4/d43/tutorial_dnn_text_spotting.html) and renamed from `DB_TD500_resnet18.onnx`.
+Note:
+- Models source: [here](https://drive.google.com/drive/folders/1qzNCHfUJOS0NEUOIKn69eCtxdlNPpWbq).
+- `IC15` in the filename means the model is trained on [IC15 dataset](https://rrc.cvc.uab.es/?ch=4&com=introduction), which can detect English text instances only.
+- `TD500` in the filename means the model is trained on [TD500 dataset](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500)), which can detect both English & Chinese instances.
+- Visit https://docs.opencv.org/master/d4/d43/tutorial_dnn_text_spotting.html for more information.
 
 ## Demo
 
