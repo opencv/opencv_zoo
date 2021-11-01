@@ -15,7 +15,7 @@ Benchmark:
 
 Model:
   name: "DB"
-  modelPath: "models/text_detection_db/text_detection_db.onnx"
+  modelPath: "models/text_detection_db/text_detection_DB_TD500_resnet18_2021sep.onnx"
   binaryThreshold: 0.3
   polygonThreshold: 0.5
   maxCandidates: 200

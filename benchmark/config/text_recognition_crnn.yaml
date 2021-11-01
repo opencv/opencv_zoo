@@ -14,4 +14,4 @@ Benchmark:
 
 Model:
   name: "CRNN"
-  modelPath: "models/text_recognition_crnn/text_recognition_crnn.onnx"
+  modelPath: "models/text_recognition_crnn/text_recognition_CRNN_VGG_BiLSTM_CTC_2021sep.onnx"
