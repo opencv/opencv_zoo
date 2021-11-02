@@ -21,7 +21,7 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(description='Deep Residual Learning for Image Recognition (https://arxiv.org/abs/1512.03385, https://github.com/PaddlePaddle/PaddleHub)')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image.')
-parser.add_argument('--model', '-m', type=str, default='image_classification_ppresnet50.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='image_classification_ppresnet50_2021oct.onnx', help='Path to the model.')
 args = parser.parse_args()
 
 if __name__ == '__main__':
