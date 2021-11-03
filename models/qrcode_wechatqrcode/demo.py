@@ -26,20 +26,59 @@ parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021sep.
 parser.add_argument('--detect_model_path', type=str, default='detect_2021sep.caffemodel', help='Path to detect.caffemodel.')
 parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021sep.prototxt', help='Path to sr.prototxt.')
 parser.add_argument('--sr_model_path', type=str, default='sr_2021sep.caffemodel', help='Path to sr.caffemodel.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
+parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
 
+def visualize(image, res, points, points_color=(0, 255, 0), text_color=(0, 255, 0)):
+    output = image.copy()
+    h, w, _ = output.shape
+
+    fontScale = 0.5
+    fontSize = 1
+    for r, p in zip(res, points):
+        p = p.astype(np.int32)
+        for _p in p:
+            cv.circle(output, _p, 10, points_color, -1)
+
+        text_size, baseline = cv.getTextSize(r, cv.FONT_HERSHEY_DUPLEX, fontScale, fontSize)
+        text_center_x = int((w - text_size[0]) / 2) if int((w - text_size[0]) / 2) >=0 else 0
+        text_center_y = int((h - text_size[1]) / 2)
+        cv.putText(output, '{}'.format(r), (text_center_x, text_center_y), cv.FONT_HERSHEY_DUPLEX, fontScale, text_color, fontSize)
+
+    return output
+
+
 if __name__ == '__main__':
     # Instantiate WeChatQRCode
-    model = WeChatQRCode(detect_prototxt_path, detect_model_path, sr_prototxt_path, sr_model_path)
+    model = WeChatQRCode(args.detect_prototxt_path,
+        args.detect_model_path,
+        args.sr_prototxt_path,
+        args.sr_model_path)
 
     # If input is an image:
     if args.input is not None:
         image = cv.imread(args.input)
         res, points = model.infer(image)
+
+        # Print results:
         print(res)
-    else:
+        print(points)
+
+        # Draw results on the input image
+        image = visualize(image, res, points)
+
+        # Save results if save is true
+        if args.save:
+            print('Results saved to result.jpg\n')
+            cv.imwrite('result.jpg', image)
+
+        # Visualize results in a new window
+        if args.vis:
+            cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
+            cv.imshow(args.input, image)
+            cv.waitKey(0)
+    else: # Omit input to call default camera
         deviceId = 0
         cap = cv.VideoCapture(deviceId)
 
@@ -52,8 +91,14 @@ if __name__ == '__main__':
 
             # Inference
             tm.start()
-            res, point = model.infer(image)
+            res, point = model.infer(frame)
             tm.stop()
             fps = tm.getFPS()
 
-            print(res)
+            # Draw results on the input image
+            frame = visualize(frame, res, points)
+
+            # Visualize results in a new window
+            cv.imshow('WeChatQRCode Demo', frame)
+
+            tm.reset()
