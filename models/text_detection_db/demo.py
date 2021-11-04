@@ -21,7 +21,7 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(description='Real-time Scene Text Detection with Differentiable Binarization (https://arxiv.org/abs/1911.08947).')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18_2021sep.onnx', help='Path to the model.')
 parser.add_argument('--width', type=int, default=736,
                     help='Preprocess input image by resizing to a specific width. It should be multiple by 32.')
 parser.add_argument('--height', type=int, default=736,
