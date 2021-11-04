@@ -21,7 +21,7 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(description='PPHumanSeg (https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.2/contrib/PP-HumanSeg)')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='human_segmentation_pphumanseg.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='human_segmentation_pphumanseg_2021oct.onnx', help='Path to the model.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()

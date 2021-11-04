@@ -21,7 +21,7 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(description='YuNet: A Fast and Accurate CNN-based Face Detector (https://github.com/ShiqiYu/libfacedetection).')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='face_detection_yunet.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='face_detection_yunet_2021sep.onnx', help='Path to the model.')
 parser.add_argument('--conf_threshold', type=float, default=0.9, help='Filter out faces of confidence < conf_threshold.')
 parser.add_argument('--nms_threshold', type=float, default=0.3, help='Suppress bounding boxes of iou >= nms_threshold.')
 parser.add_argument('--top_k', type=int, default=5000, help='Keep top_k bounding boxes before NMS.')
