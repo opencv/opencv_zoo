@@ -1,0 +1,21 @@
+Benchmark:
+  name: "QRCode Detection and Decoding Benchmark"
+  data:
+    path: "benchmark/data/qrcode"
+    files: ["opencv.png", "opencv_zoo.png"]
+  metric:
+    sizes:
+      - [100, 100]
+      - [300, 300]
+    warmup: 3
+    repeat: 10
+    reduction: "median"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "WeChatQRCode"
+  detect_prototxt_path: "models/qrcode_wechatqrcode/detect_2021sep.prototxt"
+  detect_model_path: "models/qrcode_wechatqrcode/detect_2021sep.caffemodel"
+  sr_prototxt_path: "models/qrcode_wechatqrcode/sr_2021sep.prototxt"
+  sr_model_path: "models/qrcode_wechatqrcode/sr_2021sep.caffemodel"

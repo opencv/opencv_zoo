@@ -21,10 +21,14 @@ class WeChatQRCode:
         return self.__class__.__name__
 
     def setBackend(self, backend_id):
-        self._model.setPreferableBackend(backend_id)
+        # self._model.setPreferableBackend(backend_id)
+        if backend_id != 0:
+            raise NotImplementedError("Backend {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
 
     def setTarget(self, target_id):
-        self._model.setPreferableTarget(target_id)
+        # self._model.setPreferableTarget(target_id)
+        if target_id != 0:
+            raise NotImplementedError("Target {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
 
     def infer(self, image):
         return self._model.detectAndDecode(image)
