@@ -24,6 +24,7 @@ Hardware Setup:
 - The time data that shown on the following table is the median of 10 runs. Different metrics may be applied to some specific models.
 - Batch size is 1 for all benchmark results.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
+- `---` means this model is not availble to run on the device.
 
 | Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) | GPU CUDA (ms) |
 |-------|------------|-----------------|--------------|---------------|
@@ -34,6 +35,7 @@ Hardware Setup:
 | [SFace](./models/face_recognition_sface) | 112x112 | 8.65 | 99.20 | 24.88 |
 | [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58 | 98.64 |
 | [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 | 67.97 |
+| [WeChatQRCode](./models/qrcode_wechatqrcode) | 100x100 | 7.04 | 37.68 | --- |
 
 ## License
 
