@@ -4,6 +4,7 @@ from .text_recognition_crnn.crnn import CRNN
 from .face_recognition_sface.sface import SFace
 from .image_classification_ppresnet.ppresnet import PPResNet
 from .human_segmentation_pphumanseg.pphumanseg import PPHumanSeg
+from .qrcode_wechatqrcode.wechatqrcode import WeChatQRCode
 
 class Registery:
     def __init__(self, name):
@@ -23,3 +24,4 @@ MODELS.register(CRNN)
 MODELS.register(SFace)
 MODELS.register(PPResNet)
 MODELS.register(PPHumanSeg)
+MODELS.register(WeChatQRCode)

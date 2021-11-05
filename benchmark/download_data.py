@@ -180,7 +180,11 @@ data_downloaders = dict(
     human_segmentation=Downloader(name='human_segmentation',
         url='https://drive.google.com/u/0/uc?id=1Kh0qXcAZCEaqwavbUZubhRwrn_8zY7IL&export=download',
         sha='ac0eedfd8568570cad135acccd08a134257314d0',
-        filename='human_segmentation.zip')
+        filename='human_segmentation.zip'),
+    qrcode=Downloader(name='qrcode',
+        url='https://drive.google.com/u/0/uc?id=1_OXB7eiCIYO335ewkT6EdAeXyriFlq_H&export=download',
+        sha='ac01c098934a353ca1545b5266de8bb4f176d1b3',
+        filename='qrcode.zip')
 )
 
 if __name__ == '__main__':
