@@ -1,5 +1,4 @@
-numpy==1.21.2
+numpy
 opencv-python==4.5.4.58
-tqdm
 pyyaml
 requests

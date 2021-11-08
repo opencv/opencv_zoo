@@ -2,16 +2,30 @@ import os
 import argparse
 
 import yaml
-import tqdm
 import numpy as np
 import cv2 as cv
 
+# from ..models import MODELS
 from models import MODELS
+from utils import METRICS
 
 parser = argparse.ArgumentParser("Benchmarks for OpenCV Zoo.")
 parser.add_argument('--cfg', '-c', type=str,
                     help='Benchmarking on the given config.')
 args = parser.parse_args()
+
+def build_from_cfg(cfg, registery, key='name'):
+    obj_name = cfg.pop(key)
+    obj = registery.get(obj_name)
+    return obj(**cfg)
+
+def prepend_pythonpath(cfg):
+    for k, v in cfg.items():
+        if isinstance(v, dict):
+            prepend_pythonpath(v)
+        else:
+            if 'path' in k.lower():
+                cfg[k] = os.path.join(os.environ['PYTHONPATH'], v)
 
 class Data:
     def __init__(self, **kwargs):
@@ -67,7 +81,8 @@ class Benchmark:
         self._data = Data(**self._data_dict)
 
         self._metric_dict = kwargs.pop('metric', None)
-        self._metric = Metric(**self._metric_dict)
+        # self._metric = Metric(**self._metric_dict)
+        self._metric = build_from_cfg(self._metric_dict, registery=METRICS, key='type')
 
         backend_id = kwargs.pop('backend', 'default')
         available_backends = dict(
@@ -110,20 +125,6 @@ class Benchmark:
             for key, latency in results.items():
                 total_latency += latency
                 print('      {}, latency ({}): {:.4f} ms'.format(key, self._metric.getReduction(), latency))
-
-
-def build_from_cfg(cfg, registery):
-    obj_name = cfg.pop('name')
-    obj = registery.get(obj_name)
-    return obj(**cfg)
-
-def prepend_pythonpath(cfg):
-    for k, v in cfg.items():
-        if isinstance(v, dict):
-            prepend_pythonpath(v)
-        else:
-            if 'path' in k.lower():
-                cfg[k] = os.path.join(os.environ['PYTHONPATH'], v)
 
 if __name__ == '__main__':
     assert args.cfg.endswith('yaml'), 'Currently support configs of yaml format only.'
