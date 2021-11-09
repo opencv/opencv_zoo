@@ -4,13 +4,13 @@ Benchmark:
     path: "benchmark/data/face/detection"
     files: ["group.jpg", "concerts.jpg", "dance.jpg"]
   metric:
+    type: "Detection"
     sizes: # [[w1, h1], ...], Omit to run at original scale
       - [160, 120]
       - [640, 480]
-    warmup: 3
+    warmup: 30
     repeat: 10
-    batchSize: 1
-    reduction: 'median'
+    reduction: "median"
   backend: "default"
   target: "cpu"
 
