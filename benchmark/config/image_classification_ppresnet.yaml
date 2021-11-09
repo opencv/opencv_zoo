@@ -7,10 +7,10 @@ Benchmark:
     resize: [256, 256]
     centerCrop: 224
   metric:
-    warmup: 3
+    type: "Base"
+    warmup: 30
     repeat: 10
-    batchSize: 1
-    reduction: 'median'
+    reduction: "median"
   backend: "default"
   target: "cpu"
 
