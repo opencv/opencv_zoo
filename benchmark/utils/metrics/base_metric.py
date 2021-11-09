@@ -4,9 +4,6 @@ from ..timer import Timer
 
 class BaseMetric:
     def __init__(self, **kwargs):
-        self._sizes = kwargs.pop('sizes', None)
-        if self._sizes is None:
-            self._sizes = []
         self._warmup = kwargs.pop('warmup', 3)
         self._repeat = kwargs.pop('repeat', 10)
         self._reduction = kwargs.pop('reduction', 'median')

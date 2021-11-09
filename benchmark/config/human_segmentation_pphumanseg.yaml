@@ -1,10 +1,11 @@
 Benchmark:
   name: "Human Segmentation Benchmark"
   data:
+    type: "Base"
     path: "benchmark/data/human_segmentation"
     files: ["messi5.jpg", "100040721_1.jpg", "detect.jpg"]
+    sizes: [[192, 192]]
     toRGB: True
-    resize: [192, 192]
   metric:
     type: "Base"
     warmup: 30
