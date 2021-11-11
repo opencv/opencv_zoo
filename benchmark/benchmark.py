@@ -7,17 +7,23 @@ import cv2 as cv
 
 # from ..models import MODELS
 from models import MODELS
-from utils import METRICS
+from utils import METRICS, DATALOADERS
 
 parser = argparse.ArgumentParser("Benchmarks for OpenCV Zoo.")
 parser.add_argument('--cfg', '-c', type=str,
                     help='Benchmarking on the given config.')
 args = parser.parse_args()
 
-def build_from_cfg(cfg, registery, key='name'):
-    obj_name = cfg.pop(key)
-    obj = registery.get(obj_name)
-    return obj(**cfg)
+def build_from_cfg(cfg, registery, key=None, name=None):
+    if key is not None:
+        obj_name = cfg.pop(key)
+        obj = registery.get(obj_name)
+        return obj(**cfg)
+    elif name is not None:
+        obj = registery.get(name)
+        return obj(**cfg)
+    else:
+        raise NotImplementedError()
 
 def prepend_pythonpath(cfg):
     for k, v in cfg.items():
@@ -27,62 +33,26 @@ def prepend_pythonpath(cfg):
             if 'path' in k.lower():
                 cfg[k] = os.path.join(os.environ['PYTHONPATH'], v)
 
-class Data:
-    def __init__(self, **kwargs):
-        self._path = kwargs.pop('path', None)
-        assert self._path, 'Benchmark[\'data\'][\'path\'] cannot be empty.'
-
-        self._files = kwargs.pop('files', None)
-        if not self._files:
-            print('Benchmark[\'data\'][\'files\'] is empty, loading all images by default.')
-            self._files = list()
-            for filename in os.listdir(self._path):
-                if filename.endswith('jpg') or filename.endswith('png'):
-                    self._files.append(filename)
-
-        self._use_label = kwargs.pop('useLabel', False)
-        if self._use_label:
-            self._labels = self._load_label()
-
-        self._to_rgb = kwargs.pop('toRGB', False)
-        self._resize = tuple(kwargs.pop('resize', []))
-        self._center_crop = kwargs.pop('centerCrop', None)
-
-    def _load_label(self):
-        labels = dict.fromkeys(self._files, None)
-        for filename in self._files:
-            labels[filename] = np.loadtxt(os.path.join(self._path, '{}.txt'.format(filename[:-4])), ndmin=2)
-        return labels
-
-    def __getitem__(self, idx):
-        image = cv.imread(os.path.join(self._path, self._files[idx]))
-
-        if self._to_rgb:
-            image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        if self._resize:
-            image = cv.resize(image, self._resize)
-        if self._center_crop:
-            h, w, _ = image.shape
-            w_crop = int((w - self._center_crop) / 2.)
-            assert w_crop >= 0
-            h_crop = int((h - self._center_crop) / 2.)
-            assert h_crop >= 0
-            image = image[w_crop:w-w_crop, h_crop:h-h_crop, :]
-
-        if self._use_label:
-            return self._files[idx], image, self._labels[self._files[idx]]
-        else:
-            return self._files[idx], image
-
 class Benchmark:
     def __init__(self, **kwargs):
+        self._type = kwargs.pop('type', None)
+        if self._type is None:
+            self._type = 'Base'
+            print('Benchmark[\'type\'] is omitted, set to \'Base\' by default.')
+
         self._data_dict = kwargs.pop('data', None)
         assert self._data_dict, 'Benchmark[\'data\'] cannot be empty and must have path and files.'
-        self._data = Data(**self._data_dict)
+        if 'type' in self._data_dict:
+            self._dataloader = build_from_cfg(self._data_dict, registery=DATALOADERS, key='type')
+        else:
+            self._dataloader = build_from_cfg(self._data_dict, registery=DATALOADERS, name=self._type)
 
         self._metric_dict = kwargs.pop('metric', None)
-        # self._metric = Metric(**self._metric_dict)
-        self._metric = build_from_cfg(self._metric_dict, registery=METRICS, key='type')
+        assert self._metric_dict, 'Benchmark[\'metric\'] cannot be empty.'
+        if 'type' in self._metric_dict:
+            self._metric = build_from_cfg(self._metric_dict, registery=METRICS, key='type')
+        else:
+            self._metric = build_from_cfg(self._metric_dict, registery=METRICS, name=self._type)
 
         backend_id = kwargs.pop('backend', 'default')
         available_backends = dict(
@@ -115,8 +85,15 @@ class Benchmark:
         model.setBackend(self._backend)
         model.setTarget(self._target)
 
-        for data in self._data:
-            self._benchmark_results[data[0]] = self._metric.forward(model, *data[1:])
+        if 'video' in self._dataloader.name.lower():
+            model.init(self._dataloader.getROI())
+
+        for data in self._dataloader:
+            filename, img = data[:2]
+            size = [img.shape[1], img.shape[0]]
+            if filename not in self._benchmark_results:
+                self._benchmark_results[filename] = dict()
+            self._benchmark_results[filename][str(size)] = self._metric.forward(model, *data[1:])
 
     def printResults(self):
         for imgName, results in self._benchmark_results.items():
@@ -138,7 +115,7 @@ if __name__ == '__main__':
     benchmark = Benchmark(**cfg['Benchmark'])
 
     # Instantiate model
-    model = build_from_cfg(cfg=cfg['Model'], registery=MODELS)
+    model = build_from_cfg(cfg=cfg['Model'], registery=MODELS, key='name')
 
     # Run benchmarking
     print('Benchmarking {}:'.format(model.name))

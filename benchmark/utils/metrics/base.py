@@ -10,20 +10,15 @@ class Base(BaseMetric):
 
     def forward(self, model, *args, **kwargs):
         img = args[0]
-        if not self._sizes:
-            h, w, _ = img.shape
-            self._sizes.append([w, h])
 
-        results = dict()
+        # warmup
+        for _ in range(self._warmup):
+            model.infer(img)
+        # repeat
         self._timer.reset()
-        for size in self._sizes:
-            input_data = cv.resize(img, size)
-            for _ in range(self._warmup):
-                model.infer(input_data)
-            for _ in range(self._repeat):
-                self._timer.start()
-                model.infer(input_data)
-                self._timer.stop()
-            results[str(size)] = self._getResult()
+        for _ in range(self._repeat):
+            self._timer.start()
+            model.infer(img)
+            self._timer.stop()
 
-        return results
+        return self._getResult()
