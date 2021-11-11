@@ -184,7 +184,11 @@ data_downloaders = dict(
     qrcode=Downloader(name='qrcode',
         url='https://drive.google.com/u/0/uc?id=1_OXB7eiCIYO335ewkT6EdAeXyriFlq_H&export=download',
         sha='ac01c098934a353ca1545b5266de8bb4f176d1b3',
-        filename='qrcode.zip')
+        filename='qrcode.zip'),
+    object_tracking=Downloader(name='object_tracking',
+        url='https://drive.google.com/u/0/uc?id=1_cw5pUmTF-XmQVcQAI8fIp-Ewi2oMYIn&export=download',
+        sha='0bdb042632a245270013713bc48ad35e9221f3bb',
+        filename='object_tracking.zip')
 )
 
 if __name__ == '__main__':
