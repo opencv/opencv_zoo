@@ -14,10 +14,16 @@ parser.add_argument('--cfg', '-c', type=str,
                     help='Benchmarking on the given config.')
 args = parser.parse_args()
 
-def build_from_cfg(cfg, registery, key='name'):
-    obj_name = cfg.pop(key)
-    obj = registery.get(obj_name)
-    return obj(**cfg)
+def build_from_cfg(cfg, registery, key=None, name=None):
+    if key is not None:
+        obj_name = cfg.pop(key)
+        obj = registery.get(obj_name)
+        return obj(**cfg)
+    elif name is not None:
+        obj = registery.get(name)
+        return obj(**cfg)
+    else:
+        raise NotImplementedError()
 
 def prepend_pythonpath(cfg):
     for k, v in cfg.items():
@@ -29,14 +35,24 @@ def prepend_pythonpath(cfg):
 
 class Benchmark:
     def __init__(self, **kwargs):
+        self._type = kwargs.pop('type', None)
+        if self._type is None:
+            self._type = 'Base'
+            print('Benchmark[\'type\'] is omitted, set to \'Base\' by default.')
+
         self._data_dict = kwargs.pop('data', None)
         assert self._data_dict, 'Benchmark[\'data\'] cannot be empty and must have path and files.'
-        # self._data = Data(**self._data_dict)
-        self._dataloader = build_from_cfg(self._data_dict, registery=DATALOADERS, key='type')
+        if 'type' in self._data_dict:
+            self._dataloader = build_from_cfg(self._data_dict, registery=DATALOADERS, key='type')
+        else:
+            self._dataloader = build_from_cfg(self._data_dict, registery=DATALOADERS, name=self._type)
 
         self._metric_dict = kwargs.pop('metric', None)
-        # self._metric = Metric(**self._metric_dict)
-        self._metric = build_from_cfg(self._metric_dict, registery=METRICS, key='type')
+        assert self._metric_dict, 'Benchmark[\'metric\'] cannot be empty.'
+        if 'type' in self._metric_dict:
+            self._metric = build_from_cfg(self._metric_dict, registery=METRICS, key='type')
+        else:
+            self._metric = build_from_cfg(self._metric_dict, registery=METRICS, name=self._type)
 
         backend_id = kwargs.pop('backend', 'default')
         available_backends = dict(
@@ -69,6 +85,9 @@ class Benchmark:
         model.setBackend(self._backend)
         model.setTarget(self._target)
 
+        if 'video' in self._dataloader.name.lower():
+            model.init(self._dataloader.getROI())
+
         for data in self._dataloader:
             filename, img = data[:2]
             size = [img.shape[1], img.shape[0]]
@@ -96,7 +115,7 @@ if __name__ == '__main__':
     benchmark = Benchmark(**cfg['Benchmark'])
 
     # Instantiate model
-    model = build_from_cfg(cfg=cfg['Model'], registery=MODELS)
+    model = build_from_cfg(cfg=cfg['Model'], registery=MODELS, key='name')
 
     # Run benchmarking
     print('Benchmarking {}:'.format(model.name))

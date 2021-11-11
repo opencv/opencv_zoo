@@ -1,14 +1,13 @@
 Benchmark:
   name: "Face Detection Benchmark"
+  type: "Detection"
   data:
-    type: "Detection"
     path: "benchmark/data/face/detection"
     files: ["group.jpg", "concerts.jpg", "dance.jpg"]
     sizes: # [[w1, h1], ...], Omit to run at original scale
       - [160, 120]
       - [640, 480]
   metric:
-    type: "Detection"
     warmup: 30
     repeat: 10
     reduction: "median"

@@ -1,11 +1,10 @@
 Benchmark:
   name: "Text Recognition Benchmark"
+  type: "Recognition"
   data:
-    type: "RecognitionImageLoader"
     path: "benchmark/data/text"
     files: ["1.jpg", "2.jpg", "3.jpg"]
   metric: # 'sizes' is omitted since this model requires input of fixed size
-    type: "Recognition"
     warmup: 30
     repeat: 10
     reduction: "median"

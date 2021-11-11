@@ -11,8 +11,10 @@ class Registery:
 
     def register(self, item):
         self._dict[item.__name__] = item
-        if item.__name__ == 'BaseImageLoader':
-            self._dict['Base'] = item
+        # renaming *ImageLoader/*VideoLoader
+        if 'ImageLoader' in item.__name__:
+            name = item.__name__.replace('ImageLoader', '')
+            self._dict[name] = item
 
 METRICS = Registery('Metrics')
 DATALOADERS = Registery('DataLoaders')

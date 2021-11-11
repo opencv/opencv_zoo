@@ -14,6 +14,10 @@ class _BaseImageLoader:
         self._sizes = kwargs.pop('sizes', [[0, 0]])
         self._len_sizes = len(self._sizes)
 
+    @property
+    def name(self):
+        return self.__class__.__name__
+
     def __len__(self):
         return self._len_files * self._len_sizes
 
@@ -51,6 +55,10 @@ class _BaseVideoLoader:
 
         self._files = kwargs.pop('files', None)
         assert self._files,'Benchmark[\'data\'][\'files\'] cannot be empty.'
+
+    @property
+    def name(self):
+        return self.__class__.__name__
 
     def __len__(self):
         return len(self._files)
