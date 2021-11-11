@@ -10,11 +10,7 @@ class Recognition(BaseMetric):
 
     def forward(self, model, *args, **kwargs):
         img, bboxes = args
-        if not self._sizes:
-            h, w, _ = img.shape
-            self._sizes.append([w, h])
 
-        results = dict()
         self._timer.reset()
         for idx, bbox in enumerate(bboxes):
             for _ in range(self._warmup):
@@ -23,6 +19,5 @@ class Recognition(BaseMetric):
                 self._timer.start()
                 model.infer(img, bbox)
                 self._timer.stop()
-            results['bbox{}'.format(idx)] = self._getResult()
 
-        return results
+        return self._getResult()

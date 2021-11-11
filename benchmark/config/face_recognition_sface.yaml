@@ -1,11 +1,10 @@
 Benchmark:
   name: "Face Recognition Benchmark"
+  type: "Recognition"
   data:
     path: "benchmark/data/face/recognition"
     files: ["Aaron_Tippin_0001.jpg", "Alvaro_Uribe_0028.jpg", "Alvaro_Uribe_0029.jpg", "Jose_Luis_Rodriguez_Zapatero_0001.jpg"]
-    useLabel: True
   metric: # 'sizes' is omitted since this model requires input of fixed size
-    type: "Recognition"
     warmup: 30
     repeat: 10
     reduction: "median"

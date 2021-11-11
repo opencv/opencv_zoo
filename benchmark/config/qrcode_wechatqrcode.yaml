@@ -1,13 +1,13 @@
 Benchmark:
   name: "QRCode Detection and Decoding Benchmark"
+  type: "Detection"
   data:
     path: "benchmark/data/qrcode"
     files: ["opencv.png", "opencv_zoo.png"]
-  metric:
-    type: "Detection"
     sizes:
       - [100, 100]
       - [300, 300]
+  metric:
     warmup: 30
     repeat: 10
     reduction: "median"

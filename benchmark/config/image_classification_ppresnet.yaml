@@ -1,13 +1,13 @@
 Benchmark:
   name: "Image Classification Benchmark"
+  type: "Classification"
   data:
     path: "benchmark/data/image_classification"
     files: ["coffee_mug.jpg", "umbrella.jpg", "wall_clock.jpg"]
+    sizes: [[256, 256]]
     toRGB: True
-    resize: [256, 256]
     centerCrop: 224
   metric:
-    type: "Base"
     warmup: 30
     repeat: 10
     reduction: "median"
