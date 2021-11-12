@@ -85,14 +85,14 @@ class Benchmark:
         model.setBackend(self._backend)
         model.setTarget(self._target)
 
-        if 'video' in self._dataloader.name.lower():
-            model.init(self._dataloader.getROI())
-
-        for data in self._dataloader:
-            filename, img = data[:2]
-            size = [img.shape[1], img.shape[0]]
+        for idx, data in enumerate(self._dataloader):
+            filename, input_data = data[:2]
             if filename not in self._benchmark_results:
                 self._benchmark_results[filename] = dict()
+            if isinstance(input_data, np.ndarray):
+                size = [input_data.shape[1], input_data.shape[0]]
+            else:
+                size = input_data.getFrameSize()
             self._benchmark_results[filename][str(size)] = self._metric.forward(model, *data[1:])
 
     def printResults(self):
