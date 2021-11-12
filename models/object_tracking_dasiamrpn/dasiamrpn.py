@@ -37,7 +37,7 @@ class DaSiamRPN:
         self._param.target = self._target_id
         self._model = cv.TrackerDaSiamRPN.create(self._param)
 
-    def setBackend(self, target_id):
+    def setTarget(self, target_id):
         self._target_id = target_id
         self._param = cv.TrackerDaSiamRPN_Params()
         self._param.model = self._model_path
@@ -50,7 +50,7 @@ class DaSiamRPN:
     def init(self, image, roi):
         self._model.init(image, roi)
 
-    def track(self, image):
+    def infer(self, image):
         isLocated, bbox = self._model.update(image)
         score = self._model.getTrackingScore()
         return isLocated, bbox, score

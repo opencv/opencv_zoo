@@ -34,7 +34,7 @@ class _BaseImageLoader:
 class _VideoStream:
     def __init__(self, filepath):
         self._filepath = filepath
-        self._video = cv.VideoCapture(filepath)
+        self._video = cv.VideoCapture(self._filepath)
 
     def __iter__(self):
         while True:
@@ -44,8 +44,21 @@ class _VideoStream:
             else:
                 break
 
+    def __next__(self):
+        while True:
+            has_frame, frame = self._video.read()
+            if has_frame:
+                return frame
+            else:
+                break
+
     def reload(self):
-        self._video = cv.VideoCapture(filepath)
+        self._video = cv.VideoCapture(self._filepath)
+
+    def getFrameSize(self):
+        w = int(self._video.get(cv.CAP_PROP_FRAME_WIDTH))
+        h = int(self._video.get(cv.CAP_PROP_FRAME_HEIGHT))
+        return [w, h]
 
 
 class _BaseVideoLoader:
@@ -56,6 +69,10 @@ class _BaseVideoLoader:
         self._files = kwargs.pop('files', None)
         assert self._files,'Benchmark[\'data\'][\'files\'] cannot be empty.'
 
+        self._streams = dict()
+        for filename in self._files:
+            self._streams[filename] = _VideoStream(os.path.join(self._path, filename))
+
     @property
     def name(self):
         return self.__class__.__name__
@@ -64,4 +81,4 @@ class _BaseVideoLoader:
         return len(self._files)
 
     def __getitem__(self, idx):
-        return self._files[idx], _VideoStream(os.path.join(self._path, self._files[idx]))
+        return self._files[idx], self._streams[idx]

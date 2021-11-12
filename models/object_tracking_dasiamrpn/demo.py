@@ -87,7 +87,7 @@ if __name__ == '__main__':
             break
         # Inference
         tm.start()
-        isLocated, bbox, score = model.track(frame)
+        isLocated, bbox, score = model.infer(frame)
         tm.stop()
         # Visualize
         frame = visualize(frame, bbox, score, isLocated, fps=tm.getFPS())
