@@ -36,6 +36,7 @@ Hardware Setup:
 | [PP-ResNet](./models/image_classification_ppresnet) | 224x224 | 56.05 | 602.58 | 98.64 |
 | [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 | 67.97 |
 | [WeChatQRCode](./models/qrcode_wechatqrcode) | 100x100 | 7.04 | 37.68 | --- |
+| [DaSiamRPN](./models/object_tracking_dasiamrpn) | 1280x720 | 36.15 | 705.48 | 76.82 |
 
 ## License
 
