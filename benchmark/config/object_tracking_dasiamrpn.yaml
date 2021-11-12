@@ -1,0 +1,18 @@
+Benchmark:
+  name: "Object Tracking Benchmark"
+  type: "Tracking"
+  data:
+    type: "TrackingVideoLoader"
+    path: "benchmark/data/object_tracking"
+    files: ["throw_cup.mp4"]
+  metric:
+    type: "Tracking"
+    reduction: "gmean"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "DaSiamRPN"
+  model_path: "models/object_tracking_dasiamrpn/object_tracking_dasiamrpn_model_2021nov.onnx"
+  kernel_cls1_path: "models/object_tracking_dasiamrpn/object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx"
+  kernel_r1_path: "models/object_tracking_dasiamrpn/object_tracking_dasiamrpn_kernel_r1_2021nov.onnx"
