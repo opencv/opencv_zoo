@@ -14,18 +14,6 @@ Guidelines:
 
 ## Models & Benchmarks
 
-Hardware Setup:
-- `CPU x86_64`: INTEL CPU i7-5930K @ 3.50GHz, 6 cores, 12 threads.
-- `CPU ARM`: Raspberry 4B, BCM2711B0 @ 1.5GHz (Cortex A-72), 4 cores, 4 threads.
-- `GPU CUDA`: NVIDIA Jetson Nano B01, 128-core Maxwell, Quad-core ARM A57 @ 1.43 GHz.
-
-***Important Notes***:
-- The time data that shown on the following table presents the time elapsed from preprocess (resize is excluded), to a forward pass of a network, and postprocess to get final results.
-- The time data that shown on the following table is the median of 10 runs. Different metrics may be applied to some specific models.
-- Batch size is 1 for all benchmark results.
-- View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
-- `---` means this model is not availble to run on the device.
-
 | Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) | GPU CUDA (ms) |
 |-------|------------|-----------------|--------------|---------------|
 | [YuNet](./models/face_detection_yunet)   | 160x120 | 1.45   | 6.22    | 12.18 |
@@ -37,6 +25,18 @@ Hardware Setup:
 | [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 | 67.97 |
 | [WeChatQRCode](./models/qrcode_wechatqrcode) | 100x100 | 7.04 | 37.68 | --- |
 | [DaSiamRPN](./models/object_tracking_dasiamrpn) | 1280x720 | 36.15 | 705.48 | 76.82 |
+
+Hardware Setup:
+- `CPU x86_64`: INTEL CPU i7-5930K @ 3.50GHz, 6 cores, 12 threads.
+- `CPU ARM`: Raspberry 4B, BCM2711B0 @ 1.5GHz (Cortex A-72), 4 cores, 4 threads.
+- `GPU CUDA`: NVIDIA Jetson Nano B01, 128-core Maxwell, Quad-core ARM A57 @ 1.43 GHz.
+
+***Important Notes***:
+- The time data that shown on the following table presents the time elapsed from preprocess (resize is excluded), to a forward pass of a network, and postprocess to get final results.
+- The time data that shown on the following table is the median of 10 runs. Different metrics may be applied to some specific models.
+- Batch size is 1 for all benchmark results.
+- View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
+- `---` means this model is not availble to run on the device.
 
 ## License
 
