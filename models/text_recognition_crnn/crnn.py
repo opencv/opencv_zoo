@@ -8,8 +8,10 @@ import numpy as np
 import cv2 as cv
 
 class CRNN:
-    def __init__(self, modelPath):
-        self._model = cv.dnn.readNet(modelPath)
+    def __init__(self, modelPath, charsetPath):
+        self._model_path = modelPath
+        self._model = cv.dnn.readNet(self._model_path)
+        self._charset = self._load_charset(charsetPath)
         self._inputSize = [100, 32] # Fixed
         self._targetVertices = np.array([
             [0, self._inputSize[1] - 1],
@@ -21,6 +23,14 @@ class CRNN:
     @property
     def name(self):
         return self.__class__.__name__
+
+    def _load_charset(self, charsetPath):
+        charset = ''
+        with open(charsetPath, 'r') as f:
+            for char in f:
+                char = char.strip()
+                charset += char
+        return charset
 
     def setBackend(self, backend_id):
         self._model.setPreferableBackend(backend_id)
@@ -35,7 +45,10 @@ class CRNN:
         rotationMatrix = cv.getPerspectiveTransform(vertices, self._targetVertices)
         cropped = cv.warpPerspective(image, rotationMatrix, self._inputSize)
 
-        cropped = cv.cvtColor(cropped, cv.COLOR_BGR2GRAY)
+        if 'CN' in self._model_path:
+            pass
+        else:
+            cropped = cv.cvtColor(cropped, cv.COLOR_BGR2GRAY)
 
         return cv.dnn.blobFromImage(cropped, size=self._inputSize, mean=127.5, scalefactor=1 / 127.5)
 
@@ -55,12 +68,11 @@ class CRNN:
     def _postprocess(self, outputBlob):
         '''Decode charaters from outputBlob
         '''
-        text = ""
-        alphabet = "0123456789abcdefghijklmnopqrstuvwxyz"
+        text = ''
         for i in range(outputBlob.shape[0]):
             c = np.argmax(outputBlob[i][0])
             if c != 0:
-                text += alphabet[c - 1]
+                text += self._charset[c - 1]
             else:
                 text += '-'
 
