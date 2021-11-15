@@ -26,8 +26,8 @@ def str2bool(v):
 parser = argparse.ArgumentParser(
     description="An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition (https://arxiv.org/abs/1507.05717)")
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_VGG_BiLSTM_CTC_2021sep.onnx', help='Path to the model.')
-parser.add_argument('--charset', '-c', type=str, default='charset_36.txt', help='Path to the charset file corresponding to the selected model.')
+parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_EN_2021sep.onnx', help='Path to the model.')
+parser.add_argument('--charset', '-c', type=str, default='charset_36_EN.txt', help='Path to the charset file corresponding to the selected model.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
                 # Draw results on the input image
                 frame = visualize(frame, results, texts)
-                print(results)
+                print(texts)
 
             # Visualize results in a new Window
             cv.imshow('{} Demo'.format(recognizer.name), frame)
