@@ -27,10 +27,7 @@ parser = argparse.ArgumentParser(
     description="An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition (https://arxiv.org/abs/1507.05717)")
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
 parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_VGG_BiLSTM_CTC_2021sep.onnx', help='Path to the model.')
-parser.add_argument('--width', type=int, default=736,
-                    help='The width of input image being sent to the text detector.')
-parser.add_argument('--height', type=int, default=736,
-                    help='The height of input image being sent to the text detector.')
+parser.add_argument('--charset', '-c', type=str, default='charset_36.txt', help='Path to the charset file corresponding to the selected model.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
@@ -46,10 +43,10 @@ def visualize(image, boxes, texts, color=(0, 255, 0), isClosed=True, thickness=2
 
 if __name__ == '__main__':
     # Instantiate CRNN for text recognition
-    recognizer = CRNN(modelPath=args.model)
+    recognizer = CRNN(modelPath=args.model, charsetPath=args.charset)
     # Instantiate DB for text detection
     detector = DB(modelPath='../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx',
-                  inputSize=[args.width, args.height],
+                  inputSize=[736, 736],
                   binaryThreshold=0.3,
                   polygonThreshold=0.5,
                   maxCandidates=200,
@@ -93,32 +90,32 @@ if __name__ == '__main__':
                 print('No frames grabbed!')
                 break
 
-            frame = cv.resize(frame, [args.width, args.height])
+            frame = cv.resize(frame, [736, 736])
             # Inference of text detector
             tm.start()
             results = detector.infer(frame)
             tm.stop()
-            latency_detector = tm.getFPS()
+            cv.putText(frame, 'Latency - {}: {:.2f}'.format(detector.name, tm.getFPS()), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
             tm.reset()
+
             # Inference of text recognizer
-            texts = []
-            tm.start()
-            for box, score in zip(results[0], results[1]):
-                result = np.hstack(
-                    (box.reshape(8), score)
-                )
-                texts.append(
-                    recognizer.infer(frame, result)
-                )
-            tm.stop()
-            latency_recognizer = tm.getFPS()
-            tm.reset()
+            if len(results[0]) and len(results[1]):
+                texts = []
+                tm.start()
+                for box, score in zip(results[0], results[1]):
+                    result = np.hstack(
+                        (box.reshape(8), score)
+                    )
+                    texts.append(
+                        recognizer.infer(frame, box.reshape(8))
+                    )
+                tm.stop()
+                cv.putText(frame, 'Latency - {}: {:.2f}'.format(recognizer.name, tm.getFPS()), (0, 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+                tm.reset()
 
-            # Draw results on the input image
-            frame = visualize(frame, results, texts)
-
-            cv.putText(frame, 'Latency - {}: {}'.format(detector.name, latency_detector), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
-            cv.putText(frame, 'Latency - {}: {}'.format(recognizer.name, latency_recognizer), (0, 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+                # Draw results on the input image
+                frame = visualize(frame, results, texts)
+                print(results)
 
             # Visualize results in a new Window
             cv.imshow('{} Demo'.format(recognizer.name), frame)
