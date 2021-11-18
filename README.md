@@ -26,6 +26,7 @@ Guidelines:
 | [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192 | 19.92 | 105.32 | 67.97 |
 | [WeChatQRCode](./models/qrcode_wechatqrcode) | 100x100 | 7.04 | 37.68 | --- |
 | [DaSiamRPN](./models/object_tracking_dasiamrpn) | 1280x720 | 36.15 | 705.48 | 76.82 |
+| [YoutuReID](./models/person_reid_youtureid) | 128x256 | 35.81 | 521.98 | 90.07 |
 
 Hardware Setup:
 - `CPU x86_64`: INTEL CPU i7-5930K @ 3.50GHz, 6 cores, 12 threads.
