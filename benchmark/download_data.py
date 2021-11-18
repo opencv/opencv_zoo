@@ -188,7 +188,11 @@ data_downloaders = dict(
     object_tracking=Downloader(name='object_tracking',
         url='https://drive.google.com/u/0/uc?id=1_cw5pUmTF-XmQVcQAI8fIp-Ewi2oMYIn&export=download',
         sha='0bdb042632a245270013713bc48ad35e9221f3bb',
-        filename='object_tracking.zip')
+        filename='object_tracking.zip'),
+    person_reid=Downloader(name='person_reid',
+        url='https://drive.google.com/u/0/uc?id=1G8FkfVo5qcuyMkjSs4EA6J5e16SWDGI2&export=download',
+        sha='5b741fbf34c1fbcf59cad8f2a65327a5899e66f1',
+        filename='person_reid')
 )
 
 if __name__ == '__main__':
