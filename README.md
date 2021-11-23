@@ -1,21 +1,21 @@
-# OpenCV Zoo
+# OpenCV Zoo and Benchmark
 
 A zoo for models tuned for OpenCV DNN with benchmarks on different platforms.
 
 Guidelines:
-- To clone this repo, please install [git-lfs](https://git-lfs.github.com/), run `git lfs install` and use `git lfs clone https://github.com/opencv/opencv_zoo`.
-- To run benchmark on your hardware settings, please refer to [benchmark/README](./benchmark/README.md).
-- Understand model filename: `<topic>_<model_name>_<dataset>_<arch>_<upload_time>`
-    - `<topic>`: research topics, such as `face detection` etc.
-    - `<model_name>`: exact model names.
-    - `<dataset>`: (Optional) the dataset that the model is trained with.
-    - `<arch>`: (Optional) the backbone architecture of the model.
-    - `<upload_time>`: the time when the model is uploaded, meaning the latest version of this model unless specified.
+- Clone this repo to download all models and demo scripts:
+    ```shell
+    # Install git-lfs from https://git-lfs.github.com/
+    git clone https://github.com/opencv/opencv_zoo && cd opencv_zoo
+    git lfs install
+    git lfs pull
+    ```
+- To run benchmarks on your hardware settings, please refer to [benchmark/README](./benchmark/README.md).
 
-## Models & Benchmarks
+## Models & Benchmark Results
 
-| Model | Input Size | CPU x86_64 (ms) | CPU ARM (ms) | GPU CUDA (ms) |
-|-------|------------|-----------------|--------------|---------------|
+| Model | Input Size | INTEL-CPU | RPI-CPU | JETSON-GPU |
+|-------|------------|-----------|---------|------------|
 | [YuNet](./models/face_detection_yunet)   | 160x120 | 1.45   | 6.22    | 12.18 |
 | [DB-IC15](./models/text_detection_db)    | 640x480 | 142.91 | 2835.91 | 208.41 |
 | [DB-TD500](./models/text_detection_db)   | 640x480 | 142.91 | 2841.71 | 210.51 |
@@ -29,16 +29,16 @@ Guidelines:
 | [YoutuReID](./models/person_reid_youtureid) | 128x256 | 35.81 | 521.98 | 90.07 |
 
 Hardware Setup:
-- `CPU x86_64`: INTEL CPU i7-5930K @ 3.50GHz, 6 cores, 12 threads.
-- `CPU ARM`: Raspberry 4B, BCM2711B0 @ 1.5GHz (Cortex A-72), 4 cores, 4 threads.
-- `GPU CUDA`: NVIDIA Jetson Nano B01, 128-core Maxwell, Quad-core ARM A57 @ 1.43 GHz.
+- `INTEL-CPU`: [Intel Core i7-5930K](https://www.intel.com/content/www/us/en/products/sku/82931/intel-core-i75930k-processor-15m-cache-up-to-3-70-ghz/specifications.html) @ 3.50GHz, 6 cores, 12 threads.
+- `RPI-CPU`: [Raspberry Pi 4B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/), Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz.
+- `JETSON-GPU`: [NVIDIA Jetson Nano B01]((https://developer.nvidia.com/embedded/jetson-nano-developer-kit)), 128-core NVIDIA Maxwell GPU.
 
 ***Important Notes***:
-- The time data that shown on the following table presents the time elapsed from preprocess (resize is excluded), to a forward pass of a network, and postprocess to get final results.
-- The time data that shown on the following table is the median of 10 runs. Different metrics may be applied to some specific models.
+- The data under each column of hardware setups on the above table represents the elapsed time of an inference (preprocess, forward and postprocess).
+- The time data is the median of 10 runs after some warmup runs. Different metrics may be applied to some specific models.
 - Batch size is 1 for all benchmark results.
+- `---` represents the model is not availble to run on the device.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
-- `---` means this model is not availble to run on the device.
 
 ## License
 
