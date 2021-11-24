@@ -31,7 +31,7 @@ Guidelines:
 Hardware Setup:
 - `INTEL-CPU`: [Intel Core i7-5930K](https://www.intel.com/content/www/us/en/products/sku/82931/intel-core-i75930k-processor-15m-cache-up-to-3-70-ghz/specifications.html) @ 3.50GHz, 6 cores, 12 threads.
 - `RPI-CPU`: [Raspberry Pi 4B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/), Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz.
-- `JETSON-GPU`: [NVIDIA Jetson Nano B01]((https://developer.nvidia.com/embedded/jetson-nano-developer-kit)), 128-core NVIDIA Maxwell GPU.
+- `JETSON-GPU`: [NVIDIA Jetson Nano B01](https://developer.nvidia.com/embedded/jetson-nano-developer-kit), 128-core NVIDIA Maxwell GPU.
 
 ***Important Notes***:
 - The data under each column of hardware setups on the above table represents the elapsed time of an inference (preprocess, forward and postprocess).
