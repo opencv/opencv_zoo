@@ -6,8 +6,8 @@ Note:
 - Model source:
     - `text_recognition_CRNN_EN_2021sep.onnx`: https://docs.opencv.org/4.5.2/d9/d1e/tutorial_dnn_OCR.html (CRNN_VGG_BiLSTM_CTC.onnx)
     - `text_recognition_CRNN_CN_2021nov.onnx`: https://docs.opencv.org/4.5.2/d4/d43/tutorial_dnn_text_spotting.html (crnn_cs_CN.onnx)
-- `text_recognition_CRNN_EN_2021sep.onnx` can detect digits (0~9) and letters (return lowercase letters a~z) (view `charset_36_EN.txt` for details).
-- `text_recognition_CRNN_CN_2021nov.onnx` can detect digits (0~9), upper/lower-case letters (a~z and A~Z), some Chinese characters and some special characters (view `charset_3944_CN.txt` for details).
+- `text_recognition_CRNN_EN_2021sep.onnx` can detect digits (0\~9) and letters (return lowercase letters a\~z) (view `charset_36_EN.txt` for details).
+- `text_recognition_CRNN_CN_2021nov.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), some Chinese characters and some special characters (view `charset_3944_CN.txt` for details).
 - For details on training this model series, please visit https://github.com/zihaomu/deep-text-recognition-benchmark.
 
 ## Demo
