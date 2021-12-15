@@ -196,7 +196,7 @@ data_downloaders = dict(
     person_reid=Downloader(name='person_reid',
         url='https://drive.google.com/u/0/uc?id=1G8FkfVo5qcuyMkjSs4EA6J5e16SWDGI2&export=download',
         sha='5b741fbf34c1fbcf59cad8f2a65327a5899e66f1',
-        filename='person_reid')
+        filename='person_reid.zip')
 )
 
 if __name__ == '__main__':
