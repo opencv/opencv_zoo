@@ -167,7 +167,7 @@ def GDrive(gid):
 data_downloaders = dict(
     face_detection=Downloader(name='face_detection',
         url='https://drive.google.com/u/0/uc?id=1lOAliAIeOv4olM65YDzE55kn6XjiX2l6&export=download',
-        sha='8397f115c0d4447e55ea05488579e71a813e2691',
+        sha='0ba67a9cfd60f7fdb65cdb7c55a1ce76c1193df1',
         filename='face_detection.zip'),
     face_recognition=Downloader(name='face_recognition',
         url='https://drive.google.com/u/0/uc?id=1BRIozREIzqkm_aMQ581j93oWoS-6TLST&export=download',
