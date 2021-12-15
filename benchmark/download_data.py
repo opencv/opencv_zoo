@@ -165,10 +165,10 @@ def GDrive(gid):
 
 # Data will be downloaded and extracted to ./data by default
 data_downloaders = dict(
-    face=Downloader(name='face',
+    face=Downloader(name='face_detection',
         url='https://drive.google.com/u/0/uc?id=1lOAliAIeOv4olM65YDzE55kn6XjiX2l6&export=download',
         sha='8397f115c0d4447e55ea05488579e71a813e2691',
-        filename='face.zip'),
+        filename='face_detection.zip'),
     text=Downloader(name='text',
         url='https://drive.google.com/u/0/uc?id=1lTQdZUau7ujHBqp0P6M1kccnnJgO-dRj&export=download',
         sha='a40cf095ceb77159ddd2a5902f3b4329696dd866',
