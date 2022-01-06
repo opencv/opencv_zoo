@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(
     description="SFace: Sigmoid-Constrained Hypersphere Loss for Robust Face Recognition (https://ieeexplore.ieee.org/document/9318547)")
 parser.add_argument('--input1', '-i1', type=str, help='Path to the input image 1.')
 parser.add_argument('--input2', '-i2', type=str, help='Path to the input image 2.')
-parser.add_argument('--model', '-m', type=str, default='face_recognition_sface_2021sep.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='face_recognition_sface_2021dec.onnx', help='Path to the model.')
 parser.add_argument('--dis_type', type=int, choices=[0, 1], default=0, help='Distance type. \'0\': cosine, \'1\': norm_l1.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     # Instantiate SFace for face recognition
     recognizer = SFace(modelPath=args.model, disType=args.dis_type)
     # Instantiate YuNet for face detection
-    detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2021sep.onnx',
+    detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2021dec.onnx',
                      inputSize=[320, 320],
                      confThreshold=0.9,
                      nmsThreshold=0.3,
