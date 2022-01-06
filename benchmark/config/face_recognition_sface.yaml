@@ -13,4 +13,4 @@ Benchmark:
 
 Model:
   name: "SFace"
-  modelPath: "models/face_recognition_sface/face_recognition_sface_2021sep.onnx"
+  modelPath: "models/face_recognition_sface/face_recognition_sface_2021dec.onnx"
