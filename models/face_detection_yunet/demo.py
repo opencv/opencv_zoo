@@ -42,7 +42,7 @@ def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), fps
     if fps is not None:
         cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, text_color)
 
-    for det in results:
+    for det in (results if results is not None else []):
         bbox = det[0:4].astype(np.int32)
         cv.rectangle(output, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), box_color, 2)
 
