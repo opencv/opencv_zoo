@@ -86,7 +86,7 @@ model_quantizations=dict(
     pphumenseg=Quantize(model_path='../../models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx',
                         calibration_image_dir='../../benchmark/data/human_segmentation',
                         transforms=Compose([Resize(size=(192, 192))])),
-    ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2021oct.onnx',
+    ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
                         calibration_image_dir='../../benchmark/data/image_classification',
                         transforms=Compose([Resize(size=(224, 224))])),
     # TBD: DaSiamRPN
