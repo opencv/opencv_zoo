@@ -77,7 +77,7 @@ class Quantize:
         print('\tQuantized model saved to {}'.format(output_name))
 
 
-model_quantizations=dict(
+models=dict(
     yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2021dec.onnx',
                    calibration_image_dir='../../benchmark/data/face_detection'),
     sface=Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
@@ -107,10 +107,10 @@ if __name__ == '__main__':
     for i in range(1, len(sys.argv)):
         selected_models.append(sys.argv[i])
     if not selected_models:
-        selected_models = list(model_quantizations.keys())
+        selected_models = list(models.keys())
     print('Models to be quantized: {}'.format(str(selected_models)))
 
     for selected_model_name in selected_models:
-        q = model_quantizations[selected_model_name]
+        q = models[selected_model_name]
         q.run()
 
