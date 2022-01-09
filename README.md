@@ -14,7 +14,7 @@ Guidelines:
 
 ## Models & Benchmark Results
 
-| Model | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | KV3-NPU (ms) | JETSON-GPU (ms) | D1-CPU (ms) |
+| Model | Input Size | INTEL-CPU (ms) | KV3-NPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | D1-CPU (ms) |
 |-------|------------|----------------|--------------|--------------|-----------------|-------------|
 | [YuNet](./models/face_detection_yunet)                | 160x120  | 1.45   | 4.04   | 6.22    | 12.18  | 86.69 |
 | [SFace](./models/face_recognition_sface)              | 112x112  | 8.65   | 46.25  | 99.20   | 24.88  | ---   |
