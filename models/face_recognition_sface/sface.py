@@ -47,9 +47,12 @@ class SFace:
             target_id=self._targetId)
 
     def _preprocess(self, image, bbox):
-        return self._model.alignCrop(image, bbox)
+        if bbox is None:
+            return image
+        else:
+            return self._model.alignCrop(image, bbox)
 
-    def infer(self, image, bbox):
+    def infer(self, image, bbox=None):
         # Preprocess
         inputBlob = self._preprocess(image, bbox)
 
@@ -67,3 +70,4 @@ class SFace:
         else: # NORM_L2
             norml2_distance = self._model.match(feature1, feature2, self._disType)
             return 1 if norml2_distance <= self._threshold_norml2 else 0
+
