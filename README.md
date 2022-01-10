@@ -14,19 +14,19 @@ Guidelines:
 
 ## Models & Benchmark Results
 
-| Model | Input Size | INTEL-CPU (ms) | KV3-NPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | D1-CPU (ms) |
-|-------|------------|----------------|--------------|--------------|-----------------|-------------|
-| [YuNet](./models/face_detection_yunet)                | 160x120  | 1.45   | 4.04   | 6.22    | 12.18  | 86.69 |
-| [SFace](./models/face_recognition_sface)              | 112x112  | 8.65   | 46.25  | 99.20   | 24.88  | ---   |
-| [DB-IC15](./models/text_detection_db)                 | 640x480  | 142.91 | ---    | 2835.91 | 208.41 | ---   |
-| [DB-TD500](./models/text_detection_db)                | 640x480  | 142.91 | ---    | 2841.71 | 210.51 | ---   |
-| [CRNN-EN](./models/text_recognition_crnn)             | 100x32   | 50.21  | 125.30 | 234.32  | 196.15 | ---   |
-| [CRNN-CN](./models/text_recognition_crnn)             | 100x32   | 73.52  | 166.79 | 322.16  | 239.76 | ---   |
-| [PP-ResNet](./models/image_classification_ppresnet)   | 224x224  | 56.05  | 75.45  | 602.58  | 98.64  | ---   |
-| [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192  | 19.92  | 74.77  | 105.32  | 67.97  | ---   |
-| [WeChatQRCode](./models/qrcode_wechatqrcode)          | 100x100  | 7.04   | ---    | 37.68   | ---    | ---   |
-| [DaSiamRPN](./models/object_tracking_dasiamrpn)       | 1280x720 | 36.15  | ---    | 705.48  | 76.82  | ---   |
-| [YoutuReID](./models/person_reid_youtureid)           | 128x256  | 35.81  | 44.61  | 521.98  | 90.07  | ---   |
+| Model | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | KV3-NPU (ms) | D1-CPU (ms) |
+|-------|------------|----------------|--------------|-----------------|--------------|-------------|
+| [YuNet](./models/face_detection_yunet)                | 160x120  | 1.45   | 6.22    | 12.18  | 4.04   | 86.69 |
+| [SFace](./models/face_recognition_sface)              | 112x112  | 8.65   | 99.20   | 24.88  | 46.25  | ---   |
+| [DB-IC15](./models/text_detection_db)                 | 640x480  | 142.91 | 2835.91 | 208.41 | ---    | ---   |
+| [DB-TD500](./models/text_detection_db)                | 640x480  | 142.91 | 2841.71 | 210.51 | ---    | ---   |
+| [CRNN-EN](./models/text_recognition_crnn)             | 100x32   | 50.21  | 234.32  | 196.15 | 125.30 | ---   |
+| [CRNN-CN](./models/text_recognition_crnn)             | 100x32   | 73.52  | 322.16  | 239.76 | 166.79 | ---   |
+| [PP-ResNet](./models/image_classification_ppresnet)   | 224x224  | 56.05  | 602.58  | 98.64  | 75.45  | ---   |
+| [PP-HumanSeg](./models/human_segmentation_pphumanseg) | 192x192  | 19.92  | 105.32  | 67.97  | 74.77  | ---   |
+| [WeChatQRCode](./models/qrcode_wechatqrcode)          | 100x100  | 7.04   | 37.68   | ---    | ---    | ---   |
+| [DaSiamRPN](./models/object_tracking_dasiamrpn)       | 1280x720 | 36.15  | 705.48  | 76.82  | ---    | ---   |
+| [YoutuReID](./models/person_reid_youtureid)           | 128x256  | 35.81  | 521.98  | 90.07  | 44.61  | ---   |
 
 Hardware Setup:
 - `INTEL-CPU`: [Intel Core i7-5930K](https://www.intel.com/content/www/us/en/products/sku/82931/intel-core-i75930k-processor-15m-cache-up-to-3-70-ghz/specifications.html) @ 3.50GHz, 6 cores, 12 threads.
