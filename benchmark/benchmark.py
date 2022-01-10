@@ -5,7 +5,6 @@ import yaml
 import numpy as np
 import cv2 as cv
 
-# from ..models import MODELS
 from models import MODELS
 from utils import METRICS, DATALOADERS
 
@@ -61,7 +60,8 @@ class Benchmark:
             # inference_engine=cv.dnn.DNN_BACKEND_INFERENCE_ENGINE,
             opencv=cv.dnn.DNN_BACKEND_OPENCV,
             # vkcom=cv.dnn.DNN_BACKEND_VKCOM,
-            cuda=cv.dnn.DNN_BACKEND_CUDA
+            cuda=cv.dnn.DNN_BACKEND_CUDA,
+            timvx=cv.dnn.DNN_BACKEND_TIMVX
         )
         self._backend = available_backends[backend_id]
 
@@ -75,7 +75,8 @@ class Benchmark:
             # fpga=cv.dnn.DNN_TARGET_FPGA,
             cuda=cv.dnn.DNN_TARGET_CUDA,
             cuda_fp16=cv.dnn.DNN_TARGET_CUDA_FP16,
-            # hddl=cv.dnn.DNN_TARGET_HDDL
+            # hddl=cv.dnn.DNN_TARGET_HDDL,
+            npu=cv.dnn.DNN_TARGET_NPU
         )
         self._target = available_targets[target_id]
 
