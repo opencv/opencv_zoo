@@ -8,9 +8,14 @@ import numpy as np
 import cv2 as cv
 
 class PPHumanSeg:
-    def __init__(self, modelPath):
+    def __init__(self, modelPath, backendId=0, targetId=0):
         self._modelPath = modelPath
+        self._backendId = backendId
+        self._targetId = targetId
+
         self._model = cv.dnn.readNet(self._modelPath)
+        self._model.setPreferableBackend(self._backendId)
+        self._model.setPreferableTarget(self._targetId)
 
         self._inputNames = ''
         self._outputNames = ['save_infer_model/scale_0.tmp_1']
@@ -23,10 +28,12 @@ class PPHumanSeg:
         return self.__class__.__name__
 
     def setBackend(self, backend_id):
-        self._model.setPreferableBackend(backend_id)
+        self._backendId = backend_id
+        self._model.setPreferableBackend(self._backendId)
 
     def setTarget(self, target_id):
-        self._model.setPreferableTarget(target_id)
+        self._targetId = target_id
+        self._model.setPreferableTarget(self._targetId)
 
     def _preprocess(self, image):
         image = image.astype(np.float32, copy=False) / 255.0
@@ -53,3 +60,4 @@ class PPHumanSeg:
     def _postprocess(self, outputBlob):
         result = np.argmax(outputBlob[0], axis=1).astype(np.uint8)
         return result
+

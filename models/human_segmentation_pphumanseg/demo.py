@@ -19,9 +19,23 @@ def str2bool(v):
     else:
         raise NotImplementedError
 
+backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
+targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
+help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
+help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
+try:
+    backends += [cv.dnn.DNN_BACKEND_TIMVX]
+    targets += [cv.dnn.DNN_TARGET_NPU]
+    help_msg_backends += "; {:d}: TIMVX"
+    help_msg_targets += "; {:d}: NPU"
+except:
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+
 parser = argparse.ArgumentParser(description='PPHumanSeg (https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.2/contrib/PP-HumanSeg)')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
 parser.add_argument('--model', '-m', type=str, default='human_segmentation_pphumanseg_2021oct.onnx', help='Path to the model.')
+parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
+parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
@@ -84,7 +98,7 @@ def visualize(image, result, weight=0.6, fps=None):
 
 if __name__ == '__main__':
     # Instantiate PPHumanSeg
-    model = PPHumanSeg(modelPath=args.model)
+    model = PPHumanSeg(modelPath=args.model, backendId=args.backend, targetId=args.target)
 
     if args.input is not None:
         # Read image and resize to 192x192

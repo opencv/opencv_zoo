@@ -8,7 +8,7 @@ import numpy as np
 import cv2 as cv
 
 class DB:
-    def __init__(self, modelPath, inputSize=[736, 736], binaryThreshold=0.3, polygonThreshold=0.5, maxCandidates=200, unclipRatio=2.0):
+    def __init__(self, modelPath, inputSize=[736, 736], binaryThreshold=0.3, polygonThreshold=0.5, maxCandidates=200, unclipRatio=2.0, backendId=0, targetId=0):
         self._modelPath = modelPath
         self._model = cv.dnn_TextDetectionModel_DB(
             cv.dnn.readNet(self._modelPath)
@@ -21,6 +21,11 @@ class DB:
         self._polygonThreshold = polygonThreshold
         self._maxCandidates = maxCandidates
         self._unclipRatio = unclipRatio
+        self._backendId = backendId
+        self._targetId = targetId
+
+        self._model.setPreferableBackend(self._backendId)
+        self._model.setPreferableTarget(self._targetId)
 
         self._model.setBinaryThreshold(self._binaryThreshold)
         self._model.setPolygonThreshold(self._polygonThreshold)
@@ -34,10 +39,12 @@ class DB:
         return self.__class__.__name__
 
     def setBackend(self, backend):
-        self._model.setPreferableBackend(backend)
+        self._backendId = backend
+        self._model.setPreferableBackend(self._backendId)
 
     def setTarget(self, target):
-        self._model.setPreferableTarget(target)
+        self._targetId = target
+        self._model.setPreferableTarget(self._targetId)
 
     def setInputSize(self, input_size):
         self._inputSize = tuple(input_size)
@@ -48,3 +55,4 @@ class DB:
         assert image.shape[1] == self._inputSize[0], '{} (width of input image) != {} (preset width)'.format(image.shape[1], self._inputSize[0])
 
         return self._model.detect(image)
+

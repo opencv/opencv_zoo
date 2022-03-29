@@ -8,8 +8,15 @@ import numpy as np
 import cv2 as cv
 
 class YoutuReID:
-    def __init__(self, modelPath):
+    def __init__(self, modelPath, backendId=0, targetId=0):
+        self._modelPath = modelPath
+        self._backendId = backendId
+        self._targetId = targetId
+
         self._model = cv.dnn.readNet(modelPath)
+        self._model.setPreferableBackend(self._backendId)
+        self._model.setPreferableTarget(self._targetId)
+
         self._input_size = (128, 256) # fixed
         self._output_dim = 768
         self._mean = (0.485, 0.456, 0.406)
@@ -20,10 +27,12 @@ class YoutuReID:
         return self.__class__.__name__
 
     def setBackend(self, backend_id):
-        self._model.setPreferableBackend(backend_id)
+        self._backendId = backend_id
+        self._model.setPreferableBackend(self._backendId)
 
     def setTarget(self, target_id):
-        self._model.setPreferableTarget(target_id)
+        self._targetId = target_id
+        self._model.setPreferableTarget(self._targetId)
 
     def _preprocess(self, image):
         image = image[:, :, ::-1]

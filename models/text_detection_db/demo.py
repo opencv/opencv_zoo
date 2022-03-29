@@ -19,9 +19,23 @@ def str2bool(v):
     else:
         raise NotImplementedError
 
+backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
+targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
+help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
+help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
+try:
+    backends += [cv.dnn.DNN_BACKEND_TIMVX]
+    targets += [cv.dnn.DNN_TARGET_NPU]
+    help_msg_backends += "; {:d}: TIMVX"
+    help_msg_targets += "; {:d}: NPU"
+except:
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+
 parser = argparse.ArgumentParser(description='Real-time Scene Text Detection with Differentiable Binarization (https://arxiv.org/abs/1911.08947).')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
 parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18_2021sep.onnx', help='Path to the model.')
+parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
+parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--width', type=int, default=736,
                     help='Preprocess input image by resizing to a specific width. It should be multiple by 32.')
 parser.add_argument('--height', type=int, default=736,
@@ -53,6 +67,8 @@ if __name__ == '__main__':
                polygonThreshold=args.polygon_threshold,
                maxCandidates=args.max_candidates,
                unclipRatio=args.unclip_ratio
+               backendId=args.backend,
+               targetId=args.target
     )
 
     # If input is an image
