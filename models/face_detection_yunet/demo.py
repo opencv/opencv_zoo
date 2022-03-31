@@ -19,9 +19,23 @@ def str2bool(v):
     else:
         raise NotImplementedError
 
+backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
+targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
+help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
+help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
+try:
+    backends += [cv.dnn.DNN_BACKEND_TIMVX]
+    targets += [cv.dnn.DNN_TARGET_NPU]
+    help_msg_backends += "; {:d}: TIMVX"
+    help_msg_targets += "; {:d}: NPU"
+except:
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+
 parser = argparse.ArgumentParser(description='YuNet: A Fast and Accurate CNN-based Face Detector (https://github.com/ShiqiYu/libfacedetection).')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
 parser.add_argument('--model', '-m', type=str, default='face_detection_yunet_2021dec.onnx', help='Path to the model.')
+parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
+parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--conf_threshold', type=float, default=0.9, help='Filter out faces of confidence < conf_threshold.')
 parser.add_argument('--nms_threshold', type=float, default=0.3, help='Suppress bounding boxes of iou >= nms_threshold.')
 parser.add_argument('--top_k', type=int, default=5000, help='Keep top_k bounding boxes before NMS.')
@@ -61,7 +75,9 @@ if __name__ == '__main__':
                   inputSize=[320, 320],
                   confThreshold=args.conf_threshold,
                   nmsThreshold=args.nms_threshold,
-                  topK=args.top_k)
+                  topK=args.top_k,
+                  backendId=args.backend,
+                  targetId=args.target)
 
     # If input is an image
     if args.input is not None:
@@ -118,3 +134,4 @@ if __name__ == '__main__':
             cv.imshow('YuNet Demo', frame)
 
             tm.reset()
+

@@ -64,3 +64,4 @@ class YuNet:
         # Forward
         faces = self._model.detect(image)
         return faces[1]
+

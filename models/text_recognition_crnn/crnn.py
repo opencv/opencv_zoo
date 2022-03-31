@@ -8,10 +8,17 @@ import numpy as np
 import cv2 as cv
 
 class CRNN:
-    def __init__(self, modelPath, charsetPath):
+    def __init__(self, modelPath, charsetPath, backendId=0, targetId=0):
         self._model_path = modelPath
+        self._charsetPath = charsetPath
+        self._backendId = backendId
+        self._targetId = targetId
+
         self._model = cv.dnn.readNet(self._model_path)
-        self._charset = self._load_charset(charsetPath)
+        self._model.setPreferableBackend(self._backendId)
+        self._model.setPreferableTarget(self._targetId)
+
+        self._charset = self._load_charset(self._charsetPath)
         self._inputSize = [100, 32] # Fixed
         self._targetVertices = np.array([
             [0, self._inputSize[1] - 1],
@@ -33,10 +40,12 @@ class CRNN:
         return charset
 
     def setBackend(self, backend_id):
-        self._model.setPreferableBackend(backend_id)
+        self._backendId = backend_id
+        self._model.setPreferableBackend(self._backendId)
 
     def setTarget(self, target_id):
-        self._model.setPreferableTarget(target_id)
+        self._targetId = target_id
+        self._model.setPreferableTarget(self._targetId)
 
     def _preprocess(self, image, rbbox):
         # Remove conf, reshape and ensure all is np.float32
@@ -82,3 +91,4 @@ class CRNN:
             if text[i] != '-' and (not (i > 0 and text[i] == text[i - 1])):
                 char_list.append(text[i])
         return ''.join(char_list)
+
