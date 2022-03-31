@@ -78,8 +78,9 @@ class Quantize:
 
 
 models=dict(
-    yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2021dec.onnx',
-                   calibration_image_dir='../../benchmark/data/face_detection'),
+    yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2022mar.onnx',
+                   calibration_image_dir='../../benchmark/data/face_detection',
+                   transforms=Compose([Resize(size=(160, 120))])),
     sface=Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
                    calibration_image_dir='../../benchmark/data/face_recognition',
                    transforms=Compose([Resize(size=(112, 112))])),
