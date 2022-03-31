@@ -73,3 +73,4 @@ if __name__ == '__main__':
     # Match
     result = recognizer.match(img1, face1[0][:-1], img2, face2[0][:-1])
     print('Result: {}.'.format('same identity' if result else 'different identities'))
+

@@ -67,3 +67,4 @@ class YoutuReID:
         dist = np.matmul(query_arr, gallery_arr.T)
         idx = np.argsort(-dist, axis=1)
         return [i[0:topK] for i in idx]
+

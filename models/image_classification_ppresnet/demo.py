@@ -54,3 +54,4 @@ if __name__ == '__main__':
 
     # Print result
     print('label: {}'.format(result))
+

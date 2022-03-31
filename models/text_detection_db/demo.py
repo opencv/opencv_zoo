@@ -121,3 +121,4 @@ if __name__ == '__main__':
             cv.imshow('{} Demo'.format(model.name), frame)
 
             tm.reset()
+

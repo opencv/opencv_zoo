@@ -153,3 +153,4 @@ if __name__ == '__main__':
             cv.imshow('PPHumanSeg Demo', frame)
 
             tm.reset()
+
