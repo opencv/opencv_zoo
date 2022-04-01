@@ -16,7 +16,8 @@ Benchmark:
 
 Model:
   name: "YuNet"
-  modelPath: "models/face_detection_yunet/face_detection_yunet_2021dec.onnx"
+  modelPath: "models/face_detection_yunet/face_detection_yunet_2022mar.onnx"
   confThreshold: 0.6
   nmsThreshold: 0.3
   topK: 5000
+
