@@ -5,6 +5,7 @@ YuNet is a light-weight, fast and accurate face detection model, which achieves 
 Notes:
 - Model source: [here](https://github.com/ShiqiYu/libfacedetection.train/blob/a61a428929148171b488f024b5d6774f93cdbc13/tasks/task1/onnx/yunet.onnx).
 - For details on training this model, please visit https://github.com/ShiqiYu/libfacedetection.train.
+- This ONNX model has fixed input shape, but OpenCV DNN infers on the exact shape of input image. See https://github.com/opencv/opencv_zoo/issues/44 for more information.
 
 ## Demo
 
