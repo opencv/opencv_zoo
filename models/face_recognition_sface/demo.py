@@ -51,7 +51,7 @@ if __name__ == '__main__':
     # Instantiate SFace for face recognition
     recognizer = SFace(modelPath=args.model, disType=args.dis_type, backendId=args.backend, targetId=args.target)
     # Instantiate YuNet for face detection
-    detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2021dec.onnx',
+    detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2022mar.onnx',
                      inputSize=[320, 320],
                      confThreshold=0.9,
                      nmsThreshold=0.3,
