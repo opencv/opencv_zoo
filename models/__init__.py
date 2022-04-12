@@ -7,6 +7,8 @@ from .human_segmentation_pphumanseg.pphumanseg import PPHumanSeg
 from .qrcode_wechatqrcode.wechatqrcode import WeChatQRCode
 from .object_tracking_dasiamrpn.dasiamrpn import DaSiamRPN
 from .person_reid_youtureid.youtureid import YoutuReID
+from .image_classification_mobilenet.mobilenet_v1 import MobileNetV1
+from .image_classification_mobilenet.mobilenet_v2 import MobileNetV2
 
 class Registery:
     def __init__(self, name):
@@ -29,3 +31,6 @@ MODELS.register(PPHumanSeg)
 MODELS.register(WeChatQRCode)
 MODELS.register(DaSiamRPN)
 MODELS.register(YoutuReID)
+MODELS.register(MobileNetV1)
+MODELS.register(MobileNetV2)
+

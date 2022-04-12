@@ -1,0 +1,20 @@
+Benchmark:
+  name: "Image Classification Benchmark"
+  type: "Classification"
+  data:
+    path: "benchmark/data/image_classification"
+    files: ["coffee_mug.jpg", "umbrella.jpg", "wall_clock.jpg"]
+    sizes: [[256, 256]]
+    toRGB: True
+    centerCrop: 224
+  metric:
+    warmup: 30
+    repeat: 10
+    reduction: "median"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "MobileNetV1"
+  modelPath: "models/image_classification_mobilenet/mobilenet_v1.onnx"
+  labelPath: "models/image_classification_mobilenet/imagenet_labels.txt"
