@@ -14,7 +14,7 @@ from onnx import version_converter
 import onnxruntime
 from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType
 
-from transform import Compose, Resize, ColorConvert
+from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert
 
 class DataReader(CalibrationDataReader):
     def __init__(self, model_path, image_dir, transforms):
@@ -30,13 +30,14 @@ class DataReader(CalibrationDataReader):
     def get_calibration_data(self, image_dir):
         blobs = []
         for image_name in os.listdir(image_dir):
-            if not image_name.endswith('jpg'):
+            image_name_suffix = image_name.split('.')[-1].lower()
+            if image_name_suffix == 'jpg' or image_name_suffix != 'jpeg':
                 continue
             img = cv.imread(os.path.join(image_dir, image_name))
             img = self.transforms(img)
             blob = cv.dnn.blobFromImage(img)
             blobs.append(blob)
-        return blobs
+        return blobs[:100]
 
 class Quantize:
     def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8'):
@@ -90,6 +91,12 @@ models=dict(
     ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
                         calibration_image_dir='../../benchmark/data/image_classification',
                         transforms=Compose([Resize(size=(224, 224))])),
+    mobilenetv1=Quantize(model_path='../../models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx',
+                        calibration_image_dir='../../benchmark/data/image_classification',
+                        transforms=Compose([Resize(size=(256, 256)), CenterCrop(size=(224, 224)), Normalize(mean=[103.94, 116.78, 123.68], std=[0.017, 0.017, 0.017])])),
+    mobilenetv2=Quantize(model_path='../../models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr.onnx',
+                        calibration_image_dir='../../benchmark/data/image_classification',
+                        transforms=Compose([Resize(size=(256, 256)), CenterCrop(size=(224, 224)), Normalize(mean=[103.94, 116.78, 123.68], std=[0.017, 0.017, 0.017])])),
     # TBD: DaSiamRPN
     youtureid=Quantize(model_path='../../models/person_reid_youtureid/person_reid_youtu_2021nov.onnx',
                        calibration_image_dir='../../benchmark/data/person_reid',
