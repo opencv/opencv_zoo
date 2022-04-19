@@ -61,9 +61,7 @@ class Benchmark:
             opencv=cv.dnn.DNN_BACKEND_OPENCV,
             # vkcom=cv.dnn.DNN_BACKEND_VKCOM,
             cuda=cv.dnn.DNN_BACKEND_CUDA,
-            timvx=cv.dnn.DNN_BACKEND_TIMVX
         )
-        self._backend = available_backends[backend_id]
 
         target_id = kwargs.pop('target', 'cpu')
         available_targets = dict(
@@ -76,8 +74,16 @@ class Benchmark:
             cuda=cv.dnn.DNN_TARGET_CUDA,
             cuda_fp16=cv.dnn.DNN_TARGET_CUDA_FP16,
             # hddl=cv.dnn.DNN_TARGET_HDDL,
-            npu=cv.dnn.DNN_TARGET_NPU
         )
+
+        # add extra backends & targets
+        try:
+            available_backends['timvx'] = cv.dnn.DNN_BACKEND_TIMVX
+            available_targets['npu'] = cv.dnn.DNN_TARGET_NPU
+        except:
+            print('OpenCV is not compiled with TIM-VX backend enbaled. See https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more details on how to enable TIM-VX backend.')
+
+        self._backend = available_backends[backend_id]
         self._target = available_targets[target_id]
 
         self._benchmark_results = dict()
