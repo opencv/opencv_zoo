@@ -15,8 +15,8 @@ class MobileNetV1:
         self.input_names = ''
         self.output_names = ''
         self.input_size = [224, 224]
-        self.mean = [103.94,116.78,123.68]
-        self.scale = 0.017
+        self.mean=[0.485, 0.456, 0.406]
+        self.std=[0.229, 0.224, 0.225]
 
         # load labels
         self.labels = self._load_labels()
@@ -41,7 +41,11 @@ class MobileNetV1:
         self.model.setPreferableTarget(self.target_id)
 
     def _preprocess(self, image):
-        return cv.dnn.blobFromImage(image, scalefactor=self.scale, size=self.input_size, mean=self.mean)
+        input_blob = (image / 255.0 - self.mean) / self.std
+        input_blob = input_blob.transpose(2, 0, 1)
+        input_blob = input_blob[np.newaxis, :, :, :]
+        input_blob = input_blob.astype(np.float32)
+        return input_blob
 
     def infer(self, image):
         # Preprocess
