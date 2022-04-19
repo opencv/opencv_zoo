@@ -1,6 +1,6 @@
-# Quantization with ONNXRUNTIME
+# Quantization with ONNXRUNTIME and Neural Compressor
 
-ONNXRUNTIME is used for quantization in the Zoo.
+[ONNXRUNTIME](https://github.com/microsoft/onnxruntime) and [Neural Compressor](https://github.com/intel/neural-compressor) are used for quantization in the Zoo.
 
 Install dependencies before trying quantization:
 ```shell
