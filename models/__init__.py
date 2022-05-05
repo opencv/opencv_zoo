@@ -9,6 +9,7 @@ from .object_tracking_dasiamrpn.dasiamrpn import DaSiamRPN
 from .person_reid_youtureid.youtureid import YoutuReID
 from .image_classification_mobilenet.mobilenet_v1 import MobileNetV1
 from .image_classification_mobilenet.mobilenet_v2 import MobileNetV2
+from .palm_detection_mediapipe.mp_palmdet import MPPalmDet
 
 class Registery:
     def __init__(self, name):
@@ -33,4 +34,5 @@ MODELS.register(DaSiamRPN)
 MODELS.register(YoutuReID)
 MODELS.register(MobileNetV1)
 MODELS.register(MobileNetV2)
+MODELS.register(MPPalmDet)
 
