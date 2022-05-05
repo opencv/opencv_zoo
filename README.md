@@ -29,6 +29,7 @@ Guidelines:
 | [WeChatQRCode](./models/qrcode_wechatqrcode)          | 100x100  | 7.04   | 37.68   | ---    | ---    | ---   |
 | [DaSiamRPN](./models/object_tracking_dasiamrpn)       | 1280x720 | 36.15  | 705.48  | 76.82  | ---    | ---   |
 | [YoutuReID](./models/person_reid_youtureid)           | 128x256  | 35.81  | 521.98  | 90.07  | 44.61  | ---   |
+| [MPPalmDet](./models/palm_detection_mediapipe)        | 256x256  | 15.57  | 89.41   | 50.64  | TBD  | ---   |
 
 Hardware Setup:
 - `INTEL-CPU`: [Intel Core i7-5930K](https://www.intel.com/content/www/us/en/products/sku/82931/intel-core-i75930k-processor-15m-cache-up-to-3-70-ghz/specifications.html) @ 3.50GHz, 6 cores, 12 threads.
