@@ -3,7 +3,7 @@ import json
 import numpy as np
 import cv2 as cv
 
-class MP_HandDet:
+class MPPalmDet:
     def __init__(self, modelPath, nmsThreshold=0.3, scoreThreshold=0.5, backendId=0, targetId=0):
         self.model_path = modelPath
         self.nms_threshold = nmsThreshold

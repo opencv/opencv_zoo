@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 import cv2 as cv
 
-from handpose_det import MP_HandDet
+from mp_palmdet import MPPalmDet
 
 def str2bool(v):
     if v.lower() in ['on', 'yes', 'true', 'y', 't']:
@@ -27,7 +27,7 @@ except:
 
 parser = argparse.ArgumentParser(description='Hand Detector from MediaPipe')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='./handpose-detector.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='./palm_detection_mediapipe_2022may.onnx', help='Path to the model.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--score_threshold', type=float, default=0.99, help='Filter out faces of confidence < conf_threshold.')
@@ -42,8 +42,6 @@ def visualize(image, score, palm_box, palm_landmarks, fps=None):
     if fps is not None:
         cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
 
-    print(score)
-
     # draw box
     palm_box = palm_box.astype(np.int32)
     cv.rectangle(output, (palm_box[0], palm_box[1]), (palm_box[2], palm_box[3]), (0, 255, 0), 2)
@@ -56,12 +54,12 @@ def visualize(image, score, palm_box, palm_landmarks, fps=None):
     return output
 
 if __name__ == '__main__':
-    # Instantiate YuNet
-    model = MP_HandDet(modelPath=args.model,
-                       nmsThreshold=args.nms_threshold,
-                       scoreThreshold=args.score_threshold,
-                       backendId=args.backend,
-                       targetId=args.target)
+    # Instantiate MPPalmDet
+    model = MPPalmDet(modelPath=args.model,
+                      nmsThreshold=args.nms_threshold,
+                      scoreThreshold=args.score_threshold,
+                      backendId=args.backend,
+                      targetId=args.target)
 
     # If input is an image
     if args.input is not None:
@@ -113,7 +111,7 @@ if __name__ == '__main__':
                 frame = visualize(frame, score, palm_box, palm_landmarks, fps=tm.getFPS())
 
             # Visualize results in a new Window
-            cv.imshow('MP_HandDet Demo', frame)
+            cv.imshow('MPPalmDet Demo', frame)
 
             tm.reset()
 
