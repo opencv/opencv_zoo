@@ -34,6 +34,7 @@ class MPPalmDet:
     def _preprocess(self, image):
         if image.shape[0] != self.input_size[0] or image.shape[1] != self.input_size[1]:
             image = cv.resize(image, dsize=self.input_size)
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         image = image.astype(np.float32) / 255.0 # norm
         image = (image - 0.5) * 2 # [0, 1] -> [-1, 1]
         return image[np.newaxis, :, :, :] # hwc -> nhwc
