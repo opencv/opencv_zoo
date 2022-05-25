@@ -10,7 +10,6 @@ import numpy as ny
 import cv2 as cv
 
 import onnx
-from neural_compressor.experimental import Quantization, common as nc_Quantization, nc_common
 from onnx import version_converter
 import onnxruntime
 from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType
@@ -40,7 +39,7 @@ class DataReader(CalibrationDataReader):
             blobs.append(blob)
         return blobs
 
-class ORT_Quantize:
+class Quantize:
     def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8'):
         self.type_dict = {"uint8" : QuantType.QUInt8, "int8" : QuantType.QInt8}
 
@@ -78,51 +77,28 @@ class ORT_Quantize:
         os.remove('{}-opt.onnx'.format(self.model_path[:-5]))
         print('\tQuantized model saved to {}'.format(output_name))
 
-class INC_Quantize:
-    def __init__(self, model_path, config_path):
-        self.model_path = model_path
-        self.config_path = config_path
-
-    def run(self):
-        print('Quantizing (int8) with Intel\'s Neural Compressor:')
-        print('\tModel: {}'.format(self.model_path))
-        print('\tConfig: {}'.format(self.config_path))
-
-        output_name = '{}-int8-quantized.onnx'.format(self.model_path[:-5])
-
-        model = onnx.load(self.model_path)
-        quantizer = nc_Quantization(self.config_path)
-        quantizer.model = common.Model(model)
-        q_model = quantizer()
-        q_model.save(output_name)
-
-
 models=dict(
-    yunet=ORT_Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2022mar.onnx',
+    yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2022mar.onnx',
                    calibration_image_dir='../../benchmark/data/face_detection',
                    transforms=Compose([Resize(size=(160, 120))])),
-    sface=ORT_Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
+    sface=Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
                    calibration_image_dir='../../benchmark/data/face_recognition',
                    transforms=Compose([Resize(size=(112, 112))])),
-    pphumenseg=ORT_Quantize(model_path='../../models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx',
+    pphumenseg=Quantize(model_path='../../models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx',
                         calibration_image_dir='../../benchmark/data/human_segmentation',
                         transforms=Compose([Resize(size=(192, 192))])),
-    ppresnet50=ORT_Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
+    ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
                         calibration_image_dir='../../benchmark/data/image_classification',
                         transforms=Compose([Resize(size=(224, 224))])),
-    mobilenetv1=INC_Quantize(model_path='../../models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx',
-                             config_path='./inc_configs/mobilenet.yaml'),
-    mobilenetv2=INC_Quantize(model_path='../../models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr.onnx',
-                             config_path='./inc_configs/mobilenet.yaml'),
     # TBD: DaSiamRPN
-    youtureid=ORT_Quantize(model_path='../../models/person_reid_youtureid/person_reid_youtu_2021nov.onnx',
+    youtureid=Quantize(model_path='../../models/person_reid_youtureid/person_reid_youtu_2021nov.onnx',
                        calibration_image_dir='../../benchmark/data/person_reid',
                        transforms=Compose([Resize(size=(128, 256))])),
     # TBD: DB-EN & DB-CN
-    crnn_en=ORT_Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx',
+    crnn_en=Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx',
                      calibration_image_dir='../../benchmark/data/text',
                      transforms=Compose([Resize(size=(100, 32)), ColorConvert(ctype=cv.COLOR_BGR2GRAY)])),
-    crnn_cn=ORT_Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_CN_2021nov.onnx',
+    crnn_cn=Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_CN_2021nov.onnx',
                      calibration_image_dir='../../benchmark/data/text',
                      transforms=Compose([Resize(size=(100, 32))]))
 )

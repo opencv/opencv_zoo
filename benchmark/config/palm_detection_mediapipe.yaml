@@ -1,0 +1,21 @@
+Benchmark:
+  name: "Palm Detection Benchmark"
+  type: "Detection"
+  data:
+    path: "benchmark/data/palm_detection"
+    files: ["palm1.jpg", "palm2.jpg", "palm3.jpg"]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [256, 256]
+  metric:
+    warmup: 30
+    repeat: 10
+    reduction: "median"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "MPPalmDet"
+  modelPath: "models/palm_detection_mediapipe/palm_detection_mediapipe_2022may.onnx"
+  scoreThreshold: 0.5
+  nmsThreshold: 0.3
+
