@@ -11,21 +11,24 @@ pip install -r requirements.txt
 
 Quantize all models in the Zoo:
 ```shell
-python quantize.py
+python quantize-ort.py
+python quantize-inc.py
 ```
 
 Quantize one of the models in the Zoo:
 ```shell
 # python quantize.py <key_in_models>
-python quantize.py yunet
+python quantize-ort.py yunet
+python quantize-inc.py mobilenetv1
 ```
 
 Customizing quantization configs:
 ```python
-# add model into `models` dict in quantize.py
+# Quantize with ONNXRUNTIME
+# 1. add your model into `models` dict in quantize-ort.py
 models = dict(
     # ...
-    model1=Quantize(model_path='/path/to/model1.onnx'
+    model1=Quantize(model_path='/path/to/model1.onnx',
                     calibration_image_dir='/path/to/images',
                     transforms=Compose([''' transforms ''']), # transforms can be found in transforms.py
                     per_channel=False, # set False to quantize in per-tensor style
@@ -33,6 +36,18 @@ models = dict(
                     wt_type='int8'     # available types: 'int8', 'uint8'
     )
 )
-# quantize the added models
-python quantize.py model1
+# 2. quantize your model
+python quantize-ort.py model1
+
+
+# Quantize with Intel Neural Compressor
+# 1. add your model into `models` dict in quantize-inc.py
+models = dict(
+    # ...
+    model1=Quantize(model_path='/path/to/model1.onnx',
+                    config_path='/path/to/model1.yaml'),
+)
+# 2. prepare your YAML config model1.yaml (see configs in ./inc_configs)
+# 3. quantize your model
+python quantize-inc.py model1
 ```
