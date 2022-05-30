@@ -18,6 +18,7 @@ Guidelines:
 |-------|------------|----------------|--------------|-----------------|--------------|-------------|
 | [YuNet](./models/face_detection_yunet)                | 160x120  | 1.45   | 6.22    | 12.18  | 4.04   | 86.69 |
 | [SFace](./models/face_recognition_sface)              | 112x112  | 8.65   | 99.20   | 24.88  | 46.25  | ---   |
+| [LPD-YuNet](./models/license_plate_detection_yunet/)  | 320x240  | ---    | 168.03  | 56.12  | 154.20\* |       |
 | [DB-IC15](./models/text_detection_db)                 | 640x480  | 142.91 | 2835.91 | 208.41 | ---    | ---   |
 | [DB-TD500](./models/text_detection_db)                | 640x480  | 142.91 | 2841.71 | 210.51 | ---    | ---   |
 | [CRNN-EN](./models/text_recognition_crnn)             | 100x32   | 50.21  | 234.32  | 196.15 | 125.30 | ---   |
