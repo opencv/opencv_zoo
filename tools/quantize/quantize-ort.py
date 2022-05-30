@@ -90,9 +90,6 @@ models=dict(
     ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
                         calibration_image_dir='../../benchmark/data/image_classification',
                         transforms=Compose([Resize(size=(224, 224))])),
-    lpd_yunet=Quantize(model_path='../../models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2022may.onnx',
-                       calibration_image_dir='../../benchmark/data/license_plate_detection',
-                       transforms=Compose([Resize(size=(320, 240))])),
     # TBD: DaSiamRPN
     youtureid=Quantize(model_path='../../models/person_reid_youtureid/person_reid_youtu_2021nov.onnx',
                        calibration_image_dir='../../benchmark/data/person_reid',
