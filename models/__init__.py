@@ -10,6 +10,7 @@ from .person_reid_youtureid.youtureid import YoutuReID
 from .image_classification_mobilenet.mobilenet_v1 import MobileNetV1
 from .image_classification_mobilenet.mobilenet_v2 import MobileNetV2
 from .palm_detection_mediapipe.mp_palmdet import MPPalmDet
+from .license_plate_detection_yunet.lpd_yunet import LPD_YuNet
 
 class Registery:
     def __init__(self, name):
@@ -35,4 +36,4 @@ MODELS.register(YoutuReID)
 MODELS.register(MobileNetV1)
 MODELS.register(MobileNetV2)
 MODELS.register(MPPalmDet)
-
+MODELS.register(LPD_YuNet)
