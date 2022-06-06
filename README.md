@@ -48,6 +48,21 @@ Hardware Setup:
 - `---` represents the model is not availble to run on the device.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
 
+## Some Examples
+
+Some examples are listed below. You can find more in the directory of each model!
+### Face Detection with [YuNet](./models/face_detection_yunet/)
+
+![largest selfie](./models/face_detection_yunet/examples/largest_selfie.jpg)
+
+### Human Segmentation with [PP-HumanSeg](./models/human_segmentation_pphumanseg/)
+
+![messi](./models/human_segmentation_pphumanseg/examples/messi.jpg)
+
+### Object Tracking with [DaSiamRPN](./models/object_tracking_dasiamrpn/)
+
+![webcam demo](./models/object_tracking_dasiamrpn/examples/dasiamrpn_demo.gif)
+
 ## License
 
 OpenCV Zoo is licensed under the [Apache 2.0 license](./LICENSE). Please refer to licenses of different models.
