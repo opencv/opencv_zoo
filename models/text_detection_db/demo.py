@@ -66,7 +66,7 @@ if __name__ == '__main__':
                binaryThreshold=args.binary_threshold,
                polygonThreshold=args.polygon_threshold,
                maxCandidates=args.max_candidates,
-               unclipRatio=args.unclip_ratio
+               unclipRatio=args.unclip_ratio,
                backendId=args.backend,
                targetId=args.target
     )
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         # Print results
         print('{} texts detected.'.format(len(results[0])))
         for idx, (bbox, score) in enumerate(zip(results[0], results[1])):
-            print('{}: {} {} {} {}, {:.2f}'.format(idx, bbox[0], bbox[1], bbox[2], bbox[3], score[0]))
+            print('{}: {} {} {} {}, {:.2f}'.format(idx, bbox[0], bbox[1], bbox[2], bbox[3], score))
 
         # Draw results on the input image
         image = visualize(image, results)
