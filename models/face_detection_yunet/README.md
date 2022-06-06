@@ -17,6 +17,12 @@ python demo.py
 python demo.py --input /path/to/image
 ```
 
+### Example outputs
+
+![webcam demo](./examples/yunet_demo.gif)
+
+![largest selfie](./examples/largest_selfie.jpg)
+
 ## License
 
 All files in this directory are licensed under [MIT License](./LICENSE).
