@@ -14,6 +14,10 @@ python demo.py
 python demo.py --input /path/to/image
 ```
 
+### Example outputs
+
+![lpd image1](./examples/result-4.jpg)
+
 ## License
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE)
 
