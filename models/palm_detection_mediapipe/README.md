@@ -17,8 +17,6 @@ python demo.py
 python demo.py -i /path/to/image
 ```
 
-NOTE: For the quantized model, you will need to install OpenCV 4.6.0 to have asymmetric paddings support for quantized convolution layer in OpenCV. Score threshold needs to be adjusted as well for the quantized model, which is empirically 0.49.
-
 ### Example outputs
 
 ![webcam demo](./examples/mppalmdet_demo.gif)
