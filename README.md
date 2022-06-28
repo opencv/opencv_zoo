@@ -48,6 +48,33 @@ Hardware Setup:
 - `---` represents the model is not availble to run on the device.
 - View [benchmark/config](./benchmark/config) for more details on benchmarking different models.
 
+## Some Examples
+
+Some examples are listed below. You can find more in the directory of each model!
+### Face Detection with [YuNet](./models/face_detection_yunet/)
+
+![largest selfie](./models/face_detection_yunet/examples/largest_selfie.jpg)
+
+### Human Segmentation with [PP-HumanSeg](./models/human_segmentation_pphumanseg/)
+
+![messi](./models/human_segmentation_pphumanseg/examples/messi.jpg)
+
+### License Plate Detection with [LPD_YuNet](./models/license_plate_detection_yunet/)
+
+![license plate detection](./models/license_plate_detection_yunet/examples/lpd_yunet_demo.gif)
+
+### Object Tracking with [DaSiamRPN](./models/object_tracking_dasiamrpn/)
+
+![webcam demo](./models/object_tracking_dasiamrpn/examples/dasiamrpn_demo.gif)
+
+### Palm Detection with [MP-PalmDet](./models/palm_detection_mediapipe/)
+
+![palm det](./models/palm_detection_mediapipe//examples/mppalmdet_demo.gif)
+
+### QR Code Detection and Parsing with [WeChatQRCode](./models/qrcode_wechatqrcode/)
+
+![qrcode](./models/qrcode_wechatqrcode/examples/wechat_qrcode_demo.gif)
+
 ## License
 
 OpenCV Zoo is licensed under the [Apache 2.0 license](./LICENSE). Please refer to licenses of different models.

@@ -16,6 +16,10 @@ python demo.py
 python demo.py --input /path/to/image
 ```
 
+### Example outputs
+
+![webcam demo](./examples/wechat_qrcode_demo.gif)
+
 ## License
 
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
