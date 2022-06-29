@@ -17,6 +17,11 @@ python demo.py
 # detect on an image
 python demo.py --input /path/to/image
 ```
+### Example outputs
+
+![mask](./examples/mask.jpg)
+
+![gsoc](./examples/gsoc.jpg)
 
 ## License
 

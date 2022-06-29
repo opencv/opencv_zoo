@@ -77,7 +77,7 @@ Some examples are listed below. You can find more in the directory of each model
 
 ### Chinese Text detection [DB](./models/text_detection_db/)
 
-![shude](./models/text_detection_db/examples/shude.jpg)
+![mask](./models/text_detection_db/examples/mask.jpg)
 
 ### English Text detection [DB](./models/text_detection_db/)
 
