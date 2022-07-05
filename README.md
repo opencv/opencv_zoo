@@ -75,6 +75,14 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![qrcode](./models/qrcode_wechatqrcode/examples/wechat_qrcode_demo.gif)
 
+### Chinese Text detection [DB](./models/text_detection_db/)
+
+![mask](./models/text_detection_db/examples/mask.jpg)
+
+### English Text detection [DB](./models/text_detection_db/)
+
+![gsoc](./models/text_detection_db/examples/gsoc.jpg)
+
 ## License
 
 OpenCV Zoo is licensed under the [Apache 2.0 license](./LICENSE). Please refer to licenses of different models.
