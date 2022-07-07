@@ -34,6 +34,12 @@ python demo.py --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3
 python demo.py --input /path/to/image --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
 ```
 
+### Examples
+
+![CRNNCTC](./examples/CRNNCTC.gif)
+
+![demo](./examples/demo.jpg)
+
 ## License
 
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
