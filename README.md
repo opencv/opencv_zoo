@@ -83,6 +83,10 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![gsoc](./models/text_detection_db/examples/gsoc.jpg)
 
+### Text Detection with [CRNN](./models/text_recognition_crnn/)
+
+![crnn_demo](./models/text_recognition_crnn/examples/CRNNCTC.gif)
+
 ## License
 
 OpenCV Zoo is licensed under the [Apache 2.0 license](./LICENSE). Please refer to licenses of different models.
