@@ -17,4 +17,4 @@ Benchmark:
 Model:
   name: "MobileNetV1"
   modelPath: "models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx"
-  labelPath: "models/image_classification_mobilenet/imagenet_labels.txt"
+
