@@ -17,4 +17,4 @@ Benchmark:
 Model:
   name: "PPResNet"
   modelPath: "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx"
-  labelPath: "models/image_classification_ppresnet/imagenet_labels.txt"
+
