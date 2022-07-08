@@ -2,9 +2,11 @@ import numpy as np
 import cv2 as cv
 
 class MobileNetV2:
-    def __init__(self, modelPath, labelPath, backendId=0, targetId=0):
+    def __init__(self, modelPath, labelPath=None, topK=1, backendId=0, targetId=0):
         self.model_path = modelPath
         self.label_path = labelPath
+        assert topK >= 1
+        self.top_k = topK
         self.backend_id = backendId
         self.target_id = targetId
 
@@ -23,9 +25,10 @@ class MobileNetV2:
 
     def _load_labels(self):
         labels = []
-        with open(self.label_path, 'r') as f:
-            for line in f:
-                labels.append(line.strip())
+        if self.label_path is not None:
+            with open(self.label_path, 'r') as f:
+                for line in f:
+                    labels.append(line.strip())
         return labels
 
     @property
@@ -61,9 +64,18 @@ class MobileNetV2:
         return results
 
     def _postprocess(self, output_blob):
-        predicted_labels = []
+        batched_class_id_list = []
         for o in output_blob:
-            class_id = np.argmax(o)
-            predicted_labels.append(self.labels[class_id])
-        return predicted_labels
+            class_id_list = o.argsort()[::-1][:self.top_k]
+            batched_class_id_list.append(class_id_list)
+        if len(self.labels) > 0:
+            batched_predicted_labels = []
+            for class_id_list in batched_class_id_list:
+                predicted_labels = []
+                for class_id in class_id_list:
+                    predicted_labels.append(self._labels[class_id])
+                batched_predicted_labels.append(predicted_labels)
+            return batched_predicted_labels
+        else:
+            return batched_class_id_list
 

@@ -9,9 +9,11 @@ import numpy as np
 import cv2 as cv
 
 class PPResNet:
-    def __init__(self, modelPath, labelPath, backendId=0, targetId=0):
+    def __init__(self, modelPath, labelPath=None, topK=1, backendId=0, targetId=0):
         self._modelPath = modelPath
         self._labelPath = labelPath
+        assert topK >= 1
+        self._topK = topK
         self._backendId = backendId
         self._targetId = targetId
 
@@ -30,9 +32,10 @@ class PPResNet:
 
     def _load_labels(self):
         labels = []
-        with open(self._labelPath, 'r') as f:
-            for line in f:
-                labels.append(line.strip())
+        if self._labelPath is not None:
+            with open(self._labelPath, 'r') as f:
+                for line in f:
+                    labels.append(line.strip())
         return labels
 
     @property
@@ -65,11 +68,23 @@ class PPResNet:
         outputBlob = self._model.forward(self._outputNames)
 
         # Postprocess
-        results = self._postprocess(outputBlob)
+        results = self._postprocess(outputBlob[0])
 
         return results
 
     def _postprocess(self, outputBlob):
-        class_id = np.argmax(outputBlob[0])
-        return self._labels[class_id]
+        batched_class_id_list = []
+        for ob in outputBlob:
+            class_id_list = ob.argsort()[::-1][:self._topK]
+            batched_class_id_list.append(class_id_list)
+        if len(self._labels) > 0:
+            batched_predicted_labels = []
+            for class_id_list in batched_class_id_list:
+                predicted_labels = []
+                for class_id in class_id_list:
+                    predicted_labels.append(self._labels[class_id])
+                batched_predicted_labels.append(predicted_labels)
+            return batched_predicted_labels
+        else:
+            return batched_class_id_list
 
