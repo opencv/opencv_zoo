@@ -14,8 +14,8 @@ python eval.py -m model_name -d dataset_name -dr dataset_root_dir
 ```
 
 Supported datasets:
-- [ImageNet](##imagenet)
-- [WIDERFace](##widerface)
+- [ImageNet](#imagenet)
+- [WIDERFace](#widerface)
 
 ## ImageNet
 
