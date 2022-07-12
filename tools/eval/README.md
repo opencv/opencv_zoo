@@ -4,6 +4,7 @@ Make sure you have the following packages installed:
 
 ```shell
 pip install tqdm
+pip install scipy
 ```
 
 Generally speaking, evaluation can be done with the following command:
@@ -13,8 +14,8 @@ python eval.py -m model_name -d dataset_name -dr dataset_root_dir
 ```
 
 Supported datasets:
-- [ImageNet](./datasets/imagenet.py)
-- [WIDERFace](./datasets/widerface.py)
+- [ImageNet](##imagenet)
+- [WIDERFace](##widerface)
 
 ## ImageNet
 
@@ -56,15 +57,11 @@ python eval.py -m mobilenet -d imagenet -dr /path/to/imagenet
 
 ## WIDERFace
 
-You need to add the following additional dependencies:
-```shell
-pip install scipy
-```
+The script is modified based on [WiderFace-Evaluation](https://github.com/wondervictor/WiderFace-Evaluation).
 
 ### Prepare data
 
-Please visit http://shuoyang1213.me/WIDERFACE to download the WIDER Face dataset [Validation Images](https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_val.zip), [Testing Images](https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_test.zip), [Face annotations](http://shuoyang1213.me/WIDERFACE/support/bbx_annotation/wider_face_split.zip) and [eval_tools](http://shuoyang1213.me/WIDERFACE/support/eval_script/eval_tools.zip). Organize files as follow:
-
+Please visit http://shuoyang1213.me/WIDERFACE to download the WIDERFace dataset [Validation Images](https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_val.zip), [Face annotations](http://shuoyang1213.me/WIDERFACE/support/bbx_annotation/wider_face_split.zip) and [eval_tools](http://shuoyang1213.me/WIDERFACE/support/eval_script/eval_tools.zip). Organize files as follow:
 
 ```shell
 $ tree -L 2 /path/to/widerface
@@ -86,8 +83,6 @@ $ tree -L 2 /path/to/widerface
 │   ├── wider_face_train.mat
 │   ├── wider_face_val_bbx_gt.txt
 │   └── wider_face_val.mat
-├── WIDER_test
-│   └── images
 └── WIDER_val
     └── images
 ```

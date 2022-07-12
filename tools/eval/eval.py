@@ -56,15 +56,15 @@ models = dict(
             topic="face_detection",
             modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar.onnx"),
             topK=5000,
-            confThreshold=0.6,
-            nmsThreshold=0.3),
+            confThreshold=0.3,
+            nmsThreshold=0.45),
         yunet_q=dict(
             name="YuNet",
             topic="face_detection",
             modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar-act_int8-wt_int8-quantized.onnx"),
             topK=5000,
-            confThreshold=0.6,
-            nmsThreshold=0.3)
+            confThreshold=0.3,
+            nmsThreshold=0.45)
 )
 
 datasets = dict(

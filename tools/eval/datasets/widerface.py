@@ -255,6 +255,10 @@ class WIDERFace:
         }
         self.img_list, self.num_img = self.load_list()
 
+    @property
+    def name(self):
+        return self.__class__.__name__
+
     def load_list(self):
         n_imgs = 0
         flist = []
@@ -283,8 +287,10 @@ class WIDERFace:
 
     def eval(self, model):
         results_list = dict()
+        pbar = tqdm.tqdm(self)
+        pbar.set_description_str("Evaluating {} with {} val set".format(model.name, self.name))
         # forward
-        for event_name, img_name, img in tqdm.tqdm(self):
+        for event_name, img_name, img in pbar:
             img_shape = [img.shape[1], img.shape[0]]
             model.setInputSize(img_shape)
             det = model.infer(img)
