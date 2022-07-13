@@ -50,9 +50,3 @@ class ICDAR:
 
     def print_result(self):
         print("Accuracy: {:.2f}%".format(self.acc*100))
-
-
-
-
-
-
