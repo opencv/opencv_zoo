@@ -51,6 +51,12 @@ models = dict(
             topic="image_classification",
             modelPath=os.path.join(root_dir, "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan-act_int8-wt_int8-quantized.onnx"),
             topK=5),
+        crnn=dict(
+            name="CRNN",
+            topic="text_recognition",
+            modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep-act_int8-wt_int8-quantized.onnx"),
+            charsetPath=os.path.join(root_dir, "models/text_recognition_crnn/charset_36_EN.txt")
+        )
 )
 
 datasets = dict(
@@ -58,6 +64,10 @@ datasets = dict(
             name="ImageNet",
             topic="image_classification",
             size=224),
+        icdar=dict(
+            name="ICDAR",
+            topic="text_recognition",
+        )
 )
 
 def main(args):

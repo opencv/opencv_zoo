@@ -14,6 +14,7 @@ python eval.py -m model_name -d dataset_name -dr dataset_root_dir
 
 Supported datasets:
 - [ImageNet](./datasets/imagenet.py)
+- [ICDAR](./datasets/icdar.py)
 
 ## ImageNet
 
@@ -53,3 +54,16 @@ Run evaluation with the following command:
 python eval.py -m mobilenet -d imagenet -dr /path/to/imagenet
 ```
 
+## ICDAR2003
+
+### Prepare data
+
+Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions to download the ICDAR2003 dataset and the labels. 
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m mobilenet -d imagenet -dr /path/to/icdar
+```
