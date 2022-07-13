@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 class ICDAR:
     def __init__(self, root):
-        self.root = root # D:\GSoc\opencvzoo_copy\opencv_zoo\models\text_recognition_crnn\dataset\ICDAR2003\word
+        self.root = root
         self.acc = -1
         self.inputSize = [100, 32]  #
         self.val_label_file = os.path.join(root, "label.xml")
