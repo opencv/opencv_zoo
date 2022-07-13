@@ -7,6 +7,16 @@ Note:
 - [face_recognition_sface_2021sep.onnx](./face_recognition_sface_2021sep.onnx) is converted from the model from https://github.com/zhongyy/SFace thanks to [Chengrui Wang](https://github.com/crywang).
 - Support 5-landmark warpping for now (2021sep)
 
+Results of accuracy evaluation with [tools/eval](../../tools/eval).
+
+| Models      | Accuracy | 
+|-------------|----------|
+| SFace       | 0.8205   |
+| SFace quant | 0.8150   |
+
+\*: 'quant' stands for 'quantized'.
+
+
 ## Demo
 
 ***NOTE***: This demo uses [../face_detection_yunet](../face_detection_yunet) as face detector, which supports 5-landmark detection for now (2021sep).
@@ -16,16 +26,6 @@ Run the following command to try the demo:
 # recognize on images
 python demo.py --input1 /path/to/image1 --input2 /path/to/image2
 ```
-
-## Evaluation
-We used the accuracy evaluation tools from [opencv_zoo/tools/eval](../../tools/eval).
-
-### LFW
-Performance on [LFW (Labeled Faces in the Wild)](http://vis-www.cs.umass.edu/lfw/):
-```shell
-Average Accuracy: 0.8205
-```
-
 
 
 ## License
