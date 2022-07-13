@@ -2,6 +2,12 @@
 
 An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition
 
+Results of accuracy evaluation with [tools/eval](../../tools/eval).
+
+| Models | Accuracy |
+| ------ | -------------- |
+| CRNN | 81.66 |
+
 Note:
 - Model source:
     - `text_recognition_CRNN_EN_2021sep.onnx`: https://docs.opencv.org/4.5.2/d9/d1e/tutorial_dnn_OCR.html (CRNN_VGG_BiLSTM_CTC.onnx)
