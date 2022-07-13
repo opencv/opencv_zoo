@@ -4,6 +4,7 @@ Make sure you have the following packages installed:
 
 ```shell
 pip install tqdm
+pip install scikit-learn
 ```
 
 Generally speaking, evaluation can be done with the following command:
@@ -14,6 +15,7 @@ python eval.py -m model_name -d dataset_name -dr dataset_root_dir
 
 Supported datasets:
 - [ImageNet](./datasets/imagenet.py)
+- [LFW](#lfw)
 
 ## ImageNet
 
@@ -53,3 +55,28 @@ Run evaluation with the following command:
 python eval.py -m mobilenet -d imagenet -dr /path/to/imagenet
 ```
 
+## LFW
+The script is modified based on [evaluation of InsightFace](https://github.com/deepinsight/insightface/blob/f92bf1e48470fdd567e003f196f8ff70461f7a20/src/eval/lfw.py).
+
+### Prepare data
+
+Please visit http://vis-www.cs.umass.edu/lfw to download the LFW [all images](http://vis-www.cs.umass.edu/lfw/lfw.tgz)(needs to be decompressed) and [pairs.txt](http://vis-www.cs.umass.edu/lfw/pairs.txt)(needs to be placed in the `view2` folder). Organize files as follow:
+
+```shell
+$ tree -L 2 /path/to/lfw
+.
+├── lfw
+│   ├── Aaron_Eckhart
+│   ├── ...
+│   └── Zydrunas_Ilgauskas
+└── view2
+    └── pairs.txt
+```
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m sface -d lfw -dr /path/to/lfw
+```

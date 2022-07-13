@@ -51,6 +51,14 @@ models = dict(
             topic="image_classification",
             modelPath=os.path.join(root_dir, "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan-act_int8-wt_int8-quantized.onnx"),
             topK=5),
+        sface=dict(
+            name="SFace",
+            topic="face_recognition",
+            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec.onnx")),
+        sface_q=dict(
+            name="SFace",
+            topic="face_recognition",
+            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec-act_int8-wt_int8-quantized.onnx")),
 )
 
 datasets = dict(
@@ -58,6 +66,10 @@ datasets = dict(
             name="ImageNet",
             topic="image_classification",
             size=224),
+        lfw=dict(
+            name="LFW",
+            topic="face_recognition",
+            target_size=112),
 )
 
 def main(args):
