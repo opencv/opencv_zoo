@@ -65,5 +65,5 @@ Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_
 Run evaluation with the following command:
 
 ```shell
-python eval.py -m mobilenet -d imagenet -dr /path/to/icdar
+python eval.py -m crnn -d icdar -dr /path/to/icdar
 ```
