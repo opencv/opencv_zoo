@@ -23,8 +23,7 @@ We used the accuracy evaluation tools from [opencv_zoo/tools/eval](../../tools/e
 ### LFW
 Performance on [LFW (Labeled Faces in the Wild)](http://vis-www.cs.umass.edu/lfw/):
 ```shell
-Validation rate: 0.34067+-0.01384 @ FAR=0.00100
-acc=0.8483, std=0.0138
+Average Accuracy: 0.8205
 ```
 
 

@@ -235,5 +235,6 @@ class LFW:
         self.acc, self.std = np.mean(self.acc), np.std(self.acc)
 
     def print_result(self):
-        print('Validation rate: %2.5f+-%2.5f @ FAR=%2.5f' % (self.val, self.std, self.far))
-        print('acc={:.4f}, std={:.4f}'.format(self.acc, self.std))
+        print("==================== Results ====================")
+        print("Average Accuracy: {:.4f}".format(self.acc))
+        print("=================================================")
