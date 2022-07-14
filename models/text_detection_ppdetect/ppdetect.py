@@ -1,8 +1,6 @@
 # This file is part of OpenCV Zoo project.
 # It is subject to the license terms in the LICENSE file found in the same directory.
 #
-# Copyright (C) 2021, Shenzhen Institute of Artificial Intelligence and Robotics for Society, all rights reserved.
-# Third party copyrights are property of their respective owners.
 import cv2
 import numpy as np
 import cv2 as cv
