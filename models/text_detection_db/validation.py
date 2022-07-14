@@ -42,16 +42,16 @@ parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_
 parser.add_argument('--gt_dir', type=str, default='icdar2015/test_gts', help='Path to the ground truth txt directory.')
 parser.add_argument('--out_dir', type=str, default='icdar2015/test_predicts', help='Path to the output txt directory.')
 parser.add_argument('--img_dir', type=str, default='icdar2015/test_images', help='Path to the test images directory.')
-parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--width', type=int, default=736,
                     help='Preprocess input image by resizing to a specific width. It should be multiple by 32.')
 parser.add_argument('--height', type=int, default=736,
                     help='Preprocess input image by resizing to a specific height. It should be multiple by 32.')
+parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
+parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--binary_threshold', type=float, default=0.3, help='Threshold of the binary map.')
 parser.add_argument('--polygon_threshold', type=float, default=0.5, help='Threshold of polygons.')
-parser.add_argument('--iou_constraint', type=float, default=0.5, help='IOU constraint.')
-parser.add_argument('--area_precision_constraint', type=float, default=0.3, help='Area precision constraint.')
+parser.add_argument('--iou_constraint', type=float, default=0.3, help='IOU constraint.')
+parser.add_argument('--area_precision_constraint', type=float, default=0.8, help='Area precision constraint.')
 parser.add_argument('--max_candidates', type=int, default=200, help='Max candidates of polygons.')
 parser.add_argument('--unclip_ratio', type=np.float64, default=2.0, help=' The unclip ratio of the detected text region, which determines the output size.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
@@ -82,22 +82,26 @@ if __name__ == '__main__':
                targetId=args.target
     )
     files = glob.glob(args.img_dir+'/*', recursive=True)
-    start = time.time()
+    tot_time=0
+
     for file in files:
         image = cv.imread(file)
+        scale = (image.shape[1] * 1.0 / args.width, image.shape[0] * 1.0 / args.height)
         image = cv.resize(image, [args.width, args.height])
-
+        start = time.time()
         # Inference
         results = model.infer(image)
+        end = time.time()
+        tot_time+=(end-start)/len(files)
         img_name=file.split('/')[-1].split('.')[0]
-        text_file = args.out_dir+'res_' + img_name + '.txt'
+        text_file = args.out_dir+'/res_' + img_name + '.txt'
         result=''
         for idx, (bbox, score) in enumerate(zip(results[0], results[1])):
-            result+='{},{},{},{},{},{},{},{},{}\n'.format(bbox[0][0],bbox[0][1], bbox[1][0], bbox[1][1], bbox[2][0],bbox[2][1], bbox[3][0], bbox[3][1],score)
+            result+='{},{},{},{},{},{},{},{},{}\n'.format(int(bbox[0][0]*scale[0]),int(bbox[0][1]*scale[1]), int(bbox[1][0]*scale[0]), int(bbox[1][1]*scale[1]), int(bbox[2][0]*scale[0]),int(bbox[2][1]*scale[1]), int(bbox[3][0]*scale[0]), int(bbox[3][1]*scale[1]),score)
         with open(text_file, 'w+') as fid:
             fid.write(result)
-    end = time.time()
-    avg_time=(end-start)/len(files)
+
+    avg_time=tot_time/len(files)
     result_dict = cal_recall_precison_f1(args.gt_dir,args.out_dir,default_evaluation_params)
     # Print results
     result_dict['avg time']=avg_time
