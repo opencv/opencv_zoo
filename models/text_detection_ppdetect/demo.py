@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 import cv2 as cv
 
-from ppdetect import ppdetect
+from ppdetect import PPDetect
 
 def str2bool(v):
     if v.lower() in ['on', 'yes', 'true', 'y', 't']:
@@ -59,7 +59,7 @@ def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), isC
 
 if __name__ == '__main__':
     # Instantiate DB
-    model = ppdetect(modelPath=args.model,
+    model = PPDetect(modelPath=args.model,
                      binaryThreshold=args.binary_threshold,
                      boxThresh=args.box_threshold,
                      isPoly=args.is_poly,
