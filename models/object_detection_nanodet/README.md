@@ -4,20 +4,7 @@ Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model wh
 
 Note:
 The model was trained on COCO 2017 dataset, link to dataset: https://cocodataset.org/#download
-Below, we have the mAP and AP50 results of COCO data inference
-
-Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.304
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.459
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.317
-Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.107
-Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.322
-Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.478
-Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.278
-Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.434
-Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.462
-Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.198
-Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.510
-Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.702
+Below, we have results of COCO data inference
 
 | class         | AP50   | mAP   | class          | AP50   | mAP   |
 |:--------------|:-------|:------|:---------------|:-------|:------|
