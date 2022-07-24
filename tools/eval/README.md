@@ -16,6 +16,7 @@ python eval.py -m model_name -d dataset_name -dr dataset_root_dir
 Supported datasets:
 - [ImageNet](#imagenet)
 - [WIDERFace](#widerface)
+- [ICDAR](#icdar)
 
 ## ImageNet
 
@@ -93,4 +94,18 @@ Run evaluation with the following command:
 
 ```shell
 python eval.py -m yunet -d widerface -dr /path/to/widerface
+```
+
+## ICDAR2003
+
+### Prepare data
+
+Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions to download the ICDAR2003 dataset and the labels. 
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m crnn -d icdar -dr /path/to/icdar
 ```
