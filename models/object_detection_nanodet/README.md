@@ -1,5 +1,10 @@
 # Nanodet
 
+#### Google Summer of Code'22
+#### Contributor: Sri Siddarth Chakaravarthy
+#### Organisation: OpenCV
+#### Project: Lightweight object detection models using OpenCV 
+
 Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model which using Generalized Focal Loss as classification and regression loss.In NanoDet-Plus, we propose a novel label assignment strategy with a simple assign guidance module (AGM) and a dynamic soft label assigner (DSLA) to solve the optimal label assignment problem in lightweight model training.
 
 Note:
