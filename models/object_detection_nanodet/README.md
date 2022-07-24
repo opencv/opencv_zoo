@@ -3,6 +3,7 @@
 Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model which using Generalized Focal Loss as classification and regression loss.In NanoDet-Plus, we propose a novel label assignment strategy with a simple assign guidance module (AGM) and a dynamic soft label assigner (DSLA) to solve the optimal label assignment problem in lightweight model training.
 
 Note:
+- This version of nanodet: Nanodet-m-plus-1.5x_416
 - The model was trained on COCO 2017 dataset, link to dataset: https://cocodataset.org/#download
 - Below, we have results of COCO data inference
 
