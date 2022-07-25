@@ -24,7 +24,7 @@ Here are some of the sample results that were observed using the model,
 
 
 Video inference result
-![COCO_Video_Test1](./examples/results/TestVResult.mov)
+![Alt Text](./results/TestResultV3.gif)
 
 
 ## License
