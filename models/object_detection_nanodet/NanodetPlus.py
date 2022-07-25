@@ -69,27 +69,10 @@ class NanoDet():
         self.net.setInput(blob)
         outs = self.net.forward(self.net.getUnconnectedOutLayersNames())
         det_bboxes, det_conf, det_classid = self.post_process(outs)
-
-        drawimg = srcimg.copy()
         ratioh,ratiow = srcimg.shape[0]/newh,srcimg.shape[1]/neww
-        for i in range(det_bboxes.shape[0]):
-            xmin, ymin, xmax, ymax = max(int((det_bboxes[i,0] - left) * ratiow), 0), max(int((det_bboxes[i,1] - top) * ratioh), 0), min(
-                int((det_bboxes[i,2] - left) * ratiow), srcimg.shape[1]), min(int((det_bboxes[i,3] - top) * ratioh), srcimg.shape[0])
-            classId = det_classid[i]
-            conf = det_conf[i]
-            left = xmin
-            top = ymin
-            right = xmax
-            bottom = ymax
-            cv2.rectangle(drawimg, (left, top), (right, bottom), (0, 0, 0), thickness=2)
-            #label = '%.2f' % conf
-            label =''
-            label = '%s%s' % (self.classes[classId], label)
-            labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-            top = max(top, labelSize[1])
-            # cv.rectangle(frame, (left, top - round(1.5 * labelSize[1])), (left + round(1.5 * labelSize[0]), top + baseLine), (255,255,255), cv.FILLED)
-            cv2.putText(drawimg, label, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), thickness=2)
-        return drawimg
+
+        return det_bboxes, left, top, ratioh, ratiow, det_bboxes, det_conf, det_classid
+
 
     def post_process(self, preds):
         cls_scores, bbox_preds = preds[::2], preds[1::2]
