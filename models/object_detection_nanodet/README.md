@@ -26,10 +26,10 @@ Here are some of the sample results that were observed using the model,
     <img src="./results/TestResult5.png" width="450" height="450">
   </div>
 
-<img align="left" src="./results/TestResult4.png" alt="COCO_Result_1" title="COCO_Result_1" hspace="20"/>
-<img align="left" src="./results/TestResult5.png" alt="COCO_Result_2" title="COCO_Result_2" hspace="20"/>
-
-<br/><br/><br/><br/><br/>
+<p float="left">
+  <img src="./results/TestResult4.png" width="450" height="450">
+  <img src="./results/TestResult5.png" width="450" height="450">
+</p>
   
 Video inference result,
 
