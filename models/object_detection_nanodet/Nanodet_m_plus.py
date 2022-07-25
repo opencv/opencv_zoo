@@ -4,7 +4,7 @@ import argparse
 import time
 import matplotlib.pyplot as plt
 
-class nanodet():
+class NanoDet():
     def __init__(self, prob_threshold=0.35, iou_threshold=0.6):
         with open('coco.names', 'rt') as f:
             self.classes = f.read().rstrip('\n').split('\n')
