@@ -7,15 +7,21 @@ Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model wh
 
 Run the following command to try the demo:
 ```shell
-# Nanodet inference on test image
-python demo.py --image_path /path/to/image/
+# Nanodet inference on image input
+python demo.py --input_type image --image_path /path/to/image/
+
+# Nanodet inference on video input
+python demo.py --input_type video --video_path /path/to/video/
 ```
+
 ## Results
 Here are some of the sample results that were observed using the model,
 
 ![COCO_Test_Image1](./examples/results/TestResult5.png)
 
 ![COCO_Test_Image1](./examples/results/TestResult8.png)
+
+![COCO_Test_Video1](./examples/results/TestVResult.mov)
 
 ## License
 
