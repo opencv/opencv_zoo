@@ -16,6 +16,7 @@ python demo.py --input_type video --video_path /path/to/video/
 
 
 ## Results
+
 Here are some of the sample results that were observed using the model,
 
 <p float="left">
@@ -24,9 +25,10 @@ Here are some of the sample results that were observed using the model,
 </p>
   
 Video inference result,
-
-<img src="https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif" width="450" height="450">
-
+<p align="center">
+  <img src="https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif" width="650" height="650">
+</p>
+  
 
 ## License
 
@@ -41,6 +43,7 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 
 #### Note:
+
 - This version of nanodet: Nanodet-m-plus-1.5x_416
 - The model was trained on COCO 2017 dataset, link to dataset: https://cocodataset.org/#download
 - Below, we have results of COCO data inference
