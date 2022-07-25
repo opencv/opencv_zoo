@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class NanoDet():
     def __init__(self, prob_threshold=0.35, iou_threshold=0.6):
-        with open('coco.names', 'rt') as f:
+        with open('coco.names', 'rt') as f: 
             self.classes = f.read().rstrip('\n').split('\n')
 
         self.num_classes = len(self.classes)
