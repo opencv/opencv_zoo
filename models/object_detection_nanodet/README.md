@@ -20,10 +20,10 @@ Here are some of the sample results that were observed using the model,
 
 <div class="row">
   <div class="column">
-    <img src="./results/TestResult4.png" width="500" height="500">
+    <img src="./results/TestResult4.png" width="450" height="450">
   </div>
   <div class="column">
-    <img src="./results/TestResult5.png" width="500" height="500">
+    <img src="./results/TestResult5.png" width="450" height="450">
   </div>
   
 Video inference result,
