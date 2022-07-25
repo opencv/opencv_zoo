@@ -6,7 +6,7 @@ import numpy as np
 import cv2 as cv
 from shapely.geometry import Polygon
 import pyclipper
-class ppdetect:
+class PPDetect:
     def __init__(self, modelPath, boxThresh=0.6, binaryThreshold=0.3, isPoly=True, maxCandidates=200,minSize=3 ,unclipRatio=2.0, backendId=0, targetId=0):
         self.model_path = modelPath
         self.backend_id = backendId
@@ -25,9 +25,18 @@ class ppdetect:
         self.isPoly = isPoly
         self.unclipRatio = unclipRatio
         self.minSize = minSize
+
     @property
     def name(self):
         return self.__class__.__name__
+
+    def setBackend(self, backend):
+        self.backend_id  = backend
+        self.model.setPreferableBackend(self.backend_id )
+
+    def setTarget(self, target):
+        self.target_id  = target
+        self.model.setPreferableTarget(self.target_id )
 
     def _preprocess(self, image):
         input_blob = (image / 255.0 - self.mean) / self.std
