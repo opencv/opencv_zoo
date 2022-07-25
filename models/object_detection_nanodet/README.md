@@ -18,14 +18,13 @@ python demo.py --input_type video --video_path /path/to/video/
 ## Results
 Here are some of the sample results that were observed using the model,
 
-![COCO_Test_Image1](./examples/results/TestResult5.png)
+![COCO_Test_Image1](./results/TestResult4.png)
 
-![COCO_Test_Image1](./examples/results/TestResult8.png)
+![COCO_Test_Image1](./results/TestResult5.png)
 
 
 Video inference result
 ![COCO_Video_Test1](./examples/results/TestVResult.mov)
-(https://user-images.githubusercontent.com/48639959/180813410-9f5bdeba-dd51-4cdb-8c07-778c53e8cd36.mov)
 
 
 ## License
