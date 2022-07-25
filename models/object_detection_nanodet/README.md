@@ -25,7 +25,7 @@ Here are some of the sample results that were observed using the model,
 
 Video inference result,
 
-![grab-landing-page](https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif | width=100)
+![grab-landing-page](https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif)
 
 
 ## License
