@@ -20,7 +20,7 @@ Here are some of the sample results that were observed using the model,
 
 ![](./results/TestResult4.png =250x250)
 
-![alt text](./results/TestResult5.png | width=100)
+![alt text](./results/TestResult5.png)
 
 
 Video inference result,
