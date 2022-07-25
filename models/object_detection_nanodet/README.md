@@ -18,9 +18,9 @@ python demo.py --input_type video --video_path /path/to/video/
 ## Results
 Here are some of the sample results that were observed using the model,
 
-![COCO_Test_Image1](./results/TestResult4.png=250x250)
+![](./results/TestResult4.png =250x250)
 
-![COCO_Test_Image1](./results/TestResult5.png=250x250)
+![](./results/TestResult5.png =250x250)
 
 
 Video inference result,
