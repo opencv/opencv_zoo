@@ -18,13 +18,14 @@ python demo.py --input_type video --video_path /path/to/video/
 ## Results
 Here are some of the sample results that were observed using the model,
 
-![COCO_Test_Image1](./results/TestResult4.png)
+![COCO_Test_Image1](./results/TestResult4.png=250x250)
 
-![COCO_Test_Image1](./results/TestResult5.png)
+![COCO_Test_Image1](./results/TestResult5.png=250x250)
 
 
-Video inference result
-![Alt Text](https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif)
+Video inference result,
+
+![grab-landing-page](https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif)
 
 
 ## License
