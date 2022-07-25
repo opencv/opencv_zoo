@@ -21,7 +21,7 @@ Here are some of the sample results that were observed using the model,
 
 ![COCO_Test_Image1](./examples/results/TestResult8.png)
 
-![COCO_Test_Video1](./examples/results/TestVResult.mov)
+![![Watch the video]()](./examples/results/TestVResult.mov)
 
 ## License
 
