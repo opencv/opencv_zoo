@@ -5,7 +5,7 @@ import time
 import matplotlib.pyplot as plt
 
 
-from Nanodet_m_plus import nanodet
+from Nanodet_m_plus import NanoDet
 
 backends = [cv2.dnn.DNN_BACKEND_OPENCV, cv2.dnn.DNN_BACKEND_CUDA]
 targets = [cv2.dnn.DNN_TARGET_CPU, cv2.dnn.DNN_TARGET_CUDA, cv2.dnn.DNN_TARGET_CUDA_FP16]
@@ -28,7 +28,7 @@ if __name__=='__main__':
 
     image = cv2.imread(args.image_path)
     image = cv2. cvtColor(image, cv2.COLOR_BGR2RGB)
-    model_net = nanodet(prob_threshold=args.confidence, iou_threshold=args.nms)
+    model_net = NanoDet(prob_threshold=args.confidence, iou_threshold=args.nms)
 
     a = time.time()
     image = model_net.detect(image)
