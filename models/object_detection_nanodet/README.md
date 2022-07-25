@@ -18,7 +18,7 @@ python demo.py --input_type video --video_path /path/to/video/
 ## Results
 Here are some of the sample results that were observed using the model,
 
-<img src="./results/TestResult4.png" width="100" height="100">
+<img src="./results/TestResult4.png" width="500" height="500">
 
 ![alt text](./results/TestResult5.png)
 
