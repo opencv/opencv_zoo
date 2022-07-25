@@ -2,7 +2,32 @@
 
 Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model which using Generalized Focal Loss as classification and regression loss.In NanoDet-Plus, we propose a novel label assignment strategy with a simple assign guidance module (AGM) and a dynamic soft label assigner (DSLA) to solve the optimal label assignment problem in lightweight model training.
 
-Note:
+
+## Demo
+
+Run the following command to try the demo:
+```shell
+# Nanodet inference on test image
+python demo.py --image_path /path/to/image/
+```
+## Results
+Here are some of the sample results that were observed using the model,
+
+![COCO_Test_Image1](./examples/results/TestResult5.png)
+
+![COCO_Test_Image1](./examples/results/TestResult8.png)
+
+## License
+
+All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
+
+## Reference
+
+- Nanodet: https://zhuanlan.zhihu.com/p/306530300
+- Nanodet Plus: https://zhuanlan.zhihu.com/p/449912627
+- Nanodet weight and scripts for training: https://github.com/RangiLyu/nanodet
+
+#### Note:
 - This version of nanodet: Nanodet-m-plus-1.5x_416
 - The model was trained on COCO 2017 dataset, link to dataset: https://cocodataset.org/#download
 - Below, we have results of COCO data inference
@@ -49,30 +74,6 @@ Note:
 | clock         | 57.8   | 35.8  | vase           | 33.7   | 22.1  |
 | scissors      | 27.8   | 17.8  | teddy bear     | 54.1   | 35.4  |
 | hair drier    | 2.9    | 1.1   | toothbrush     | 13.1   | 8.2   |
-
-## Demo
-
-Run the following command to try the demo:
-```shell
-# Nanodet inference on test image
-python demo.py --image_path /path/to/image/
-```
-## Results
-Here are some of the sample results that were observed using the model,
-
-![COCO_Test_Image1](./examples/results/TestResult5.png)
-
-![COCO_Test_Image1](./examples/results/TestResult8.png)
-
-## License
-
-All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
-
-## Reference
-
-- Nanodet: https://zhuanlan.zhihu.com/p/306530300
-- Nanodet Plus: https://zhuanlan.zhihu.com/p/449912627
-- Nanodet weight and scripts for training: https://github.com/RangiLyu/nanodet
 
 
 #### Contributor Details
