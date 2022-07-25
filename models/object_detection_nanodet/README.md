@@ -18,11 +18,14 @@ python demo.py --input_type video --video_path /path/to/video/
 ## Results
 Here are some of the sample results that were observed using the model,
 
-<img src="./results/TestResult4.png" width="500" height="500">
-
-![alt text](./results/TestResult5.png)
-
-
+<div class="row">
+  <div class="column">
+    <img src="./results/TestResult4.png" width="500" height="500">
+  </div>
+  <div class="column">
+    <img src="./results/TestResult5.png" width="500" height="500">
+  </div>
+  
 Video inference result,
 
 ![grab-landing-page](https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif)
