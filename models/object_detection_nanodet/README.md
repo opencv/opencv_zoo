@@ -14,6 +14,7 @@ python demo.py --input_type image --image_path /path/to/image/
 python demo.py --input_type video --video_path /path/to/video/
 ```
 
+
 ## Results
 Here are some of the sample results that were observed using the model,
 
@@ -21,17 +22,22 @@ Here are some of the sample results that were observed using the model,
 
 ![COCO_Test_Image1](./examples/results/TestResult8.png)
 
-![![Watch the video]()](./examples/results/TestVResult.mov)
+
+Video inference result
+https://user-images.githubusercontent.com/48639959/180813410-9f5bdeba-dd51-4cdb-8c07-778c53e8cd36.mov
+
 
 ## License
 
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
+
 
 ## Reference
 
 - Nanodet: https://zhuanlan.zhihu.com/p/306530300
 - Nanodet Plus: https://zhuanlan.zhihu.com/p/449912627
 - Nanodet weight and scripts for training: https://github.com/RangiLyu/nanodet
+
 
 #### Note:
 - This version of nanodet: Nanodet-m-plus-1.5x_416
