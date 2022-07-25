@@ -11,7 +11,7 @@ from .image_classification_mobilenet.mobilenet_v1 import MobileNetV1
 from .image_classification_mobilenet.mobilenet_v2 import MobileNetV2
 from .palm_detection_mediapipe.mp_palmdet import MPPalmDet
 from .license_plate_detection_yunet.lpd_yunet import LPD_YuNet
-
+from .text_detection_ppdetect.ppdetect import PPDetect
 class Registery:
     def __init__(self, name):
         self._name = name
@@ -37,3 +37,4 @@ MODELS.register(MobileNetV1)
 MODELS.register(MobileNetV2)
 MODELS.register(MPPalmDet)
 MODELS.register(LPD_YuNet)
+MODELS.register(PPDetect)

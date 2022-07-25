@@ -1,0 +1,18 @@
+Benchmark:
+  name: "Text Detection Benchmark"
+  type: "Detection"
+  data:
+    path: "benchmark/data/text"
+    files: ["1.jpg", "2.jpg", "3.jpg"]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [640, 480]
+  metric:
+    warmup: 30
+    repeat: 10
+    reduction: "median"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "PPDetect"
+  modelPath: "models/text_detection_ppdetect/text_detection_ppdetect_2022_June.onnx"
