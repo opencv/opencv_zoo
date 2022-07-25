@@ -35,8 +35,8 @@ def drawPred(frame, classId, conf, left, top, right, bottom):
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Nanodet inference using OpenCV an contribution by Sri Siddarth Chakaravarthy part of GSOC_2022')
     parser.add_argument('--input_type', type=str, default='image', help="Input types: image or video")
-    parser.add_argument('--image_path', type=str, default='test2.jpg', help="image path")
-    parser.add_argument('--video_path', type=str, default='sample.mp4', help="video path")
+    parser.add_argument('--image_path', type=str, default='test_data/test1.jpg', help="image path")
+    parser.add_argument('--video_path', type=str, default='test_data/TestV1.mp4', help="video path")
     parser.add_argument('--confidence', default=0.35, type=float, help='class confidence')
     parser.add_argument('--nms', default=0.6, type=float, help='enter nms IOU threshold')
     args = parser.parse_args()
