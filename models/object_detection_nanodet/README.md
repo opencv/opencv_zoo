@@ -24,7 +24,7 @@ Here are some of the sample results that were observed using the model,
 
 
 Video inference result
-https://user-images.githubusercontent.com/48639959/180813410-9f5bdeba-dd51-4cdb-8c07-778c53e8cd36.mov
+[![Watch the video]](https://user-images.githubusercontent.com/48639959/180813410-9f5bdeba-dd51-4cdb-8c07-778c53e8cd36.mov)
 
 
 ## License
