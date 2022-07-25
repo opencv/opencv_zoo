@@ -18,7 +18,7 @@ class nanodet():
         self.project = np.arange(self.reg_max + 1)
         self.mean = np.array([103.53, 116.28, 123.675], dtype=np.float32).reshape(1, 1, 3)
         self.std = np.array([57.375, 57.12, 58.395], dtype=np.float32).reshape(1, 1, 3)
-        self.net = cv2.dnn.readNet('nanodet-plus-m-1.5x_416.onnx')
+        self.net = cv2.dnn.readNet('object_detection_nanodet-plus-m-1.5x-416.onnx')
 
         self.anchors_mlvl = []
         for i in range(len(self.strides)):
