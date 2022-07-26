@@ -5,6 +5,10 @@ Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model wh
 Average Precision and Recall values observed for COCO dataset classes are showed below 
 
 NanoDet:
+|  maxDets  |  area  |  IoU  |  Average Precision(AP)  |
+|:----------|:-------|:------|:------------------------|
+|  100  |  all  |  0.50:0.95  |  0.304  |
+
 - Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.304
 - Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.459
 - Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.317
