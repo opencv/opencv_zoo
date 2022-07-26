@@ -2,26 +2,26 @@
 
 Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model which using Generalized Focal Loss as classification and regression loss.In NanoDet-Plus, we propose a novel label assignment strategy with a simple assign guidance module (AGM) and a dynamic soft label assigner (DSLA) to solve the optimal label assignment problem in lightweight model training.
 
+#### Model metrics:
 Average Precision and Recall values observed for COCO dataset classes are showed below 
 
-NanoDet:
-|  maxDets  |  area  |  IoU  |  Average Precision(AP)  |
-|:----------|:-------|:------|:------------------------|
-|  100  |  all  |  0.50:0.95  |  0.304  |
+|  area  |  IoU  |  Average Precision(AP)  |
+|:-------|:------|:------------------------|
+|  all  |  0.50:0.95  |  0.304  |
+|  all  |  0.50  |  0.459  |
+|  all  |  0.75  |  0.317  |
+|  small  |  0.50:0.95  |  0.107  |
+|  medium  |  0.50:0.95  |  0.322  |
+|  large  |  0.50:0.95  |  0.478  |
 
-- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.304
-- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.459
-- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.317
-- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.107
-- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.322
-- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.478
-
-- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.278
-- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.434
-- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.462
-- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.198
-- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.510
-- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.702
+  area  |  IoU  |  Average Recall  |
+|:-------|:------|:----------------|
+|  all  |  0.50:0.95  |  0.278  |
+|  all  |  0.50:0.95  |  0.434  |
+|  all  |  0.50:0.95 |  0.462  |
+|  small  |  0.50:0.95  |  0.198  |
+|  medium  |  0.50:0.95  |  0.510  |
+|  large  |  0.50:0.95  |  0.702  |
 
 
 ## Demo
