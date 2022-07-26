@@ -37,7 +37,7 @@ Here are some of the sample results that were observed using the model,
   
 Video inference result,
 <p align="center">
-  <img src="https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/results/TestResultV3.gif" width="650" height="450">
+  <img src="https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/examples/results/WebCamR.gif" width="650" height="450">
 </p>
   
 
