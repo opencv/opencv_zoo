@@ -20,8 +20,8 @@ python demo.py --input_type video --video_path /path/to/video/
 Here are some of the sample results that were observed using the model,
 
 <p float="left">
-  <img src="./results/TestResult4.png" width="450" height="450">
-  <img src="./results/TestResult5.png" width="450" height="450">
+  <img src="./results/TestResult1.png" width="450" height="450">
+  <img src="./results/TestResult2.png" width="450" height="450">
 </p>
   
 Video inference result,
