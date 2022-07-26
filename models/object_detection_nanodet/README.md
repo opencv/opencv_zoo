@@ -5,14 +5,25 @@ Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model wh
 
 ## Demo
 
-Run the following command to try the demo: (by default input_type: image)
+Run the following command to try the demo: 
 ```shell
 # Nanodet inference on image input
-python demo.py --input_type image --image_path /path/to/image/
+python demo.py --model /path/to/model/ --input_type image --image_path /path/to/image/
 
 # Nanodet inference on video input
-python demo.py --input_type video --video_path /path/to/video/
+python demo.py --model /path/to/model/ --input_type video 
+
+#Saving outputs 
+#Image output
+python demo.py --model /path/to/model/ --input_type image --image_path /path/to/image/ --save True
+
+#Video output
+python demo.py --model /path/to/model/ --input_type video --save True
 ```
+Note: 
+- By default input_type: image
+- image result saved as "result.jpg"
+- webcam result saved as "Webcam_result.mp4"
 
 
 ## Results
@@ -20,8 +31,8 @@ python demo.py --input_type video --video_path /path/to/video/
 Here are some of the sample results that were observed using the model,
 
 <p float="left">
-  <img src="./results/TestResult1.png" width="450" height="450">
-  <img src="./results/TestResult2.png" width="450" height="450">
+  <img src="./examples/results/TestResult1.png" width="450" height="450">
+  <img src="./examples/results/TestResult2.png" width="450" height="450">
 </p>
   
 Video inference result,
