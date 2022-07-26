@@ -3,137 +3,121 @@ import numpy as np
 import argparse
 import time
 import matplotlib.pyplot as plt
+import moviepy.video.io.ImageSequenceClip
+from NanodetPlus import NanoDet
 
-class NanoDet():
-    def __init__(self, prob_threshold=0.35, iou_threshold=0.6):
-        with open('coco.names', 'rt') as f:
-            self.classes = f.read().rstrip('\n').split('\n')
+backends = [cv2.dnn.DNN_BACKEND_OPENCV, cv2.dnn.DNN_BACKEND_CUDA]
+targets = [cv2.dnn.DNN_TARGET_CPU, cv2.dnn.DNN_TARGET_CUDA, cv2.dnn.DNN_TARGET_CUDA_FP16]
+help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
+help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
 
-        self.num_classes = len(self.classes)
-        self.strides = (8, 16, 32, 64)
-        self.image_shape = (416, 416)
-        self.reg_max = 7
-        self.prob_threshold = prob_threshold
-        self.iou_threshold = iou_threshold
-        self.project = np.arange(self.reg_max + 1)
-        self.mean = np.array([103.53, 116.28, 123.675], dtype=np.float32).reshape(1, 1, 3)
-        self.std = np.array([57.375, 57.12, 58.395], dtype=np.float32).reshape(1, 1, 3)
-        self.net = cv2.dnn.readNet('object_detection_nanodet-plus-m-1.5x-416.onnx')
+try:
+    backends += [cv2.dnn.DNN_BACKEND_TIMVX]
+    targets += [cv2.dnn.DNN_TARGET_NPU]
+    help_msg_backends += "; {:d}: TIMVX"
+    help_msg_targets += "; {:d}: NPU"
+except:
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/Sidd1609/5bb321c8733110ed613ec120c7c02e41 for more information.')
 
-        self.anchors_mlvl = []
-        for i in range(len(self.strides)):
-            featmap_size = (int(self.image_shape[0] / self.strides[i]), int(self.image_shape[1] / self.strides[i]))
-            stride = self.strides[i]
-            feat_h, feat_w = featmap_size
-            shift_x = np.arange(0, feat_w) * stride
-            shift_y = np.arange(0, feat_h) * stride
-            xv, yv = np.meshgrid(shift_x, shift_y)
-            xv = xv.flatten()
-            yv = yv.flatten()
-            cx = xv + 0.5 * (stride-1)
-            cy = yv + 0.5 * (stride - 1)
-            anchors = np.stack((cx, cy), axis=-1)
-            self.anchors_mlvl.append(anchors)
+with open('coco.names', 'rt') as f:
+    classes = f.read().rstrip('\n').split('\n')
 
-    def softmax_func(self,x, axis=0):
-        x_exp = np.exp(x)
-        x_sum = np.sum(x_exp, axis=axis, keepdims=True)
-        s = x_exp / x_sum
-        return s
+def drawPred(frame, classId, conf, left, top, right, bottom):
+    cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 0), thickness=2)
+    #label = '%.2f' % conf
+    label =''
+    label = '%s%s' % (classes[classId], label)
+    labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+    top = max(top, labelSize[1])
+    # cv.rectangle(frame, (left, top - round(1.5 * labelSize[1])), (left + round(1.5 * labelSize[0]), top + baseLine), (255,255,255), cv.FILLED)
+    cv2.putText(frame, label, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), thickness=2)
+    return frame
 
-    def pre_process(self, img):
-        img = img.astype(np.float32)
-        img = (img - self.mean) / self.std
-        blob = cv2.dnn.blobFromImage(img)
-        return blob
+if __name__=='__main__':
+    parser = argparse.ArgumentParser(description='Nanodet inference using OpenCV an contribution by Sri Siddarth Chakaravarthy part of GSOC_2022')
+    parser.add_argument('--model', type=str, default='object_detection_nanodet-plus-m-1.5x-416.onnx', help="Path to the model")
+    parser.add_argument('--input_type', type=str, default='image', help="Input types: image or video")
+    parser.add_argument('--image_path', type=str, default='test2.jpg', help="Image path")
+    parser.add_argument('--confidence', default=0.35, type=float, help='Class confidence')
+    parser.add_argument('--nms', default=0.6, type=float, help='Enter nms IOU threshold')
+    parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
+    args = parser.parse_args()
+    model_net = NanoDet(modelPath= args.model ,prob_threshold=args.confidence, iou_threshold=args.nms)
 
-    def infer(self, srcimg, keep_ratio=True):
-        top, left, newh, neww = 0, 0, self.image_shape[0], self.image_shape[1]
-        if keep_ratio and srcimg.shape[0] != srcimg.shape[1]:
-            hw_scale = srcimg.shape[0] / srcimg.shape[1]
-            if hw_scale > 1:
-                newh, neww = self.image_shape[0], int(self.image_shape[1] / hw_scale)
-                img = cv2.resize(srcimg, (neww, newh), interpolation=cv2.INTER_AREA)
-                left = int((self.image_shape[1] - neww) * 0.5)
-                img = cv2.copyMakeBorder(img, 0, 0, left, self.image_shape[1] - neww - left, cv2.BORDER_CONSTANT,
-                                         value=0)  # add border
-            else:
-                newh, neww = int(self.image_shape[0] * hw_scale), self.image_shape[1]
-                img = cv2.resize(srcimg, (neww, newh), interpolation=cv2.INTER_AREA)
-                top = int((self.image_shape[0] - newh) * 0.5)
-                img = cv2.copyMakeBorder(img, top, self.image_shape[0] - newh - top, 0, 0, cv2.BORDER_CONSTANT, value=0)
-        else:
-            img = cv2.resize(srcimg, self.image_shape, interpolation=cv2.INTER_AREA)
+    if (args.input_type=="image"):
+        image = cv2.imread(args.image_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        blob = self.pre_process(img)
-        self.net.setInput(blob)
-        outs = self.net.forward(self.net.getUnconnectedOutLayersNames())
-        det_bboxes, det_conf, det_classid = self.post_process(outs)
-        ratioh,ratiow = srcimg.shape[0]/newh,srcimg.shape[1]/neww
+        srcimg = image
+        drawimg = srcimg.copy()
+        a = time.time()
+        #image = model_net.infer(image)
+        left, top, ratioh, ratiow, det_bboxes, det_conf, det_classid = model_net.infer(image)
+        b = time.time()
+        print('Inference_Time:'+str(b-a)+' secs')
+        for i in range(det_bboxes.shape[0]):
+            xmin, ymin, xmax, ymax = max(int((det_bboxes[i,0] - left) * ratiow), 0), max(int((det_bboxes[i,1] - top) * ratioh), 0), min(
+                int((det_bboxes[i,2] - left) * ratiow), srcimg.shape[1]), min(int((det_bboxes[i,3] - top) * ratioh), srcimg.shape[0])
+            frame = drawPred(drawimg, det_classid[i], det_conf[i], xmin, ymin, xmax, ymax)
 
-        return det_bboxes, left, top, ratioh, ratiow, det_bboxes, det_conf, det_classid
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        cv2.namedWindow(args.image_path, cv2.WINDOW_AUTOSIZE)
+        cv2.imshow(args.image_path, frame)
+        cv2.waitKey(0)
+        
+        if args.save:
+            print('Resutls saved to result.jpg\n')
+            cv2.imwrite('result.jpg', frame)
 
+    else:
+        print("Press 1 to stop video capture")
+        cap = cv2.VideoCapture(0)
+        tm = cv2.TickMeter()
+        total_frames = 0
+        frame_list = []
+        Video_save = False
+        if(args.save):
+            Video_save = True
 
-    def post_process(self, preds):
-        cls_scores, bbox_preds = preds[::2], preds[1::2]
-        rescale = False
-        scale_factor = 1
-        bboxes_mlvl = []
-        scores_mlvl = []
-        for stride, cls_score, bbox_pred, anchors in zip(self.strides, cls_scores, bbox_preds, self.anchors_mlvl):
-            if cls_score.ndim==3:
-                cls_score = cls_score.squeeze(axis=0)
-            if bbox_pred.ndim==3:
-                bbox_pred = bbox_pred.squeeze(axis=0)
-            bbox_pred = self.softmax_func(bbox_pred.reshape(-1, self.reg_max + 1), axis=1)
-            bbox_pred = np.dot(bbox_pred, self.project).reshape(-1,4)
-            bbox_pred *= stride
+        while cv2.waitKey(1) < 0:
+            hasFrame, frame = cap.read()
+            if not hasFrame:
+                print('No frames grabbed!')
+                break
 
-            nms_pre = 1000
-            if nms_pre > 0 and cls_score.shape[0] > nms_pre:
-                max_scores = cls_score.max(axis=1)
-                topk_inds = max_scores.argsort()[::-1][0:nms_pre]
-                anchors = anchors[topk_inds, :]
-                bbox_pred = bbox_pred[topk_inds, :]
-                cls_score = cls_score[topk_inds, :]
+            frame = cv2.flip(frame, 1)
+            srcimg = frame
+            drawimg = srcimg.copy()
+            #frame = cv2.resize(frame, [args.width, args.height])
+            # Inference
+            tm.start()
+            left, top, ratioh, ratiow, det_bboxes, det_conf, det_classid = model_net.infer(frame)
+            tm.stop()
 
-            points = anchors
-            distance = bbox_pred
-            max_shape=self.image_shape
-            x1 = points[:, 0] - distance[:, 0]
-            y1 = points[:, 1] - distance[:, 1]
-            x2 = points[:, 0] + distance[:, 2]
-            y2 = points[:, 1] + distance[:, 3]
+            for i in range(det_bboxes.shape[0]):
+                xmin, ymin, xmax, ymax = max(int((det_bboxes[i,0] - left) * ratiow), 0), max(int((det_bboxes[i,1] - top) * ratioh), 0), min(
+                    int((det_bboxes[i,2] - left) * ratiow), srcimg.shape[1]), min(int((det_bboxes[i,3] - top) * ratioh), srcimg.shape[0])
+                image = drawPred(drawimg, det_classid[i], det_conf[i], xmin, ymin, xmax, ymax)
 
-            if max_shape is not None:
-                x1 = np.clip(x1, 0, max_shape[1])
-                y1 = np.clip(y1, 0, max_shape[0])
-                x2 = np.clip(x2, 0, max_shape[1])
-                y2 = np.clip(y2, 0, max_shape[0])
+            total_frames += 1
+            fps=tm.getFPS()
 
-            bboxes = np.stack([x1, y1, x2, y2], axis=-1)
-            bboxes_mlvl.append(bboxes)
-            scores_mlvl.append(cls_score)
+            if fps > 0:
+                fps_label = "FPS: %.2f" % fps
+                cv2.putText(image, fps_label, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-        bboxes_mlvl = np.concatenate(bboxes_mlvl, axis=0)
-        if rescale:
-            bboxes_mlvl /= scale_factor
-        scores_mlvl = np.concatenate(scores_mlvl, axis=0)
-        bboxes_wh = bboxes_mlvl.copy()
-        bboxes_wh[:, 2:4] = bboxes_wh[:, 2:4] - bboxes_wh[:, 0:2]
-        classIds = np.argmax(scores_mlvl, axis=1)
-        confidences = np.max(scores_mlvl, axis=1)
+            cv2.imshow("output", image)
 
-        indices = cv2.dnn.NMSBoxes(bboxes_wh.tolist(), confidences.tolist(), self.prob_threshold, self.iou_threshold)
+            if cv2.waitKey(1) > -1:
+                print("Stream terminated")
+                break
 
-        if len(indices)>0:
-            det_bboxes = bboxes_mlvl[indices[:]]
-            det_conf = confidences[indices[:]]
-            det_classid = classIds[indices[:]]
+            if(args.save):
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                frame_list.append(image)
 
-        else:
-            det_bboxes = np.array([])
-            det_conf = np.array([])
-            det_classid = np.array([])
+        if(Video_save):
+            clip = moviepy.video.io.ImageSequenceClip.ImageSequenceClip(frame_list, fps=fps)
+            clip.write_videofile('Webcam_result.mp4')
 
-        return det_bboxes.astype(np.float32), det_conf, det_classid
+        print("Total frames: " + str(total_frames))
