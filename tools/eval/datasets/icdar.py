@@ -25,7 +25,7 @@ class ICDAR:
         names = root.getElementsByTagName('image')
         for name in names:
             key = os.path.join(self.root, name.getAttribute('file'))
-            value = name.getAttribute('tag').lower()
+            value = name.getAttribute('tag')
             label.append([key, value])
 
         return label
@@ -42,6 +42,7 @@ class ICDAR:
             pred = model.infer(img, rbbox)
             if label == pred:
                 right_num += 1
+
         self.acc = right_num/(len(self.val_label) * 1.0)
 
 

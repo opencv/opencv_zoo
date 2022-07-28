@@ -6,7 +6,8 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models | Accuracy |
 | ------ | -------------- |
-| CRNN | 81.66 |
+| CRNN_EN | 81.66 |
+| CRNN_CH | 71.28 |
 
 Note:
 - Model source:
@@ -58,3 +59,4 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 - https://github.com/meijieru/crnn.pytorch
 - https://github.com/zihaomu/deep-text-recognition-benchmark
 - https://docs.opencv.org/4.5.2/d9/d1e/tutorial_dnn_OCR.html
+https://docs.opencv.org/4.x/d4/d43/tutorial_dnn_text_spotting.html

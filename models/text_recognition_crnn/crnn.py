@@ -64,12 +64,15 @@ class CRNN:
     def infer(self, image, rbbox):
         # Preprocess
         inputBlob = self._preprocess(image, rbbox)
-
         # Forward
         self._model.setInput(inputBlob)
         outputBlob = self._model.forward()
         # Postprocess
         results = self._postprocess(outputBlob)
+        if 'EN' in self._model_path:
+            results = results.lower()
+        else:
+            pass
 
         return results
 
