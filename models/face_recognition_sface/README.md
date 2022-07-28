@@ -11,8 +11,8 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models      | Accuracy | 
 |-------------|----------|
-| SFace       | 0.8205   |
-| SFace quant | 0.8150   |
+| SFace       | 0.9940   |
+| SFace quant | 0.9932   |
 
 \*: 'quant' stands for 'quantized'.
 

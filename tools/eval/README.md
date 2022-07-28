@@ -56,8 +56,7 @@ python eval.py -m mobilenet -d imagenet -dr /path/to/imagenet
 ```
 
 ## LFW
-The script is modified based on [evaluation of InsightFace](https://github.com/deepinsight/insightface/blob/f92bf1e48470fdd567e003f196f8ff70461f7a20/src/eval/lfw.py).
-
+The script is modified based on [evaluation of InsightFace](https://github.com/deepinsight/insightface/blob/f92bf1e48470fdd567e003f196f8ff70461f7a20/src/eval/lfw.py). This evaluation uses [YuNet](../../models/face_detection_yunet) as face detector, and face features are saved in [lfw_face_features.npy](../eval/datasets/lfw_face_features.npy).
 ### Prepare data
 
 Please visit http://vis-www.cs.umass.edu/lfw to download the LFW [all images](http://vis-www.cs.umass.edu/lfw/lfw.tgz)(needs to be decompressed) and [pairs.txt](http://vis-www.cs.umass.edu/lfw/pairs.txt)(needs to be placed in the `view2` folder). Organize files as follow:

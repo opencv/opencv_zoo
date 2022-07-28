@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import os
 import numpy as np
-from scipy import misc
+
 from sklearn.model_selection import KFold
 from scipy import interpolate
 import sklearn
@@ -224,14 +224,13 @@ class LFW:
     def eval(self, model):
         ids = self.ids
         embeddings = np.zeros(shape=(len(self), 128))
+        face_features = np.load("./datasets/lfw_face_features.npy")
         for idx, img in tqdm(enumerate(self), desc="Evaluating {} with {} val set".format(model.name, self.name)):
-            embedding = model.infer(img)
+            embedding = model.infer(img, face_features[idx])
             embeddings[idx] = embedding
 
         embeddings = sklearn.preprocessing.normalize(embeddings)
-        self.tpr, self.fpr, self.acc, self.val, self.std, self.far = evaluate(embeddings,
-                                                                              ids,
-                                                                              nrof_folds=10)
+        self.tpr, self.fpr, self.acc, self.val, self.std, self.far = evaluate(embeddings, ids, nrof_folds=10)
         self.acc, self.std = np.mean(self.acc), np.std(self.acc)
 
     def print_result(self):
