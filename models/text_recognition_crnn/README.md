@@ -22,6 +22,7 @@ Note:
 - This demo uses [text_detection_db](../text_detection_db) as text detector.
 - Selected model must match with the charset:
     - Try `text_recognition_CRNN_EN_2021sep.onnx` with `charset_36_EN.txt`.
+    - Try `text_recognition_CRNN_CH_2021sep.onnx` with `charset_94_CH.txt`
     - Try `text_recognition_CRNN_CN_2021sep.onnx` with `charset_3944_CN.txt`.
 
 Run the demo detecting English:
