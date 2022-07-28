@@ -5,6 +5,7 @@ Make sure you have the following packages installed:
 ```shell
 pip install tqdm
 pip install scikit-learn
+pip install scipy
 ```
 
 Generally speaking, evaluation can be done with the following command:
@@ -14,7 +15,9 @@ python eval.py -m model_name -d dataset_name -dr dataset_root_dir
 ```
 
 Supported datasets:
-- [ImageNet](./datasets/imagenet.py)
+
+- [ImageNet](#imagenet)
+- [WIDERFace](#widerface)
 - [LFW](#lfw)
 
 ## ImageNet
@@ -55,8 +58,50 @@ Run evaluation with the following command:
 python eval.py -m mobilenet -d imagenet -dr /path/to/imagenet
 ```
 
+## WIDERFace
+
+The script is modified based on [WiderFace-Evaluation](https://github.com/wondervictor/WiderFace-Evaluation).
+
+### Prepare data
+
+Please visit http://shuoyang1213.me/WIDERFACE to download the WIDERFace dataset [Validation Images](https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_val.zip), [Face annotations](http://shuoyang1213.me/WIDERFACE/support/bbx_annotation/wider_face_split.zip) and [eval_tools](http://shuoyang1213.me/WIDERFACE/support/eval_script/eval_tools.zip). Organize files as follow:
+
+```shell
+$ tree -L 2 /path/to/widerface
+.
+├── eval_tools
+│   ├── boxoverlap.m
+│   ├── evaluation.m
+│   ├── ground_truth
+│   ├── nms.m
+│   ├── norm_score.m
+│   ├── plot
+│   ├── read_pred.m
+│   └── wider_eval.m
+├── wider_face_split
+│   ├── readme.txt
+│   ├── wider_face_test_filelist.txt
+│   ├── wider_face_test.mat
+│   ├── wider_face_train_bbx_gt.txt
+│   ├── wider_face_train.mat
+│   ├── wider_face_val_bbx_gt.txt
+│   └── wider_face_val.mat
+└── WIDER_val
+    └── images
+```
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m yunet -d widerface -dr /path/to/widerface
+```
+
 ## LFW
+
 The script is modified based on [evaluation of InsightFace](https://github.com/deepinsight/insightface/blob/f92bf1e48470fdd567e003f196f8ff70461f7a20/src/eval/lfw.py). This evaluation uses [YuNet](../../models/face_detection_yunet) as face detector, and face features are saved in [lfw_face_features.npy](../eval/datasets/lfw_face_features.npy).
+
 ### Prepare data
 
 Please visit http://vis-www.cs.umass.edu/lfw to download the LFW [all images](http://vis-www.cs.umass.edu/lfw/lfw.tgz)(needs to be decompressed) and [pairs.txt](http://vis-www.cs.umass.edu/lfw/pairs.txt)(needs to be placed in the `view2` folder). Organize files as follow:
