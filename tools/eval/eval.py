@@ -65,12 +65,21 @@ models = dict(
             topK=5000,
             confThreshold=0.3,
             nmsThreshold=0.45),
+        sface=dict(
+            name="SFace",
+            topic="face_recognition",
+            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec.onnx")),
+        sface_q=dict(
+            name="SFace",
+            topic="face_recognition",
+            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec-act_int8-wt_int8-quantized.onnx")),
+            nmsThreshold=0.45),
         crnn=dict(
             name="CRNN",
             topic="text_recognition",
             modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_CH_2021sep.onnx"),
             charsetPath=os.path.join(root_dir, "models/text_recognition_crnn/charset_94_CH.txt")
-        )
+        ),
 )
 
 datasets = dict(
@@ -80,6 +89,11 @@ datasets = dict(
             size=224),
         widerface=dict(
             name="WIDERFace",
+            topic="face_detection"),
+        lfw=dict(
+            name="LFW",
+            topic="face_recognition",
+            target_size=112),
             topic="face_detection"),
         icdar=dict(
             name="ICDAR",
