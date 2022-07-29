@@ -224,7 +224,7 @@ class LFW:
     def eval(self, model):
         ids = self.ids
         embeddings = np.zeros(shape=(len(self), 128))
-        face_features = np.load("./datasets/lfw_face_features.npy")
+        face_features = np.load("./datasets/lfw_face_bboxes.npy")
         for idx, img in tqdm(enumerate(self), desc="Evaluating {} with {} val set".format(model.name, self.name)):
             embedding = model.infer(img, face_features[idx])
             embeddings[idx] = embedding
