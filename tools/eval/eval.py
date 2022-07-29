@@ -64,7 +64,15 @@ models = dict(
             modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar-act_int8-wt_int8-quantized.onnx"),
             topK=5000,
             confThreshold=0.3,
-            nmsThreshold=0.45)
+            nmsThreshold=0.45),
+        sface=dict(
+            name="SFace",
+            topic="face_recognition",
+            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec.onnx")),
+        sface_q=dict(
+            name="SFace",
+            topic="face_recognition",
+            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec-act_int8-wt_int8-quantized.onnx")),
 )
 
 datasets = dict(
@@ -74,7 +82,11 @@ datasets = dict(
             size=224),
         widerface=dict(
             name="WIDERFace",
-            topic="face_detection")
+            topic="face_detection"),
+        lfw=dict(
+            name="LFW",
+            topic="face_recognition",
+            target_size=112),
 )
 
 def main(args):
