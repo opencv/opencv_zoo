@@ -201,6 +201,11 @@ data_downloaders = dict(
         url='https://drive.google.com/u/0/uc?id=1qScOzehV8OIzJJLuD_LMvZq15YcWd_VV&export=download',
         sha='c0d4f811d38c6f833364b9196a719307598213a1',
         filename='palm_detection.zip'),
+    license_plate_detection=Downloader(name='license_plate_detection',
+        url='https://drive.google.com/u/0/uc?id=1cf9MEyUqMMy8lLeDGd1any6tM_SsSmny&export=download',
+        sha='997acb143ddc4531e6e41365fb7ad4722064564c',
+        filename='license_plate_detection.zip'),
+
 )
 
 if __name__ == '__main__':

@@ -30,7 +30,7 @@ parser.add_argument('--input', '-i', type=str, help='Path to the input image. Om
 parser.add_argument('--model', '-m', type=str, default='./palm_detection_mediapipe_2022may.onnx', help='Path to the model.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--score_threshold', type=float, default=0.99, help='Filter out faces of confidence < conf_threshold.')
+parser.add_argument('--score_threshold', type=float, default=0.99, help='Filter out faces of confidence < conf_threshold. An empirical score threshold for the quantized model is 0.49.')
 parser.add_argument('--nms_threshold', type=float, default=0.3, help='Suppress bounding boxes of iou >= nms_threshold.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
@@ -42,8 +42,12 @@ def visualize(image, score, palm_box, palm_landmarks, fps=None):
     if fps is not None:
         cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
 
-    # draw box
+    # put score
     palm_box = palm_box.astype(np.int32)
+    cv.putText(output, '{:.4f}'.format(score), (palm_box[0], palm_box[1]+12), cv.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0))
+
+    # draw box
+
     cv.rectangle(output, (palm_box[0], palm_box[1]), (palm_box[2], palm_box[3]), (0, 255, 0), 2)
 
     # draw points
