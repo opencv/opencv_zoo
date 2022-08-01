@@ -3,6 +3,7 @@ from .widerface import WIDERFace
 from .lfw import LFW
 from .icdar import ICDAR
 
+
 class Registery:
     def __init__(self, name):
         self._name = name

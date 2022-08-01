@@ -138,7 +138,7 @@ Run evaluation with the following command:
 
 ```shell
 python eval.py -m sface -d lfw -dr /path/to/lfw
-```
+
 ## ICDAR2003
 
 ### Prepare data
