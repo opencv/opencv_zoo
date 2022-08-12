@@ -114,7 +114,7 @@ class MPHandPose:
         landmarks, conf = blob
 
         if conf < self.conf_threshold:
-            return conf, None, None
+            return conf[0][0], None, None
 
         landmarks = landmarks.reshape(-1, 3)  # shape: (1, 63) -> (21, 3)
 

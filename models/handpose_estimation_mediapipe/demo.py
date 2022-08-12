@@ -27,15 +27,14 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print(
-        'This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
 
-parser = argparse.ArgumentParser(description='Hand Detector from MediaPipe')
+parser = argparse.ArgumentParser(description='Hand Pose Estimation from MediaPipe')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='./handpose_detection_mphandpose_2022may.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='./handpose_estimation_mediapipe_2022may.onnx', help='Path to the model.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--conf_threshold', type=float, default=0.8, help='Filter out faces of confidence < conf_threshold.')
+parser.add_argument('--conf_threshold', type=float, default=0.8, help='Filter out hands of confidence < conf_threshold.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
@@ -44,38 +43,38 @@ args = parser.parse_args()
 def visualize(image, conf, hand_box, hand_landmarks, fps=None):
     output = image.copy()
 
-    # if fps is not None:
-    #     cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+    if fps is not None:
+        cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
 
-    hand_landmarks = hand_landmarks.reshape(21, 2).astype(np.int32)
+    landmarks = hand_landmarks.reshape(21, 2).astype(np.int32)
 
     # Draw line between each key points
-    cv.line(output, hand_landmarks[0], hand_landmarks[1], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[1], hand_landmarks[2], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[2], hand_landmarks[3], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[3], hand_landmarks[4], (255, 255, 255), 2)
+    cv.line(output, landmarks[0], landmarks[1], (255, 255, 255), 2)
+    cv.line(output, landmarks[1], landmarks[2], (255, 255, 255), 2)
+    cv.line(output, landmarks[2], landmarks[3], (255, 255, 255), 2)
+    cv.line(output, landmarks[3], landmarks[4], (255, 255, 255), 2)
 
-    cv.line(output, hand_landmarks[0], hand_landmarks[5], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[5], hand_landmarks[6], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[6], hand_landmarks[7], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[7], hand_landmarks[8], (255, 255, 255), 2)
+    cv.line(output, landmarks[0], landmarks[5], (255, 255, 255), 2)
+    cv.line(output, landmarks[5], landmarks[6], (255, 255, 255), 2)
+    cv.line(output, landmarks[6], landmarks[7], (255, 255, 255), 2)
+    cv.line(output, landmarks[7], landmarks[8], (255, 255, 255), 2)
 
-    cv.line(output, hand_landmarks[0], hand_landmarks[9], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[9], hand_landmarks[10], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[10], hand_landmarks[11], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[11], hand_landmarks[12], (255, 255, 255), 2)
+    cv.line(output, landmarks[0], landmarks[9], (255, 255, 255), 2)
+    cv.line(output, landmarks[9], landmarks[10], (255, 255, 255), 2)
+    cv.line(output, landmarks[10], landmarks[11], (255, 255, 255), 2)
+    cv.line(output, landmarks[11], landmarks[12], (255, 255, 255), 2)
 
-    cv.line(output, hand_landmarks[0], hand_landmarks[13], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[13], hand_landmarks[14], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[14], hand_landmarks[15], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[15], hand_landmarks[16], (255, 255, 255), 2)
+    cv.line(output, landmarks[0], landmarks[13], (255, 255, 255), 2)
+    cv.line(output, landmarks[13], landmarks[14], (255, 255, 255), 2)
+    cv.line(output, landmarks[14], landmarks[15], (255, 255, 255), 2)
+    cv.line(output, landmarks[15], landmarks[16], (255, 255, 255), 2)
 
-    cv.line(output, hand_landmarks[0], hand_landmarks[17], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[17], hand_landmarks[18], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[18], hand_landmarks[19], (255, 255, 255), 2)
-    cv.line(output, hand_landmarks[19], hand_landmarks[20], (255, 255, 255), 2)
+    cv.line(output, landmarks[0], landmarks[17], (255, 255, 255), 2)
+    cv.line(output, landmarks[17], landmarks[18], (255, 255, 255), 2)
+    cv.line(output, landmarks[18], landmarks[19], (255, 255, 255), 2)
+    cv.line(output, landmarks[19], landmarks[20], (255, 255, 255), 2)
 
-    for p in hand_landmarks:
+    for p in landmarks:
         cv.circle(output, p, 2, (0, 0, 255), 2)
 
     return output
@@ -105,13 +104,16 @@ if __name__ == '__main__':
         else:
             palm_box = palm_box.reshape(2, 2)
             # Handpose detector inference
-            results = handpose_detector.infer(image, palm_box, palm_landmarks)
+            conf, hand_box, hand_landmarks = handpose_detector.infer(image, palm_box, palm_landmarks)
 
             # Print results
-            print('Conf: {}, bbox: {}, landmarks: {}'.format(results[-1], results[:4], results[4:-1]))
+            print('Conf: {}, bbox: {}, landmarks: {}'.format(conf, hand_box, hand_landmarks))
 
             # Draw results on the input image
-            image = visualize(image, conf=results[-1], hand_box=results[:4], hand_landmarks=results[4:-1])
+            if hand_landmarks is not None:
+                frame = visualize(image, conf, hand_box, hand_landmarks)
+            else:
+                print('The conf: {:.2f} is lower than threshold.'.format(conf))
 
             # Save results
             if args.save:
@@ -146,6 +148,8 @@ if __name__ == '__main__':
                 conf, hand_box, hand_landmarks = handpose_detector.infer(frame, palm_box, palm_landmarks)
                 if hand_landmarks is not None:
                     frame = visualize(frame, conf, hand_box, hand_landmarks, fps=tm.getFPS())
+                else:
+                    print('The conf: {:.2f} is lower than threshold.'.format(conf))
 
             cv.imshow('MediaPipe Handpose Detection Demo', frame)
             tm.reset()
