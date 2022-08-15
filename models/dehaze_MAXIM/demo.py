@@ -16,21 +16,19 @@ parser.add_argument('--output', '-d', type=str, default='./examples/output/dehaz
 parser.add_argument('--geometric_ensemble', type=bool, default=False, help='Whether use ensemble infernce.')
 args = parser.parse_args()
 
-model = MAXIM(modelPath=args.model,
-              has_target=args.has_target,
-              input_file=args.input,
-              target_filename=args.target,
-              geometric_ensemble=args.geometric_ensemble,
-              save_img=args.save,
-              output_file=args.output)
+if __name__ == '__main__':
+    model = MAXIM(modelPath=args.model,
+                  has_target=args.has_target,
+                  input_file=args.input,
+                  target_filename=args.target,
+                  geometric_ensemble=args.geometric_ensemble,
+                  save_img=args.save,
+                  output_file=args.output)
 
-print("Processing image...")
-result, psnr = model.infer()
-print("Done!")
-if args.vis:
-    plt.imshow(result, interpolation='nearest')
-    plt.show()
-print(f'psnr = ', psnr)
-
-# if __name__ == '__main__':
-#     pass
+    print("Processing image...")
+    result, psnr = model.infer()
+    print("Done!")
+    if args.vis:
+        plt.imshow(result, interpolation='nearest')
+        plt.show()
+    print(f'psnr = ', psnr)
