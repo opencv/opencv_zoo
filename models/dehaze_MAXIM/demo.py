@@ -20,7 +20,7 @@ import numpy as np
 parser = argparse.ArgumentParser(
     description='MAXIM: Multi-Axis MLP for Image Processing (CVPR 2022 Oral) (https://github.com/google-research/maxim).')
 parser.add_argument('--input', '-i', default='./examples/input', type=str, help='Path to the input image.')
-parser.add_argument('--model', '-m', type=str, default='./dehazed_maxim.tflite', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='./dehazed_maxim_2022Aug.tflite', help='Path to the model.')
 # parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--has_target', type=bool, default=False, help='Set true if has target.')
 parser.add_argument('--target', '-t', default='./examples/target', type=str, help='Path to the target image.')
@@ -30,7 +30,7 @@ parser.add_argument('--target', '-t', default='./examples/target', type=str, hel
 parser.add_argument('--save', '-s', type=bool, default=True, help='Set true to save results.')
 parser.add_argument('--vis', '-v', type=bool, default=True, help='Set true to open a window for result visualization. ')
 parser.add_argument('--output', '-d', type=str, default='./examples/output', help='Path to the output directory.')
-parser.add_argument('-- geometric_ensemble', type=bool, default=False, help='Whether use ensemble infernce.')
+parser.add_argument('--geometric_ensemble', type=bool, default=False, help='Whether use ensemble infernce.')
 args = parser.parse_args()
 
 # flags.DEFINE_enum(
