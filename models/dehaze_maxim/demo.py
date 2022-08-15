@@ -1,6 +1,8 @@
 import argparse
 from maxim import MAXIM
-from matplotlib import pyplot as plt
+import cv2 as cv
+import numpy as np
+from PIL import Image
 
 parser = argparse.ArgumentParser(
     description='MAXIM: Multi-Axis MLP for Image Processing (CVPR 2022 Oral) (https://github.com/google-research/maxim).')
@@ -29,6 +31,8 @@ if __name__ == '__main__':
     result, psnr = model.infer()
     print("Done!")
     if args.vis:
-        plt.imshow(result, interpolation='nearest')
-        plt.show()
+        im = Image.fromarray(np.array(
+            (np.clip(result, 0., 1.) * 255.).astype(np.uint8)))
+        im.show()
+
     print(f'psnr = ', psnr)
