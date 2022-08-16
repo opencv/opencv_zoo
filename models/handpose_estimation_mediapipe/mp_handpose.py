@@ -26,7 +26,7 @@ class MPHandPose:
     def name(self):
         return self.__class__.__name__
 
-    def setbackend(self, backendId):
+    def setBackend(self, backendId):
         self.backend_id = backendId
         self.model.setPreferableBackend(self.backend_id)
 

@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
             # Draw results on the input image
             if hand_landmarks is not None:
-                frame = visualize(image, conf, hand_box, hand_landmarks)
+                image = visualize(image, conf, hand_box, hand_landmarks)
             else:
                 print('The conf: {:.2f} is lower than threshold.'.format(conf))
 
