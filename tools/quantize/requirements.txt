@@ -2,5 +2,5 @@ opencv-python>=4.6.0
 onnx
 onnxruntime
 onnxruntime-extensions
-neural-compressor
+neural-compressor>=1.12
 
