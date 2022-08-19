@@ -84,9 +84,9 @@ class MPPalmDet:
         selected_landmarks *= original_shape
 
         # [
-        #   [bbox_coords, landmarks_coords, conf]
+        #   [bbox_coords, landmarks_coords, score]
         #   ...
-        #   [bbox_coords, landmarks_coords, conf]
+        #   [bbox_coords, landmarks_coords, score]
         # ]
         return np.c_[selected_box.reshape(-1, 4), selected_landmarks.reshape(-1, 14), selected_score.reshape(-1, 1)]
 
