@@ -69,19 +69,24 @@ if __name__ == '__main__':
         image = cv.imread(args.input)
 
         # Inference
-        score, palm_box, palm_landmarks = model.infer(image)
-        if score is None or palm_box is None or palm_landmarks is None:
+        results = model.infer(image)
+        if results is None:
             print('Hand not detected')
         else:
-            # Print results
-            print('score: {:.2f}'.format(score))
-            print('palm box: {}'.format(palm_box))
-            print('palm_landmarks: ')
-            for plm in enumerate(palm_landmarks):
-                print('\t{}'.format(plm))
+            for idx, palm in enumerate(results):
+                # Print results
+                score = palm[-1]
+                palm_box = palm[0:4]
+                palm_landmarks = palm[4:-1].reshape(7, 2)
+                print('-----------palm {}-----------'.format(idx))
+                print('score: {:.2f}'.format(score))
+                print('palm box: {}'.format(palm_box))
+                print('palm_landmarks: ')
+                for plm in palm_landmarks:
+                    print('\t{}'.format(plm))
 
-            # Draw results on the input image
-            image = visualize(image, score, palm_box, palm_landmarks)
+                # Draw results on the input image
+                image = visualize(image, score, palm_box, palm_landmarks)
 
             # Save results if save is true
             if args.save:
@@ -106,12 +111,18 @@ if __name__ == '__main__':
 
             # Inference
             tm.start()
-            score, palm_box, palm_landmarks = model.infer(frame)
+            results = model.infer(frame)
             tm.stop()
 
             # Draw results on the input image
-            if score is not None and palm_box is not None and palm_landmarks is not None:
-                frame = visualize(frame, score, palm_box, palm_landmarks, fps=tm.getFPS())
+            if results is not None:
+                for idx, palm in enumerate(results):
+                    score = palm[-1]
+                    palm_box = palm[0:4]
+                    palm_landmarks = palm[4:-1].reshape(7, 2)
+
+                    # Draw results on the input image
+                    frame = visualize(frame, score, palm_box, palm_landmarks, fps=tm.getFPS())
 
             # Visualize results in a new Window
             cv.imshow('MPPalmDet Demo', frame)
