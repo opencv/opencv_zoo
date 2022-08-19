@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import argparse
 import time
-import matplotlib.pyplot as plt
+import moviepy.video.io.ImageSequenceClip
 from YoloX import YoloX
 
 backends = [cv2.dnn.DNN_BACKEND_OPENCV, cv2.dnn.DNN_BACKEND_CUDA]
