@@ -1,5 +1,6 @@
 from .imagenet import ImageNet
 from .widerface import WIDERFace
+from .lfw import LFW
 
 class Registery:
     def __init__(self, name):
@@ -15,3 +16,4 @@ class Registery:
 DATASETS = Registery("Datasets")
 DATASETS.register(ImageNet)
 DATASETS.register(WIDERFace)
+DATASETS.register(LFW)
