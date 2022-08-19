@@ -126,11 +126,11 @@ Note:
 
 ## Results
 
-Here are some of the sample results that were observed using the model (YOLOX_S.onnx),
+Here are some of the sample results that were observed using the model (**yolox_s.onnx**),
 
 <p float="left">
-  <img src="./examples/results/result1.jpg" width="450" height="450">
-  <img src="./examples/results/result2.jpg" width="450" height="450">
+  <img src="[https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_yolox/examples/results/test1.jpg" width="450" height="450">
+  <img src="https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_yolox/examples/results/test2.jpg" width="450" height="450">
 </p>
   
 Video inference result,
