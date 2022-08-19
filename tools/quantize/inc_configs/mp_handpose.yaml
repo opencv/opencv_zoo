@@ -32,18 +32,6 @@ quantization:                                        # optional. tuning constrai
           dtype: float32
           label: True
 
-  model_wise:                                        # optional. tuning constraints on model-wise for advance user to reduce tuning space.
-    weight:
-      granularity: per_tensor
-      scheme: asym
-      dtype: int8
-      algorithm: minmax
-    activation:
-      granularity: per_tensor
-      scheme: asym
-      dtype: int8
-      algorithm: minmax
-
 tuning:
   accuracy_criterion:
     relative:  0.02                                  # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
