@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 import time
 import matplotlib.pyplot as plt
-from YoloX_v1 import YoloX
+from YoloX import YoloX
 
 backends = [cv2.dnn.DNN_BACKEND_OPENCV, cv2.dnn.DNN_BACKEND_CUDA]
 targets = [cv2.dnn.DNN_TARGET_CPU, cv2.dnn.DNN_TARGET_CUDA, cv2.dnn.DNN_TARGET_CUDA_FP16]
