@@ -14,7 +14,9 @@ class Compose:
 
     def __call__(self, img):
         for t in self.transforms:
+            print("Compose ", img.shape)
             img = t(img)
+            print(img.shape)
         return img
 
 class Resize:
@@ -30,10 +32,11 @@ class CenterCrop:
         self.size = size # w, h
 
     def __call__(self, img):
+        print("CenterCrop ", img.shape)
         h, w, _ = img.shape
         ws = int(w / 2 - self.size[0] / 2)
         hs = int(h / 2 - self.size[1] / 2)
-        return img[hs:hs+self.size[1], ws:ws+self.size[0], :]
+        return img[ hs:hs+self.size[1], ws:ws+self.size[0],:]
 
 class Normalize:
     def __init__(self, mean=None, std=None):

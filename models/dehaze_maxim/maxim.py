@@ -7,8 +7,8 @@
 
 import numpy as np
 import onnxruntime as ort
-from PIL import Image
 from calculate_psnr import calculate_psnr
+import cv2 as cv
 
 def _is_image_file(filename):
     """Check if it is a valid image file by extension."""
@@ -66,8 +66,8 @@ def _save_img(img, pth):
         before saved to pth.
     pth: string, path to save the image to.
     """
-    Image.fromarray(np.array(
-        (np.clip(img, 0., 1.) * 255.).astype(np.uint8))).save(pth, 'PNG')
+    cv.imwrite(pth, np.array(
+        (np.clip(img, 0., 1.) * 255.).astype(np.uint8)))
 
 
 def _convert_img_shape(image):
@@ -97,6 +97,8 @@ class MAXIM:
     def _create_maxim_model(self):
         print("Loading model....")
         self.model = ort.InferenceSession(self._modelPath)
+        #load onnx model use opencv
+        #self.model = cv.dnn.readNetFromONNX(self._modelPath)
         self.input_name = self.model.get_inputs()[0].name
         self.label_name = self.model.get_outputs()[-1].name
         print("Done!")
@@ -107,15 +109,13 @@ class MAXIM:
             raise ValueError('Input file is not an image file.')
 
         input_file = self._input_file
-        input_img = np.asarray(Image.open(input_file).convert('RGB'),
-                               np.float32) / 255.
+        input_img = np.float32(cv.imread(input_file) / 255.)
         if self._has_target:
             target_file = self._target_filename
             if not _is_image_file(target_file):
                 raise ValueError('Target file is not an image file.')
 
-            self.target_img = np.asarray(Image.open(target_file).convert('RGB'),
-                                         np.float32) / 255.
+            self.target_img = np.float32(cv.imread(target_file) / 255.)
 
         # Padding images to have even shapes
         height, width = input_img.shape[0], input_img.shape[1]
