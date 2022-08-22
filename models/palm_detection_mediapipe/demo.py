@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
         # Inference
         results = model.infer(image)
-        if results is None:
+        if len(results) == 0:
             print('Hand not detected')
         else:
             for idx, palm in enumerate(results):
@@ -115,14 +115,13 @@ if __name__ == '__main__':
             tm.stop()
 
             # Draw results on the input image
-            if results is not None:
-                for idx, palm in enumerate(results):
-                    score = palm[-1]
-                    palm_box = palm[0:4]
-                    palm_landmarks = palm[4:-1].reshape(7, 2)
+            for _, palm in enumerate(results):
+                score = palm[-1]
+                palm_box = palm[0:4]
+                palm_landmarks = palm[4:-1].reshape(7, 2)
 
-                    # Draw results on the input image
-                    frame = visualize(frame, score, palm_box, palm_landmarks, fps=tm.getFPS())
+                # Draw results on the input image
+                frame = visualize(frame, score, palm_box, palm_landmarks, fps=tm.getFPS())
 
             # Visualize results in a new Window
             cv.imshow('MPPalmDet Demo', frame)

@@ -71,7 +71,7 @@ class MPPalmDet:
         # NMS
         keep_idx = cv.dnn.NMSBoxes(boxes, score, self.score_threshold, self.nms_threshold, top_k=self.topK)
         if len(keep_idx) == 0:
-            return None
+            return np.empty(shape=(0, 19))
         selected_score = score[keep_idx]
         selected_box = boxes[keep_idx]
 
