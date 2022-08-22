@@ -72,32 +72,31 @@ if __name__ == '__main__':
         results = model.infer(image)
         if len(results) == 0:
             print('Hand not detected')
-        else:
-            for idx, palm in enumerate(results):
-                # Print results
-                score = palm[-1]
-                palm_box = palm[0:4]
-                palm_landmarks = palm[4:-1].reshape(7, 2)
-                print('-----------palm {}-----------'.format(idx))
-                print('score: {:.2f}'.format(score))
-                print('palm box: {}'.format(palm_box))
-                print('palm_landmarks: ')
-                for plm in palm_landmarks:
-                    print('\t{}'.format(plm))
+        for idx, palm in enumerate(results):
+            # Print results
+            score = palm[-1]
+            palm_box = palm[0:4]
+            palm_landmarks = palm[4:-1].reshape(7, 2)
+            print('-----------palm {}-----------'.format(idx))
+            print('score: {:.2f}'.format(score))
+            print('palm box: {}'.format(palm_box))
+            print('palm_landmarks: ')
+            for plm in palm_landmarks:
+                print('\t{}'.format(plm))
 
-                # Draw results on the input image
-                image = visualize(image, score, palm_box, palm_landmarks)
+            # Draw results on the input image
+            image = visualize(image, score, palm_box, palm_landmarks)
 
-            # Save results if save is true
-            if args.save:
-                print('Resutls saved to result.jpg\n')
-                cv.imwrite('result.jpg', image)
+        # Save results if save is true
+        if args.save:
+            print('Resutls saved to result.jpg\n')
+            cv.imwrite('result.jpg', image)
 
-            # Visualize results in a new window
-            if args.vis:
-                cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
-                cv.imshow(args.input, image)
-                cv.waitKey(0)
+        # Visualize results in a new window
+        if args.vis:
+            cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
+            cv.imshow(args.input, image)
+            cv.waitKey(0)
     else: # Omit input to call default camera
         deviceId = 0
         cap = cv.VideoCapture(deviceId)
