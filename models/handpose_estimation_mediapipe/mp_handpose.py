@@ -108,7 +108,7 @@ class MPHandPose:
 
         # Postprocess
         results = self._postprocess(output_blob, rotated_palm_bbox, angle, rotation_matrix)
-        return results  # [conf, bbox_coords, landmarks_coords]
+        return results
 
     def _postprocess(self, blob, rotated_palm_bbox, angle, rotation_matrix):
         landmarks, conf = blob
@@ -158,4 +158,11 @@ class MPHandPose:
             center_bbox - new_half_size,
             center_bbox + new_half_size])
 
-        return conf[0][0], bbox.reshape(2, 2), landmarks.reshape(21, 2)
+        hand_label = np.r_[bbox.reshape(-1), landmarks.reshape(-1), conf[0]]
+        # Add a dimension for future multiple handpose estimation
+        # [
+        #   [bbox_coords, landmarks_coords, conf]
+        #   ...
+        #   [bbox_coords, landmarks_coords, conf]
+        # ]
+        return hand_label[np.newaxis, :]
