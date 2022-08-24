@@ -1,9 +1,10 @@
 # Hand pose estimation from MediaPipe Handpose
 
-This model estimates 21 hand keypoints per detected hand from [palm detector](../palm_detection_mediapipe).
+This model estimates 21 hand keypoints per detected hand from [palm detector](../palm_detection_mediapipe). (The image below is referenced from [MediaPipe Hands Keypoints](https://github.com/tensorflow/tfjs-models/tree/master/hand-pose-detection#mediapipe-hands-keypoints-used-in-mediapipe-hands))
+ 
 ![MediaPipe Hands Keypoints](./examples/hand_keypoints.png)
 
-It is converted from Tensorflow-JS to ONNX using following tools:
+This model is converted from Tensorflow-JS to ONNX using following tools:
 - tfjs to tf_saved_model:  https://github.com/patlevin/tfjs-to-tf/
 - tf_saved_model to ONNX: https://github.com/onnx/tensorflow-onnx
 - simplified by [onnx-simplifier](https://github.com/daquexian/onnx-simplifier)
