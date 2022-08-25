@@ -36,14 +36,13 @@ parser.add_argument('--save', '-s', type=str, default=False, help='Set true to s
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
 
-def visualize(image, results, fps=None):
-
+def visualize(image, results, print_results=False, fps=None):
     output = image.copy()
 
     if fps is not None:
         cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
 
-    for _, palm in enumerate(results):
+    for idx, palm in enumerate(results):
         score = palm[-1]
         palm_box = palm[0:4]
         palm_landmarks = palm[4:-1].reshape(7, 2)
@@ -59,6 +58,15 @@ def visualize(image, results, fps=None):
         palm_landmarks = palm_landmarks.astype(np.int32)
         for p in palm_landmarks:
             cv.circle(output, p, 2, (0, 0, 255), 2)
+
+        # Print results
+        if print_results:
+            print('-----------palm {}-----------'.format(idx + 1))
+            print('score: {:.2f}'.format(score))
+            print('palm box: {}'.format(palm_box))
+            print('palm landmarks: ')
+            for plm in palm_landmarks:
+                print('\t{}'.format(plm))
 
     return output
 
@@ -80,19 +88,7 @@ if __name__ == '__main__':
             print('Hand not detected')
 
         # Draw results on the input image
-        image = visualize(image, results)
-
-        # Print results
-        for idx, palm in enumerate(results):
-            score = palm[-1]
-            palm_box = palm[0:4]
-            palm_landmarks = palm[4:-1].reshape(7, 2)
-            print('-----------palm {}-----------'.format(idx))
-            print('score: {:.2f}'.format(score))
-            print('palm box: {}'.format(palm_box))
-            print('palm_landmarks: ')
-            for plm in palm_landmarks:
-                print('\t{}'.format(plm))
+        image = visualize(image, results, print_results=True)
 
         # Save results if save is true
         if args.save:
