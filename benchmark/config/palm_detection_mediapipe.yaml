@@ -18,4 +18,5 @@ Model:
   modelPath: "models/palm_detection_mediapipe/palm_detection_mediapipe_2022may.onnx"
   scoreThreshold: 0.5
   nmsThreshold: 0.3
+  topK: 1
 
