@@ -2,10 +2,11 @@ import numpy as np
 import cv2 as cv
 
 class MPPalmDet:
-    def __init__(self, modelPath, nmsThreshold=0.3, scoreThreshold=0.5, backendId=0, targetId=0):
+    def __init__(self, modelPath, nmsThreshold=0.3, scoreThreshold=0.5, topK=5000, backendId=0, targetId=0):
         self.model_path = modelPath
         self.nms_threshold = nmsThreshold
         self.score_threshold = scoreThreshold
+        self.topK = topK
         self.backend_id = backendId
         self.target_id = targetId
 
@@ -48,9 +49,9 @@ class MPPalmDet:
         output_blob = self.model.forward()
 
         # Postprocess
-        score, palm_box, palm_landmarks = self._postprocess(output_blob, np.array([w, h]))
+        results = self._postprocess(output_blob, np.array([w, h]))
 
-        return (score, palm_box, palm_landmarks)
+        return results
 
     def _postprocess(self, output_blob, original_shape):
         score = output_blob[0, :, 0]
@@ -68,17 +69,26 @@ class MPPalmDet:
         xy2 = (cxy_delta + wh_delta / 2 + self.anchors[:, :2]) * original_shape
         boxes = np.concatenate([xy1, xy2], axis=1)
         # NMS
-        keep_idx = cv.dnn.NMSBoxes(boxes, score, self.score_threshold, self.nms_threshold, top_k=1)
+        keep_idx = cv.dnn.NMSBoxes(boxes, score, self.score_threshold, self.nms_threshold, top_k=self.topK)
         if len(keep_idx) == 0:
-            return None, None, None
-        selected_score = score[keep_idx][0]
-        selected_box = boxes[keep_idx][0]
+            return np.empty(shape=(0, 19))
+        selected_score = score[keep_idx]
+        selected_box = boxes[keep_idx]
 
         # get landmarks
-        selected_landmarks = landmark_delta[keep_idx].reshape(7, 2)
-        selected_landmarks = (selected_landmarks / self.input_size + self.anchors[keep_idx]) * original_shape
+        selected_landmarks = landmark_delta[keep_idx].reshape(-1, 7, 2)
+        selected_landmarks = selected_landmarks / self.input_size
+        selected_anchors = self.anchors[keep_idx]
+        for idx, landmark in enumerate(selected_landmarks):
+            landmark += selected_anchors[idx]
+        selected_landmarks *= original_shape
 
-        return (selected_score, selected_box, selected_landmarks)
+        # [
+        #   [bbox_coords, landmarks_coords, score]
+        #   ...
+        #   [bbox_coords, landmarks_coords, score]
+        # ]
+        return np.c_[selected_box.reshape(-1, 4), selected_landmarks.reshape(-1, 14), selected_score.reshape(-1, 1)]
 
     def _load_anchors(self):
         return np.array([[0.015625, 0.015625],
