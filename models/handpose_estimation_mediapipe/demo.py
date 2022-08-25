@@ -40,13 +40,21 @@ parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true t
 args = parser.parse_args()
 
 
-def visualize(image, conf, hand_box, hand_landmarks, fps=None):
+def visualize(image, handpose, print_result=False):
     output = image.copy()
 
-    if fps is not None:
-        cv.putText(output, 'FPS: {:.2f}'.format(fps), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+    conf = handpose[-1]
+    bbox = handpose[0:4].astype(np.int32)
+    landmarks = handpose[4:-1].reshape(21, 2).astype(np.int32)
 
-    landmarks = hand_landmarks.reshape(21, 2).astype(np.int32)
+    # Print results
+    if print_result:
+        print('conf: {:.2f}'.format(conf))
+        print('hand box: {}'.format(bbox))
+        print('hand landmarks: ')
+        for l in landmarks:
+            print('\t{}'.format(l))
+        print('----------------------')
 
     # Draw line between each key points
     cv.line(output, landmarks[0], landmarks[1], (255, 255, 255), 2)
@@ -98,33 +106,32 @@ if __name__ == '__main__':
         image = cv.imread(args.input)
 
         # Palm detector inference
-        score, palm_box, palm_landmarks = palm_detector.infer(image)
-        if score is None or palm_box is None or palm_landmarks is None:
-            print('Palm not detected!')
-        else:
-            palm_box = palm_box.reshape(2, 2)
+        palms = palm_detector.infer(image)
+        # Estimate the pose of each hand
+        for _, palm in enumerate(palms):
+            palm_box = palm[0:4].reshape(2, 2)
+            palm_landmarks = palm[4:-1].reshape(7, 2)
+
             # Handpose detector inference
-            conf, hand_box, hand_landmarks = handpose_detector.infer(image, palm_box, palm_landmarks)
-
-            # Print results
-            print('Conf: {}, bbox: {}, landmarks: {}'.format(conf, hand_box, hand_landmarks))
-
+            handpose = handpose_detector.infer(image, palm_box, palm_landmarks)
+            if handpose is None:
+                continue
             # Draw results on the input image
-            if hand_landmarks is not None:
-                image = visualize(image, conf, hand_box, hand_landmarks)
-            else:
-                print('The conf: {:.2f} is lower than threshold.'.format(conf))
+            image = visualize(image, handpose, True)
 
-            # Save results
-            if args.save:
-                cv.imwrite('result.jpg', image)
-                print('Results saved to result.jpg\n')
+        if len(palms) == 0:
+            print('No palm detected!')
 
-            # Visualize results in a new window
-            if args.vis:
-                cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
-                cv.imshow(args.input, image)
-                cv.waitKey(0)
+        # Save results
+        if args.save:
+            cv.imwrite('result.jpg', image)
+            print('Results saved to result.jpg\n')
+
+        # Visualize results in a new window
+        if args.vis:
+            cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
+            cv.imshow(args.input, image)
+            cv.waitKey(0)
     else:  # Omit input to call default camera
         deviceId = 0
         cap = cv.VideoCapture(deviceId)
@@ -137,19 +144,25 @@ if __name__ == '__main__':
                 break
 
             # Palm detector inference
+            palms = palm_detector.infer(frame)
             tm.start()
-            score, palm_box, palm_landmarks = palm_detector.infer(frame)
+            # Estimate the pose of each hand
+            for _, palm in enumerate(palms):
+                palm_box = palm[0:4].reshape(2, 2)
+                palm_landmarks = palm[4:-1].reshape(7, 2)
+
+                # Handpose detector inference
+                handpose = handpose_detector.infer(frame, palm_box, palm_landmarks)
+                if handpose is None:
+                    continue
+                # Draw results on the input image
+                frame = visualize(frame, handpose)
             tm.stop()
 
-            if score is None or palm_box is None or palm_landmarks is None:
+            if len(palms) == 0:
                 print('No palm detected!')
             else:
-                palm_box = palm_box.reshape(2, 2)
-                conf, hand_box, hand_landmarks = handpose_detector.infer(frame, palm_box, palm_landmarks)
-                if hand_landmarks is not None:
-                    frame = visualize(frame, conf, hand_box, hand_landmarks, fps=tm.getFPS())
-                else:
-                    print('The conf: {:.2f} is lower than threshold.'.format(conf))
+                cv.putText(frame, 'FPS: {:.2f}'.format(tm.getFPS()), (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
 
             cv.imshow('MediaPipe Handpose Detection Demo', frame)
             tm.reset()
