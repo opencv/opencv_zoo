@@ -30,7 +30,7 @@ Guidelines:
 | [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 7.04           | 37.68        | ---             | ---          | ---         |
 | [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 36.15          | 705.48       | 76.82           | ---          | ---         |
 | [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 35.81          | 521.98       | 90.07           | 44.61        | ---         |
-| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 256x256    | 15.57          | 89.41        | 50.64           | 145.56\*     | ---         |
+| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 256x256    | 15.57          | 168.37       | 50.64           | 145.56\*     | ---         |
 | [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 256x256    | 20.93          | 148.40       | ---             | ---          | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
