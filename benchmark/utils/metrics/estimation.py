@@ -9,14 +9,14 @@ class Estimation(BaseMetric):
         super().__init__(**kwargs)
 
     def forward(self, model, *args, **kwargs):
-        img, bbox, landmark = args
+        img, label = args
 
         self._timer.reset()
         for _ in range(self._warmup):
-            model.infer(img, bbox, landmark)
+            model.infer(img, label)
         for _ in range(self._repeat):
             self._timer.start()
-            model.infer(img, bbox, landmark)
+            model.infer(img, label)
             self._timer.stop()
 
         return self._getResult()
