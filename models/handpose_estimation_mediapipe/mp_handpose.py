@@ -49,6 +49,7 @@ class MPHandPose:
         #  compute rotation
         palm_bbox = palm[0:4].reshape(2, 2)
         palm_landmarks = palm[4:18].reshape(7, 2)
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
         p1 = palm_landmarks[self.PALM_LANDMARKS_INDEX_OF_PALM_BASE]
         p2 = palm_landmarks[self.PALM_LANDMARKS_INDEX_OF_MIDDLE_FINGER_BASE]
