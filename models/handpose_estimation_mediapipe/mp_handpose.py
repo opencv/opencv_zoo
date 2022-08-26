@@ -34,7 +34,7 @@ class MPHandPose:
         self.target_id = targetId
         self.model.setPreferableTarget(self.target_id)
 
-    def _preprocess(self, image, palm_bbox, palm_landmarks):
+    def _preprocess(self, image, palm):
         '''
         Rotate input for inference.
         Parameters:
@@ -47,6 +47,9 @@ class MPHandPose:
         '''
         # Rotate input to have vertically oriented hand image
         #  compute rotation
+        palm_bbox = palm[0:4].reshape(2, 2)
+        palm_landmarks = palm[4:18].reshape(7, 2)
+
         p1 = palm_landmarks[self.PALM_LANDMARKS_INDEX_OF_PALM_BASE]
         p2 = palm_landmarks[self.PALM_LANDMARKS_INDEX_OF_MIDDLE_FINGER_BASE]
         radians = np.pi / 2 - np.arctan2(-(p2[1] - p1[1]), p2[0] - p1[0])
@@ -98,9 +101,9 @@ class MPHandPose:
 
         return blob[np.newaxis, :, :, :], rotated_palm_bbox, angle, rotation_matrix
 
-    def infer(self, image, palm_bbox, palm_landmarks):
+    def infer(self, image, palm):
         # Preprocess
-        input_blob, rotated_palm_bbox, angle, rotation_matrix = self._preprocess(image, palm_bbox, palm_landmarks)
+        input_blob, rotated_palm_bbox, angle, rotation_matrix = self._preprocess(image, palm)
 
         # Forward
         self.model.setInput(input_blob)

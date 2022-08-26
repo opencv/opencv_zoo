@@ -109,11 +109,8 @@ if __name__ == '__main__':
         palms = palm_detector.infer(image)
         # Estimate the pose of each hand
         for _, palm in enumerate(palms):
-            palm_box = palm[0:4].reshape(2, 2)
-            palm_landmarks = palm[4:-1].reshape(7, 2)
-
             # Handpose detector inference
-            handpose = handpose_detector.infer(image, palm_box, palm_landmarks)
+            handpose = handpose_detector.infer(image, palm)
             if handpose is None:
                 continue
             # Draw results on the input image
@@ -148,11 +145,8 @@ if __name__ == '__main__':
             tm.start()
             # Estimate the pose of each hand
             for _, palm in enumerate(palms):
-                palm_box = palm[0:4].reshape(2, 2)
-                palm_landmarks = palm[4:-1].reshape(7, 2)
-
                 # Handpose detector inference
-                handpose = handpose_detector.infer(frame, palm_box, palm_landmarks)
+                handpose = handpose_detector.infer(frame, palm)
                 if handpose is None:
                     continue
                 # Draw results on the input image
