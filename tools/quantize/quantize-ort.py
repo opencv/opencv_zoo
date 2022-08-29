@@ -12,7 +12,7 @@ import cv2 as cv
 import onnx
 from onnx import version_converter
 import onnxruntime
-from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType
+from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType, QuantFormat
 
 from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert
 
@@ -70,6 +70,7 @@ class Quantize:
         self.check_opset()
         output_name = '{}-act_{}-wt_{}-quantized.onnx'.format(self.model_path[:-5], self.act_type, self.wt_type)
         quantize_static(self.model_path, output_name, self.dr,
+                        quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
                         per_channel=self.per_channel,
                         weight_type=self.type_dict[self.wt_type],
                         activation_type=self.type_dict[self.act_type])
