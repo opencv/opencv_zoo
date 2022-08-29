@@ -40,50 +40,51 @@ parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true t
 args = parser.parse_args()
 
 
-def visualize(image, handpose, print_result=False):
+def visualize(image, hands, print_result=False):
     output = image.copy()
 
-    conf = handpose[-1]
-    bbox = handpose[0:4].astype(np.int32)
-    landmarks = handpose[4:-1].reshape(21, 2).astype(np.int32)
+    for idx, handpose in enumerate(hands):
+        conf = handpose[-1]
+        bbox = handpose[0:4].astype(np.int32)
+        landmarks = handpose[4:-1].reshape(21, 2).astype(np.int32)
 
-    # Print results
-    if print_result:
-        print('conf: {:.2f}'.format(conf))
-        print('hand box: {}'.format(bbox))
-        print('hand landmarks: ')
-        for l in landmarks:
-            print('\t{}'.format(l))
-        print('----------------------')
+        # Print results
+        if print_result:
+            print('-----------hand {}-----------'.format(idx + 1))
+            print('conf: {:.2f}'.format(conf))
+            print('hand box: {}'.format(bbox))
+            print('hand landmarks: ')
+            for l in landmarks:
+                print('\t{}'.format(l))
 
-    # Draw line between each key points
-    cv.line(output, landmarks[0], landmarks[1], (255, 255, 255), 2)
-    cv.line(output, landmarks[1], landmarks[2], (255, 255, 255), 2)
-    cv.line(output, landmarks[2], landmarks[3], (255, 255, 255), 2)
-    cv.line(output, landmarks[3], landmarks[4], (255, 255, 255), 2)
+        # Draw line between each key points
+        cv.line(output, landmarks[0], landmarks[1], (255, 255, 255), 2)
+        cv.line(output, landmarks[1], landmarks[2], (255, 255, 255), 2)
+        cv.line(output, landmarks[2], landmarks[3], (255, 255, 255), 2)
+        cv.line(output, landmarks[3], landmarks[4], (255, 255, 255), 2)
 
-    cv.line(output, landmarks[0], landmarks[5], (255, 255, 255), 2)
-    cv.line(output, landmarks[5], landmarks[6], (255, 255, 255), 2)
-    cv.line(output, landmarks[6], landmarks[7], (255, 255, 255), 2)
-    cv.line(output, landmarks[7], landmarks[8], (255, 255, 255), 2)
+        cv.line(output, landmarks[0], landmarks[5], (255, 255, 255), 2)
+        cv.line(output, landmarks[5], landmarks[6], (255, 255, 255), 2)
+        cv.line(output, landmarks[6], landmarks[7], (255, 255, 255), 2)
+        cv.line(output, landmarks[7], landmarks[8], (255, 255, 255), 2)
 
-    cv.line(output, landmarks[0], landmarks[9], (255, 255, 255), 2)
-    cv.line(output, landmarks[9], landmarks[10], (255, 255, 255), 2)
-    cv.line(output, landmarks[10], landmarks[11], (255, 255, 255), 2)
-    cv.line(output, landmarks[11], landmarks[12], (255, 255, 255), 2)
+        cv.line(output, landmarks[0], landmarks[9], (255, 255, 255), 2)
+        cv.line(output, landmarks[9], landmarks[10], (255, 255, 255), 2)
+        cv.line(output, landmarks[10], landmarks[11], (255, 255, 255), 2)
+        cv.line(output, landmarks[11], landmarks[12], (255, 255, 255), 2)
 
-    cv.line(output, landmarks[0], landmarks[13], (255, 255, 255), 2)
-    cv.line(output, landmarks[13], landmarks[14], (255, 255, 255), 2)
-    cv.line(output, landmarks[14], landmarks[15], (255, 255, 255), 2)
-    cv.line(output, landmarks[15], landmarks[16], (255, 255, 255), 2)
+        cv.line(output, landmarks[0], landmarks[13], (255, 255, 255), 2)
+        cv.line(output, landmarks[13], landmarks[14], (255, 255, 255), 2)
+        cv.line(output, landmarks[14], landmarks[15], (255, 255, 255), 2)
+        cv.line(output, landmarks[15], landmarks[16], (255, 255, 255), 2)
 
-    cv.line(output, landmarks[0], landmarks[17], (255, 255, 255), 2)
-    cv.line(output, landmarks[17], landmarks[18], (255, 255, 255), 2)
-    cv.line(output, landmarks[18], landmarks[19], (255, 255, 255), 2)
-    cv.line(output, landmarks[19], landmarks[20], (255, 255, 255), 2)
+        cv.line(output, landmarks[0], landmarks[17], (255, 255, 255), 2)
+        cv.line(output, landmarks[17], landmarks[18], (255, 255, 255), 2)
+        cv.line(output, landmarks[18], landmarks[19], (255, 255, 255), 2)
+        cv.line(output, landmarks[19], landmarks[20], (255, 255, 255), 2)
 
-    for p in landmarks:
-        cv.circle(output, p, 2, (0, 0, 255), 2)
+        for p in landmarks:
+            cv.circle(output, p, 2, (0, 0, 255), 2)
 
     return output
 
@@ -107,14 +108,16 @@ if __name__ == '__main__':
 
         # Palm detector inference
         palms = palm_detector.infer(image)
+        hands = np.empty(shape=(0, 47))
+
         # Estimate the pose of each hand
         for _, palm in enumerate(palms):
             # Handpose detector inference
             handpose = handpose_detector.infer(image, palm)
-            if handpose is None:
-                continue
-            # Draw results on the input image
-            image = visualize(image, handpose, True)
+            if handpose is not None:
+                hands = np.vstack((hands, handpose))
+        # Draw results on the input image
+        image = visualize(image, hands, True)
 
         if len(palms) == 0:
             print('No palm detected!')
@@ -142,16 +145,18 @@ if __name__ == '__main__':
 
             # Palm detector inference
             palms = palm_detector.infer(frame)
+            hands = np.empty(shape=(0, 47))
+
             tm.start()
             # Estimate the pose of each hand
             for _, palm in enumerate(palms):
                 # Handpose detector inference
                 handpose = handpose_detector.infer(frame, palm)
-                if handpose is None:
-                    continue
-                # Draw results on the input image
-                frame = visualize(frame, handpose)
+                if handpose is not None:
+                    hands = np.vstack((hands, handpose))
             tm.stop()
+            # Draw results on the input image
+            frame = visualize(frame, hands)
 
             if len(palms) == 0:
                 print('No palm detected!')
