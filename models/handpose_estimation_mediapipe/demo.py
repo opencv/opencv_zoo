@@ -111,7 +111,7 @@ if __name__ == '__main__':
         hands = np.empty(shape=(0, 47))
 
         # Estimate the pose of each hand
-        for _, palm in enumerate(palms):
+        for palm in palms:
             # Handpose detector inference
             handpose = handpose_detector.infer(image, palm)
             if handpose is not None:
@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
             tm.start()
             # Estimate the pose of each hand
-            for _, palm in enumerate(palms):
+            for palm in palms:
                 # Handpose detector inference
                 handpose = handpose_detector.infer(frame, palm)
                 if handpose is not None:
