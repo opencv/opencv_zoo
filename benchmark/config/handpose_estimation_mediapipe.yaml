@@ -1,6 +1,6 @@
 Benchmark:
   name: "Hand Pose Estimation Benchmark"
-  type: "Estimation"
+  type: "Recognition"
   data:
     path: "benchmark/data/palm_detection"
     files: ["palm1.jpg", "palm2.jpg", "palm3.jpg"]
