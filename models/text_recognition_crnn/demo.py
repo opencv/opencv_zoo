@@ -64,7 +64,7 @@ if __name__ == '__main__':
     recognizer = CRNN(modelPath=args.model, charsetPath=args.charset)
     # Instantiate DB for text detection
     detector = DB(modelPath='../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx',
-                  inputSize=[736, 736],
+                  inputSize=[args.width, args.height],
                   binaryThreshold=0.3,
                   polygonThreshold=0.5,
                   maxCandidates=200,
