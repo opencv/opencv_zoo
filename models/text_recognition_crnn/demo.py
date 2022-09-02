@@ -110,7 +110,7 @@ if __name__ == '__main__':
                 print('No frames grabbed!')
                 break
 
-            frame = cv.resize(frame, [736, 736])
+            frame = cv.resize(frame, [args.width, args.height])
             # Inference of text detector
             tm.start()
             results = detector.infer(frame)
