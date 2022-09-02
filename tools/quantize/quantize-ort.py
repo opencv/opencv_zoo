@@ -6,7 +6,7 @@
 
 import os
 import sys
-import numpy as ny
+import numpy as np
 import cv2 as cv
 
 import onnx

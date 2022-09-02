@@ -1,0 +1,19 @@
+Benchmark:
+  name: "Hand Pose Estimation Benchmark"
+  type: "Recognition"
+  data:
+    path: "benchmark/data/palm_detection"
+    files: ["palm1.jpg", "palm2.jpg", "palm3.jpg"]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [256, 256]
+  metric:
+    warmup: 30
+    repeat: 10
+    reduction: "median"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "MPHandPose"
+  modelPath: "models/handpose_estimation_mediapipe/handpose_estimation_mediapipe_2022may.onnx"
+  confThreshold: 0.9
