@@ -135,7 +135,7 @@ if __name__=='__main__':
 
             cv2.imshow("output", srcimg)
 
-            if cv2.waitKey(1) > -1:
+            if cv2.waitKey(1) < 0:
                 print("Stream terminated")
                 break
 
