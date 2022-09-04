@@ -3,10 +3,6 @@ import numpy as np
 
 class NanoDet():
     def __init__(self, modelPath, prob_threshold=0.35, iou_threshold=0.6):
-        with open('coco.names', 'rt') as f:
-            self.classes = f.read().rstrip('\n').split('\n')
-
-        self.num_classes = len(self.classes)
         self.strides = (8, 16, 32, 64)
         self.image_shape = (416, 416)
         self.reg_max = 7
@@ -33,19 +29,7 @@ class NanoDet():
             anchors = np.column_stack((cx, cy))
             self.anchors_mlvl.append(anchors)
 
-    def softmax_func(self,x, axis=0):
-        x_exp = np.exp(x)
-        x_sum = np.sum(x_exp, axis=axis, keepdims=True)
-        s = x_exp / x_sum
-        return s
-
-    def pre_process(self, img):
-        img = img.astype(np.float32)
-        img = (img - self.mean) / self.std
-        blob = cv2.dnn.blobFromImage(img)
-        return blob
-
-    def infer(self, srcimg, keep_ratio=True):
+    def pre_process(self, srcimg, keep_ratio=True):
         top, left, newh, neww = 0, 0, self.image_shape[0], self.image_shape[1]
         if keep_ratio and srcimg.shape[0] != srcimg.shape[1]:
             hw_scale = srcimg.shape[0] / srcimg.shape[1]
@@ -63,14 +47,18 @@ class NanoDet():
         else:
             img = cv2.resize(srcimg, self.image_shape, interpolation=cv2.INTER_AREA)
 
-        blob = self.pre_process(img)
+        img = img.astype(np.float32)
+        img = (img - self.mean) / self.std
+        blob = cv2.dnn.blobFromImage(img)
+        return blob
+
+    def infer(self, srcimg):
+        blob = self.pre_process(srcimg)
         self.net.setInput(blob)
         outs = self.net.forward(self.net.getUnconnectedOutLayersNames())
         det_bboxes, det_conf, det_classid = self.post_process(outs)
-        ratioh,ratiow = srcimg.shape[0]/newh,srcimg.shape[1]/neww
-
-        return left, top, ratioh, ratiow, det_bboxes, det_conf, det_classid
-
+        preds = [det_bboxes, det_conf, det_classid]
+        return preds
 
     def post_process(self, preds):
         cls_scores, bbox_preds = preds[::2], preds[1::2]
@@ -83,7 +71,10 @@ class NanoDet():
                 cls_score = cls_score.squeeze(axis=0)
             if bbox_pred.ndim==3:
                 bbox_pred = bbox_pred.squeeze(axis=0)
-            bbox_pred = self.softmax_func(bbox_pred.reshape(-1, self.reg_max + 1), axis=1)
+
+            x_exp = np.exp(bbox_pred.reshape(-1, self.reg_max + 1))
+            x_sum = np.sum(x_exp, axis=1, keepdims=True)
+            bbox_pred = x_exp / x_sum
             bbox_pred = np.dot(bbox_pred, self.project).reshape(-1,4)
             bbox_pred *= stride
 
