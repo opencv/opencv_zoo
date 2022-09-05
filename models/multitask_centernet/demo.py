@@ -14,7 +14,7 @@ config = {'person_conf_thres': 0.7, 'person_iou_thres': 0.45, 'kp_conf_thres': 0
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--imgpath', type=str, default='images/d2645891.jpg', help="image path")
-    parser.add_argument('--modelpath', type=str, default='MCN.onnx')
+    parser.add_argument('--modelpath', type=str, default='./multitask_centernet_2022sep.onnx')
     args = parser.parse_args()
 
     mcn = MCN(args.modelpath)
