@@ -2,18 +2,21 @@ import cv2
 import argparse
 import numpy as np
 
+config = {'person_conf_thres': 0.7, 'person_iou_thres': 0.45, 'kp_conf_thres': 0.5,
+          'kp_iou_thres': 0.45, 'conf_thres_kp_person': 0.2, 'overwrite_tol': 25,
+          'kp_face': [0, 1, 2, 3, 4], 'use_kp_dets': True,
+          'segments': {1: [5, 6], 2: [5, 11], 3: [11, 12], 4: [12, 6], 5: [5, 7], 6: [7, 9], 7: [6, 8], 8: [8, 10],
+                       9: [11, 13], 10: [13, 15], 11: [12, 14], 12: [14, 16]},
+          'crowd_segments':{1: [0, 13], 2: [1, 13], 3: [0, 2], 4: [2, 4], 5: [1, 3], 6: [3, 5], 7: [0, 6], 8: [6, 7], 9: [7, 1], 10: [6, 8], 11: [8, 10], 12: [7, 9], 13: [9, 11], 14: [12, 13]},
+          'crowd_kp_face':[]}
+
 class MCN():
     def __init__(self, modelpath):
-        if modelpath.endswith('_coco.onnx'):
-            with open('class.names', 'rt') as f:
-                self.classes = f.read().rstrip('\n').split('\n')
-                self.lines = config['segments']
-                self.kp_face = config['kp_face']
-        else:
-            with open('crowd_class.names', 'rt') as f:
-                self.classes = f.read().rstrip('\n').split('\n')
-                self.lines = config['crowd_segments']
-                self.kp_face = config['crowd_kp_face']
+        with open('class.names', 'rt') as f:
+            self.classes = f.read().rstrip('\n').split('\n')
+            self.lines = config['segments']
+            self.kp_face = config['kp_face']
+
         self.num_classes = len(self.classes)
         self.inpHeight, self.inpWidth = 1280, 1280
         anchors = [[19, 27, 44, 40, 38, 94], [96, 68, 86, 152, 180, 137], [140, 301, 303, 264, 238, 542],
@@ -202,4 +205,3 @@ class MCN():
             row_ind += length
         srcimg = self.postprocess(srcimg, outs, padsize=(newh, neww, padh, padw))
         return srcimg
-
