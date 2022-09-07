@@ -54,7 +54,7 @@ class CRNN:
         rotationMatrix = cv.getPerspectiveTransform(vertices, self._targetVertices)
         cropped = cv.warpPerspective(image, rotationMatrix, self._inputSize)
 
-        if 'CN' in self._model_path:
+        if 'CN' in self._model_path or 'CH' in self._model_path:
             pass
         else:
             cropped = cv.cvtColor(cropped, cv.COLOR_BGR2GRAY)
