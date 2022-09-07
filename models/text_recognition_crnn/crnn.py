@@ -54,6 +54,8 @@ class CRNN:
         rotationMatrix = cv.getPerspectiveTransform(vertices, self._targetVertices)
         cropped = cv.warpPerspective(image, rotationMatrix, self._inputSize)
 
+        # 'CN' can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), and some special characters
+        # 'CH' can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), some Chinese characters and some special characters
         if 'CN' in self._model_path or 'CH' in self._model_path:
             pass
         else:

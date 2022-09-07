@@ -9,7 +9,7 @@ class ICDAR:
         self.root = root
         self.acc = -1
         self.inputSize = [100, 32]
-        self.val_label_file = os.path.join(root, "label.xml")
+        self.val_label_file = os.path.join(root, "word.xml")
         self.val_label = self.load_label(self.val_label_file)
 
     @property

@@ -147,11 +147,33 @@ python eval.py -m sface -d lfw -dr /path/to/lfw
 
 Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions to download the ICDAR2003 dataset and the labels. 
 
+```shell
+$ tree -L 2 /path/to/icdar
+.
+├── word
+│   ├── 1
+│   │   ├── self
+│   │   ├── ...
+│   │   └── willcooks
+│   ├── ...
+│   └── 12
+└── word.xml
+    
+```
+
 ### Evaluation
 
 Run evaluation with the following command:
 
 ```shell
+python eval.py -m crnn -d icdar -dr /path/to/icdar
+```
+
+### Example
+
+```shell
+download zip file from http://www.iapr-tc11.org/dataset/ICDAR2003_RobustReading/TrialTrain/word.zip
+upzip file to /path/to/icdar
 python eval.py -m crnn -d icdar -dr /path/to/icdar
 ```
 
