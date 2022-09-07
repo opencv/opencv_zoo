@@ -2,14 +2,15 @@
 
 An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition
 
-Results of accuracy evaluation with [tools/eval](../../tools/eval).
+Results of accuracy evaluation with [tools/eval](../../tools/eval) at different text recognition datasets.
 
-| Models | Accuracy(%) |
-| ------ | -------------- |
-| CRNN_EN | 81.66 |
-| CRNN_EN_FP16 | 82.01 |
-| CRNN_CH | 71.28 |
-| CRNN_CH_FP16 | 78.63 |
+| Model name   | ICDAR03(%) | IIIT5k(%) | CUTE80(%) |
+|--------------|------------|-----------|-----------|
+| CRNN_EN      | 81.66      | 74.33     | 52.78     |
+| CRNN_EN_FP16 | 82.01      | 74.93     | 52.34     |
+| CRNN_CH      | 71.28      | 80.90     | 67.36     |
+| CRNN_CH_FP16 | 78.63      | 80.93     | 67.01     |
+
 \*: 'FP16' stands for 'model quantized into FP16'.
 
 Note:

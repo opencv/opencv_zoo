@@ -44,6 +44,10 @@ parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_ms
 parser.add_argument('--charset', '-c', type=str, default='charset_36_EN.txt', help='Path to the charset file corresponding to the selected model.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--width', type=int, default=736,
+                    help='Preprocess input image by resizing to a specific width. It should be multiple by 32.')
+parser.add_argument('--height', type=int, default=736,
+                    help='Preprocess input image by resizing to a specific height. It should be multiple by 32.')
 args = parser.parse_args()
 
 def visualize(image, boxes, texts, color=(0, 255, 0), isClosed=True, thickness=2):
@@ -60,7 +64,7 @@ if __name__ == '__main__':
     recognizer = CRNN(modelPath=args.model, charsetPath=args.charset)
     # Instantiate DB for text detection
     detector = DB(modelPath='../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx',
-                  inputSize=[736, 736],
+                  inputSize=[args.width, args.height],
                   binaryThreshold=0.3,
                   polygonThreshold=0.5,
                   maxCandidates=200,
@@ -106,7 +110,7 @@ if __name__ == '__main__':
                 print('No frames grabbed!')
                 break
 
-            frame = cv.resize(frame, [736, 736])
+            frame = cv.resize(frame, [args.width, args.height])
             # Inference of text detector
             tm.start()
             results = detector.infer(frame)

@@ -14,23 +14,24 @@ Guidelines:
 
 ## Models & Benchmark Results
 
-| Model | Task | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | KV3-NPU (ms) | D1-CPU (ms) |
-|-------|------|----------|----------------|--------------|-----------------|----------|-------------|
-| [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120  | 1.45   | 6.22    | 12.18  | 4.04     | 86.69 |
-| [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112  | 8.65   | 99.20   | 24.88  | 46.25    | ---   |
-| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240  | ---    | 168.03  | 56.12  | 154.20\* |       |
-| [DB-IC15](./models/text_detection_db)                   | Text Detection                | 640x480  | 142.91 | 2835.91 | 208.41 | ---      | ---   |
-| [DB-TD500](./models/text_detection_db)                  | Text Detection                | 640x480  | 142.91 | 2841.71 | 210.51 | ---      | ---   |
-| [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32   | 50.21  | 234.32  | 196.15 | 125.30   | ---   |
-| [CRNN-CN](./models/text_recognition_crnn)               | Text Recognition              | 100x32   | 73.52  | 322.16  | 239.76 | 166.79   | ---   |
-| [PP-ResNet](./models/image_classification_ppresnet)     | Image Classification          | 224x224  | 56.05  | 602.58  | 98.64  | 75.45    | ---   |
-| [MobileNet-V1](./models/image_classification_mobilenet) | Image Classification          | 224x224  | 9.04   | 92.25   | 33.18  | 145.66\* | ---   |
-| [MobileNet-V2](./models/image_classification_mobilenet) | Image Classification          | 224x224  | 8.86   | 74.03   | 31.92  | 146.31\* | ---   |
-| [PP-HumanSeg](./models/human_segmentation_pphumanseg)   | Human Segmentation            | 192x192  | 19.92  | 105.32  | 67.97  | 74.77    | ---   |
-| [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100  | 7.04   | 37.68   | ---    | ---      | ---   |
-| [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720 | 36.15  | 705.48  | 76.82  | ---      | ---   |
-| [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256  | 35.81  | 521.98  | 90.07  | 44.61    | ---   |
-| [MPPalmDet](./models/palm_detection_mediapipe)          | Palm Detection                | 256x256  | 15.57  | 89.41   | 50.64  | 145.56\* | ---   |
+| Model                                                   | Task                          | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | KV3-NPU (ms) | D1-CPU (ms) |
+|---------------------------------------------------------|-------------------------------|------------|----------------|--------------|-----------------|--------------|-------------|
+| [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 6.22         | 12.18           | 4.04         | 86.69       |
+| [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 99.20        | 24.88           | 46.25        | ---         |
+| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 154.20\*     |             |
+| [DB-IC15](./models/text_detection_db)                   | Text Detection                | 640x480    | 142.91         | 2835.91      | 208.41          | ---          | ---         |
+| [DB-TD500](./models/text_detection_db)                  | Text Detection                | 640x480    | 142.91         | 2841.71      | 210.51          | ---          | ---         |
+| [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 50.21          | 234.32       | 196.15          | 125.30       | ---         |
+| [CRNN-CN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 73.52          | 322.16       | 239.76          | 166.79       | ---         |
+| [PP-ResNet](./models/image_classification_ppresnet)     | Image Classification          | 224x224    | 56.05          | 602.58       | 98.64           | 75.45        | ---         |
+| [MobileNet-V1](./models/image_classification_mobilenet) | Image Classification          | 224x224    | 9.04           | 92.25        | 33.18           | 145.66\*     | ---         |
+| [MobileNet-V2](./models/image_classification_mobilenet) | Image Classification          | 224x224    | 8.86           | 74.03        | 31.92           | 146.31\*     | ---         |
+| [PP-HumanSeg](./models/human_segmentation_pphumanseg)   | Human Segmentation            | 192x192    | 19.92          | 105.32       | 67.97           | 74.77        | ---         |
+| [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 7.04           | 37.68        | ---             | ---          | ---         |
+| [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 36.15          | 705.48       | 76.82           | ---          | ---         |
+| [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 35.81          | 521.98       | 90.07           | 44.61        | ---         |
+| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 256x256    | 15.57          | 168.37       | 50.64           | 145.56\*     | ---         |
+| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 256x256    | 20.16          | 148.24       | 156.30          | 663.77\*     | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
 
@@ -69,7 +70,11 @@ Some examples are listed below. You can find more in the directory of each model
 
 ### Palm Detection with [MP-PalmDet](./models/palm_detection_mediapipe/)
 
-![palm det](./models/palm_detection_mediapipe//examples/mppalmdet_demo.gif)
+![palm det](./models/palm_detection_mediapipe/examples/mppalmdet_demo.gif)
+
+### Hand Pose Estimation with [MP-HandPose](models/handpose_estimation_mediapipe/)
+
+![handpose estimation](models/handpose_estimation_mediapipe/examples/mphandpose_demo.gif)
 
 ### QR Code Detection and Parsing with [WeChatQRCode](./models/qrcode_wechatqrcode/)
 
