@@ -19,6 +19,8 @@ Supported datasets:
 - [ImageNet](#imagenet)
 - [WIDERFace](#widerface)
 - [LFW](#lfw)
+- [ICDAR](#icdar)
+- [IIIT5K](#iiit5k)
 
 ## ImageNet
 
@@ -137,4 +139,55 @@ Run evaluation with the following command:
 
 ```shell
 python eval.py -m sface -d lfw -dr /path/to/lfw
+```
+
+## ICDAR2003
+
+### Prepare data
+
+Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions to download the ICDAR2003 dataset and the labels. 
+
+```shell
+$ tree -L 2 /path/to/icdar
+.
+├── word
+│   ├── 1
+│   │   ├── self
+│   │   ├── ...
+│   │   └── willcooks
+│   ├── ...
+│   └── 12
+└── word.xml
+    
+```
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m crnn -d icdar -dr /path/to/icdar
+```
+
+### Example
+
+```shell
+download zip file from http://www.iapr-tc11.org/dataset/ICDAR2003_RobustReading/TrialTrain/word.zip
+upzip file to /path/to/icdar
+python eval.py -m crnn -d icdar -dr /path/to/icdar
+```
+
+## IIIT5K
+
+### Prepare data
+
+Please visit https://github.com/cv-small-snails/Text-Recognition-Material to download the IIIT5K dataset and the labels.
+
+### Evaluation
+
+All the datasets in the format of lmdb can be evaluated by this script.<br>
+Run evaluation with the following command:
+
+```shell
+python eval.py -m crnn -d iiit5k -dr /path/to/iiit5k
 ```
