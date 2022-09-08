@@ -106,6 +106,9 @@ class MCN():
 
         # Perform non maximum suppression to eliminate redundant overlapping boxes with
         # lower confidences.
+        # print(person_boxes)
+        if len(person_boxes) == 0:
+            return frame
         person_indices = cv2.dnn.NMSBoxes(person_boxes, person_confidences, config['person_conf_thres'],
                                           config['person_iou_thres']).flatten()
         kp_indices = cv2.dnn.NMSBoxes(kp_boxes, kp_confidences, config['kp_conf_thres'],
