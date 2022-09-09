@@ -1,10 +1,11 @@
 import os
 import argparse
-
+# import sys
+# sys.path.append('/')
 import yaml
 import numpy as np
 import cv2 as cv
-
+from detection_metric import detect_metric
 from models import MODELS
 from utils import METRICS, DATALOADERS
 
@@ -118,13 +119,17 @@ if __name__ == '__main__':
     # prepend PYTHONPATH to each path
     prepend_pythonpath(cfg)
 
-    # Instantiate benchmarking
-    benchmark = Benchmark(**cfg['Benchmark'])
-
     # Instantiate model
     model = build_from_cfg(cfg=cfg['Model'], registery=MODELS, key='name')
-
-    # Run benchmarking
     print('Benchmarking {}:'.format(model.name))
-    benchmark.run(model)
-    benchmark.printResults()
+
+    type = cfg['Benchmark']['type']
+    if type=="Detection metrics":
+        detect_metric(model,**cfg['Benchmark'])
+    else:
+        # Instantiate benchmarking
+        benchmark = Benchmark(**cfg['Benchmark'])
+
+        # Run benchmarking
+        benchmark.run(model)
+        benchmark.printResults()

@@ -1,0 +1,21 @@
+Benchmark:
+  name: "Text Detection metrics Benchmark"
+  type: "Detection metrics"
+  data:
+    gt: "./data/icdar2015/gt"
+    imgs: "./data/icdar2015/img"
+    out: "./data/icdar2015/out"
+    iou_constraint: 0.3
+    area_precision_constraint: 0.8
+    height: 736
+    width: 736
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "DB"
+  modelPath: "models/text_detection_db/text_detection_DB_TD500_resnet18_2021sep.onnx"
+  binaryThreshold: 0.3
+  polygonThreshold: 0.5
+  maxCandidates: 200
+  unclipRatio: 2.0

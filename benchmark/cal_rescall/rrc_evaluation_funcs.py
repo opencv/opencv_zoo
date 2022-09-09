@@ -4,7 +4,7 @@
 import json
 import sys
 
-sys.path.append('./')
+sys.path.append('/')
 import zipfile
 import re
 import sys
