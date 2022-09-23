@@ -33,17 +33,17 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(
     description="An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition (https://arxiv.org/abs/1507.05717)")
-parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_EN_2021sep.onnx', help='Path to the model.')
+parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
+parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_EN_2021sep.onnx', help='Usage: Set model path, defaults to text_recognition_CRNN_EN_2021sep.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--charset', '-c', type=str, default='charset_36_EN.txt', help='Path to the charset file corresponding to the selected model.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--charset', '-c', type=str, default='charset_36_EN.txt', help='Usage: Set the path to the charset file corresponding to the selected model.')
+parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save a file with results. Invalid in case of camera input. Default will be set to “False”.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 parser.add_argument('--width', type=int, default=736,
                     help='Preprocess input image by resizing to a specific width. It should be multiple by 32.')
 parser.add_argument('--height', type=int, default=736,

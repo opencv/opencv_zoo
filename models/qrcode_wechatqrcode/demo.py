@@ -21,13 +21,13 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(
     description="WeChat QR code detector for detecting and parsing QR code (https://github.com/opencv/opencv_contrib/tree/master/modules/wechat_qrcode)")
-parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021sep.prototxt', help='Path to detect.prototxt.')
-parser.add_argument('--detect_model_path', type=str, default='detect_2021sep.caffemodel', help='Path to detect.caffemodel.')
-parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021sep.prototxt', help='Path to sr.prototxt.')
-parser.add_argument('--sr_model_path', type=str, default='sr_2021sep.caffemodel', help='Path to sr.caffemodel.')
-parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
+parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021sep.prototxt', help='Usage: Set path to detect.prototxt.')
+parser.add_argument('--detect_model_path', type=str, default='detect_2021sep.caffemodel', help='Usage: Set path to detect.caffemodel.')
+parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021sep.prototxt', help='Usage: Set path to sr.prototxt.')
+parser.add_argument('--sr_model_path', type=str, default='sr_2021sep.caffemodel', help='Usage: Set path to sr.caffemodel.')
+parser.add_argument('--save', '-s', type=str2bool, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, res, points, points_color=(0, 255, 0), text_color=(0, 255, 0), fps=None):

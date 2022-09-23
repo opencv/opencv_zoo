@@ -29,23 +29,23 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(description='Real-time Scene Text Detection with Differentiable Binarization (https://arxiv.org/abs/1911.08947).')
-parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18_2021sep.onnx', help='Path to the model.')
+parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
+parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18_2021sep.onnx', help='Usage: Set model path, defaults to text_detection_DB_TD500_resnet18_2021sep.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--width', type=int, default=736,
-                    help='Preprocess input image by resizing to a specific width. It should be multiple by 32.')
+                    help='Usage: Resize input image to certain width, default = 736. It should be multiple by 32.')
 parser.add_argument('--height', type=int, default=736,
-                    help='Preprocess input image by resizing to a specific height. It should be multiple by 32.')
-parser.add_argument('--binary_threshold', type=float, default=0.3, help='Threshold of the binary map.')
-parser.add_argument('--polygon_threshold', type=float, default=0.5, help='Threshold of polygons.')
-parser.add_argument('--max_candidates', type=int, default=200, help='Max candidates of polygons.')
-parser.add_argument('--unclip_ratio', type=np.float64, default=2.0, help=' The unclip ratio of the detected text region, which determines the output size.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+                    help='Usage: Resize input image to certain height, default = 736. It should be multiple by 32.')
+parser.add_argument('--binary_threshold', type=float, default=0.3, help='Usage: Threshold of the binary map, default = 0.3.')
+parser.add_argument('--polygon_threshold', type=float, default=0.5, help='Usage: Threshold of polygons, default = 0.5.')
+parser.add_argument('--max_candidates', type=int, default=200, help='Usage: Set maximum number of polygon candidates, default = 200.')
+parser.add_argument('--unclip_ratio', type=np.float64, default=2.0, help=' Usage: The unclip ratio of the detected text region, which determines the output size, default = 2.0.')
+parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), isClosed=True, thickness=2, fps=None):

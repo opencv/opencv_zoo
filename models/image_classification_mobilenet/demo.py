@@ -24,14 +24,14 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(description='Demo for MobileNet V1 & V2.')
-parser.add_argument('--input', '-i', type=str, help='Path to the input image.')
-parser.add_argument('--model', '-m', type=str, choices=['v1', 'v2', 'v1-q', 'v2-q'], default='v1', help='Which model to use, either v1 or v2.')
+parser.add_argument('--input', '-i', type=str, help='Usage: Set input path to a certain image, omit if using camera.')
+parser.add_argument('--model', '-m', type=str, choices=['v1', 'v2', 'v1-q', 'v2-q'], default='v1', help='Usage: Set model type, defaults to image_classification_mobilenetv1_2022apr.onnx (v1).')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--label', '-l', type=str, default='./imagenet_labels.txt', help='Path to the dataset labels.')
+parser.add_argument('--label', '-l', type=str, default='./imagenet_labels.txt', help='Usage: Set path to the different labels that will be used during the detection. Default list found in imagenet_labels.txt')
 args = parser.parse_args()
 
 if __name__ == '__main__':
