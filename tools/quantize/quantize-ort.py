@@ -29,7 +29,7 @@ class DataReader(CalibrationDataReader):
 
     def get_calibration_data(self, image_dir):
         blobs = []
-        supported = ["jpg", "JPG", "png", "PNG"]  # 支持的文件后缀类型
+        supported = ["jpg", "JPG", "png", "PNG"]  # supported file suffix
         for image_name in os.listdir(image_dir):
             image_name_suffix = image_name.split('.')[-1]
             if image_name_suffix not in supported:
