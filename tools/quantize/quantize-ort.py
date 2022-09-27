@@ -29,9 +29,9 @@ class DataReader(CalibrationDataReader):
 
     def get_calibration_data(self, image_dir):
         blobs = []
-        supported = ["jpg", "JPG", "png", "PNG"]  # supported file suffix
+        supported = ["jpg", "png"]  # supported file suffix
         for image_name in os.listdir(image_dir):
-            image_name_suffix = image_name.split('.')[-1]
+            image_name_suffix = image_name.split('.')[-1].lower()
             if image_name_suffix not in supported:
                 continue
             img = cv.imread(os.path.join(image_dir, image_name))
