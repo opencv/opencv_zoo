@@ -30,7 +30,7 @@ def prepend_pythonpath(cfg):
             prepend_pythonpath(v)
         else:
             if 'path' in k.lower():
-                cfg[k] = os.path.join(os.environ['PYTHONPATH'], v)
+                cfg[k] = os.path.join(os.environ['PYTHONPATH'].split(os.pathsep)[-1], v)
 
 class Benchmark:
     def __init__(self, **kwargs):
