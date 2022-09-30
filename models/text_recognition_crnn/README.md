@@ -12,6 +12,8 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval) at different 
 | CRNN_EN_INT8_QDQ |   79.84   |   74.47   |  51.04  |
 | CRNN_CH      | 71.28      | 80.90     | 67.36     |
 | CRNN_CH_FP16 | 78.63      | 80.93     | 67.01     |
+| CRNN_CH_INT8_QOperator  |    78.03   |   80.93  | 66.67     |
+| CRNN_CH_INT8_QDQ  |   76.82    |  80.37   |   66.67   |
 
 \*: 'FP16' stands for 'model quantized into FP16'.
 
