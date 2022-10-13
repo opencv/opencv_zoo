@@ -75,8 +75,12 @@ if __name__ == '__main__':
 
     # If input is an image
     if args.input is not None:
-        image = cv.imread(args.input)
-        image = cv.resize(image, [args.width, args.height])
+        original_image = cv.imread(args.input)
+        original_w = original_image.shape[1]
+        original_h = original_image.shape[0]
+        scaleHeight = original_h / args.height
+        scaleWidth = original_w / args.width
+        image = cv.resize(original_image, [args.width, args.height])
 
         # Inference
         results = detector.infer(image)
@@ -86,18 +90,25 @@ if __name__ == '__main__':
                 recognizer.infer(image, box.reshape(8))
             )
 
+        # Scale the results bounding box
+        for i in range(len(results[0])):
+            for j in range(4):
+                box = results[0][i][j]
+                results[0][i][j][0] = box[0] * scaleWidth
+                results[0][i][j][1] = box[1] * scaleHeight
+
         # Draw results on the input image
-        image = visualize(image, results, texts)
+        original_image = visualize(original_image, results, texts)
 
         # Save results if save is true
         if args.save:
             print('Resutls saved to result.jpg\n')
-            cv.imwrite('result.jpg', image)
+            cv.imwrite('result.jpg', original_image)
 
         # Visualize results in a new window
         if args.vis:
             cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
-            cv.imshow(args.input, image)
+            cv.imshow(args.input, original_image)
             cv.waitKey(0)
     else: # Omit input to call default camera
         deviceId = 0
@@ -105,12 +116,17 @@ if __name__ == '__main__':
 
         tm = cv.TickMeter()
         while cv.waitKey(1) < 0:
-            hasFrame, frame = cap.read()
+            hasFrame, original_image = cap.read()
             if not hasFrame:
                 print('No frames grabbed!')
                 break
 
-            frame = cv.resize(frame, [args.width, args.height])
+            original_w = original_image.shape[1]
+            original_h = original_image.shape[0]
+            scaleHeight = original_h / args.height
+            scaleWidth = original_w / args.width
+
+            frame = cv.resize(original_image, [args.width, args.height])
             # Inference of text detector
             tm.start()
             results = detector.infer(frame)
@@ -133,10 +149,17 @@ if __name__ == '__main__':
                 cv.putText(frame, 'Latency - {}: {:.2f}'.format(recognizer.name, tm.getFPS()), (0, 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
                 tm.reset()
 
+                # Scale the results bounding box
+                for i in range(len(results[0])):
+                    for j in range(4):
+                        box = results[0][i][j]
+                        results[0][i][j][0] = box[0] * scaleWidth
+                        results[0][i][j][1] = box[1] * scaleHeight
+
                 # Draw results on the input image
-                frame = visualize(frame, results, texts)
+                original_image = visualize(original_image, results, texts)
                 print(texts)
 
             # Visualize results in a new Window
-            cv.imshow('{} Demo'.format(recognizer.name), frame)
+            cv.imshow('{} Demo'.format(recognizer.name), original_image)
 
