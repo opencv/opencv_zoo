@@ -29,9 +29,10 @@ class DataReader(CalibrationDataReader):
 
     def get_calibration_data(self, image_dir):
         blobs = []
+        supported = ["jpg", "png"]  # supported file suffix
         for image_name in os.listdir(image_dir):
             image_name_suffix = image_name.split('.')[-1].lower()
-            if image_name_suffix != 'jpg' and image_name_suffix != 'jpeg':
+            if image_name_suffix not in supported:
                 continue
             img = cv.imread(os.path.join(image_dir, image_name))
             img = self.transforms(img)
@@ -55,13 +56,13 @@ class Quantize:
 
     def check_opset(self, convert=True):
         model = onnx.load(self.model_path)
-        if model.opset_import[0].version != 11:
-            print('\tmodel opset version: {}. Converting to opset 11'.format(model.opset_import[0].version))
-            # convert opset version to 11
-            model_opset11 = version_converter.convert_version(model, 11)
+        if model.opset_import[0].version != 13:
+            print('\tmodel opset version: {}. Converting to opset 13'.format(model.opset_import[0].version))
+            # convert opset version to 13
+            model_opset13 = version_converter.convert_version(model, 13)
             # save converted model
-            output_name = '{}-opset11.onnx'.format(self.model_path[:-5])
-            onnx.save_model(model_opset11, output_name)
+            output_name = '{}-opset.onnx'.format(self.model_path[:-5])
+            onnx.save_model(model_opset13, output_name)
             # update model_path for quantization
             self.model_path = output_name
 
@@ -98,7 +99,7 @@ models=dict(
     # TBD: DB-EN & DB-CN
     crnn_en=Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx',
                      calibration_image_dir='../../benchmark/data/text',
-                     transforms=Compose([Resize(size=(100, 32)), ColorConvert(ctype=cv.COLOR_BGR2GRAY)])),
+                     transforms=Compose([Resize(size=(100, 32)), Normalize(mean=[127.5, 127.5, 127.5], std=[127.5, 127.5, 127.5]), ColorConvert(ctype=cv.COLOR_BGR2GRAY)])),
     crnn_cn=Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_CN_2021nov.onnx',
                      calibration_image_dir='../../benchmark/data/text',
                      transforms=Compose([Resize(size=(100, 32))]))
