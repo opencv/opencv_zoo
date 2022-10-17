@@ -20,12 +20,20 @@ Time is measured from data preprocess (resize is excluded), to a forward pass of
 Run the following command to benchmark on a given config:
 
 ```shell
-PYTHONPATH=.. python benchmark.py --cfg ./config/face_detection_yunet.yaml
+export PYTHONPATH=$PYTHONPATH:.. 
+python benchmark.py --cfg ./config/face_detection_yunet.yaml
 ```
 
 If you are a Windows user and wants to run in CMD/PowerShell, use this command instead:
+- CMD
 ```shell
-set PYTHONPATH=..
+set PYTHONPATH=%PYTHONPATH%;..
+python benchmark.py --cfg ./config/face_detection_yunet.yaml
+```
+
+- PowerShell
+```shell
+$env:PYTHONPATH=$env:PYTHONPATH+";.."
 python benchmark.py --cfg ./config/face_detection_yunet.yaml
 ```
 <!--
