@@ -73,11 +73,22 @@ if __name__ == '__main__':
 
     # If input is an image
     if args.input is not None:
-        image = cv.imread(args.input)
-        image = cv.resize(image, [args.width, args.height])
+        original_image = cv.imread(args.input)
+        original_w = original_image.shape[1]
+        original_h = original_image.shape[0]
+        scaleHeight = original_h / args.height
+        scaleWidth = original_w / args.width
+        image = cv.resize(original_image, [args.width, args.height])
 
         # Inference
         results = model.infer(image)
+
+        # Scale the results bounding box
+        for i in range(len(results[0])):
+            for j in range(4):
+                box = results[0][i][j]
+                results[0][i][j][0] = box[0] * scaleWidth
+                results[0][i][j][1] = box[1] * scaleHeight
 
         # Print results
         print('{} texts detected.'.format(len(results[0])))
@@ -85,17 +96,17 @@ if __name__ == '__main__':
             print('{}: {} {} {} {}, {:.2f}'.format(idx, bbox[0], bbox[1], bbox[2], bbox[3], score))
 
         # Draw results on the input image
-        image = visualize(image, results)
+        original_image = visualize(original_image, results)
 
         # Save results if save is true
         if args.save:
             print('Resutls saved to result.jpg\n')
-            cv.imwrite('result.jpg', image)
+            cv.imwrite('result.jpg', original_image)
 
         # Visualize results in a new window
         if args.vis:
             cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
-            cv.imshow(args.input, image)
+            cv.imshow(args.input, original_image)
             cv.waitKey(0)
     else: # Omit input to call default camera
         deviceId = 0
@@ -103,22 +114,33 @@ if __name__ == '__main__':
 
         tm = cv.TickMeter()
         while cv.waitKey(1) < 0:
-            hasFrame, frame = cap.read()
+            hasFrame, original_image = cap.read()
             if not hasFrame:
                 print('No frames grabbed!')
                 break
 
-            frame = cv.resize(frame, [args.width, args.height])
+            original_w = original_image.shape[1]
+            original_h = original_image.shape[0]
+            scaleHeight = original_h / args.height
+            scaleWidth = original_w / args.width
+            frame = cv.resize(original_image, [args.width, args.height])
             # Inference
             tm.start()
             results = model.infer(frame) # results is a tuple
             tm.stop()
 
+            # Scale the results bounding box
+            for i in range(len(results[0])):
+                for j in range(4):
+                    box = results[0][i][j]
+                    results[0][i][j][0] = box[0] * scaleWidth
+                    results[0][i][j][1] = box[1] * scaleHeight
+
             # Draw results on the input image
-            frame = visualize(frame, results, fps=tm.getFPS())
+            original_image = visualize(original_image, results, fps=tm.getFPS())
 
             # Visualize results in a new Window
-            cv.imshow('{} Demo'.format(model.name), frame)
+            cv.imshow('{} Demo'.format(model.name), original_image)
 
             tm.reset()
 

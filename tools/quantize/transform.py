@@ -41,6 +41,7 @@ class Normalize:
         self.std = std
 
     def __call__(self, img):
+        img = img.astype("float32")
         if self.mean is not None:
             img[:, :, 0] = img[:, :, 0] - self.mean[0]
             img[:, :, 1] = img[:, :, 1] - self.mean[1]
