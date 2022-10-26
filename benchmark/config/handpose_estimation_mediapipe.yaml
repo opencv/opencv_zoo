@@ -1,6 +1,6 @@
 Benchmark:
-  name: "Palm Detection Benchmark"
-  type: "Detection"
+  name: "Hand Pose Estimation Benchmark"
+  type: "Recognition"
   data:
     path: "benchmark/data/palm_detection"
     files: ["palm1.jpg", "palm2.jpg", "palm3.jpg"]
@@ -14,9 +14,6 @@ Benchmark:
   target: "cpu"
 
 Model:
-  name: "MPPalmDet"
-  modelPath: "models/palm_detection_mediapipe/palm_detection_mediapipe_2022may.onnx"
-  scoreThreshold: 0.5
-  nmsThreshold: 0.3
-  topK: 1
-
+  name: "MPHandPose"
+  modelPath: "models/handpose_estimation_mediapipe/handpose_estimation_mediapipe_2022may.onnx"
+  confThreshold: 0.9

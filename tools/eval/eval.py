@@ -73,6 +73,11 @@ models = dict(
             name="SFace",
             topic="face_recognition",
             modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec-act_int8-wt_int8-quantized.onnx")),
+        crnn=dict(
+            name="CRNN",
+            topic="text_recognition",
+            modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx"),
+            charsetPath=os.path.join(root_dir, "models/text_recognition_crnn/charset_36_EN.txt")),
 )
 
 datasets = dict(
@@ -87,6 +92,12 @@ datasets = dict(
             name="LFW",
             topic="face_recognition",
             target_size=112),
+        icdar=dict(
+            name="ICDAR",
+            topic="text_recognition"),
+        iiit5k=dict(
+            name="IIIT5K",
+            topic="text_recognition"),
 )
 
 def main(args):
