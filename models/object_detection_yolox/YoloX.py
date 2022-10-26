@@ -2,29 +2,19 @@ import cv2
 import numpy as np
 
 class YoloX():
-    def __init__(self, modelPath, p6=False, confThreshold=0.35, nmsThreshold=0.5, objThreshold=0.5):
-        with open('coco.names', 'rt') as f:
-            self.classes = f.read().rstrip('\n').split('\n')
-        self.num_classes = len(self.classes)
+    def __init__(self, modelPath, confThreshold=0.35, nmsThreshold=0.5, objThreshold=0.5):
+        self.num_classes = 80
         self.net = cv2.dnn.readNet(modelPath)
         self.input_size = (640, 640)
-        #self.ratio = min(self.input_size[0] / image.shape[0], self.input_size[1] / image.shape[1])
         self.mean = np.array([0.485, 0.456, 0.406], dtype=np.float32).reshape(1, 1, 3)
         self.std = np.array([0.229, 0.224, 0.225], dtype=np.float32).reshape(1, 1, 3)
-        if not p6:
-            self.strides = [8, 16, 32]
-        else:
-            self.strides = [8, 16, 32, 64]
+        self.strides = [8, 16, 32]
         self.confThreshold = confThreshold
         self.nmsThreshold = nmsThreshold
         self.objThreshold = objThreshold
 
-    def preprocess(self, image):
-        if len(image.shape) == 3:
-            padded_img = np.ones((self.input_size[0], self.input_size[1], 3)) * 114.0
-        else:
-            padded_img = np.ones(self.input_size) * 114.0
-        img = np.array(image)
+    def preprocess(self, img):
+        padded_img = np.ones((self.input_size[0], self.input_size[1], 3)) * 114.0
         ratio = min(self.input_size[0] / img.shape[0], self.input_size[1] / img.shape[1])
         resized_img = cv2.resize(
             img, (int(img.shape[1] * ratio), int(img.shape[0] * ratio)), interpolation=cv2.INTER_LINEAR
@@ -42,9 +32,7 @@ class YoloX():
         self.net.setInput(blob)
         outs = self.net.forward(self.net.getUnconnectedOutLayersNames())
         predictions = self.postprocess(outs[0], ratio)
-
         return predictions
-
 
     def postprocess(self, outputs, ratio):
         grids = []
@@ -78,6 +66,7 @@ class YoloX():
 
         final_dets = []
         num_classes = scores.shape[1]
+
         for cls_ind in range(num_classes):
             cls_scores = scores[:, cls_ind]
             valid_score_mask = cls_scores > self.confThreshold
@@ -110,7 +99,6 @@ class YoloX():
                     h = np.maximum(0.0, yy2 - yy1 + 1)
                     inter = w * h
                     ovr = inter / (areas[i] + areas[order[1:]] - inter)
-
                     inds = np.where(ovr <= self.nmsThreshold)[0]
                     order = order[inds + 1]
                     if len(keep) > 0:
@@ -118,8 +106,9 @@ class YoloX():
                         dets = np.concatenate([valid_boxes[keep], valid_scores[keep, None], cls_inds], 1)
                         final_dets.append(dets)
 
-        if len(final_dets) == 0:
-            return None
-
         res_dets = np.concatenate(final_dets, 0)
+
+        if len(final_dets) == 0:
+            res_dets = np.array([])
+
         return res_dets
