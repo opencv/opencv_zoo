@@ -19,7 +19,7 @@ Guidelines:
 | ---------------------------------------------------- | ----------------------------- | ---------- | -------------- | ------------ | --------------- | ------------ | ----------- |
 | [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 6.22         | 12.18           | 4.04         | 86.69       |
 | [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 99.20        | 24.88           | 46.25        | ---         |
-| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 154.20\*     |             |
+| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 29.53        |             |
 | [DB-IC15](./models/text_detection_db)                   | Text Detection                | 640x480    | 142.91         | 2835.91      | 208.41          | ---          | ---         |
 | [DB-TD500](./models/text_detection_db)                  | Text Detection                | 640x480    | 142.91         | 2841.71      | 210.51          | ---          | ---         |
 | [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 50.21          | 234.32       | 196.15          | 125.30       | ---         |
@@ -31,8 +31,8 @@ Guidelines:
 | [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 7.04           | 37.68        | ---             | ---          | ---         |
 | [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 36.15          | 705.48       | 76.82           | ---          | ---         |
 | [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 35.81          | 521.98       | 90.07           | 44.61        | ---         |
-| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 256x256    | 15.57          | 168.37       | 50.64           | 145.56\*     | ---         |
-| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 256x256    | 20.16          | 148.24       | 156.30          | 663.77\*     | ---         |
+| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 256x256    | 15.57          | 168.37       | 50.64           | 62.45        | ---         |
+| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 256x256    | 20.16          | 148.24       | 156.30          | 42.70        | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
 
