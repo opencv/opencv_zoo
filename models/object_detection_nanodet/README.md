@@ -2,8 +2,35 @@
 
 Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model which using Generalized Focal Loss as classification and regression loss.In NanoDet-Plus, we propose a novel label assignment strategy with a simple assign guidance module (AGM) and a dynamic soft label assigner (DSLA) to solve the optimal label assignment problem in lightweight model training.
 
-#### Model metrics:
-Average Precision and Recall values observed for COCO dataset classes are showed below 
+Note:
+- This version of nanodet: Nanodet-m-plus-1.5x_416
+
+## Demo
+
+Run the following command to try the demo: 
+```shell
+# detect on camera input
+python demo.py
+# detect on an image
+python demo.py --input /path/to/image
+```
+Note: 
+- image result saved as "result.jpg"
+
+
+## Results
+
+Here are some of the sample results that were observed using the model,
+
+![test1_res.jpg](./samples/1_res.jpg)
+![test2_res.jpg](./samples/2_res.jpg)
+  
+Video inference result,
+![WebCamR.gif](./samples/WebCamR.gif)
+
+## Model metrics:
+
+The model is evaluated on [COCO 2017 val](https://cocodataset.org/#download). Results are showed below:
 
 <table>
 <tr><th>Average Precision </th><th>Average Recall</th></tr>
@@ -29,63 +56,6 @@ Average Precision and Recall values observed for COCO dataset classes are showed
 |  medium  |  0.50:0.95  |  0.510  |
 |  large  |  0.50:0.95  |  0.702  |
 </td></tr> </table>
-
-
-## Demo
-
-Run the following command to try the demo: 
-```shell
-# Nanodet inference on image input
-python demo.py --model /path/to/model/ --input_type image --image_path /path/to/image/
-
-# Nanodet inference on video input
-python demo.py --model /path/to/model/ --input_type video 
-
-#Saving outputs 
-#Image output
-python demo.py --model /path/to/model/ --input_type image --image_path /path/to/image/ --save True
-
-#Video output
-python demo.py --model /path/to/model/ --input_type video --save True
-```
-Note: 
-- By default input_type: image
-- image result saved as "result.jpg"
-- webcam result saved as "Webcam_result.mp4"
-
-
-## Results
-
-Here are some of the sample results that were observed using the model,
-
-<p float="left">
-  <img src="./examples/results/TestResult1.png" width="450" height="450">
-  <img src="./examples/results/TestResult2.png" width="450" height="450">
-</p>
-  
-Video inference result,
-<p align="center">
-  <img src="https://github.com/Sidd1609/opencv_zoo/blob/master/models/object_detection_nanodet/examples/results/WebCamR.gif" width="650" height="450">
-</p>
-  
-
-## License
-
-All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
-
-
-## Reference
-
-- Nanodet: https://zhuanlan.zhihu.com/p/306530300
-- Nanodet Plus: https://zhuanlan.zhihu.com/p/449912627
-- Nanodet weight and scripts for training: https://github.com/RangiLyu/nanodet
-
-
-#### Note:
-
-- This version of nanodet: Nanodet-m-plus-1.5x_416
-- The model was trained on COCO 2017 dataset, link to dataset: https://cocodataset.org/#download
-- Below, we have results of COCO data inference
 
 | class         | AP50   | mAP   | class          | AP50   | mAP   |
 |:--------------|:-------|:------|:---------------|:-------|:------|
@@ -130,6 +100,9 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 | scissors      | 27.8   | 17.8  | teddy bear     | 54.1   | 35.4  |
 | hair drier    | 2.9    | 1.1   | toothbrush     | 13.1   | 8.2   |
 
+## License
+
+All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 #### Contributor Details
 
@@ -138,3 +111,9 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 - Github Profile: https://github.com/Sidd1609
 - Organisation: OpenCV
 - Project: Lightweight object detection models using OpenCV 
+
+## Reference
+
+- Nanodet: https://zhuanlan.zhihu.com/p/306530300
+- Nanodet Plus: https://zhuanlan.zhihu.com/p/449912627
+- Nanodet weight and scripts for training: https://github.com/RangiLyu/nanodet

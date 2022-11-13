@@ -1,17 +1,21 @@
-import cv2
 import numpy as np
+import cv2
 
-class NanoDet():
-    def __init__(self, modelPath, prob_threshold=0.35, iou_threshold=0.6):
+class NanoDet:
+    def __init__(self, modelPath, prob_threshold=0.35, iou_threshold=0.6, backend_id=0, target_id=0):
         self.strides = (8, 16, 32, 64)
         self.image_shape = (416, 416)
         self.reg_max = 7
         self.prob_threshold = prob_threshold
         self.iou_threshold = iou_threshold
+        self.backend_id = backend_id
+        self.target_id = target_id
         self.project = np.arange(self.reg_max + 1)
         self.mean = np.array([103.53, 116.28, 123.675], dtype=np.float32).reshape(1, 1, 3)
         self.std = np.array([57.375, 57.12, 58.395], dtype=np.float32).reshape(1, 1, 3)
         self.net = cv2.dnn.readNet(modelPath)
+        self.net.setPreferableBackend(self.backend_id)
+        self.net.setPreferableTarget(self.target_id)
 
         self.anchors_mlvl = []
         for i in range(len(self.strides)):
@@ -29,24 +33,19 @@ class NanoDet():
             anchors = np.column_stack((cx, cy))
             self.anchors_mlvl.append(anchors)
 
-    def pre_process(self, srcimg, keep_ratio=True):
-        top, left, newh, neww = 0, 0, self.image_shape[0], self.image_shape[1]
-        if keep_ratio and srcimg.shape[0] != srcimg.shape[1]:
-            hw_scale = srcimg.shape[0] / srcimg.shape[1]
-            if hw_scale > 1:
-                newh, neww = self.image_shape[0], int(self.image_shape[1] / hw_scale)
-                img = cv2.resize(srcimg, (neww, newh), interpolation=cv2.INTER_AREA)
-                left = int((self.image_shape[1] - neww) * 0.5)
-                img = cv2.copyMakeBorder(img, 0, 0, left, self.image_shape[1] - neww - left, cv2.BORDER_CONSTANT,
-                                         value=0)  # add border
-            else:
-                newh, neww = int(self.image_shape[0] * hw_scale), self.image_shape[1]
-                img = cv2.resize(srcimg, (neww, newh), interpolation=cv2.INTER_AREA)
-                top = int((self.image_shape[0] - newh) * 0.5)
-                img = cv2.copyMakeBorder(img, top, self.image_shape[0] - newh - top, 0, 0, cv2.BORDER_CONSTANT, value=0)
-        else:
-            img = cv2.resize(srcimg, self.image_shape, interpolation=cv2.INTER_AREA)
+    @property
+    def name(self):
+        return self.__class__.__name__
 
+    def setBackend(self, backenId):
+        self.backend_id = backendId
+        self.net.setPreferableBackend(self.backend_id)
+
+    def setTarget(self, targetId):
+        self.target_id = targetId
+        self.net.setPreferableTarget(self.target_id)
+
+    def pre_process(self, img):
         img = img.astype(np.float32)
         img = (img - self.mean) / self.std
         blob = cv2.dnn.blobFromImage(img)
@@ -56,8 +55,7 @@ class NanoDet():
         blob = self.pre_process(srcimg)
         self.net.setInput(blob)
         outs = self.net.forward(self.net.getUnconnectedOutLayersNames())
-        det_bboxes, det_conf, det_classid = self.post_process(outs)
-        preds = [det_bboxes, det_conf, det_classid]
+        preds = self.post_process(outs)
         return preds
 
     def post_process(self, preds):
@@ -117,13 +115,10 @@ class NanoDet():
         indices = cv2.dnn.NMSBoxes(bboxes_wh.tolist(), confidences.tolist(), self.prob_threshold, self.iou_threshold)
 
         if len(indices)>0:
-            det_bboxes = bboxes_mlvl[indices[:]]
-            det_conf = confidences[indices[:]]
-            det_classid = classIds[indices[:]]
+            det_bboxes = bboxes_mlvl[indices]
+            det_conf = confidences[indices]
+            det_classid = classIds[indices]
 
+            return np.concatenate([det_bboxes, det_conf.reshape(-1, 1), det_classid.reshape(-1, 1)], axis=1)
         else:
-            det_bboxes = np.array([])
-            det_conf = np.array([])
-            det_classid = np.array([])
-
-        return det_bboxes.astype(np.float32), det_conf, det_classid
+            return np.array([])
