@@ -1,8 +1,8 @@
-import cv2
 import numpy as np
+import cv2
 
-class YoloX():
-    def __init__(self, modelPath, confThreshold=0.35, nmsThreshold=0.5, objThreshold=0.5):
+class YoloX:
+    def __init__(self, modelPath, confThreshold=0.35, nmsThreshold=0.5, objThreshold=0.5, backendId=0, targetId=0):
         self.num_classes = 80
         self.net = cv2.dnn.readNet(modelPath)
         self.input_size = (640, 640)
@@ -12,29 +12,37 @@ class YoloX():
         self.confThreshold = confThreshold
         self.nmsThreshold = nmsThreshold
         self.objThreshold = objThreshold
+        self.backendId = backendId
+        self.targetId = targetId
+        self.net.setPreferableBackend(self.backendId)
+        self.net.setPreferableTarget(self.targetId)
+
+    @property
+    def name(self):
+        return self.__class__.__name__
+
+    def setBackend(self, backenId):
+        self.backendId = backendId
+        self.net.setPreferableBackend(self.backendId)
+
+    def setTarget(self, targetId):
+        self.targetId = targetId
+        self.net.setPreferableTarget(self.targetId)
 
     def preprocess(self, img):
-        padded_img = np.ones((self.input_size[0], self.input_size[1], 3)) * 114.0
-        ratio = min(self.input_size[0] / img.shape[0], self.input_size[1] / img.shape[1])
-        resized_img = cv2.resize(
-            img, (int(img.shape[1] * ratio), int(img.shape[0] * ratio)), interpolation=cv2.INTER_LINEAR
-        ).astype(np.float32)
-        padded_img[: int(img.shape[0] * ratio), : int(img.shape[1] * ratio)] = resized_img
-        image = padded_img
-
-        image = image.astype(np.float32)
-        image = image[:, :, ::-1]
-        return image, ratio
+        blob = np.transpose(img, (2, 0, 1))
+        return blob[np.newaxis, :, :, :]
 
     def infer(self, srcimg):
-        img, ratio = self.preprocess(srcimg)
-        blob = cv2.dnn.blobFromImage(img)
-        self.net.setInput(blob)
+        input_blob = self.preprocess(srcimg)
+
+        self.net.setInput(input_blob)
         outs = self.net.forward(self.net.getUnconnectedOutLayersNames())
-        predictions = self.postprocess(outs[0], ratio)
+
+        predictions = self.postprocess(outs[0])
         return predictions
 
-    def postprocess(self, outputs, ratio):
+    def postprocess(self, outputs):
         grids = []
         expanded_strides = []
         hsizes = [self.input_size[0] // stride for stride in self.strides]
@@ -62,53 +70,24 @@ class YoloX():
         boxes_xyxy[:, 1] = boxes[:, 1] - boxes[:, 3] / 2.
         boxes_xyxy[:, 2] = boxes[:, 0] + boxes[:, 2] / 2.
         boxes_xyxy[:, 3] = boxes[:, 1] + boxes[:, 3] / 2.
-        boxes_xyxy /= ratio
 
+        # multi-class nms
         final_dets = []
-        num_classes = scores.shape[1]
-
-        for cls_ind in range(num_classes):
+        for cls_ind in range(scores.shape[1]):
             cls_scores = scores[:, cls_ind]
             valid_score_mask = cls_scores > self.confThreshold
-
             if valid_score_mask.sum() == 0:
                 continue
-
             else:
-                valid_scores = cls_scores[valid_score_mask]
-                valid_boxes = boxes_xyxy[valid_score_mask]
+                # call nms
+                indices = cv2.dnn.NMSBoxes(boxes_xyxy.tolist(), cls_scores.tolist(), self.confThreshold, self.nmsThreshold)
 
-                keep = []
-                x1 = valid_boxes[:, 0]
-                y1 = valid_boxes[:, 1]
-                x2 = valid_boxes[:, 2]
-                y2 = valid_boxes[:, 3]
-
-                areas = (x2 - x1 + 1) * (y2 - y1 + 1)
-                order = valid_scores.argsort()[::-1]
-
-                while order.size > 0:
-                    i = order[0]
-                    keep.append(i)
-                    xx1 = np.maximum(x1[i], x1[order[1:]])
-                    yy1 = np.maximum(y1[i], y1[order[1:]])
-                    xx2 = np.minimum(x2[i], x2[order[1:]])
-                    yy2 = np.minimum(y2[i], y2[order[1:]])
-
-                    w = np.maximum(0.0, xx2 - xx1 + 1)
-                    h = np.maximum(0.0, yy2 - yy1 + 1)
-                    inter = w * h
-                    ovr = inter / (areas[i] + areas[order[1:]] - inter)
-                    inds = np.where(ovr <= self.nmsThreshold)[0]
-                    order = order[inds + 1]
-                    if len(keep) > 0:
-                        cls_inds = np.ones((len(keep), 1)) * cls_ind
-                        dets = np.concatenate([valid_boxes[keep], valid_scores[keep, None], cls_inds], 1)
-                        final_dets.append(dets)
-
-        res_dets = np.concatenate(final_dets, 0)
+                classids_ = np.ones((len(indices), 1)) * cls_ind
+                final_dets.append(
+                    np.concatenate([boxes_xyxy[indices], cls_scores[indices, None], classids_], axis=1)
+                )
 
         if len(final_dets) == 0:
-            res_dets = np.array([])
+            return np.array([])
 
-        return res_dets
+        return np.concatenate(final_dets, 0)
