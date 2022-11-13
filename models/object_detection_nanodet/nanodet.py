@@ -37,7 +37,7 @@ class NanoDet:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backenId):
+    def setBackend(self, backendId):
         self.backend_id = backendId
         self.net.setPreferableBackend(self.backend_id)
 
