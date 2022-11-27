@@ -23,19 +23,19 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(description='LPD-YuNet for License Plate Detection')
-parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='license_plate_detection_lpd_yunet_2022may.onnx', help='Path to the model.')
+parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
+parser.add_argument('--model', '-m', type=str, default='license_plate_detection_lpd_yunet_2022may.onnx', help='Usage: Set model path, defaults to license_plate_detection_lpd_yunet_2022may.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--conf_threshold', type=float, default=0.9, help='Filter out faces of confidence < conf_threshold.')
-parser.add_argument('--nms_threshold', type=float, default=0.3, help='Suppress bounding boxes of iou >= nms_threshold.')
-parser.add_argument('--top_k', type=int, default=5000, help='Keep top_k bounding boxes before NMS.')
-parser.add_argument('--keep_top_k', type=int, default=750, help='Keep keep_top_k bounding boxes after NMS.')
-parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--conf_threshold', type=float, default=0.9, help='Usage: Set the minimum needed confidence for the model to identify a license plate, defaults to 0.9. Smaller values may result in faster detection, but will limit accuracy. Filter out faces of confidence < conf_threshold.')
+parser.add_argument('--nms_threshold', type=float, default=0.3, help='Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3. Suppress bounding boxes of iou >= nms_threshold.')
+parser.add_argument('--top_k', type=int, default=5000, help='Usage: Keep top_k bounding boxes before NMS.')
+parser.add_argument('--keep_top_k', type=int, default=750, help='Usage: Keep keep_top_k bounding boxes after NMS.')
+parser.add_argument('--save', '-s', type=str2bool, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, dets, line_color=(0, 255, 0), text_color=(0, 0, 255), fps=None):

@@ -25,7 +25,7 @@ def str2bool(v):
 
 backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
 targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
+help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA \n Usage: Set backend DNN model, defaults to cv.dnn.DNN_BACKEND_OPENCV (int = 0). Based on your OpenCV version, it may or may not support cv.dnn.DNN_BACKEND_TIMVX. More details: [https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f]"
 help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
 try:
     backends += [cv.dnn.DNN_BACKEND_TIMVX]
@@ -33,18 +33,18 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(
     description="SFace: Sigmoid-Constrained Hypersphere Loss for Robust Face Recognition (https://ieeexplore.ieee.org/document/9318547)")
-parser.add_argument('--input1', '-i1', type=str, help='Path to the input image 1.')
-parser.add_argument('--input2', '-i2', type=str, help='Path to the input image 2.')
-parser.add_argument('--model', '-m', type=str, default='face_recognition_sface_2021dec.onnx', help='Path to the model.')
+parser.add_argument('--input1', '-i1', type=str, help='Usage: Set path to the input image 1 (original face).')
+parser.add_argument('--input2', '-i2', type=str, help='Usage: Set path to the input image 2 (comparison face).')
+parser.add_argument('--model', '-m', type=str, default='face_recognition_sface_2021dec.onnx', help='Usage: Set model path, defaults to face_recognition_sface_2021dec.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--dis_type', type=int, choices=[0, 1], default=0, help='Distance type. \'0\': cosine, \'1\': norm_l1.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--dis_type', type=int, choices=[0, 1], default=0, help='Usage: Distance type. \'0\': cosine, \'1\': norm_l1. Defaults to \'0\'')
+parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 args = parser.parse_args()
 
 if __name__ == '__main__':

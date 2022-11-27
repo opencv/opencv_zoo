@@ -3,19 +3,20 @@
 A zoo for models tuned for OpenCV DNN with benchmarks on different platforms.
 
 Guidelines:
+
 - Clone this repo to download all models and demo scripts:
-    ```shell
-    # Install git-lfs from https://git-lfs.github.com/
-    git clone https://github.com/opencv/opencv_zoo && cd opencv_zoo
-    git lfs install
-    git lfs pull
-    ```
+  ```shell
+  # Install git-lfs from https://git-lfs.github.com/
+  git clone https://github.com/opencv/opencv_zoo && cd opencv_zoo
+  git lfs install
+  git lfs pull
+  ```
 - To run benchmarks on your hardware settings, please refer to [benchmark/README](./benchmark/README.md).
 
 ## Models & Benchmark Results
 
-| Model                                                   | Task                          | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | KV3-NPU (ms) | D1-CPU (ms) |
-|---------------------------------------------------------|-------------------------------|------------|----------------|--------------|-----------------|--------------|-------------|
+| Model                                                | Task                          | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | KV3-NPU (ms) | D1-CPU (ms) |
+| ---------------------------------------------------- | ----------------------------- | ---------- | -------------- | ------------ | --------------- | ------------ | ----------- |
 | [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 6.22         | 12.18           | 4.04         | 86.69       |
 | [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 99.20        | 24.88           | 46.25        | ---         |
 | [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 154.20\*     |             |
@@ -36,6 +37,7 @@ Guidelines:
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
 
 Hardware Setup:
+
 - `INTEL-CPU`: [Intel Core i7-5930K](https://www.intel.com/content/www/us/en/products/sku/82931/intel-core-i75930k-processor-15m-cache-up-to-3-70-ghz/specifications.html) @ 3.50GHz, 6 cores, 12 threads.
 - `RPI-CPU`: [Raspberry Pi 4B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/), Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz.
 - `JETSON-GPU`: [NVIDIA Jetson Nano B01](https://developer.nvidia.com/embedded/jetson-nano-developer-kit), 128-core NVIDIA Maxwell GPU.
@@ -43,6 +45,7 @@ Hardware Setup:
 - `D1-CPU`: [Allwinner D1](https://d1.docs.aw-ol.com/en), [Xuantie C906 CPU](https://www.t-head.cn/product/C906?spm=a2ouz.12986968.0.0.7bfc1384auGNPZ) (RISC-V, RVV 0.7.1) @ 1.0GHz, 1 core. YuNet is supported for now. Visit [here](https://github.com/fengyuentau/opencv_zoo_cpp) for more details.
 
 ***Important Notes***:
+
 - The data under each column of hardware setups on the above table represents the elapsed time of an inference (preprocess, forward and postprocess).
 - The time data is the median of 10 runs after some warmup runs. Different metrics may be applied to some specific models.
 - Batch size is 1 for all benchmark results.
@@ -52,6 +55,7 @@ Hardware Setup:
 ## Some Examples
 
 Some examples are listed below. You can find more in the directory of each model!
+
 ### Face Detection with [YuNet](./models/face_detection_yunet/)
 
 ![largest selfie](./models/face_detection_yunet/examples/largest_selfie.jpg)

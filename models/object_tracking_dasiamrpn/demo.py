@@ -21,12 +21,12 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(
     description="Distractor-aware Siamese Networks for Visual Object Tracking (https://arxiv.org/abs/1808.06048)")
-parser.add_argument('--input', '-i', type=str, help='Path to the input video. Omit for using default camera.')
-parser.add_argument('--model_path', type=str, default='object_tracking_dasiamrpn_model_2021nov.onnx', help='Path to dasiamrpn_model.onnx.')
-parser.add_argument('--kernel_cls1_path', type=str, default='object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', help='Path to dasiamrpn_kernel_cls1.onnx.')
-parser.add_argument('--kernel_r1_path', type=str, default='object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', help='Path to dasiamrpn_kernel_r1.onnx.')
-parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input video. Omit for using default camera.')
+parser.add_argument('--model_path', type=str, default='object_tracking_dasiamrpn_model_2021nov.onnx', help='Usage: Set model path, defaults to object_tracking_dasiamrpn_model_2021nov.onnx.')
+parser.add_argument('--kernel_cls1_path', type=str, default='object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', help='Usage: Set path to dasiamrpn_kernel_cls1.onnx.')
+parser.add_argument('--kernel_r1_path', type=str, default='object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', help='Usage: Set path to dasiamrpn_kernel_r1.onnx.')
+parser.add_argument('--save', '-s', type=str2bool, default=False, help='Usage: Set “True” to save a file with results. Invalid in case of camera input. Default will be set to “False”.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),text_color=(0, 255, 0), fontScale = 1, fontSize = 1):
