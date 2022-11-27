@@ -5,14 +5,18 @@ This model is ported from [PaddleHub](https://github.com/PaddlePaddle/PaddleHub)
 ## Demo
 
 Run the following command to try the demo:
+
 ```shell
 # detect on camera input
 python demo.py
 # detect on an image
 python demo.py --input /path/to/image
+
+# get help regarding various parameters
+python demo.py --help
 ```
 
-## Example outputs
+### Example outputs
 
 ![webcam demo](./examples/pphumanseg_demo.gif)
 

@@ -27,7 +27,7 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://gist.github.com/fengyuentau/5a7a5ba36328f2b763aea026c43fa45f for more information.')
+    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(description='Hand Pose Estimation from MediaPipe')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')

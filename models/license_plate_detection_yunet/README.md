@@ -7,11 +7,14 @@ Please note that the model is trained with Chinese license plates, so the detect
 ## Demo
 
 Run the following command to try the demo:
+
 ```shell
 # detect on camera input
 python demo.py
 # detect on an image
 python demo.py --input /path/to/image
+# get help regarding various parameters
+python demo.py --help
 ```
 
 ### Example outputs
@@ -19,8 +22,9 @@ python demo.py --input /path/to/image
 ![lpd](./examples/lpd_yunet_demo.gif)
 
 ## License
+
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE)
 
 ## Reference
 
- - https://github.com/ShiqiYu/libfacedetection.train
+- https://github.com/ShiqiYu/libfacedetection.train
