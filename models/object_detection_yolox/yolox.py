@@ -23,7 +23,7 @@ class YoloX:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backenId):
+    def setBackend(self, backendId):
         self.backendId = backendId
         self.net.setPreferableBackend(self.backendId)
 
