@@ -21,7 +21,7 @@ class MobileNetV2:
         self.std=[0.229, 0.224, 0.225]
 
         # load labels
-        self.labels = self._load_labels()
+        self._labels = self._load_labels()
 
     def _load_labels(self):
         labels = []
@@ -68,7 +68,7 @@ class MobileNetV2:
         for o in output_blob:
             class_id_list = o.argsort()[::-1][:self.top_k]
             batched_class_id_list.append(class_id_list)
-        if len(self.labels) > 0:
+        if len(self._labels) > 0:
             batched_predicted_labels = []
             for class_id_list in batched_class_id_list:
                 predicted_labels = []
