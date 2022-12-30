@@ -6,8 +6,6 @@ This model detects palm bounding boxes and palm landmarks, and is converted from
 - tf_saved_model to ONNX: https://github.com/onnx/tensorflow-onnx
 - simplified by [onnx-simplifier](https://github.com/daquexian/onnx-simplifier)
 
-Also note that the model is quantized in per-channel mode with [Intel&#39;s neural compressor](https://github.com/intel/neural-compressor), which gives better accuracy but may lose some speed.
-
 ## Demo
 
 Run the following commands to try the demo:
