@@ -39,8 +39,8 @@ if __name__ == '__main__':
     models = {
         'v1': MobileNetV1(modelPath='./image_classification_mobilenetv1_2022apr.onnx', labelPath=args.label, backendId=args.backend, targetId=args.target),
         'v2': MobileNetV2(modelPath='./image_classification_mobilenetv2_2022apr.onnx', labelPath=args.label, backendId=args.backend, targetId=args.target),
-        'v1-q': MobileNetV1(modelPath='./image_classification_mobilenetv1_2022apr-act_int8-wt_int8-quantized.onnx', labelPath=args.label, backendId=args.backend, targetId=args.target),
-        'v2-q': MobileNetV2(modelPath='./image_classification_mobilenetv2_2022apr-act_int8-wt_int8-quantized.onnx', labelPath=args.label, backendId=args.backend, targetId=args.target)
+        'v1-q': MobileNetV1(modelPath='./image_classification_mobilenetv1_2022apr-int8-quantized.onnx', labelPath=args.label, backendId=args.backend, targetId=args.target),
+        'v2-q': MobileNetV2(modelPath='./image_classification_mobilenetv2_2022apr-int8-quantized.onnx', labelPath=args.label, backendId=args.backend, targetId=args.target)
 
     }
     model = models[args.model]
