@@ -51,7 +51,7 @@ evaluation:                                          # optional. required if use
         ImagenetRaw:
           data_path: /path/to/imagenet/val
           image_list: /path/to/imagenet/val.txt      # download from http://dl.caffe.berkeleyvision.org/caffe_ilsvrc12.tar.gz
-       transform:
+      transform:
         Rescale: {}
         Resize:
           size: 256

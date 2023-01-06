@@ -19,7 +19,7 @@ Supported datasets:
 - [ImageNet](#imagenet)
 - [WIDERFace](#widerface)
 - [LFW](#lfw)
-- [ICDAR](#icdar)
+- [ICDAR](#ICDAR2003)
 - [IIIT5K](#iiit5k)
 
 ## ImageNet
