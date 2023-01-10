@@ -22,6 +22,7 @@ python demo.py --input /path/to/image
 ```
 Note: 
 - image result saved as "result.jpg"
+- this model requires `opencv-python>=4.7.0`
 
 
 ## Results
@@ -56,7 +57,7 @@ The model is evaluated on [COCO 2017 val](https://cocodataset.org/#download). Re
 
  </td><td>
 
-  area  |  IoU  |  Average Recall(AR)  |
+|   area |  IoU  |  Average Recall(AR)  |
 |:-------|:------|:----------------|
 |  all  |  0.50:0.95  |  0.326  |
 |  all  |  0.50:0.95  |  0.531  |
