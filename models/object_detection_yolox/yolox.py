@@ -63,13 +63,11 @@ class YoloX:
         max_scores = np.amax(scores, axis=1)
         max_scores_idx = np.argmax(scores, axis=1)
 
-        # batched-nms, TODO: replace with cv2.dnn.NMSBoxesBatched when OpenCV 4.7.0 is released
-        max_coord = boxes_xyxy.max()
-        offsets = max_scores_idx * (max_coord + 1)
-        boxes_for_nms = boxes_xyxy + offsets[:, None]
-        keep = cv2.dnn.NMSBoxes(boxes_for_nms.tolist(), max_scores.tolist(), self.confThreshold, self.nmsThreshold)
+        keep = cv2.dnn.NMSBoxesBatched(boxes_xyxy.tolist(), max_scores.tolist(), max_scores_idx.tolist(), self.confThreshold, self.nmsThreshold)
 
         candidates = np.concatenate([boxes_xyxy, max_scores[:, None], max_scores_idx[:, None]], axis=1)
+        if len(keep) == 0:
+            return np.array([])
         return candidates[keep]
 
     def generateAnchors(self):
