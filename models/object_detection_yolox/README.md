@@ -33,10 +33,7 @@ Here are some of the sample results that were observed using the model (**yolox_
 ![2_res.jpg](./samples/2_res.jpg)
 ![3_res.jpg](./samples/3_res.jpg)
 
-<!--  
-Video inference result,
-![WebCamR.gif](./examples/results/WebCamR.gif)
--->
+Check [benchmark/download_data.py](../../benchmark/download_data.py) for the original images.
 
 ## Model metrics:
 
