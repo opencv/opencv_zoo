@@ -12,6 +12,8 @@ from .image_classification_mobilenet.mobilenet_v2 import MobileNetV2
 from .palm_detection_mediapipe.mp_palmdet import MPPalmDet
 from .handpose_estimation_mediapipe.mp_handpose import MPHandPose
 from .license_plate_detection_yunet.lpd_yunet import LPD_YuNet
+from .object_detection_nanodet.nanodet import NanoDet
+from .object_detection_yolox.yolox import YoloX
 
 class Registery:
     def __init__(self, name):
@@ -39,3 +41,6 @@ MODELS.register(MobileNetV2)
 MODELS.register(MPPalmDet)
 MODELS.register(MPHandPose)
 MODELS.register(LPD_YuNet)
+MODELS.register(NanoDet)
+MODELS.register(YoloX)
+
