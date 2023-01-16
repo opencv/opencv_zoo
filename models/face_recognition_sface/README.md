@@ -4,9 +4,10 @@ SFace: Sigmoid-Constrained Hypersphere Loss for Robust Face Recognition
 
 Note:
 
-- SFace is contributed by [Yaoyao Zhong](https://github.com/zhongyy/SFace).
-- [face_recognition_sface_2021sep.onnx](./face_recognition_sface_2021sep.onnx) is converted from the model from https://github.com/zhongyy/SFace thanks to [Chengrui Wang](https://github.com/crywang).
-- Support 5-landmark warpping for now (2021sep)
+- SFace is contributed by [Yaoyao Zhong](https://github.com/zhongyy).
+- Model files encode MobileFaceNet instances trained on the SFace loss function, see the [SFace paper](https://arxiv.org/abs/2205.12010) for reference.
+- ONNX file conversions from [original code base](https://github.com/zhongyy/SFace) thanks to [Chengrui Wang](https://github.com/crywang).
+- (As of Sep 2021) Supporting 5-landmark warping for now, see below for details.
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
