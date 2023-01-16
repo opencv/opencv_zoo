@@ -14,6 +14,7 @@ from .handpose_estimation_mediapipe.mp_handpose import MPHandPose
 from .license_plate_detection_yunet.lpd_yunet import LPD_YuNet
 from .object_detection_nanodet.nanodet import NanoDet
 from .object_detection_yolox.yolox import YoloX
+from .facial_expression_recognition.facial_fer_model import FacialExpressionRecog
 
 class Registery:
     def __init__(self, name):
@@ -43,4 +44,4 @@ MODELS.register(MPHandPose)
 MODELS.register(LPD_YuNet)
 MODELS.register(NanoDet)
 MODELS.register(YoloX)
-
+MODELS.register(FacialExpressionRecog)

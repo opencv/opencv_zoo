@@ -12,12 +12,20 @@ class Recognition(BaseMetric):
         img, bboxes = args
 
         self._timer.reset()
-        for idx, bbox in enumerate(bboxes):
+        if bboxes is not None:
+            for idx, bbox in enumerate(bboxes):
+                for _ in range(self._warmup):
+                    model.infer(img, bbox)
+                for _ in range(self._repeat):
+                    self._timer.start()
+                    model.infer(img, bbox)
+                    self._timer.stop()
+        else:
             for _ in range(self._warmup):
-                model.infer(img, bbox)
+                model.infer(img, None)
             for _ in range(self._repeat):
                 self._timer.start()
-                model.infer(img, bbox)
+                model.infer(img, None)
                 self._timer.stop()
 
         return self._getResult()
