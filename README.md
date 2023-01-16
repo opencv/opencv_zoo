@@ -19,6 +19,7 @@ Guidelines:
 | ------------------------------------------------------- | ----------------------------- | ---------- | -------------- | ------------ | --------------- | ------------ | ----------- |
 | [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 6.22         | 12.18           | 4.04         | 86.69       |
 | [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 99.20        | 24.88           | 46.25        | ---         |
+| [FER](./models/facial_expression_recognition/)          | Facial Expression Recognition | 112x112    | 4.43           | 49.86        | 31.07           | 108.53\*     | ---         |
 | [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 29.53        | ---         |
 | [YOLOX](./models/object_detection_yolox/)               | Object Detection              | 640x640    | 176.68         | 1496.70      | 388.95          | 420.98       | ---         |
 | [NanoDet](./models/object_detection_nanodet/)           | Object Detection              | 416x416    | 157.91         | 220.36       | 64.94           | 116.64       | ---         |
@@ -61,6 +62,10 @@ Some examples are listed below. You can find more in the directory of each model
 ### Face Detection with [YuNet](./models/face_detection_yunet/)
 
 ![largest selfie](./models/face_detection_yunet/examples/largest_selfie.jpg)
+
+### Facial Expression Recognition with Progressive Teacher(./models/facial_expression_recognition/)
+
+![fer demo](./models/facial_expression_recognition/examples/selfie.jpg)
 
 ### Human Segmentation with [PP-HumanSeg](./models/human_segmentation_pphumanseg/)
 
