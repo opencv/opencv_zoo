@@ -2,7 +2,7 @@ Benchmark:
   name: "Text Detection Benchmark"
   type: "Detection"
   data:
-    path: "benchmark/data/text"
+    path: "data/text"
     files: ["1.jpg", "2.jpg", "3.jpg"]
     sizes: # [[w1, h1], ...], Omit to run at original scale
       - [640, 480]
@@ -15,7 +15,6 @@ Benchmark:
 
 Model:
   name: "DB"
-  modelPath: "models/text_detection_db/text_detection_DB_TD500_resnet18_2021sep.onnx"
   binaryThreshold: 0.3
   polygonThreshold: 0.5
   maxCandidates: 200

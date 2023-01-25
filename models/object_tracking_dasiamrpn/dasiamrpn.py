@@ -8,7 +8,7 @@ import numpy as np
 import cv2 as cv
 
 class DaSiamRPN:
-    def __init__(self, model_path, kernel_cls1_path, kernel_r1_path, backend_id=0, target_id=0):
+    def __init__(self, kernel_cls1_path, kernel_r1_path, model_path, backend_id=0, target_id=0):
         self._model_path = model_path
         self._kernel_cls1_path = kernel_cls1_path
         self._kernel_r1_path = kernel_r1_path

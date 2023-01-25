@@ -52,9 +52,9 @@ def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),tex
 if __name__ == '__main__':
     # Instantiate DaSiamRPN
     model = DaSiamRPN(
-        model_path=args.model_path,
         kernel_cls1_path=args.kernel_cls1_path,
-        kernel_r1_path=args.kernel_r1_path
+        kernel_r1_path=args.kernel_r1_path,
+        model_path=args.model_path,
     )
 
     # Read from args.input

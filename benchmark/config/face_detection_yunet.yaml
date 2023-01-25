@@ -2,7 +2,7 @@ Benchmark:
   name: "Face Detection Benchmark"
   type: "Detection"
   data:
-    path: "benchmark/data/face_detection"
+    path: "data/face_detection"
     files: ["group.jpg", "concerts.jpg", "dance.jpg"]
     sizes: # [[w1, h1], ...], Omit to run at original scale
       - [160, 120]
@@ -16,8 +16,6 @@ Benchmark:
 
 Model:
   name: "YuNet"
-  modelPath: "models/face_detection_yunet/face_detection_yunet_2022mar.onnx"
   confThreshold: 0.6
   nmsThreshold: 0.3
   topK: 5000
-

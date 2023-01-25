@@ -36,12 +36,11 @@ parser.add_argument('--input', '-i', type=str, help='Usage: Set input path to a 
 parser.add_argument('--model', '-m', type=str, default='image_classification_ppresnet50_2022jan.onnx', help='Usage: Set model path, defaults to image_classification_ppresnet50_2022jan.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--label', '-l', type=str, default='./imagenet_labels.txt', help='Usage: Set path to the different labels that will be used during the detection. Default list found in imagenet_labels.txt')
 args = parser.parse_args()
 
 if __name__ == '__main__':
     # Instantiate ResNet
-    model = PPResNet(modelPath=args.model, labelPath=args.label, backendId=args.backend, targetId=args.target)
+    model = PPResNet(modelPath=args.model, backendId=args.backend, targetId=args.target)
 
     # Read image and get a 224x224 crop from a 256x256 resized
     image = cv.imread(args.input)
@@ -54,4 +53,3 @@ if __name__ == '__main__':
 
     # Print result
     print('label: {}'.format(result))
-

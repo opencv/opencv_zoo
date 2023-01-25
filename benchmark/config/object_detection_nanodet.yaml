@@ -2,7 +2,7 @@ Benchmark:
   name: "Object Detection Benchmark"
   type: "Detection"
   data:
-    path: "benchmark/data/object_detection"
+    path: "data/object_detection"
     files: ["1.png", "2.png", "3.png"]
     sizes:
       - [416, 416]
@@ -15,7 +15,5 @@ Benchmark:
 
 Model:
   name: "NanoDet"
-  modelPath: "models/object_detection_nanodet/object_detection_nanodet_2022nov.onnx"
   prob_threshold: 0.35
   iou_threshold: 0.6
-

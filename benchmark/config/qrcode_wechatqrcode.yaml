@@ -2,7 +2,7 @@ Benchmark:
   name: "QRCode Detection and Decoding Benchmark"
   type: "Detection"
   data:
-    path: "benchmark/data/qrcode"
+    path: "data/qrcode"
     files: ["opencv.png", "opencv_zoo.png"]
     sizes:
       - [100, 100]
@@ -16,7 +16,3 @@ Benchmark:
 
 Model:
   name: "WeChatQRCode"
-  detect_prototxt_path: "models/qrcode_wechatqrcode/detect_2021nov.prototxt"
-  detect_model_path: "models/qrcode_wechatqrcode/detect_2021nov.caffemodel"
-  sr_prototxt_path: "models/qrcode_wechatqrcode/sr_2021nov.prototxt"
-  sr_model_path: "models/qrcode_wechatqrcode/sr_2021nov.caffemodel"

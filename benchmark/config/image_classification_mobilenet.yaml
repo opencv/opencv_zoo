@@ -2,7 +2,7 @@ Benchmark:
   name: "Image Classification Benchmark"
   type: "Classification"
   data:
-    path: "benchmark/data/image_classification"
+    path: "data/image_classification"
     files: ["coffee_mug.jpg", "umbrella.jpg", "wall_clock.jpg"]
     sizes: [[256, 256]]
     toRGB: True
@@ -15,6 +15,4 @@ Benchmark:
   target: "cpu"
 
 Model:
-  name: "MobileNetV1"
-  modelPath: "models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx"
-
+  name: "MobileNet"

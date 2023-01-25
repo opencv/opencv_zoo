@@ -2,7 +2,7 @@ Benchmark:
   name: "Human Segmentation Benchmark"
   type: "Base"
   data:
-    path: "benchmark/data/human_segmentation"
+    path: "data/human_segmentation"
     files: ["messi5.jpg", "100040721_1.jpg", "detect.jpg"]
     sizes: [[192, 192]]
     toRGB: True
@@ -15,4 +15,3 @@ Benchmark:
 
 Model:
   name: "PPHumanSeg"
-  modelPath: "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx"
