@@ -2,7 +2,7 @@ Benchmark:
   name: "Image Classification Benchmark"
   type: "Classification"
   data:
-    path: "benchmark/data/image_classification"
+    path: "data/image_classification"
     files: ["coffee_mug.jpg", "umbrella.jpg", "wall_clock.jpg"]
     sizes: [[256, 256]]
     toRGB: True
@@ -16,5 +16,3 @@ Benchmark:
 
 Model:
   name: "PPResNet"
-  modelPath: "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx"
-

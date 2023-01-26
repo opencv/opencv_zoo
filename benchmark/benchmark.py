@@ -11,6 +11,9 @@ from utils import METRICS, DATALOADERS
 parser = argparse.ArgumentParser("Benchmarks for OpenCV Zoo.")
 parser.add_argument('--cfg', '-c', type=str,
                     help='Benchmarking on the given config.')
+parser.add_argument("--fp32", action="store_true", help="Runs models of float32 precision only.")
+parser.add_argument("--fp16", action="store_true", help="Runs models of float16 precision only.")
+parser.add_argument("--int8", action="store_true", help="Runs models of int8 precision only.")
 args = parser.parse_args()
 
 def build_from_cfg(cfg, registery, key=None, name=None):
@@ -23,14 +26,6 @@ def build_from_cfg(cfg, registery, key=None, name=None):
         return obj(**cfg)
     else:
         raise NotImplementedError()
-
-def prepend_pythonpath(cfg):
-    for k, v in cfg.items():
-        if isinstance(v, dict):
-            prepend_pythonpath(v)
-        else:
-            if 'path' in k.lower():
-                cfg[k] = os.path.join(os.environ['PYTHONPATH'].split(os.pathsep)[-1], v)
 
 class Benchmark:
     def __init__(self, **kwargs):
@@ -115,16 +110,30 @@ if __name__ == '__main__':
     with open(args.cfg, 'r') as f:
         cfg = yaml.safe_load(f)
 
-    # prepend PYTHONPATH to each path
-    prepend_pythonpath(cfg)
-
-    # Instantiate benchmarking
+    # Instantiate benchmark
     benchmark = Benchmark(**cfg['Benchmark'])
 
     # Instantiate model
-    model = build_from_cfg(cfg=cfg['Model'], registery=MODELS, key='name')
+    model_config = cfg['Model']
+    model_handler, model_paths = MODELS.get(model_config.pop('name'))
 
-    # Run benchmarking
-    print('Benchmarking {}:'.format(model.name))
-    benchmark.run(model)
-    benchmark.printResults()
+    _model_paths = []
+    if args.fp32 or args.fp16 or args.int8:
+        if args.fp32:
+            _model_paths += model_paths['fp32']
+        if args.fp16:
+            _model_paths += model_paths['fp16']
+        if args.int8:
+            _model_paths += model_paths['int8']
+    else:
+        _model_paths = model_paths['fp32'] + model_paths['fp16'] + model_paths['int8']
+
+    for model_path in _model_paths:
+        model = model_handler(*model_path, **model_config)
+        # Format model_path
+        for i in range(len(model_path)):
+            model_path[i] = model_path[i].split('/')[-1]
+        print('Benchmarking {} with {}'.format(model.name, model_path))
+        # Run benchmark
+        benchmark.run(model)
+        benchmark.printResults()

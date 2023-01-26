@@ -2,7 +2,7 @@ Benchmark:
   name: "Facial Expression Recognition Benchmark"
   type: "Recognition"
   data:
-    path: "benchmark/data/facial_expression_recognition/fer_evaluation"
+    path: "data/facial_expression_recognition/fer_evaluation"
     files: ["RAF_test_0_61.jpg", "RAF_test_0_30.jpg", "RAF_test_6_25.jpg"]
   metric: # 'sizes' is omitted since this model requires input of fixed size
     warmup: 30
@@ -13,4 +13,3 @@ Benchmark:
 
 Model:
   name: "FacialExpressionRecog"
-  modelPath: "models/facial_expression_recognition/facial_expression_recognition_mobilefacenet_2022july.onnx"
