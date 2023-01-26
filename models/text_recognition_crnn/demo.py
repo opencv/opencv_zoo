@@ -41,7 +41,6 @@ parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the inpu
 parser.add_argument('--model', '-m', type=str, default='text_recognition_CRNN_EN_2021sep.onnx', help='Usage: Set model path, defaults to text_recognition_CRNN_EN_2021sep.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--charset', '-c', type=str, default='charset_36_EN.txt', help='Usage: Set the path to the charset file corresponding to the selected model.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save a file with results. Invalid in case of camera input. Default will be set to “False”.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
 parser.add_argument('--width', type=int, default=736,
@@ -61,7 +60,7 @@ def visualize(image, boxes, texts, color=(0, 255, 0), isClosed=True, thickness=2
 
 if __name__ == '__main__':
     # Instantiate CRNN for text recognition
-    recognizer = CRNN(modelPath=args.model, charsetPath=args.charset)
+    recognizer = CRNN(modelPath=args.model)
     # Instantiate DB for text detection
     detector = DB(modelPath='../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx',
                   inputSize=[args.width, args.height],

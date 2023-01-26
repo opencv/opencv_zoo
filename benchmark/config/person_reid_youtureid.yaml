@@ -2,7 +2,7 @@ Benchmark:
   name: "Person ReID Benchmark"
   type: "Base"
   data:
-    path: "benchmark/data/person_reid"
+    path: "data/person_reid"
     files: ["0030_c1_f0056923.jpg", "0042_c5_f0068994.jpg", "0056_c8_f0017063.jpg"]
     sizes: [[128, 256]]
   metric:
@@ -14,4 +14,3 @@ Benchmark:
 
 Model:
   name: "YoutuReID"
-  modelPath: "models/person_reid_youtureid/person_reid_youtu_2021nov.onnx"

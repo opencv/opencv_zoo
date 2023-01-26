@@ -21,63 +21,63 @@ parser.add_argument("--dataset_root", "-dr", type=str, required=True, help="Root
 args = parser.parse_args()
 
 models = dict(
-        mobilenetv1=dict(
-            name="MobileNetV1",
-            topic="image_classification",
-            modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx"),
-            topK=5),
-        mobilenetv1_q=dict(
-            name="MobileNetV1",
-            topic="image_classification",
-            modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr-int8-quantized.onnx"),
-            topK=5),
-        mobilenetv2=dict(
-            name="MobileNetV2",
-            topic="image_classification",
-            modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr.onnx"),
-            topK=5),
-        mobilenetv2_q=dict(
-            name="MobileNetV2",
-            topic="image_classification",
-            modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr-int8-quantized.onnx"),
-            topK=5),
-        ppresnet=dict(
-            name="PPResNet",
-            topic="image_classification",
-            modelPath=os.path.join(root_dir, "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx"),
-            topK=5),
-        ppresnet_q=dict(
-            name="PPResNet",
-            topic="image_classification",
-            modelPath=os.path.join(root_dir, "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan-act_int8-wt_int8-quantized.onnx"),
-            topK=5),
-        yunet=dict(
-            name="YuNet",
-            topic="face_detection",
-            modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar.onnx"),
-            topK=5000,
-            confThreshold=0.3,
-            nmsThreshold=0.45),
-        yunet_q=dict(
-            name="YuNet",
-            topic="face_detection",
-            modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar-act_int8-wt_int8-quantized.onnx"),
-            topK=5000,
-            confThreshold=0.3,
-            nmsThreshold=0.45),
-        sface=dict(
-            name="SFace",
-            topic="face_recognition",
-            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec.onnx")),
-        sface_q=dict(
-            name="SFace",
-            topic="face_recognition",
-            modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec-act_int8-wt_int8-quantized.onnx")),
-        crnn=dict(
-            name="CRNN",
-            topic="text_recognition",
-            modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx"),
-            charsetPath=os.path.join(root_dir, "models/text_recognition_crnn/charset_36_EN.txt")),
+    mobilenetv1=dict(
+        name="MobileNetV1",
+        topic="image_classification",
+        modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx"),
+        topK=5),
+    mobilenetv1_q=dict(
+        name="MobileNetV1",
+        topic="image_classification",
+        modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr-int8-quantized.onnx"),
+        topK=5),
+    mobilenetv2=dict(
+        name="MobileNetV2",
+        topic="image_classification",
+        modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr.onnx"),
+        topK=5),
+    mobilenetv2_q=dict(
+        name="MobileNetV2",
+        topic="image_classification",
+        modelPath=os.path.join(root_dir, "models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr-int8-quantized.onnx"),
+        topK=5),
+    ppresnet=dict(
+        name="PPResNet",
+        topic="image_classification",
+        modelPath=os.path.join(root_dir, "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx"),
+        topK=5),
+    ppresnet_q=dict(
+        name="PPResNet",
+        topic="image_classification",
+        modelPath=os.path.join(root_dir, "models/image_classification_ppresnet/image_classification_ppresnet50_2022jan-act_int8-wt_int8-quantized.onnx"),
+        topK=5),
+    yunet=dict(
+        name="YuNet",
+        topic="face_detection",
+        modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar.onnx"),
+        topK=5000,
+        confThreshold=0.3,
+        nmsThreshold=0.45),
+    yunet_q=dict(
+        name="YuNet",
+        topic="face_detection",
+        modelPath=os.path.join(root_dir, "models/face_detection_yunet/face_detection_yunet_2022mar-act_int8-wt_int8-quantized.onnx"),
+        topK=5000,
+        confThreshold=0.3,
+        nmsThreshold=0.45),
+    sface=dict(
+        name="SFace",
+        topic="face_recognition",
+        modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec.onnx")),
+    sface_q=dict(
+        name="SFace",
+        topic="face_recognition",
+        modelPath=os.path.join(root_dir, "models/face_recognition_sface/face_recognition_sface_2021dec-act_int8-wt_int8-quantized.onnx")),
+    crnn=dict(
+        name="CRNN",
+        topic="text_recognition",
+        modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx"),
+        charsetPath=os.path.join(root_dir, "models/text_recognition_crnn/charset_36_EN.txt")),
 )
 
 datasets = dict(
@@ -107,7 +107,8 @@ def main(args):
 
     model_name = models[model_key].pop("name")
     model_topic = models[model_key].pop("topic")
-    model = MODELS.get(model_name)(**models[model_key])
+    model_handler, _ = MODELS.get(model_name)
+    model = model_handler(**models[model_key])
 
     # Instantiate dataset
     dataset_key = args.dataset.lower()
@@ -123,7 +124,6 @@ def main(args):
     # Run evaluation
     dataset.eval(model)
     dataset.print_result()
-
 
 if __name__ == "__main__":
     main(args)

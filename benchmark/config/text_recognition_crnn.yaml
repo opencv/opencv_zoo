@@ -2,7 +2,7 @@ Benchmark:
   name: "Text Recognition Benchmark"
   type: "Recognition"
   data:
-    path: "benchmark/data/text"
+    path: "data/text"
     files: ["1.jpg", "2.jpg", "3.jpg"]
   metric: # 'sizes' is omitted since this model requires input of fixed size
     warmup: 30
@@ -13,5 +13,3 @@ Benchmark:
 
 Model:
   name: "CRNN"
-  modelPath: "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx"
-  charsetPath: "models/text_recognition_crnn/charset_36_EN.txt"

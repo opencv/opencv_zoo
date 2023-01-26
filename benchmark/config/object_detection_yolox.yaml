@@ -2,7 +2,7 @@ Benchmark:
   name: "Object Detection Benchmark"
   type: "Detection"
   data:
-    path: "benchmark/data/object_detection"
+    path: "data/object_detection"
     files: ["1.png", "2.png", "3.png"]
     sizes:
       - [640, 640]
@@ -15,8 +15,6 @@ Benchmark:
 
 Model:
   name: "YoloX"
-  modelPath: "models/object_detection_yolox/object_detection_yolox_2022nov.onnx"
   confThreshold: 0.35
   nmsThreshold: 0.5
   objThreshold: 0.5
-
