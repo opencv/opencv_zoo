@@ -76,8 +76,7 @@ models = dict(
     crnn=dict(
         name="CRNN",
         topic="text_recognition",
-        modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx"),
-        charsetPath=os.path.join(root_dir, "models/text_recognition_crnn/charset_36_EN.txt")),
+        modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx")),
 )
 
 datasets = dict(
