@@ -31,34 +31,40 @@ class MPPalmDet:
         self.model.setPreferableTarget(self.target_id)
 
     def _preprocess(self, image):
+        pad_bias = np.array([0., 0.]) # left, top
+        ratio = min(self.input_size / image.shape[:2])
         if image.shape[0] != self.input_size[0] or image.shape[1] != self.input_size[1]:
             # keep aspect ratio when resize
-            ratio = min(self.input_size / image.shape[:2])
             ratio_size = (np.array(image.shape[:2]) * ratio).astype(np.int)
             image = cv.resize(image, (ratio_size[1], ratio_size[0]))
             pad_h = self.input_size[0] - ratio_size[0]
             pad_w = self.input_size[1] - ratio_size[1]
-            image = cv.copyMakeBorder(image, 0, pad_h, 0, pad_w, cv.BORDER_CONSTANT, None, (0, 0, 0))
+            pad_bias[0] = left = pad_w // 2
+            pad_bias[1] = top = pad_h // 2
+            right = pad_w - left
+            bottom = pad_h - top
+            image = cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, None, (0, 0, 0))
         image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         image = image.astype(np.float32) / 255.0 # norm
-        return image[np.newaxis, :, :, :] # hwc -> nhwc
+        pad_bias = (pad_bias / ratio).astype(np.int)
+        return image[np.newaxis, :, :, :], pad_bias # hwc -> nhwc
 
     def infer(self, image):
         h, w, _ = image.shape
 
         # Preprocess
-        input_blob = self._preprocess(image)
+        input_blob, pad_bias = self._preprocess(image)
 
         # Forward
         self.model.setInput(input_blob)
         output_blob = self.model.forward(self.model.getUnconnectedOutLayersNames())
 
         # Postprocess
-        results = self._postprocess(output_blob, np.array([w, h]))
+        results = self._postprocess(output_blob, np.array([w, h]), pad_bias)
 
         return results
 
-    def _postprocess(self, output_blob, original_shape):
+    def _postprocess(self, output_blob, original_shape, pad_bias):
         score = output_blob[1][0, :, 0]
         box_delta = output_blob[0][0, :, 0:4]
         landmark_delta = output_blob[0][0, :, 4:]
@@ -74,6 +80,7 @@ class MPPalmDet:
         xy1 = (cxy_delta - wh_delta / 2 + self.anchors) * scale
         xy2 = (cxy_delta + wh_delta / 2 + self.anchors) * scale
         boxes = np.concatenate([xy1, xy2], axis=1)
+        boxes -= [pad_bias[0], pad_bias[1], pad_bias[0], pad_bias[1]]
         # NMS
         keep_idx = cv.dnn.NMSBoxes(boxes, score, self.score_threshold, self.nms_threshold, top_k=self.topK)
         if len(keep_idx) == 0:
@@ -88,6 +95,7 @@ class MPPalmDet:
         for idx, landmark in enumerate(selected_landmarks):
             landmark += selected_anchors[idx]
         selected_landmarks *= scale
+        selected_landmarks -= pad_bias
 
         # [
         #   [bbox_coords, landmarks_coords, score]
