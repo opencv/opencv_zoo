@@ -17,10 +17,11 @@ from onnxruntime.quantization import quantize_static, CalibrationDataReader, Qua
 from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert
 
 class DataReader(CalibrationDataReader):
-    def __init__(self, model_path, image_dir, transforms):
+    def __init__(self, model_path, image_dir, transforms, data_dim):
         model = onnx.load(model_path)
         self.input_name = model.graph.input[0].name
         self.transforms = transforms
+        self.data_dim = data_dim
         self.data = self.get_calibration_data(image_dir)
         self.enum_data_dicts = iter([{self.input_name: x} for x in self.data])
 
@@ -37,11 +38,13 @@ class DataReader(CalibrationDataReader):
             img = cv.imread(os.path.join(image_dir, image_name))
             img = self.transforms(img)
             blob = cv.dnn.blobFromImage(img)
+            if self.data_dim == 'hwc':
+                blob = cv.transposeND(blob, [0, 2, 3, 1])
             blobs.append(blob)
         return blobs
 
 class Quantize:
-    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8'):
+    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8', data_dim='chw'):
         self.type_dict = {"uint8" : QuantType.QUInt8, "int8" : QuantType.QInt8}
 
         self.model_path = model_path
@@ -52,7 +55,7 @@ class Quantize:
         self.wt_type = wt_type
 
         # data reader
-        self.dr = DataReader(self.model_path, self.calibration_image_dir, self.transforms)
+        self.dr = DataReader(self.model_path, self.calibration_image_dir, self.transforms, data_dim)
 
     def check_opset(self, convert=True):
         model = onnx.load(self.model_path)
@@ -102,7 +105,12 @@ models=dict(
                      transforms=Compose([Resize(size=(100, 32)), Normalize(mean=[127.5, 127.5, 127.5], std=[127.5, 127.5, 127.5]), ColorConvert(ctype=cv.COLOR_BGR2GRAY)])),
     crnn_cn=Quantize(model_path='../../models/text_recognition_crnn/text_recognition_CRNN_CN_2021nov.onnx',
                      calibration_image_dir='../../benchmark/data/text',
-                     transforms=Compose([Resize(size=(100, 32))]))
+                     transforms=Compose([Resize(size=(100, 32))])),
+    mp_palmdet=Quantize(model_path='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx',
+                        calibration_image_dir='../../benchmark/data/palm_detection',
+                        transforms=Compose([Resize(size=(192, 192)), Normalize(std=[255, 255, 255]),
+                          ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
+
 )
 
 if __name__ == '__main__':
