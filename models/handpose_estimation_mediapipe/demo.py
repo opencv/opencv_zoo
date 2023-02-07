@@ -91,7 +91,7 @@ def visualize(image, hands, print_result=False):
 
 if __name__ == '__main__':
     # palm detector
-    palm_detector = MPPalmDet(modelPath='../palm_detection_mediapipe/palm_detection_mediapipe_2022may.onnx',
+    palm_detector = MPPalmDet(modelPath='../palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx',
                               nmsThreshold=0.3,
                               scoreThreshold=0.8,
                               backendId=args.backend,
