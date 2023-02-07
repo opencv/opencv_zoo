@@ -16,7 +16,7 @@ Guidelines:
 ## Models & Benchmark Results
 
 | Model                                                   | Task                          | Input Size | INTEL-CPU (ms) | RPI-CPU (ms) | JETSON-GPU (ms) | KV3-NPU (ms) | D1-CPU (ms) |
-| ------------------------------------------------------- | ----------------------------- | ---------- | -------------- | ------------ | --------------- | ------------ | ----------- |
+| ------------------------------------------------------- | ----------------------------- |------------| -------------- | ------------ | --------------- | ------------ | ----------- |
 | [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 6.22         | 12.18           | 4.04         | 86.69       |
 | [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 99.20        | 24.88           | 46.25        | ---         |
 | [FER](./models/facial_expression_recognition/)          | Facial Expression Recognition | 112x112    | 4.43           | 49.86        | 31.07           | 108.53\*     | ---         |
@@ -34,7 +34,7 @@ Guidelines:
 | [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 7.04           | 37.68        | ---             | ---          | ---         |
 | [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 36.15          | 705.48       | 76.82           | ---          | ---         |
 | [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 35.81          | 521.98       | 90.07           | 44.61        | ---         |
-| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 256x256    | 15.57          | 168.37       | 50.64           | 62.45        | ---         |
+| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 192x192    | 15.57          | 168.37       | 50.64           | 62.45        | ---         |
 | [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 256x256    | 20.16          | 148.24       | 156.30          | 42.70        | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
