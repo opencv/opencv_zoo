@@ -31,4 +31,4 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 ## Reference
 
 - MediaPipe Handpose: https://github.com/tensorflow/tfjs-models/tree/master/handpose
-- MediaPipe hands model and model card:https://google.github.io/mediapipe/solutions/models.html#hands
+- MediaPipe hands model and model card: https://google.github.io/mediapipe/solutions/models.html#hands
