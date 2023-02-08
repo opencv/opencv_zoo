@@ -63,7 +63,7 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![largest selfie](./models/face_detection_yunet/examples/largest_selfie.jpg)
 
-### Facial Expression Recognition with Progressive Teacher(./models/facial_expression_recognition/)
+### Facial Expression Recognition with [Progressive Teacher](./models/facial_expression_recognition/)
 
 ![fer demo](./models/facial_expression_recognition/examples/selfie.jpg)
 
