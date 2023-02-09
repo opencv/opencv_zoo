@@ -35,7 +35,7 @@ except:
 
 parser = argparse.ArgumentParser(description='Facial Expression Recognition')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-fm', type=str, default='./facial_expression_recognition_mobilefacenet_2022july.onnx', help='Path to the facial expression recognition model.')
+parser.add_argument('--model', '-m', type=str, default='./facial_expression_recognition_mobilefacenet_2022july.onnx', help='Path to the facial expression recognition model.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
 parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
