@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-class PPHumanSeg : 
+class MiniSupervisely : 
     def __init__(self, root) : 
         self.root = root
         self.val_path = os.path.join(root, 'val.txt')

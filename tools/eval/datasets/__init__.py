@@ -3,7 +3,7 @@ from .widerface import WIDERFace
 from .lfw import LFW
 from .icdar import ICDAR
 from .iiit5k import IIIT5K
-from .pp_humanseg import PPHumanSeg
+from .minisupervisely import MiniSupervisely
 
 class Registery:
     def __init__(self, name):
@@ -22,4 +22,4 @@ DATASETS.register(WIDERFace)
 DATASETS.register(LFW)
 DATASETS.register(ICDAR)
 DATASETS.register(IIIT5K)
-DATASETS.register(PPHumanSeg)
+DATASETS.register(MiniSupervisely)
