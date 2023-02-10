@@ -21,6 +21,7 @@ Supported datasets:
 - [LFW](#lfw)
 - [ICDAR](#ICDAR2003)
 - [IIIT5K](#iiit5k)
+- [PPHumanSeg](#PPHumanSeg)
 
 ## ImageNet
 
@@ -181,7 +182,7 @@ python eval.py -m crnn -d icdar -dr /path/to/icdar
 
 ### Prepare data
 
-Please visit https://github.com/cv-small-snails/Text-Recognition-Material to download the IIIT5K dataset and the labels.
+Please visit https://github.com/cv-small-snails/Text-Recognition-Material to download the IIIT5K dataset and the labels. 
 
 ### Evaluation
 
@@ -190,4 +191,18 @@ Run evaluation with the following command:
 
 ```shell
 python eval.py -m crnn -d iiit5k -dr /path/to/iiit5k
+```
+
+
+## PPHumanSeg
+
+### Prepare data
+Please download the mini_supervisely data from [here](https://paddleseg.bj.bcebos.com/humanseg/data/mini_supervisely.zip) which includes the validation dataset and unzip it.
+
+### Evaluation
+
+Run evaluation with the following command
+
+```shell
+python eval.py -m pphumanseg -d pphumanseg -dr /path/to/pphumanseg
 ```

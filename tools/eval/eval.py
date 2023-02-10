@@ -77,6 +77,10 @@ models = dict(
         name="CRNN",
         topic="text_recognition",
         modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx")),
+    pphumanseg=dict(
+        name="PPHumanSeg",
+        topic="human_segmentation",
+        modelPath=os.path.join(root_dir, "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx")),
 )
 
 datasets = dict(
@@ -97,6 +101,9 @@ datasets = dict(
         iiit5k=dict(
             name="IIIT5K",
             topic="text_recognition"),
+        pphumanseg=dict(
+            name="PPHumanSeg",
+            topic="human_segmentation"),
 )
 
 def main(args):
@@ -108,7 +115,6 @@ def main(args):
     model_topic = models[model_key].pop("topic")
     model_handler, _ = MODELS.get(model_name)
     model = model_handler(**models[model_key])
-
     # Instantiate dataset
     dataset_key = args.dataset.lower()
     assert dataset_key in datasets
