@@ -25,7 +25,7 @@ python demo.py --help
 ---
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
-| Models             | Accuracy | 
+| Models             | Accuracy       | 
 | ------------------ | -------------- |
 | PPHumanSeg         | 0.9023         |
 | PPHumanSeg quant   | 0.4940         |

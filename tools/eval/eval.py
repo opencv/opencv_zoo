@@ -119,7 +119,7 @@ def main(args):
     model_topic = models[model_key].pop("topic")
     model_handler, _ = MODELS.get(model_name)
     model = model_handler(**models[model_key])
-    
+
     # Instantiate dataset
     dataset_key = args.dataset.lower()
     assert dataset_key in datasets
