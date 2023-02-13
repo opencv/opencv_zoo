@@ -45,6 +45,10 @@ class MiniSupervisely :
             model (object) : PP_HumanSeg model object
         """
 
+        intersect_area_all = []
+        pred_area_all = []
+        label_area_all = []
+
         pbar = tqdm(self.image_set)
 
         for input_image, expected_image in pbar : 
@@ -58,12 +62,7 @@ class MiniSupervisely :
             expected_image = cv.resize(expected_image, (192, 192))[np.newaxis, :, :]
 
 
-            output_image = model.infer(input_image)
-            
-            intersect_area_all = []
-            pred_area_all = []
-            label_area_all = []
-
+            output_image = model.infer(input_image)   
 
             intersect_area, pred_area, label_area = self.calculate_area(
                 output_image,

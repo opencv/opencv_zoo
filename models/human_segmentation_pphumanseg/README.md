@@ -27,8 +27,8 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models             | Accuracy       | 
 | ------------------ | -------------- |
-| PPHumanSeg         | 0.9023         |
-| PPHumanSeg quant   | 0.4940         |
+| PPHumanSeg         | 0.9570         |
+| PPHumanSeg quant   | 0.4557         |
 
 
 \*: 'quant' stands for 'quantized'.
