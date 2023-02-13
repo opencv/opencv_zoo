@@ -33,4 +33,4 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 - MediaPipe Handpose: https://github.com/tensorflow/tfjs-models/tree/master/handpose
 - MediaPipe hands model and model card: https://google.github.io/mediapipe/solutions/models.html#hands
-- Int8 model quantized with rgb evaluation set of FreiHAND: (https://lmb.informatik.uni-freiburg.de/resources/datasets/FreihandDataset.en.html).
+- Int8 model quantized with rgb evaluation set of FreiHAND: https://lmb.informatik.uni-freiburg.de/resources/datasets/FreihandDataset.en.html
