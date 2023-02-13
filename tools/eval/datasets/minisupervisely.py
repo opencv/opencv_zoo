@@ -96,9 +96,7 @@ class MiniSupervisely :
         Print evaluation results
         """
         print("Mean IoU : ", self.miou)
-        print("Class IoU : ", self.class_iou)
         print("Mean Accuracy : ", self.acc)
-        print("Class Accuracy : ", self.class_acc)
 
     
     def one_hot(self, arr, max_size) :
