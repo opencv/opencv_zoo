@@ -107,9 +107,9 @@ models=dict(
                      calibration_image_dir='../../benchmark/data/text',
                      transforms=Compose([Resize(size=(100, 32))])),
     mp_palmdet=Quantize(model_path='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx',
-                        calibration_image_dir='../../benchmark/data/palm_detection',
+                        calibration_image_dir='path/to/dataset',
                         transforms=Compose([Resize(size=(192, 192)), Normalize(std=[255, 255, 255]),
-                          ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
+                        ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
 
 )
 

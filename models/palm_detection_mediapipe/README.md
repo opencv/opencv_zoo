@@ -6,6 +6,7 @@ This model detects palm bounding boxes and palm landmarks, and is converted from
 - simplified by [onnx-simplifier](https://github.com/daquexian/onnx-simplifier)
 - SSD Anchors are generated from [GenMediaPipePalmDectionSSDAnchors](https://github.com/VimalMollyn/GenMediaPipePalmDectionSSDAnchors)
 
+
 ## Demo
 
 Run the following commands to try the demo:
@@ -32,3 +33,4 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 - MediaPipe Handpose: https://github.com/tensorflow/tfjs-models/tree/master/handpose
 - MediaPipe hands model and model card: https://google.github.io/mediapipe/solutions/models.html#hands
+- Int8 model quantized with rgb evaluation set of FreiHAND: (https://lmb.informatik.uni-freiburg.de/resources/datasets/FreihandDataset.en.html).
