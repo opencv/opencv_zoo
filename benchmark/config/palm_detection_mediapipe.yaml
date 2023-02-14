@@ -5,7 +5,7 @@ Benchmark:
     path: "data/palm_detection_20230125"
     files: ["palm1.jpg", "palm2.jpg", "palm3.jpg"]
     sizes: # [[w1, h1], ...], Omit to run at original scale
-      - [256, 256]
+      - [192, 192]
   metric:
     warmup: 30
     repeat: 10

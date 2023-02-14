@@ -27,10 +27,10 @@ except:
 
 parser = argparse.ArgumentParser(description='Hand Detector from MediaPipe')
 parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='./palm_detection_mediapipe_2022may.onnx', help='Usage: Set model path, defaults to palm_detection_mediapipe_2022may.onnx.')
+parser.add_argument('--model', '-m', type=str, default='./palm_detection_mediapipe_2023feb.onnx', help='Usage: Set model path, defaults to palm_detection_mediapipe_2023feb.onnx.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--score_threshold', type=float, default=0.99, help='Usage: Set the minimum needed confidence for the model to identify a palm, defaults to 0.99. Smaller values may result in faster detection, but will limit accuracy. Filter out faces of confidence < conf_threshold. An empirical score threshold for the quantized model is 0.49.')
+parser.add_argument('--score_threshold', type=float, default=0.8, help='Usage: Set the minimum needed confidence for the model to identify a palm, defaults to 0.8. Smaller values may result in faster detection, but will limit accuracy. Filter out faces of confidence < conf_threshold. An empirical score threshold for the quantized model is 0.49.')
 parser.add_argument('--nms_threshold', type=float, default=0.3, help='Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3.')
 parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
 parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
