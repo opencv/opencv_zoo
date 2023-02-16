@@ -4,53 +4,6 @@ import numpy as np
 from tqdm import tqdm
 
 
-class Normalize:
-    """
-    Normalize an image.
-    Args:
-        mean (list, optional): The mean value of a data set. Default: [0.5, 0.5, 0.5].
-        std (list, optional): The standard deviation of a data set. Default: [0.5, 0.5, 0.5].
-    Raises:
-        ValueError: When mean/std is not list or any value in std is 0.
-    """
-
-    def __init__(self, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)):
-        self.mean = mean
-        self.std = std
-        if not (isinstance(self.mean, (list, tuple))
-                and isinstance(self.std, (list, tuple))):
-            raise ValueError(
-                "{}: input type is invalid. It should be list or tuple".format(
-                    self))
-        from functools import reduce
-        if reduce(lambda x, y: x * y, self.std) == 0:
-            raise ValueError('{}: std is invalid!'.format(self))
-
-    def normalize(self, im, mean, std):
-        im = im.astype(np.float32, copy=False) / 255.0
-        im -= mean
-        im /= std
-        return im
-    
-    def __call__(self, im, label=None):
-        """
-        Args:
-            im (np.ndarray): The Image data.
-            label (np.ndarray, optional): The label data. Default: None.
-        Returns:
-            (tuple). When label is None, it returns (im, ), otherwise it returns (im, label).
-        """
-
-        mean = np.array(self.mean)[np.newaxis, np.newaxis, :]
-        std = np.array(self.std)[np.newaxis, np.newaxis, :]
-        im = self.normalize(im, mean, std)
-
-        if label is None:
-            return (im, )
-        else:
-            return (im, label)
-
-
 class MiniSupervisely : 
     def __init__(self, root) : 
         self.root = root
@@ -100,26 +53,21 @@ class MiniSupervisely :
 
         pbar.set_description(
             "Evaluating {} with {} val set".format(model.name, self.name))
-        
-        normalize = Normalize()
 
         for input_image, expected_image in pbar : 
             
-            input_image = cv.imread(os.path.join(self.root, input_image))
-            input_image = cv.resize(input_image, (192, 192))
+            input_image = cv.imread(os.path.join(self.root, input_image)).astype('float32')
             input_image = cv.cvtColor(input_image, cv.COLOR_BGR2RGB)
-
-            expected_image = cv.imread(os.path.join(self.root, expected_image),cv.IMREAD_GRAYSCALE)
-            expected_image = cv.resize(expected_image, (192, 192))[np.newaxis, :, :]
+            expected_image = cv.imread(os.path.join(self.root, expected_image), cv.IMREAD_GRAYSCALE)[np.newaxis, :, :]
+           
             
-            input_image, expected_image = normalize(input_image, expected_image)
-
-            output_image = model.infer(input_image)   
+            output_image = model.infer(input_image) 
 
             intersect_area, pred_area, label_area = self.calculate_area(
-                output_image,
-                expected_image,
+                output_image.astype('uint32'),
+                expected_image.astype('uint32'),
                 self.num_classes)
+            
             intersect_area_all = intersect_area_all + intersect_area
             pred_area_all = pred_area_all + pred_area
             label_area_all = label_area_all + label_area
@@ -169,34 +117,29 @@ class MiniSupervisely :
             Tensor: The ground truth area on all class
         """
         
-        # Delete ignore_index
+       
+        if len(pred.shape) == 4:
+            pred = np.squeeze(pred, axis=1)
+        if len(label.shape) == 4:
+            label = np.squeeze(label, axis=1)
+        if not pred.shape == label.shape:
+            raise ValueError('Shape of `pred` and `label should be equal, '
+                            'but there are {} and {}.'.format(pred.shape,
+                                                            label.shape))
+
         mask = label != ignore_index
-        pred = pred + 1
-        label = label + 1
-        pred = pred * mask
-        label = label * mask
-
-
-        pred = self.one_hot(pred, num_classes + 1)
-        label = self.one_hot(label, num_classes + 1)
-
-        pred = pred[:, :, :, 1:]
-        label = label[:, :, :, 1:]
-
         pred_area = []
         label_area = []
         intersect_area = []
 
         #iterate over all classes and calculate their respective areas
         for i in range(num_classes):
-            pred_i = pred[:, :, :, i]
-            label_i = label[:, :, :, i]
-            pred_area_i = np.sum(pred_i)
-            label_area_i = np.sum(label_i)
-            intersect_area_i = np.sum(pred_i * label_i)
-            pred_area.append(pred_area_i)
-            label_area.append(label_area_i)
-            intersect_area.append(intersect_area_i)
+            pred_i = np.logical_and(pred == i, mask)
+            label_i = label == i
+            intersect_i = np.logical_and(pred_i, label_i)
+            pred_area.append(np.sum(pred_i.astype('int32')))
+            label_area.append(np.sum(label_i.astype('int32')))
+            intersect_area.append(np.sum(intersect_i.astype('int32')))
         
         return intersect_area, pred_area, label_area
     

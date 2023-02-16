@@ -19,6 +19,7 @@ class PPHumanSeg:
 
         self._inputNames = ''
         self._outputNames = ['save_infer_model/scale_0.tmp_1']
+        self._currentInputSize = None
         self._inputSize = [192, 192]
         self._mean = np.array([0.5, 0.5, 0.5])[np.newaxis, np.newaxis, :]
         self._std = np.array([0.5, 0.5, 0.5])[np.newaxis, np.newaxis, :]
@@ -36,14 +37,15 @@ class PPHumanSeg:
         self._model.setPreferableTarget(self._targetId)
 
     def _preprocess(self, image):
+        self._currentInputSize = image.shape
+        image = cv.resize(image, (192, 192))
+        
         image = image.astype(np.float32, copy=False) / 255.0
         image -= self._mean
         image /= self._std
         return cv.dnn.blobFromImage(image)
 
     def infer(self, image):
-        assert image.shape[0] == self._inputSize[1], '{} (height of input image) != {} (preset height)'.format(image.shape[0], self._inputSize[1])
-        assert image.shape[1] == self._inputSize[0], '{} (width of input image) != {} (preset width)'.format(image.shape[1], self._inputSize[0])
 
         # Preprocess
         inputBlob = self._preprocess(image)
@@ -58,6 +60,9 @@ class PPHumanSeg:
         return results
 
     def _postprocess(self, outputBlob):
-        result = np.argmax(outputBlob[0], axis=1).astype(np.uint8)
+        outputBlob = outputBlob[0][0]
+        outputBlob = cv.resize(outputBlob.transpose(1,2,0), (self._currentInputSize[1], self._currentInputSize[0]), interpolation=cv.INTER_LINEAR).transpose(2,0,1)[np.newaxis, ...]
+
+        result = np.argmax(outputBlob, axis=1).astype(np.uint8)
         return result
 
