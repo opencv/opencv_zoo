@@ -68,7 +68,7 @@ class ImgAlign:
         if model == "mp_handpose":
             sys.path.append('../../models/palm_detection_mediapipe')
             from mp_palmdet import MPPalmDet
-            self.palm_detector = MPPalmDet(modelPath='./palm_detection_mediapipe_2023feb.onnx', nmsThreshold=0.3, scoreThreshold=0.9)
+            self.palm_detector = MPPalmDet(modelPath='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx', nmsThreshold=0.3, scoreThreshold=0.9)
 
     def __call__(self, img):
         if self.model == "mp_handpose":
