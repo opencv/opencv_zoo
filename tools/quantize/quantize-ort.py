@@ -79,8 +79,7 @@ class Quantize:
                         quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
                         per_channel=self.per_channel,
                         weight_type=self.type_dict[self.wt_type],
-                        activation_type=self.type_dict[self.act_type],
-                        )
+                        activation_type=self.type_dict[self.act_type])
         os.remove('augmented_model.onnx')
         os.remove('{}-opt.onnx'.format(self.model_path[:-5]))
         print('\tQuantized model saved to {}'.format(output_name))

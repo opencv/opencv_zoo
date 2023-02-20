@@ -54,4 +54,4 @@ python quantize-inc.py model1
 
 ## Dataset
 Some models are quantized with extra datasets.
-- [MP-PalmDet](../../models/palm_detection_mediapipe) int8 model quantized with evaluation set of [FreiHAND](https://lmb.informatik.uni-freiburg.de/resources/datasets/FreihandDataset.en.html). The dataset downloaded from [link](https://lmb.informatik.uni-freiburg.de/data/freihand/FreiHAND_pub_v2_eval.zip). Unpack it and path to `FreiHAND_pub_v2_eval/evaluation/rgb`.
+- [MP-PalmDet](../../models/palm_detection_mediapipe) and [MP-HandPose](../../models/handpose_estimation_mediapipe) int8 model quantized with evaluation set of [FreiHAND](https://lmb.informatik.uni-freiburg.de/resources/datasets/FreihandDataset.en.html). The dataset downloaded from [link](https://lmb.informatik.uni-freiburg.de/data/freihand/FreiHAND_pub_v2_eval.zip). Unpack it and path to `FreiHAND_pub_v2_eval/evaluation/rgb`.
