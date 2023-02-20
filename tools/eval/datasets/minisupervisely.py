@@ -45,9 +45,9 @@ class MiniSupervisely :
             model (object) : PP_HumanSeg model object
         """
 
-        intersect_area_all = []
-        pred_area_all = []
-        label_area_all = []
+        intersect_area_all = np.zeros([1], dtype=np.int64)
+        pred_area_all = np.zeros([1], dtype=np.int64)
+        label_area_all = np.zeros([1], dtype=np.int64)
 
         pbar = tqdm(self.image_set)
 
@@ -57,12 +57,11 @@ class MiniSupervisely :
         for input_image, expected_image in pbar : 
             
             input_image = cv.imread(os.path.join(self.root, input_image)).astype('float32')
-            input_image = cv.cvtColor(input_image, cv.COLOR_BGR2RGB)
-            expected_image = cv.imread(os.path.join(self.root, expected_image), cv.IMREAD_GRAYSCALE)[np.newaxis, :, :]
-           
             
-            output_image = model.infer(input_image) 
+            expected_image = cv.imread(os.path.join(self.root, expected_image), cv.IMREAD_GRAYSCALE)[np.newaxis, :, :]           
 
+            output_image = model.infer(input_image) 
+            
             intersect_area, pred_area, label_area = self.calculate_area(
                 output_image.astype('uint32'),
                 expected_image.astype('uint32'),
@@ -71,8 +70,6 @@ class MiniSupervisely :
             intersect_area_all = intersect_area_all + intersect_area
             pred_area_all = pred_area_all + pred_area
             label_area_all = label_area_all + label_area
-
-
             
         self.class_iou, self.miou = self.mean_iou(intersect_area_all, pred_area_all,
                                            label_area_all)
@@ -97,10 +94,8 @@ class MiniSupervisely :
         """
         print("Mean IoU : ", self.miou)
         print("Mean Accuracy : ", self.acc)
-
-    
-    def one_hot(self, arr, max_size) :
-        return np.eye(max_size)[arr]
+        print("Class IoU : ", self.class_iou)
+        print("Class Accuracy : ", self.class_acc)
 
 
     def calculate_area(self,pred, label, num_classes, ignore_index=255):
@@ -140,7 +135,7 @@ class MiniSupervisely :
             pred_area.append(np.sum(pred_i.astype('int32')))
             label_area.append(np.sum(label_i.astype('int32')))
             intersect_area.append(np.sum(intersect_i.astype('int32')))
-        
+
         return intersect_area, pred_area, label_area
     
 

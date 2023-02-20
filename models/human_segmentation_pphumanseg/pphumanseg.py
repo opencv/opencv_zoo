@@ -37,6 +37,9 @@ class PPHumanSeg:
         self._model.setPreferableTarget(self._targetId)
 
     def _preprocess(self, image):
+
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+
         self._currentInputSize = image.shape
         image = cv.resize(image, (192, 192))
         
@@ -52,15 +55,16 @@ class PPHumanSeg:
 
         # Forward
         self._model.setInput(inputBlob, self._inputNames)
-        outputBlob = self._model.forward(self._outputNames)
-
+        outputBlob = self._model.forward()
+       
         # Postprocess
         results = self._postprocess(outputBlob)
 
         return results
 
     def _postprocess(self, outputBlob):
-        outputBlob = outputBlob[0][0]
+        
+        outputBlob = outputBlob[0]
         outputBlob = cv.resize(outputBlob.transpose(1,2,0), (self._currentInputSize[1], self._currentInputSize[0]), interpolation=cv.INTER_LINEAR).transpose(2,0,1)[np.newaxis, ...]
 
         result = np.argmax(outputBlob, axis=1).astype(np.uint8)
