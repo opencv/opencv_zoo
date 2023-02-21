@@ -9,8 +9,8 @@ This model is converted from TFlite to ONNX using following tools:
 - simplified by [onnx-simplifier](https://github.com/daquexian/onnx-simplifier)
 
 **Note**:
-- The accuracy loss of `int8 quantized model` is obviously high, where the results of `handedness` and `3D landmarks` are invalid.
-- If you want to use a better fp32 model, you can go to [MediaPipe](https://google.github.io/mediapipe/solutions/models.html#hands) and download the `full` model and then convert it to onnx model.
+- The int8-quantized model may produce invalid results due to a significant drop of accuracy.
+- Visit https://google.github.io/mediapipe/solutions/models.html#hands for models of larger scale.
 
 ## Demo
 

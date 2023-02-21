@@ -62,17 +62,15 @@ class ColorConvert:
     def __call__(self, img):
         return cv.cvtColor(img, self.ctype)
 
-class ImgAlign:
+class HandAlign:
     def __init__(self, model):
         self.model = model
-        if model == "mp_handpose":
-            sys.path.append('../../models/palm_detection_mediapipe')
-            from mp_palmdet import MPPalmDet
-            self.palm_detector = MPPalmDet(modelPath='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx', nmsThreshold=0.3, scoreThreshold=0.9)
+        sys.path.append('../../models/palm_detection_mediapipe')
+        from mp_palmdet import MPPalmDet
+        self.palm_detector = MPPalmDet(modelPath='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx', nmsThreshold=0.3, scoreThreshold=0.9)
 
     def __call__(self, img):
-        if self.model == "mp_handpose":
-            return self.mp_handpose_align(img)
+        return self.mp_handpose_align(img)
 
     def mp_handpose_align(self, img):
         palms = self.palm_detector.infer(img)

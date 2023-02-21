@@ -6,9 +6,9 @@ This model detects palm bounding boxes and palm landmarks, and is converted from
 - simplified by [onnx-simplifier](https://github.com/daquexian/onnx-simplifier)
 - SSD Anchors are generated from [GenMediaPipePalmDectionSSDAnchors](https://github.com/VimalMollyn/GenMediaPipePalmDectionSSDAnchors)
 
-- **Note**:
-- If you want to use a better fp32 model, you can go to [MediaPipe](https://google.github.io/mediapipe/solutions/models.html#hands) and download the `full` model and then convert it to onnx model.
 
+**Note**:
+- Visit https://google.github.io/mediapipe/solutions/models.html#hands for models of larger scale.
 
 ## Demo
 

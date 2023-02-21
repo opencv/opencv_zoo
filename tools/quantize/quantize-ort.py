@@ -14,7 +14,7 @@ from onnx import version_converter
 import onnxruntime
 from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType, QuantFormat
 
-from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert, ImgAlign
+from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert, HandAlign
 
 class DataReader(CalibrationDataReader):
     def __init__(self, model_path, image_dir, transforms, data_dim):
@@ -114,7 +114,7 @@ models=dict(
                         ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
     mp_handpose=Quantize(model_path='../../models/handpose_estimation_mediapipe/handpose_estimation_mediapipe_2023feb.onnx',
                         calibration_image_dir='path/to/dataset',
-                        transforms=Compose([ImgAlign("mp_handpose"), Resize(size=(224, 224)), Normalize(std=[255, 255, 255]),
+                        transforms=Compose([HandAlign("mp_handpose"), Resize(size=(224, 224)), Normalize(std=[255, 255, 255]),
                         ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
 )
 
