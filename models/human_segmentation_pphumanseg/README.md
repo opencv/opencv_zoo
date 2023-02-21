@@ -25,10 +25,10 @@ python demo.py --help
 ---
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
-| Models             | Accuracy       | 
-| ------------------ | -------------- |
-| PPHumanSeg         | 0.9581         |
-| PPHumanSeg quant   | 0.4365        |
+| Models             | Accuracy       | mIoU          |
+| ------------------ | -------------- | ------------- |
+| PPHumanSeg         | 0.9581         | 0.8996        |
+| PPHumanSeg quant   | 0.4365         | 0.2788        |
 
 
 \*: 'quant' stands for 'quantized'.

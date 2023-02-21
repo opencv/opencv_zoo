@@ -5,6 +5,12 @@ from tqdm import tqdm
 
 
 class MiniSupervisely : 
+
+    '''
+        Refer to https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.7/paddleseg/core/val.py
+        for official evaluation implementation.
+    '''
+
     def __init__(self, root) : 
         self.root = root
         self.val_path = os.path.join(root, 'val.txt')

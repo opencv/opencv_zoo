@@ -56,7 +56,7 @@ class PPHumanSeg:
         # Forward
         self._model.setInput(inputBlob, self._inputNames)
         outputBlob = self._model.forward()
-       
+
         # Postprocess
         results = self._postprocess(outputBlob)
 
