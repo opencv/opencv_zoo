@@ -33,8 +33,9 @@ class ICDAR:
     def eval(self, model):
         right_num = 0
         pbar = tqdm(self.val_label)
+        pbar.set_description("Evaluating {} with {} val set".format(model.name, self.name))
+
         for fn, label in pbar:
-            pbar.set_description("Evaluating {} with {} val set".format(model.name, self.name))
 
             img = cv.imread(fn)
 
