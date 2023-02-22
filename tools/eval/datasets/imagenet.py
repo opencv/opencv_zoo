@@ -39,8 +39,9 @@ class ImageNet:
         top_1_hits = 0
         top_5_hits = 0
         pbar = tqdm(self.val_label)
+        pbar.set_description("Evaluating {} with {} val set".format(model.name, self.name))
+
         for fn, label in pbar:
-            pbar.set_description("Evaluating {} with {} val set".format(model.name, self.name))
 
             img = cv.imread(fn)
             img = cv.cvtColor(img, cv.COLOR_BGR2RGB)

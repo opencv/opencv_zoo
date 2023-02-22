@@ -36,8 +36,9 @@ class IIIT5K:
     def eval(self, model):
         right_num = 0
         pbar = tqdm(self.val_label)
+        pbar.set_description("Evaluating {} with {} val set".format(model.name, self.name))
+
         for img, value in pbar:
-            pbar.set_description("Evaluating {} with {} val set".format(model.name, self.name))
 
 
             rbbox = np.array([0, img.shape[0], 0, 0, img.shape[1], 0, img.shape[1], img.shape[0]])
