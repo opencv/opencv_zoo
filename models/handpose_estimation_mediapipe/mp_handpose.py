@@ -9,7 +9,7 @@ class MPHandPose:
         self.backend_id = backendId
         self.target_id = targetId
 
-        self.input_size = np.array([256, 256])  # wh
+        self.input_size = np.array([224, 224])  # wh
         self.PALM_LANDMARK_IDS = [0, 5, 9, 13, 17, 1, 2]
         self.PALM_LANDMARKS_INDEX_OF_PALM_BASE = 0
         self.PALM_LANDMARKS_INDEX_OF_MIDDLE_FINGER_BASE = 2
@@ -115,20 +115,25 @@ class MPHandPose:
         return results # [bbox_coords, landmarks_coords, conf]
 
     def _postprocess(self, blob, rotated_palm_bbox, angle, rotation_matrix):
-        landmarks, conf = blob
+        landmarks, conf, handedness, landmarks_word = blob
 
+        conf = conf[0][0]
         if conf < self.conf_threshold:
             return None
 
-        landmarks = landmarks.reshape(-1, 3)  # shape: (1, 63) -> (21, 3)
+        landmarks = landmarks[0].reshape(-1, 3)  # shape: (1, 63) -> (21, 3)
+        landmarks_word = landmarks_word[0].reshape(-1, 3) # shape: (1, 63) -> (21, 3)
 
         # transform coords back to the input coords
         wh_rotated_palm_bbox = rotated_palm_bbox[1] - rotated_palm_bbox[0]
         scale_factor = wh_rotated_palm_bbox / self.input_size
         landmarks[:, :2] = (landmarks[:, :2] - self.input_size / 2) * scale_factor
+        landmarks[:, 2] = landmarks[:, 2] * max(scale_factor) # depth scaling
         coords_rotation_matrix = cv.getRotationMatrix2D((0, 0), angle, 1.0)
         rotated_landmarks = np.dot(landmarks[:, :2], coords_rotation_matrix[:, :2])
         rotated_landmarks = np.c_[rotated_landmarks, landmarks[:, 2]]
+        rotated_landmarks_world = np.dot(landmarks_word[:, :2], coords_rotation_matrix[:, :2])
+        rotated_landmarks_world = np.c_[rotated_landmarks_world, landmarks_word[:, 2]]
         #  invert rotation
         rotation_component = np.array([
             [rotation_matrix[0][0], rotation_matrix[1][0]],
@@ -144,12 +149,12 @@ class MPHandPose:
         original_center = np.array([
             np.dot(center, inverse_rotation_matrix[0]),
             np.dot(center, inverse_rotation_matrix[1])])
-        landmarks = rotated_landmarks[:, :2] + original_center
+        landmarks[:, :2] = rotated_landmarks[:, :2] + original_center
 
         # get bounding box from rotated_landmarks
         bbox = np.array([
-            np.amin(landmarks, axis=0),
-            np.amax(landmarks, axis=0)])  # [top-left, bottom-right]
+            np.amin(landmarks[:, :2], axis=0),
+            np.amax(landmarks[:, :2], axis=0)])  # [top-left, bottom-right]
         # shift bounding box
         wh_bbox = bbox[1] - bbox[0]
         shift_vector = self.HAND_BOX_SHIFT_VECTOR * wh_bbox
@@ -162,4 +167,9 @@ class MPHandPose:
             center_bbox - new_half_size,
             center_bbox + new_half_size])
 
-        return np.r_[bbox.reshape(-1), landmarks.reshape(-1), conf[0]]
+        # [0: 4]: hand bounding box found in image of format [x1, y1, x2, y2] (top-left and bottom-right points)
+        # [4: 67]: screen landmarks with format [x1, y1, z1, x2, y2 ... x21, y21, z21], z value is relative to WRIST
+        # [67: 130]: world landmarks with format [x1, y1, z1, x2, y2 ... x21, y21, z21], 3D metric x, y, z coordinate
+        # [130]: handedness, (left)[0, 1](right) hand
+        # [131]: confidence
+        return np.r_[bbox.reshape(-1), landmarks.reshape(-1), rotated_landmarks_world.reshape(-1), handedness[0][0], conf]

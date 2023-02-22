@@ -35,7 +35,7 @@ Guidelines:
 | [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 36.15          | 705.48       | 76.82           | ---          | ---         |
 | [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 35.81          | 521.98       | 90.07           | 44.61        | ---         |
 | [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 192x192    | 11.09          | 63.79        | 83.20           | 33.81        | ---         |
-| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 256x256    | 20.16          | 148.24       | 156.30          | 42.70        | ---         |
+| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 224x224    | 4.28           | 36.19        | 40.10           | 19.47        | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
 
@@ -91,7 +91,7 @@ Some examples are listed below. You can find more in the directory of each model
 
 ### Hand Pose Estimation with [MP-HandPose](models/handpose_estimation_mediapipe/)
 
-![handpose estimation](models/handpose_estimation_mediapipe/examples/mphandpose_demo.gif)
+![handpose estimation](models/handpose_estimation_mediapipe/examples/mphandpose_demo.webp)
 
 ### QR Code Detection and Parsing with [WeChatQRCode](./models/qrcode_wechatqrcode/)
 
