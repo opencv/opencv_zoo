@@ -77,6 +77,14 @@ models = dict(
         name="CRNN",
         topic="text_recognition",
         modelPath=os.path.join(root_dir, "models/text_recognition_crnn/text_recognition_CRNN_EN_2021sep.onnx")),
+    pphumanseg=dict(
+        name="PPHumanSeg",
+        topic="human_segmentation",
+        modelPath=os.path.join(root_dir, "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx")),
+    pphumanseg_q=dict(
+        name="PPHumanSeg",
+        topic="human_segmentation",
+        modelPath=os.path.join(root_dir, "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct-act_int8-wt_int8-quantized.onnx")),
 )
 
 datasets = dict(
@@ -97,6 +105,9 @@ datasets = dict(
         iiit5k=dict(
             name="IIIT5K",
             topic="text_recognition"),
+        mini_supervisely=dict(
+            name="MiniSupervisely",
+            topic="human_segmentation"),
 )
 
 def main(args):

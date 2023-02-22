@@ -22,6 +22,18 @@ python demo.py --help
 
 ![messi](./examples/messi.jpg)
 
+---
+Results of accuracy evaluation with [tools/eval](../../tools/eval).
+
+| Models             | Accuracy       | mIoU          |
+| ------------------ | -------------- | ------------- |
+| PPHumanSeg         | 0.9581         | 0.8996        |
+| PPHumanSeg quant   | 0.4365         | 0.2788        |
+
+
+\*: 'quant' stands for 'quantized'.
+
+---
 ## License
 
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
