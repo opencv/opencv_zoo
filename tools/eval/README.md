@@ -21,6 +21,7 @@ Supported datasets:
 - [LFW](#lfw)
 - [ICDAR](#ICDAR2003)
 - [IIIT5K](#iiit5k)
+- [Mini Supervisely](#mini_supervisely)
 
 ## ImageNet
 
@@ -190,4 +191,24 @@ Run evaluation with the following command:
 
 ```shell
 python eval.py -m crnn -d iiit5k -dr /path/to/iiit5k
+```
+
+
+## Mini Supervisely
+
+### Prepare data
+Please download the mini_supervisely data from [here](https://paddleseg.bj.bcebos.com/humanseg/data/mini_supervisely.zip) which includes the validation dataset and unzip it.
+
+### Evaluation
+
+Run evaluation with the following command :
+
+```shell
+python eval.py -m pphumanseg -d mini_supervisely -dr /path/to/pphumanseg
+```
+
+Run evaluation on quantized model with the following command :
+
+```shell
+python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
 ```
