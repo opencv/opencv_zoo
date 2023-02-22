@@ -7,6 +7,9 @@ This model detects palm bounding boxes and palm landmarks, and is converted from
 - SSD Anchors are generated from [GenMediaPipePalmDectionSSDAnchors](https://github.com/VimalMollyn/GenMediaPipePalmDectionSSDAnchors)
 
 
+**Note**:
+- Visit https://google.github.io/mediapipe/solutions/models.html#hands for models of larger scale.
+
 ## Demo
 
 Run the following commands to try the demo:
