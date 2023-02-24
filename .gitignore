@@ -3,3 +3,7 @@
 **/__pycache__/**
 
 .vscode
+
+build/
+**/build
+**/build/**
