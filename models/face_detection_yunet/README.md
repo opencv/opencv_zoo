@@ -20,6 +20,8 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 ## Demo
 
+### Python
+
 Run the following command to try the demo:
 
 ```shell
@@ -30,6 +32,23 @@ python demo.py --input /path/to/image
 
 # get help regarding various parameters
 python demo.py --help
+```
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH /path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/demo
+# detect on an image
+./build/demo -i=/path/to/image
+# get help messages
+./build/demo -h
 ```
 
 ### Example outputs
