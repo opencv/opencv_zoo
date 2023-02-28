@@ -1,6 +1,6 @@
 import sys
 import argparse
-
+import math
 import numpy as np
 import cv2 as cv
 
@@ -9,6 +9,9 @@ from mp_handpose import MPHandPose
 sys.path.append('../palm_detection_mediapipe')
 from mp_palmdet import MPPalmDet
 
+dict = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
+
+
 def str2bool(v):
     if v.lower() in ['on', 'yes', 'true', 'y', 't']:
         return True
@@ -16,6 +19,7 @@ def str2bool(v):
         return False
     else:
         raise NotImplementedError
+
 
 backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
 targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
@@ -27,16 +31,21 @@ try:
     help_msg_backends += "; {:d}: TIMVX"
     help_msg_targets += "; {:d}: NPU"
 except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+    print(
+        'This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
 
 parser = argparse.ArgumentParser(description='Hand Pose Estimation from MediaPipe')
 parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='./handpose_estimation_mediapipe_2023feb.onnx', help='Path to the model.')
+parser.add_argument('--model', '-m', type=str, default='./handpose_estimation_mediapipe_2023feb.onnx',
+                    help='Path to the model.')
 parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
 parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--conf_threshold', type=float, default=0.9, help='Filter out hands of confidence < conf_threshold.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--conf_threshold', type=float, default=0.9,
+                    help='Filter out hands of confidence < conf_threshold.')
+parser.add_argument('--save', '-s', type=str, default=False,
+                    help='Set true to save results. This flag is invalid when using camera.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True,
+                    help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
 
 
@@ -108,7 +117,8 @@ def visualize(image, hands, print_result=False):
         # draw box
         cv.rectangle(display_screen, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 2)
         # draw handedness
-        cv.putText(display_screen, '{}'.format(handedness_text), (bbox[0], bbox[1] + 12), cv.FONT_HERSHEY_DUPLEX, 0.5, (0, 0, 255))
+        cv.putText(display_screen, '{}'.format(handedness_text), (bbox[0], bbox[1] + 12), cv.FONT_HERSHEY_DUPLEX, 0.5,
+                   (0, 0, 255))
         # Draw line between each key points
         landmarks_xy = landmarks_screen[:, 0:2]
         draw_lines(display_screen, landmarks_xy, is_draw_point=False)
@@ -144,6 +154,126 @@ def visualize(image, hands, print_result=False):
             draw_lines(display_3d, landmarks_zy, thickness=5)
 
     return display_screen, display_3d
+
+
+def vector_2d_angle(v1, v2):
+    v1_x = v1[0]
+    v1_y = v1[1]
+    v2_x = v2[0]
+    v2_y = v2[1]
+    try:
+        angle_ = math.degrees(math.acos(
+            (v1_x * v2_x + v1_y * v2_y) / (((v1_x ** 2 + v1_y ** 2) ** 0.5) * ((v2_x ** 2 + v2_y ** 2) ** 0.5))))
+    except:
+        angle_ = 65535.
+    if angle_ > 180.:
+        angle_ = 65535.
+    return angle_
+
+
+def hand_angle(hand_):
+    angle_list = []
+    # ---------------------------- thumb 大拇指角度
+    angle_ = vector_2d_angle(
+        ((int(hand_[0][0]) - int(hand_[2][0])), (int(hand_[0][1]) - int(hand_[2][1]))),
+        ((int(hand_[3][0]) - int(hand_[4][0])), (int(hand_[3][1]) - int(hand_[4][1])))
+    )
+    angle_list.append(angle_)
+    # ---------------------------- index 食指角度
+    angle_ = vector_2d_angle(
+        ((int(hand_[0][0]) - int(hand_[6][0])), (int(hand_[0][1]) - int(hand_[6][1]))),
+        ((int(hand_[7][0]) - int(hand_[8][0])), (int(hand_[7][1]) - int(hand_[8][1])))
+    )
+    angle_list.append(angle_)
+    # ---------------------------- middle 中指角度
+    angle_ = vector_2d_angle(
+        ((int(hand_[0][0]) - int(hand_[10][0])), (int(hand_[0][1]) - int(hand_[10][1]))),
+        ((int(hand_[11][0]) - int(hand_[12][0])), (int(hand_[11][1]) - int(hand_[12][1])))
+    )
+    angle_list.append(angle_)
+    # ---------------------------- ring 无名指角度
+    angle_ = vector_2d_angle(
+        ((int(hand_[0][0]) - int(hand_[14][0])), (int(hand_[0][1]) - int(hand_[14][1]))),
+        ((int(hand_[15][0]) - int(hand_[16][0])), (int(hand_[15][1]) - int(hand_[16][1])))
+    )
+    angle_list.append(angle_)
+    # ---------------------------- pink 小拇指角度
+    angle_ = vector_2d_angle(
+        ((int(hand_[0][0]) - int(hand_[18][0])), (int(hand_[0][1]) - int(hand_[18][1]))),
+        ((int(hand_[19][0]) - int(hand_[20][0])), (int(hand_[19][1]) - int(hand_[20][1])))
+    )
+    angle_list.append(angle_)
+    return angle_list
+
+
+def fingerStatus(lmList):
+    fingerList = []
+    originx, originy = lmList[0]
+    keypoint_list = [[5, 4], [6, 8], [10, 12], [14, 16], [18, 20]]
+    for point in keypoint_list:
+        x1, y1 = lmList[point[0]]
+        x2, y2 = lmList[point[1]]
+        if math.hypot(x2 - originx, y2 - originy) > math.hypot(x1 - originx, y1 - originy):
+            fingerList.append(True)
+        else:
+            fingerList.append(False)
+
+    return fingerList
+
+
+def h_gesture(hand):
+    thr_angle = 65.
+    thr_angle_thumb = 30.
+    thr_angle_s = 49.
+    gesture_str = None
+
+    angle_list = hand_angle(hand)
+
+    if 65535. not in angle_list and len(hand) != 0:
+        thumbOpen, firstOpen, secondOpen, thirdOpen, fourthOpen = fingerStatus(hand)
+        # Number
+        if (angle_list[0] > thr_angle_thumb) and (angle_list[1] > thr_angle) and (angle_list[2] > thr_angle) and (
+                angle_list[3] > thr_angle) and (angle_list[4] > thr_angle) and \
+                not firstOpen and not secondOpen and not thirdOpen and not fourthOpen:
+            gesture_str = "zero"
+        elif (angle_list[0] > thr_angle_thumb) and (angle_list[1] < thr_angle_s) and (angle_list[2] > thr_angle) and (
+                angle_list[3] > thr_angle) and (angle_list[4] > thr_angle) and \
+                firstOpen and not secondOpen and not thirdOpen and not fourthOpen:
+            gesture_str = "one"
+        elif (angle_list[0] > thr_angle_thumb) and (angle_list[1] < thr_angle_s) and (angle_list[2] < thr_angle_s) and (
+                angle_list[3] > thr_angle) and (angle_list[4] > thr_angle) and \
+                not thumbOpen and firstOpen and secondOpen and not thirdOpen and not fourthOpen:
+            gesture_str = "two"
+        elif (angle_list[0] > thr_angle_thumb) and (angle_list[1] < thr_angle_s) and (angle_list[2] < thr_angle_s) and (
+                angle_list[3] < thr_angle_s) and (angle_list[4] > thr_angle) and \
+                not thumbOpen and firstOpen and secondOpen and thirdOpen and not fourthOpen:
+            gesture_str = "three"
+        elif (angle_list[0] > thr_angle_thumb) and (angle_list[1] < thr_angle_s) and (angle_list[2] < thr_angle_s) and (
+                angle_list[3] < thr_angle_s) and (angle_list[4] < thr_angle) and \
+                firstOpen and secondOpen and thirdOpen and fourthOpen:
+            gesture_str = "four"
+        elif (angle_list[0] < thr_angle_s) and (angle_list[1] < thr_angle_s) and (angle_list[2] < thr_angle_s) and (
+                angle_list[3] < thr_angle_s) and (angle_list[4] < thr_angle_s) and \
+                thumbOpen and firstOpen and secondOpen and thirdOpen and fourthOpen:
+            gesture_str = "five"
+        elif (angle_list[0] < thr_angle_s) and (angle_list[1] > thr_angle) and (angle_list[2] > thr_angle) and (
+                angle_list[3] > thr_angle) and (angle_list[4] < thr_angle_s) and \
+                thumbOpen and not firstOpen and not secondOpen and not thirdOpen and fourthOpen:
+            gesture_str = "six"
+        elif (angle_list[0] < thr_angle_s) and (angle_list[1] < thr_angle) and (angle_list[2] > thr_angle) and (
+                angle_list[3] > thr_angle) and (angle_list[4] > thr_angle_s) and \
+                thumbOpen and firstOpen and not secondOpen and not thirdOpen and not fourthOpen:
+            gesture_str = "seven"
+        elif (angle_list[0] < thr_angle_s) and (angle_list[1] < thr_angle) and (angle_list[2] < thr_angle) and (
+                angle_list[3] > thr_angle) and (angle_list[4] > thr_angle_s) and \
+                thumbOpen and firstOpen and secondOpen and not thirdOpen and not fourthOpen:
+            gesture_str = "eight"
+        elif (angle_list[0] < thr_angle_s) and (angle_list[1] < thr_angle) and (angle_list[2] < thr_angle) and (
+                angle_list[3] < thr_angle) and (angle_list[4] > thr_angle_s) and \
+                thumbOpen and firstOpen and secondOpen and thirdOpen and not fourthOpen:
+            gesture_str = "nine"
+
+    return gesture_str
 
 
 if __name__ == '__main__':
@@ -214,6 +344,29 @@ if __name__ == '__main__':
                 handpose = handpose_detector.infer(frame, palm)
                 if handpose is not None:
                     hands = np.vstack((hands, handpose))
+
+                    for idx, handpose in enumerate(hands):
+                        conf = handpose[-1]
+                        bbox = handpose[0:4].astype(np.int32)
+                        handedness = handpose[-2]
+
+                        landmarks_screen = handpose[4:67].reshape(21, 3).astype(np.int32)
+                        landmarks_word = handpose[67:130].reshape(21, 3)
+
+                        landmarks = landmarks_word[:, [0, 1]]
+                        landmarks = (landmarks * 1000 + 100).astype(np.int32)
+
+                        hand_local = []
+                        for i in range(21):
+                            x = landmarks[i][0] * frame.shape[1]
+                            y = landmarks[i][1] * frame.shape[0]
+                            hand_local.append((x, y))
+
+                        if hand_local:
+                            gesture = h_gesture(hand_local)
+                        if gesture is not None:
+                            tmp = dict[gesture]
+                            cv.putText(frame, gesture, (1000, 100), 0, 1.3, (0, 0, 255), 3)
             tm.stop()
             # Draw results on the input image
             frame, view_3d = visualize(frame, hands)
