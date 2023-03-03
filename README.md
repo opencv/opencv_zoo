@@ -20,9 +20,9 @@ Guidelines:
 | [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 6.22         | 12.18           | 4.04         | 1.73            | 86.69       |
 | [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 99.20        | 24.88           | 46.25        | 23.17           | ---         |
 | [FER](./models/facial_expression_recognition/)          | Facial Expression Recognition | 112x112    | 4.43           | 49.86        | 31.07           | 29.80        | 10.12           | ---         |
-| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 29.53        | ---             | ---         |
+| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 168.03       | 56.12           | 29.53        | 8.70            | ---         |
 | [YOLOX](./models/object_detection_yolox/)               | Object Detection              | 640x640    | 176.68         | 1496.70      | 388.95          | 420.98       | 29.10           | ---         |
-| [NanoDet](./models/object_detection_nanodet/)           | Object Detection              | 416x416    | 157.91         | 220.36       | 64.94           | 116.64       | ---             | ---         |
+| [NanoDet](./models/object_detection_nanodet/)           | Object Detection              | 416x416    | 157.91         | 220.36       | 64.94           | 116.64       | 35.97           | ---         |
 | [DB-IC15](./models/text_detection_db)                   | Text Detection                | 640x480    | 142.91         | 2835.91      | 208.41          | ---          | 229.74          | ---         |
 | [DB-TD500](./models/text_detection_db)                  | Text Detection                | 640x480    | 142.91         | 2841.71      | 210.51          | ---          | 247.29          | ---         |
 | [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 50.21          | 234.32       | 196.15          | 125.30       | 101.03          | ---         |
