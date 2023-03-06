@@ -41,7 +41,7 @@ class ICDAR:
 
             rbbox = np.array([0, img.shape[0], 0, 0, img.shape[1], 0, img.shape[1], img.shape[0]])
             pred = model.infer(img, rbbox)
-            if label == pred:
+            if label.lower() == pred.lower():
                 right_num += 1
 
         self.acc = right_num/(len(self.val_label) * 1.0)
