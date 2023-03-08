@@ -16,7 +16,7 @@ class MPHandPose:
         self.PALM_BOX_PRE_SHIFT_VECTOR = [0, 0]
         self.PALM_BOX_PRE_ENLARGE_FACTOR = 4
         self.PALM_BOX_SHIFT_VECTOR = [0, -0.4]
-        self.PALM_BOX_ENLARGE_FACTOR = 2.6
+        self.PALM_BOX_ENLARGE_FACTOR = 3
         self.HAND_BOX_SHIFT_VECTOR = [0, -0.1]
         self.HAND_BOX_ENLARGE_FACTOR = 1.65
 
