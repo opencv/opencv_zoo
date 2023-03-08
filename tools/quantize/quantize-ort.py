@@ -116,6 +116,9 @@ models=dict(
                         calibration_image_dir='path/to/dataset',
                         transforms=Compose([HandAlign("mp_handpose"), Resize(size=(224, 224)), Normalize(std=[255, 255, 255]),
                         ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
+    lpd_yunet=Quantize(model_path='../../models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2023mar.onnx',
+                       calibration_image_dir='../../benchmark/data/license_plate_detection',
+                       transforms=Compose([Resize(size=(320, 240))])),
 )
 
 if __name__ == '__main__':
