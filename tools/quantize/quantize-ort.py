@@ -91,7 +91,7 @@ models=dict(
     sface=Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
                    calibration_image_dir='../../benchmark/data/face_recognition',
                    transforms=Compose([Resize(size=(112, 112))])),
-    pphumenseg=Quantize(model_path='../../models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2021oct.onnx',
+    pphumanseg=Quantize(model_path='../../models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2023mar.onnx',
                         calibration_image_dir='../../benchmark/data/human_segmentation',
                         transforms=Compose([Resize(size=(192, 192))])),
     ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
