@@ -4,6 +4,12 @@ A zoo for models tuned for OpenCV DNN with benchmarks on different platforms.
 
 Guidelines:
 
+- Install latest `opencv-python`:
+  ```shell
+  python3 -m pip install opencv-python
+  # Or upgrade to latest version
+  python3 -m pip install --upgrade opencv-python
+  ```
 - Clone this repo to download all models and demo scripts:
   ```shell
   # Install git-lfs from https://git-lfs.github.com/
@@ -45,7 +51,7 @@ Hardware Setup:
 - `RPI-CPU`: [Raspberry Pi 4B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/), Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz.
 - `JETSON-GPU`: [NVIDIA Jetson Nano B01](https://developer.nvidia.com/embedded/jetson-nano-developer-kit), 128-core NVIDIA Maxwell GPU.
 - `KV3-NPU`: [Khadas VIM3](https://www.khadas.com/vim3), 5TOPS Performance. Benchmarks are done using **quantized** models. You will need to compile OpenCV with TIM-VX following [this guide](https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU) to run benchmarks. The test results use the `per-tensor` quantization model by default.
-- `Ascend-310`: [Ascend 310](https://e.huawei.com/uk/products/cloud-computing-dc/atlas/ascend-310), 22 TOPS@INT8. Benchmarks are done on [Atlas 200 DK AI Developer Kit](https://e.huawei.com/in/products/cloud-computing-dc/atlas/atlas-200). Compile OpenCV following [this guide](https://github.com/opencv/opencv/wiki/Huawei-CANN-Backend) to enable CANN backend.
+- `Ascend-310`: [Ascend 310](https://e.huawei.com/uk/products/cloud-computing-dc/atlas/ascend-310), 22 TOPS@INT8. Benchmarks are done on [Atlas 200 DK AI Developer Kit](https://e.huawei.com/in/products/cloud-computing-dc/atlas/atlas-200). Get the latest OpenCV source code and build following [this guide](https://github.com/opencv/opencv/wiki/Huawei-CANN-Backend) to enable CANN backend.
 - `D1-CPU`: [Allwinner D1](https://d1.docs.aw-ol.com/en), [Xuantie C906 CPU](https://www.t-head.cn/product/C906?spm=a2ouz.12986968.0.0.7bfc1384auGNPZ) (RISC-V, RVV 0.7.1) @ 1.0GHz, 1 core. YuNet is supported for now. Visit [here](https://github.com/fengyuentau/opencv_zoo_cpp) for more details.
 
 ***Important Notes***:
