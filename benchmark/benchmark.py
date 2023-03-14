@@ -77,6 +77,11 @@ class Benchmark:
             available_targets['npu'] = cv.dnn.DNN_TARGET_NPU
         except:
             print('OpenCV is not compiled with TIM-VX backend enbaled. See https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more details on how to enable TIM-VX backend.')
+        try:
+            available_backends['cann'] = cv.dnn.DNN_BACKEND_CANN
+            available_targets['npu'] = cv.dnn.DNN_TARGET_NPU
+        except:
+            print('OpenCV is not compiled with CANN backend enabled. See https://github.com/opencv/opencv/wiki/Huawei-CANN-Backend for more details on how to enable CANN backend.')
 
         self._backend = available_backends[backend_id]
         self._target = available_targets[target_id]
