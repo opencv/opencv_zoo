@@ -37,12 +37,10 @@ class NanoDet:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
-        self.backend_id = backendId
+    def setBackendAndTarget(self, backendId, targetId):
+        self._backendId = backendId
+        self._targetId = targetId
         self.net.setPreferableBackend(self.backend_id)
-
-    def setTarget(self, targetId):
-        self.target_id = targetId
         self.net.setPreferableTarget(self.target_id)
 
     def pre_process(self, img):

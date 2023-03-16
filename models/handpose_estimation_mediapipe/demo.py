@@ -9,34 +9,41 @@ from mp_handpose import MPHandPose
 sys.path.append('../palm_detection_mediapipe')
 from mp_palmdet import MPPalmDet
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+OPENCV_VERSION = cv.__version__.split('.')
+OPENCV_MAJOR_VERSION, OPENCV_MINOR_VERSION, OPENCV_PATCH_VERSION = OPENCV_VERSION[:3]
+if int(OPENCV_MAJOR_VERSION) * 1000 + int(OPENCV_MINOR_VERSION) * 100 + int(OPENCV_PATCH_VERSION) < 4700:
+    print("Please install latest opencv-python to try out this demo: python3 -m pip install --upgrade opencv-python")
+    exit()
 
-backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
-targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-try:
-    backends += [cv.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(description='Hand Pose Estimation from MediaPipe')
-parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='./handpose_estimation_mediapipe_2023feb.onnx', help='Path to the model.')
-parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--conf_threshold', type=float, default=0.9, help='Filter out hands of confidence < conf_threshold.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--input', '-i', type=str,
+                    help='Path to the input image. Omit for using default camera.')
+parser.add_argument('--model', '-m', type=str, default='./handpose_estimation_mediapipe_2023feb.onnx',
+                    help='Path to the model.')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--conf_threshold', type=float, default=0.9,
+                    help='Filter out hands of confidence < conf_threshold.')
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Specify to save results. This flag is invalid when using camera.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Specify to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
 
 
@@ -147,17 +154,19 @@ def visualize(image, hands, print_result=False):
 
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
     # palm detector
     palm_detector = MPPalmDet(modelPath='../palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx',
                               nmsThreshold=0.3,
                               scoreThreshold=0.6,
-                              backendId=args.backend,
-                              targetId=args.target)
+                              backendId=backend_id,
+                              targetId=target_id)
     # handpose detector
     handpose_detector = MPHandPose(modelPath=args.model,
                                    confThreshold=args.conf_threshold,
-                                   backendId=args.backend,
-                                   targetId=args.target)
+                                   backendId=backend_id,
+                                   targetId=target_id)
 
     # If input is an image
     if args.input is not None:

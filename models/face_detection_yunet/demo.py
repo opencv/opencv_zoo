@@ -11,36 +11,45 @@ import cv2 as cv
 
 from yunet import YuNet
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+OPENCV_VERSION = cv.__version__.split('.')
+OPENCV_MAJOR_VERSION, OPENCV_MINOR_VERSION, OPENCV_PATCH_VERSION = OPENCV_VERSION[:3]
+if int(OPENCV_MAJOR_VERSION) * 1000 + int(OPENCV_MINOR_VERSION) * 100 + int(OPENCV_PATCH_VERSION) < 4700:
+    print("Please install latest opencv-python to try out this demo: python3 -m pip install --upgrade opencv-python")
+    exit()
 
-backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
-targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Choose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-try:
-    backends += [cv.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(description='YuNet: A Fast and Accurate CNN-based Face Detector (https://github.com/ShiqiYu/libfacedetection).')
-parser.add_argument('--input', '-i', type=str, help='Usage: Set input to a certain image, omit if using camera.')
-parser.add_argument('--model', '-m', type=str, default='face_detection_yunet_2022mar.onnx', help="Usage: Set model type, defaults to 'face_detection_yunet_2022mar.onnx'.")
-parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--conf_threshold', type=float, default=0.9, help='Usage: Set the minimum needed confidence for the model to identify a face, defauts to 0.9. Smaller values may result in faster detection, but will limit accuracy. Filter out faces of confidence < conf_threshold.')
-parser.add_argument('--nms_threshold', type=float, default=0.3, help='Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3.')
-parser.add_argument('--top_k', type=int, default=5000, help='Usage: Keep top_k bounding boxes before NMS.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
+parser.add_argument('--input', '-i', type=str,
+                    help='Usage: Set input to a certain image, omit if using camera.')
+parser.add_argument('--model', '-m', type=str, default='face_detection_yunet_2022mar.onnx',
+                    help="Usage: Set model type, defaults to 'face_detection_yunet_2022mar.onnx'.")
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--conf_threshold', type=float, default=0.9,
+                    help='Usage: Set the minimum needed confidence for the model to identify a face, defauts to 0.9. Smaller values may result in faster detection, but will limit accuracy. Filter out faces of confidence < conf_threshold.')
+parser.add_argument('--nms_threshold', type=float, default=0.3,
+                    help='Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3.')
+parser.add_argument('--top_k', type=int, default=5000,
+                    help='Usage: Keep top_k bounding boxes before NMS.')
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), fps=None):
@@ -70,14 +79,17 @@ def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), fps
     return output
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
+
     # Instantiate YuNet
     model = YuNet(modelPath=args.model,
                   inputSize=[320, 320],
                   confThreshold=args.conf_threshold,
                   nmsThreshold=args.nms_threshold,
                   topK=args.top_k,
-                  backendId=args.backend,
-                  targetId=args.target)
+                  backendId=backend_id,
+                  targetId=target_id)
 
     # If input is an image
     if args.input is not None:
@@ -134,4 +146,3 @@ if __name__ == '__main__':
             cv.imshow('YuNet Demo', frame)
 
             tm.reset()
-

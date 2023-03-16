@@ -1,7 +1,6 @@
 import numpy as np
 import cv2 as cv
 
-
 class MPHandPose:
     def __init__(self, modelPath, confThreshold=0.8, backendId=0, targetId=0):
         self.model_path = modelPath
@@ -28,12 +27,10 @@ class MPHandPose:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
-        self.backend_id = backendId
+    def setBackendAndTarget(self, backendId, targetId):
+        self._backendId = backendId
+        self._targetId = targetId
         self.model.setPreferableBackend(self.backend_id)
-
-    def setTarget(self, targetId):
-        self.target_id = targetId
         self.model.setPreferableTarget(self.target_id)
 
     def _cropAndPadFromPalm(self, image, palm_bbox, for_rotation = False):

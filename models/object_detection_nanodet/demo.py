@@ -1,29 +1,24 @@
 import numpy as np
-import cv2
+import cv2 as cv
 import argparse
 
 from nanodet import NanoDet
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+OPENCV_VERSION = cv.__version__.split('.')
+OPENCV_MAJOR_VERSION, OPENCV_MINOR_VERSION, OPENCV_PATCH_VERSION = OPENCV_VERSION[:3]
+if int(OPENCV_MAJOR_VERSION) * 1000 + int(OPENCV_MINOR_VERSION) * 100 + int(OPENCV_PATCH_VERSION) < 4700:
+    print("Please install latest opencv-python to try out this demo: python3 -m pip install --upgrade opencv-python")
+    exit()
 
-backends = [cv2.dnn.DNN_BACKEND_OPENCV, cv2.dnn.DNN_BACKEND_CUDA]
-targets = [cv2.dnn.DNN_TARGET_CPU, cv2.dnn.DNN_TARGET_CUDA, cv2.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-
-try:
-    backends += [cv2.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv2.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 classes = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
            'train', 'truck', 'boat', 'traffic light', 'fire hydrant',
@@ -48,16 +43,16 @@ def letterbox(srcimg, target_size=(416, 416)):
         hw_scale = img.shape[0] / img.shape[1]
         if hw_scale > 1:
             newh, neww = target_size[0], int(target_size[1] / hw_scale)
-            img = cv2.resize(img, (neww, newh), interpolation=cv2.INTER_AREA)
+            img = cv.resize(img, (neww, newh), interpolation=cv.INTER_AREA)
             left = int((target_size[1] - neww) * 0.5)
-            img = cv2.copyMakeBorder(img, 0, 0, left, target_size[1] - neww - left, cv2.BORDER_CONSTANT, value=0)  # add border
+            img = cv.copyMakeBorder(img, 0, 0, left, target_size[1] - neww - left, cv.BORDER_CONSTANT, value=0)  # add border
         else:
             newh, neww = int(target_size[0] * hw_scale), target_size[1]
-            img = cv2.resize(img, (neww, newh), interpolation=cv2.INTER_AREA)
+            img = cv.resize(img, (neww, newh), interpolation=cv.INTER_AREA)
             top = int((target_size[0] - newh) * 0.5)
-            img = cv2.copyMakeBorder(img, top, target_size[0] - newh - top, 0, 0, cv2.BORDER_CONSTANT, value=0)
+            img = cv.copyMakeBorder(img, top, target_size[0] - newh - top, 0, 0, cv.BORDER_CONSTANT, value=0)
     else:
-        img = cv2.resize(img, target_size, interpolation=cv2.INTER_AREA)
+        img = cv.resize(img, target_size, interpolation=cv.INTER_AREA)
 
     letterbox_scale = [top, left, newh, neww]
     return img, letterbox_scale
@@ -87,7 +82,7 @@ def vis(preds, res_img, letterbox_scale, fps=None):
     # draw FPS
     if fps is not None:
         fps_label = "FPS: %.2f" % fps
-        cv2.putText(ret, fps_label, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        cv.putText(ret, fps_label, (10, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
     # draw bboxes and labels
     for pred in preds:
@@ -97,37 +92,52 @@ def vis(preds, res_img, letterbox_scale, fps=None):
 
         # bbox
         xmin, ymin, xmax, ymax = unletterbox(bbox, ret.shape[:2], letterbox_scale)
-        cv2.rectangle(ret, (xmin, ymin), (xmax, ymax), (0, 255, 0), thickness=2)
+        cv.rectangle(ret, (xmin, ymin), (xmax, ymax), (0, 255, 0), thickness=2)
 
         # label
         label = "{:s}: {:.2f}".format(classes[classid], conf)
-        cv2.putText(ret, label, (xmin, ymin - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), thickness=2)
+        cv.putText(ret, label, (xmin, ymin - 10), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), thickness=2)
 
     return ret
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Nanodet inference using OpenCV an contribution by Sri Siddarth Chakaravarthy part of GSOC_2022')
-    parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-    parser.add_argument('--model', '-m', type=str, default='object_detection_nanodet_2022nov.onnx', help="Path to the model")
-    parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-    parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-    parser.add_argument('--confidence', default=0.35, type=float, help='Class confidence')
-    parser.add_argument('--nms', default=0.6, type=float, help='Enter nms IOU threshold')
-    parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
-    parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+    parser.add_argument('--input', '-i', type=str,
+                        help='Path to the input image. Omit for using default camera.')
+    parser.add_argument('--model', '-m', type=str,
+                        default='object_detection_nanodet_2022nov.onnx', help="Path to the model")
+    parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+    parser.add_argument('--confidence', default=0.35, type=float,
+                        help='Class confidence')
+    parser.add_argument('--nms', default=0.6, type=float,
+                        help='Enter nms IOU threshold')
+    parser.add_argument('--save', '-s', action='store_true',
+                        help='Specify to save results. This flag is invalid when using camera.')
+    parser.add_argument('--vis', '-v', action='store_true',
+                        help='Specify to open a window for result visualization. This flag is invalid when using camera.')
     args = parser.parse_args()
+
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
 
     model = NanoDet(modelPath= args.model,
                     prob_threshold=args.confidence,
                     iou_threshold=args.nms,
-                    backend_id=args.backend,
-                    target_id=args.target)
+                    backend_id=backend_id,
+                    target_id=target_id)
 
-    tm = cv2.TickMeter()
+    tm = cv.TickMeter()
     tm.reset()
     if args.input is not None:
-        image = cv2.imread(args.input)
-        input_blob = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv.imread(args.input)
+        input_blob = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
         # Letterbox transformation
         input_blob, letterbox_scale = letterbox(input_blob)
@@ -142,25 +152,25 @@ if __name__=='__main__':
 
         if args.save:
             print('Resutls saved to result.jpg\n')
-            cv2.imwrite('result.jpg', img)
+            cv.imwrite('result.jpg', img)
 
         if args.vis:
-            cv2.namedWindow(args.input, cv2.WINDOW_AUTOSIZE)
-            cv2.imshow(args.input, img)
-            cv2.waitKey(0)
+            cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
+            cv.imshow(args.input, img)
+            cv.waitKey(0)
 
     else:
         print("Press any key to stop video capture")
         deviceId = 0
-        cap = cv2.VideoCapture(deviceId)
+        cap = cv.VideoCapture(deviceId)
 
-        while cv2.waitKey(1) < 0:
+        while cv.waitKey(1) < 0:
             hasFrame, frame = cap.read()
             if not hasFrame:
                 print('No frames grabbed!')
                 break
 
-            input_blob = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            input_blob = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
             input_blob, letterbox_scale = letterbox(input_blob)
             # Inference
             tm.start()
@@ -169,6 +179,6 @@ if __name__=='__main__':
 
             img = vis(preds, frame, letterbox_scale, fps=tm.getFPS())
 
-            cv2.imshow("NanoDet Demo", img)
+            cv.imshow("NanoDet Demo", img)
 
             tm.reset()

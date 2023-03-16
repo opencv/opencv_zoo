@@ -27,18 +27,10 @@ class DaSiamRPN:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backend_id):
-        self._backend_id = backend_id
-        self._param = cv.TrackerDaSiamRPN_Params()
-        self._param.model = self._model_path
-        self._param.kernel_cls1 = self._kernel_cls1_path
-        self._param.kernel_r1 = self._kernel_r1_path
-        self._param.backend = self._backend_id
-        self._param.target = self._target_id
-        self._model = cv.TrackerDaSiamRPN.create(self._param)
+    def setBackendAndTarget(self, backendId, targetId):
+        self._backend_id = backendId
+        self._target_id = targetId
 
-    def setTarget(self, target_id):
-        self._target_id = target_id
         self._param = cv.TrackerDaSiamRPN_Params()
         self._param.model = self._model_path
         self._param.kernel_cls1 = self._kernel_cls1_path
