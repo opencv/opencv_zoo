@@ -1,29 +1,21 @@
 import numpy as np
-import cv2
+import cv2 as cv
 import argparse
 
 from yolox import YoloX
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
-backends = [cv2.dnn.DNN_BACKEND_OPENCV, cv2.dnn.DNN_BACKEND_CUDA]
-targets = [cv2.dnn.DNN_TARGET_CPU, cv2.dnn.DNN_TARGET_CUDA, cv2.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-
-try:
-    backends += [cv2.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv2.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 classes = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
            'train', 'truck', 'boat', 'traffic light', 'fire hydrant',
@@ -43,8 +35,8 @@ classes = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
 def letterbox(srcimg, target_size=(640, 640)):
     padded_img = np.ones((target_size[0], target_size[1], 3)) * 114.0
     ratio = min(target_size[0] / srcimg.shape[0], target_size[1] / srcimg.shape[1])
-    resized_img = cv2.resize(
-        srcimg, (int(srcimg.shape[1] * ratio), int(srcimg.shape[0] * ratio)), interpolation=cv2.INTER_LINEAR
+    resized_img = cv.resize(
+        srcimg, (int(srcimg.shape[1] * ratio), int(srcimg.shape[0] * ratio)), interpolation=cv.INTER_LINEAR
     ).astype(np.float32)
     padded_img[: int(srcimg.shape[0] * ratio), : int(srcimg.shape[1] * ratio)] = resized_img
 
@@ -58,7 +50,7 @@ def vis(dets, srcimg, letterbox_scale, fps=None):
 
     if fps is not None:
         fps_label = "FPS: %.2f" % fps
-        cv2.putText(res_img, fps_label, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        cv.putText(res_img, fps_label, (10, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
     for det in dets:
         box = unletterbox(det[:4], letterbox_scale).astype(np.int32)
@@ -68,39 +60,55 @@ def vis(dets, srcimg, letterbox_scale, fps=None):
         x0, y0, x1, y1 = box
 
         text = '{}:{:.1f}%'.format(classes[cls_id], score * 100)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        txt_size = cv2.getTextSize(text, font, 0.4, 1)[0]
-        cv2.rectangle(res_img, (x0, y0), (x1, y1), (0, 255, 0), 2)
-        cv2.rectangle(res_img, (x0, y0 + 1), (x0 + txt_size[0] + 1, y0 + int(1.5 * txt_size[1])), (255, 255, 255), -1)
-        cv2.putText(res_img, text, (x0, y0 + txt_size[1]), font, 0.4, (0, 0, 0), thickness=1)
+        font = cv.FONT_HERSHEY_SIMPLEX
+        txt_size = cv.getTextSize(text, font, 0.4, 1)[0]
+        cv.rectangle(res_img, (x0, y0), (x1, y1), (0, 255, 0), 2)
+        cv.rectangle(res_img, (x0, y0 + 1), (x0 + txt_size[0] + 1, y0 + int(1.5 * txt_size[1])), (255, 255, 255), -1)
+        cv.putText(res_img, text, (x0, y0 + txt_size[1]), font, 0.4, (0, 0, 0), thickness=1)
 
     return res_img
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Nanodet inference using OpenCV an contribution by Sri Siddarth Chakaravarthy part of GSOC_2022')
-    parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-    parser.add_argument('--model', '-m', type=str, default='object_detection_yolox_2022nov.onnx', help="Path to the model")
-    parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-    parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-    parser.add_argument('--confidence', default=0.5, type=float, help='Class confidence')
-    parser.add_argument('--nms', default=0.5, type=float, help='Enter nms IOU threshold')
-    parser.add_argument('--obj', default=0.5, type=float, help='Enter object threshold')
-    parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
-    parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+    parser.add_argument('--input', '-i', type=str,
+                        help='Path to the input image. Omit for using default camera.')
+    parser.add_argument('--model', '-m', type=str, default='object_detection_yolox_2022nov.onnx',
+                        help="Path to the model")
+    parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+    parser.add_argument('--confidence', default=0.5, type=float,
+                        help='Class confidence')
+    parser.add_argument('--nms', default=0.5, type=float,
+                        help='Enter nms IOU threshold')
+    parser.add_argument('--obj', default=0.5, type=float,
+                        help='Enter object threshold')
+    parser.add_argument('--save', '-s', action='store_true',
+                        help='Specify to save results. This flag is invalid when using camera.')
+    parser.add_argument('--vis', '-v', action='store_true',
+                        help='Specify to open a window for result visualization. This flag is invalid when using camera.')
     args = parser.parse_args()
+
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
 
     model_net = YoloX(modelPath= args.model,
                       confThreshold=args.confidence,
                       nmsThreshold=args.nms,
                       objThreshold=args.obj,
-                      backendId=args.backend,
-                      targetId=args.target)
+                      backendId=backend_id,
+                      targetId=target_id)
 
-    tm = cv2.TickMeter()
+    tm = cv.TickMeter()
     tm.reset()
     if args.input is not None:
-        image = cv2.imread(args.input)
-        input_blob = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv.imread(args.input)
+        input_blob = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         input_blob, letterbox_scale = letterbox(input_blob)
 
         # Inference
@@ -113,25 +121,25 @@ if __name__=='__main__':
 
         if args.save:
             print('Resutls saved to result.jpg\n')
-            cv2.imwrite('result.jpg', img)
+            cv.imwrite('result.jpg', img)
 
         if args.vis:
-            cv2.namedWindow(args.input, cv2.WINDOW_AUTOSIZE)
-            cv2.imshow(args.input, img)
-            cv2.waitKey(0)
+            cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
+            cv.imshow(args.input, img)
+            cv.waitKey(0)
 
     else:
         print("Press any key to stop video capture")
         deviceId = 0
-        cap = cv2.VideoCapture(deviceId)
+        cap = cv.VideoCapture(deviceId)
 
-        while cv2.waitKey(1) < 0:
+        while cv.waitKey(1) < 0:
             hasFrame, frame = cap.read()
             if not hasFrame:
                 print('No frames grabbed!')
                 break
 
-            input_blob = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            input_blob = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
             input_blob, letterbox_scale = letterbox(input_blob)
 
             # Inference
@@ -141,6 +149,6 @@ if __name__=='__main__':
 
             img = vis(preds, frame, letterbox_scale, fps=tm.getFPS())
 
-            cv2.imshow("YoloX Demo", img)
+            cv.imshow("YoloX Demo", img)
 
             tm.reset()

@@ -8,26 +8,26 @@ import numpy as np
 import cv2 as cv # needs to have cv.wechat_qrcode_WeChatQRCode, which requires compile from source with opencv_contrib/modules/wechat_qrcode
 
 class WeChatQRCode:
-    def __init__(self, detect_prototxt_path, detect_model_path, sr_prototxt_path, sr_model_path):
+    def __init__(self, detect_prototxt_path, detect_model_path, sr_prototxt_path, sr_model_path, backendId=0, targetId=0):
         self._model = cv.wechat_qrcode_WeChatQRCode(
             detect_prototxt_path,
             detect_model_path,
             sr_prototxt_path,
             sr_model_path
         )
+        if backendId != 0:
+            raise NotImplementedError("Backend {} is not supported by cv.wechat_qrcode_WeChatQRCode()".format(backendId))
+        if targetId != 0:
+            raise NotImplementedError("Target {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
 
     @property
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backend_id):
-        # self._model.setPreferableBackend(backend_id)
-        if backend_id != 0:
-            raise NotImplementedError("Backend {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
-
-    def setTarget(self, target_id):
-        # self._model.setPreferableTarget(target_id)
-        if target_id != 0:
+    def setBackendAndTarget(self, backendId, targetId):
+        if backendId != 0:
+            raise NotImplementedError("Backend {} is not supported by cv.wechat_qrcode_WeChatQRCode()".format(backendId))
+        if targetId != 0:
             raise NotImplementedError("Target {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
 
     def infer(self, image):

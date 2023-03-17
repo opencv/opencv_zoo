@@ -11,23 +11,43 @@ import cv2 as cv
 
 from wechatqrcode import WeChatQRCode
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
+
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(
     description="WeChat QR code detector for detecting and parsing QR code (https://github.com/opencv/opencv_contrib/tree/master/modules/wechat_qrcode)")
-parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
-parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021sep.prototxt', help='Usage: Set path to detect.prototxt.')
-parser.add_argument('--detect_model_path', type=str, default='detect_2021sep.caffemodel', help='Usage: Set path to detect.caffemodel.')
-parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021sep.prototxt', help='Usage: Set path to sr.prototxt.')
-parser.add_argument('--sr_model_path', type=str, default='sr_2021sep.caffemodel', help='Usage: Set path to sr.caffemodel.')
-parser.add_argument('--save', '-s', type=str2bool, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
+parser.add_argument('--input', '-i', type=str,
+                    help='Usage: Set path to the input image. Omit for using default camera.')
+parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021sep.prototxt',
+                    help='Usage: Set path to detect.prototxt.')
+parser.add_argument('--detect_model_path', type=str, default='detect_2021sep.caffemodel',
+                    help='Usage: Set path to detect.caffemodel.')
+parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021sep.prototxt',
+                    help='Usage: Set path to sr.prototxt.')
+parser.add_argument('--sr_model_path', type=str, default='sr_2021sep.caffemodel',
+                    help='Usage: Set path to sr.caffemodel.')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, res, points, points_color=(0, 255, 0), text_color=(0, 255, 0), fps=None):
@@ -56,11 +76,16 @@ def visualize(image, res, points, points_color=(0, 255, 0), text_color=(0, 255, 
 
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
+
     # Instantiate WeChatQRCode
     model = WeChatQRCode(args.detect_prototxt_path,
         args.detect_model_path,
         args.sr_prototxt_path,
-        args.sr_model_path)
+        args.sr_model_path,
+        backendId=backend_id,
+        targetId=target_id)
 
     # If input is an image:
     if args.input is not None:

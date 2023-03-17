@@ -38,12 +38,10 @@ class DB:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backend):
-        self._backendId = backend
+    def setBackendAndTarget(self, backendId, targetId):
+        self._backendId = backendId
+        self._targetId = targetId
         self._model.setPreferableBackend(self._backendId)
-
-    def setTarget(self, target):
-        self._targetId = target
         self._model.setPreferableTarget(self._targetId)
 
     def setInputSize(self, input_size):
@@ -55,4 +53,3 @@ class DB:
         assert image.shape[1] == self._inputSize[0], '{} (width of input image) != {} (preset width)'.format(image.shape[1], self._inputSize[0])
 
         return self._model.detect(image)
-

@@ -8,9 +8,31 @@ import cv2 as cv
 from models import MODELS
 from utils import METRICS, DATALOADERS
 
+# Check OpenCV version
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python for benchmark: python3 -m pip install --upgrade opencv-python"
+
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
+
 parser = argparse.ArgumentParser("Benchmarks for OpenCV Zoo.")
 parser.add_argument('--cfg', '-c', type=str,
                     help='Benchmarking on the given config.')
+parser.add_argument('--cfg_overwrite_backend_target', type=int, default=-1,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        others: (default) use the one from config,
+                        {:d}: OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
 parser.add_argument("--fp32", action="store_true", help="Runs models of float32 precision only.")
 parser.add_argument("--fp16", action="store_true", help="Runs models of float16 precision only.")
 parser.add_argument("--int8", action="store_true", help="Runs models of int8 precision only.")
@@ -56,6 +78,8 @@ class Benchmark:
             opencv=cv.dnn.DNN_BACKEND_OPENCV,
             # vkcom=cv.dnn.DNN_BACKEND_VKCOM,
             cuda=cv.dnn.DNN_BACKEND_CUDA,
+            timvx=cv.dnn.DNN_BACKEND_TIMVX,
+            cann=cv.dnn.DNN_BACKEND_CANN,
         )
 
         target_id = kwargs.pop('target', 'cpu')
@@ -69,28 +93,20 @@ class Benchmark:
             cuda=cv.dnn.DNN_TARGET_CUDA,
             cuda_fp16=cv.dnn.DNN_TARGET_CUDA_FP16,
             # hddl=cv.dnn.DNN_TARGET_HDDL,
+            npu=cv.dnn.DNN_TARGET_NPU,
         )
-
-        # add extra backends & targets
-        try:
-            available_backends['timvx'] = cv.dnn.DNN_BACKEND_TIMVX
-            available_targets['npu'] = cv.dnn.DNN_TARGET_NPU
-        except:
-            print('OpenCV is not compiled with TIM-VX backend enbaled. See https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more details on how to enable TIM-VX backend.')
-        try:
-            available_backends['cann'] = cv.dnn.DNN_BACKEND_CANN
-            available_targets['npu'] = cv.dnn.DNN_TARGET_NPU
-        except:
-            print('OpenCV is not compiled with CANN backend enabled. See https://github.com/opencv/opencv/wiki/Huawei-CANN-Backend for more details on how to enable CANN backend.')
 
         self._backend = available_backends[backend_id]
         self._target = available_targets[target_id]
 
         self._benchmark_results = dict()
 
+    def setBackendAndTarget(self, backend_id, target_id):
+        self._backend = backend_id
+        self._target = target_id
+
     def run(self, model):
-        model.setBackend(self._backend)
-        model.setTarget(self._target)
+        model.setBackendAndTarget(self._backend, self._target)
 
         for idx, data in enumerate(self._dataloader):
             filename, input_data = data[:2]
@@ -117,6 +133,11 @@ if __name__ == '__main__':
 
     # Instantiate benchmark
     benchmark = Benchmark(**cfg['Benchmark'])
+
+    if args.cfg_overwrite_backend_target >= 0:
+        backend_id = backend_target_pairs[args.backend_target][0]
+        target_id = backend_target_pairs[args.backend_target][1]
+        benchmark.setBackendAndTarget(backend_id, target_id)
 
     # Instantiate model
     model_config = cfg['Model']

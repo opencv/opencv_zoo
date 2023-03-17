@@ -12,36 +12,41 @@ import cv2 as cv
 
 from youtureid import YoutuReID
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
-backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
-targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-try:
-    backends += [cv.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(
     description="ReID baseline models from Tencent Youtu Lab")
-parser.add_argument('--query_dir', '-q', type=str, help='Query directory.')
-parser.add_argument('--gallery_dir', '-g', type=str, help='Gallery directory.')
-parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--topk', type=int, default=10, help='Top-K closest from gallery for each query.')
-parser.add_argument('--model', '-m', type=str, default='person_reid_youtu_2021nov.onnx', help='Path to the model.')
-parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--query_dir', '-q', type=str,
+                    help='Query directory.')
+parser.add_argument('--gallery_dir', '-g', type=str,
+                    help='Gallery directory.')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--topk', type=int, default=10,
+                    help='Top-K closest from gallery for each query.')
+parser.add_argument('--model', '-m', type=str, default='person_reid_youtu_2021nov.onnx',
+                    help='Path to the model.')
+parser.add_argument('--save', '-s', type=str2bool, default=False,
+                    help='Set true to save results. This flag is invalid when using camera.')
+parser.add_argument('--vis', '-v', type=str2bool, default=True,
+                    help='Set true to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
 
 def readImageFromDirectory(img_dir, w=128, h=256):
@@ -78,8 +83,11 @@ def visualize(results, query_dir, gallery_dir, output_size=(128, 384)):
     return results_vis
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
+
     # Instantiate YoutuReID for person ReID
-    net = YoutuReID(modelPath=args.model, backendId=args.backend, targetId=args.target)
+    net = YoutuReID(modelPath=args.model, backendId=backend_id, targetId=target_id)
 
     # Read images from dir
     query_img_list, query_file_list = readImageFromDirectory(args.query_dir)

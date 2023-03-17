@@ -23,12 +23,10 @@ class YoloX:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
-        self.backendId = backendId
+    def setBackendAndTarget(self, backendId, targetId):
+        self._backendId = backendId
+        self._targetId = targetId
         self.net.setPreferableBackend(self.backendId)
-
-    def setTarget(self, targetId):
-        self.targetId = targetId
         self.net.setPreferableTarget(self.targetId)
 
     def preprocess(self, img):
