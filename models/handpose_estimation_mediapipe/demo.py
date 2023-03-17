@@ -10,11 +10,8 @@ sys.path.append('../palm_detection_mediapipe')
 from mp_palmdet import MPPalmDet
 
 # Check OpenCV version
-OPENCV_VERSION = cv.__version__.split('.')
-OPENCV_MAJOR_VERSION, OPENCV_MINOR_VERSION, OPENCV_PATCH_VERSION = OPENCV_VERSION[:3]
-if int(OPENCV_MAJOR_VERSION) * 1000 + int(OPENCV_MINOR_VERSION) * 100 + int(OPENCV_PATCH_VERSION) < 4700:
-    print("Please install latest opencv-python to try out this demo: python3 -m pip install --upgrade opencv-python")
-    exit()
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
 # Valid combinations of backends and targets
 backend_target_pairs = [
