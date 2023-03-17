@@ -126,7 +126,6 @@ class Benchmark:
             if str(size) not in self._benchmark_results_brief:
                 self._benchmark_results_brief[str(size)] = []
             self._benchmark_results_brief[str(size)] += self._benchmark_results[str(size)][filename]
-            
 
     def printResults(self, model_name, model_path):
         for imgSize, res in self._benchmark_results_brief.items():
@@ -151,7 +150,6 @@ if __name__ == '__main__':
         excludes = []
         if args.cfg_exclude is not None:
             excludes = args.cfg_exclude.split(":")
-        # print(excludes)
 
         for cfg_fname in sorted(os.listdir("config")):
             skip_flag = False
@@ -159,7 +157,7 @@ if __name__ == '__main__':
                 if exc.lower() in cfg_fname.lower():
                     skip_flag = True
             if skip_flag:
-                print("{} is skipped.".format(cfg_fname))
+                # print("{} is skipped.".format(cfg_fname))
                 continue
 
             assert cfg_fname.endswith("yaml"), "Currently support yaml configs only."
