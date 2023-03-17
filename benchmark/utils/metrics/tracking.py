@@ -23,4 +23,4 @@ class Tracking(BaseMetric):
                 model.infer(frame)
                 self._timer.stop()
 
-        return self._getResult()
+        return self._timer.getRecords()

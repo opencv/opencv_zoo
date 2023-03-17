@@ -10,7 +10,6 @@ Benchmark:
   metric:
     warmup: 30
     repeat: 10
-    reduction: "median"
   backend: "default"
   target: "cpu"
 

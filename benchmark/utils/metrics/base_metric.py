@@ -6,7 +6,6 @@ class BaseMetric:
     def __init__(self, **kwargs):
         self._warmup = kwargs.pop('warmup', 3)
         self._repeat = kwargs.pop('repeat', 10)
-        self._reduction = kwargs.pop('reduction', 'median')
 
         self._timer = Timer()
 
@@ -20,8 +19,8 @@ class BaseMetric:
         else:
             return records[mid]
 
-    def _calcGMean(self, records, drop_largest=3):
-        ''' Return the geometric mean of records after drop the first drop_largest
+    def _calcMean(self, records, drop_largest=1):
+        ''' Return the mean of records after dropping drop_largest
         '''
         l = len(records)
         if l <= drop_largest:
@@ -29,17 +28,14 @@ class BaseMetric:
         records_sorted = sorted(records, reverse=True)
         return sum(records_sorted[drop_largest:]) / (l - drop_largest)
 
-    def _getResult(self):
-        records = self._timer.getRecords()
-        if self._reduction == 'median':
-            return self._calcMedian(records)
-        elif self._reduction == 'gmean':
-            return self._calcGMean(records)
-        else:
-            raise NotImplementedError('Reduction {} is not supported'.format(self._reduction))
+    def _calcMin(self, records):
+        return min(records)
 
-    def getReduction(self):
-        return self._reduction
+    def getPerfStats(self, records):
+        mean = self._calcMean(records, int(len(records) / 10))
+        median = self._calcMedian(records)
+        minimum = self._calcMin(records)
+        return [mean, median, minimum]
 
     def forward(self, model, *args, **kwargs):
         raise NotImplementedError('Not implemented')
