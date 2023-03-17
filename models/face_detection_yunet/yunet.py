@@ -33,19 +33,8 @@ class YuNet:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
+    def setBackendAndTarget(self, backendId, targetId):
         self._backendId = backendId
-        self._model = cv.FaceDetectorYN.create(
-            model=self._modelPath,
-            config="",
-            input_size=self._inputSize,
-            score_threshold=self._confThreshold,
-            nms_threshold=self._nmsThreshold,
-            top_k=self._topK,
-            backend_id=self._backendId,
-            target_id=self._targetId)
-
-    def setTarget(self, targetId):
         self._targetId = targetId
         self._model = cv.FaceDetectorYN.create(
             model=self._modelPath,
@@ -64,4 +53,3 @@ class YuNet:
         # Forward
         faces = self._model.detect(image)
         return faces[1]
-

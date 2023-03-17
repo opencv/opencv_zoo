@@ -22,12 +22,10 @@ class MPPalmDet:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
+    def setBackendAndTarget(self, backendId, targetId):
         self.backend_id = backendId
-        self.model.setPreferableBackend(self.backend_id)
-
-    def setTarget(self, targetId):
         self.target_id = targetId
+        self.model.setPreferableBackend(self.backend_id)
         self.model.setPreferableTarget(self.target_id)
 
     def _preprocess(self, image):
@@ -35,7 +33,7 @@ class MPPalmDet:
         ratio = min(self.input_size / image.shape[:2])
         if image.shape[0] != self.input_size[0] or image.shape[1] != self.input_size[1]:
             # keep aspect ratio when resize
-            ratio_size = (np.array(image.shape[:2]) * ratio).astype(np.int)
+            ratio_size = (np.array(image.shape[:2]) * ratio).astype(np.int32)
             image = cv.resize(image, (ratio_size[1], ratio_size[0]))
             pad_h = self.input_size[0] - ratio_size[0]
             pad_w = self.input_size[1] - ratio_size[1]
@@ -46,7 +44,7 @@ class MPPalmDet:
             image = cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, None, (0, 0, 0))
         image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         image = image.astype(np.float32) / 255.0 # norm
-        pad_bias = (pad_bias / ratio).astype(np.int)
+        pad_bias = (pad_bias / ratio).astype(np.int32)
         return image[np.newaxis, :, :, :], pad_bias # hwc -> nhwc
 
     def infer(self, image):

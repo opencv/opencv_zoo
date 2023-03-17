@@ -28,12 +28,10 @@ class LPD_YuNet:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
+    def setBackendAndTarget(self, backendId, targetId):
         self.backend_id = backendId
-        self.model.setPreferableBackend(self.backend_id)
-
-    def setTarget(self, targetId):
         self.target_id = targetId
+        self.model.setPreferableBackend(self.backend_id)
         self.model.setPreferableTarget(self.target_id)
 
     def setInputSize(self, inputSize):

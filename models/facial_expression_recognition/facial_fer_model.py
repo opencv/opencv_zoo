@@ -29,12 +29,10 @@ class FacialExpressionRecog:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backend_id):
-        self._backendId = backend_id
+    def setBackendAndTarget(self, backendId, targetId):
+        self._backendId = backendId
+        self._targetId = targetId
         self._model.setPreferableBackend(self._backendId)
-
-    def setTarget(self, target_id):
-        self._targetId = target_id
         self._model.setPreferableTarget(self._targetId)
 
     def _preprocess(self, image, bbox):

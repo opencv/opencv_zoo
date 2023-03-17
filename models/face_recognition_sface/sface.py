@@ -7,8 +7,6 @@
 import numpy as np
 import cv2 as cv
 
-from _testcapi import FLT_MIN
-
 class SFace:
     def __init__(self, modelPath, disType=0, backendId=0, targetId=0):
         self._modelPath = modelPath
@@ -30,15 +28,8 @@ class SFace:
     def name(self):
         return self.__class__.__name__
 
-    def setBackend(self, backendId):
+    def setBackendAndTarget(self, backendId, targetId):
         self._backendId = backendId
-        self._model = cv.FaceRecognizerSF.create(
-            model=self._modelPath,
-            config="",
-            backend_id=self._backendId,
-            target_id=self._targetId)
-
-    def setTarget(self, targetId):
         self._targetId = targetId
         self._model = cv.FaceRecognizerSF.create(
             model=self._modelPath,
@@ -70,4 +61,3 @@ class SFace:
         else: # NORM_L2
             norml2_distance = self._model.match(feature1, feature2, self._disType)
             return 1 if norml2_distance <= self._threshold_norml2 else 0
-

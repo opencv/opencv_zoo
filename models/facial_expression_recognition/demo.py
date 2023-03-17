@@ -11,37 +11,37 @@ from facial_fer_model import FacialExpressionRecog
 sys.path.append('../face_detection_yunet')
 from yunet import YuNet
 
+# Check OpenCV version
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
-
-
-backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
-targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-try:
-    backends += [cv.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(description='Facial Expression Recognition')
-parser.add_argument('--input', '-i', type=str, help='Path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='./facial_expression_recognition_mobilefacenet_2022july.onnx', help='Path to the facial expression recognition model.')
-parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
-parser.add_argument('--save', '-s', type=str, default=False, help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--input', '-i', type=str,
+                    help='Path to the input image. Omit for using default camera.')
+parser.add_argument('--model', '-m', type=str, default='./facial_expression_recognition_mobilefacenet_2022july.onnx',
+                    help='Path to the facial expression recognition model.')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Specify to save results. This flag is invalid when using camera.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Specify to open a window for result visualization. This flag is invalid when using camera.')
 args = parser.parse_args()
-
 
 def visualize(image, det_res, fer_res, box_color=(0, 255, 0), text_color=(0, 0, 255)):
 
@@ -83,11 +83,14 @@ def process(detect_model, fer_model, frame):
 
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
+
     detect_model = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2022mar.onnx')
 
     fer_model = FacialExpressionRecog(modelPath=args.model,
-                                      backendId=args.backend,
-                                      targetId=args.target)
+                                      backendId=backend_id,
+                                      targetId=target_id)
 
     # If input is an image
     if args.input is not None:

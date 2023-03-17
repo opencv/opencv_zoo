@@ -11,41 +11,48 @@ import cv2 as cv
 
 from db import DB
 
-def str2bool(v):
-    if v.lower() in ['on', 'yes', 'true', 'y', 't']:
-        return True
-    elif v.lower() in ['off', 'no', 'false', 'n', 'f']:
-        return False
-    else:
-        raise NotImplementedError
+# Check OpenCV version
+assert cv.__version__ >= "4.7.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
-backends = [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_BACKEND_CUDA]
-targets = [cv.dnn.DNN_TARGET_CPU, cv.dnn.DNN_TARGET_CUDA, cv.dnn.DNN_TARGET_CUDA_FP16]
-help_msg_backends = "Choose one of the computation backends: {:d}: OpenCV implementation (default); {:d}: CUDA"
-help_msg_targets = "Chose one of the target computation devices: {:d}: CPU (default); {:d}: CUDA; {:d}: CUDA fp16"
-try:
-    backends += [cv.dnn.DNN_BACKEND_TIMVX]
-    targets += [cv.dnn.DNN_TARGET_NPU]
-    help_msg_backends += "; {:d}: TIMVX"
-    help_msg_targets += "; {:d}: NPU"
-except:
-    print('This version of OpenCV does not support TIM-VX and NPU. Visit https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU for more information.')
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(description='Real-time Scene Text Detection with Differentiable Binarization (https://arxiv.org/abs/1911.08947).')
-parser.add_argument('--input', '-i', type=str, help='Usage: Set path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18_2021sep.onnx', help='Usage: Set model path, defaults to text_detection_DB_TD500_resnet18_2021sep.onnx.')
-parser.add_argument('--backend', '-b', type=int, default=backends[0], help=help_msg_backends.format(*backends))
-parser.add_argument('--target', '-t', type=int, default=targets[0], help=help_msg_targets.format(*targets))
+parser.add_argument('--input', '-i', type=str,
+                    help='Usage: Set path to the input image. Omit for using default camera.')
+parser.add_argument('--model', '-m', type=str, default='text_detection_DB_TD500_resnet18_2021sep.onnx',
+                    help='Usage: Set model path, defaults to text_detection_DB_TD500_resnet18_2021sep.onnx.')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
 parser.add_argument('--width', type=int, default=736,
                     help='Usage: Resize input image to certain width, default = 736. It should be multiple by 32.')
 parser.add_argument('--height', type=int, default=736,
                     help='Usage: Resize input image to certain height, default = 736. It should be multiple by 32.')
-parser.add_argument('--binary_threshold', type=float, default=0.3, help='Usage: Threshold of the binary map, default = 0.3.')
-parser.add_argument('--polygon_threshold', type=float, default=0.5, help='Usage: Threshold of polygons, default = 0.5.')
-parser.add_argument('--max_candidates', type=int, default=200, help='Usage: Set maximum number of polygon candidates, default = 200.')
-parser.add_argument('--unclip_ratio', type=np.float64, default=2.0, help=' Usage: The unclip ratio of the detected text region, which determines the output size, default = 2.0.')
-parser.add_argument('--save', '-s', type=str, default=False, help='Usage: Set “True” to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. Default will be set to “False”.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True, help='Usage: Default will be set to “True” and will open a new window to show results. Set to “False” to stop visualizations from being shown. Invalid in case of camera input.')
+parser.add_argument('--binary_threshold', type=float, default=0.3,
+                    help='Usage: Threshold of the binary map, default = 0.3.')
+parser.add_argument('--polygon_threshold', type=float, default=0.5,
+                    help='Usage: Threshold of polygons, default = 0.5.')
+parser.add_argument('--max_candidates', type=int, default=200,
+                    help='Usage: Set maximum number of polygon candidates, default = 200.')
+parser.add_argument('--unclip_ratio', type=np.float64, default=2.0,
+                    help=' Usage: The unclip ratio of the detected text region, which determines the output size, default = 2.0.')
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), isClosed=True, thickness=2, fps=None):
@@ -60,6 +67,9 @@ def visualize(image, results, box_color=(0, 255, 0), text_color=(0, 0, 255), isC
     return output
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
+
     # Instantiate DB
     model = DB(modelPath=args.model,
                inputSize=[args.width, args.height],
@@ -67,9 +77,8 @@ if __name__ == '__main__':
                polygonThreshold=args.polygon_threshold,
                maxCandidates=args.max_candidates,
                unclipRatio=args.unclip_ratio,
-               backendId=args.backend,
-               targetId=args.target
-    )
+               backendId=backend_id,
+               targetId=target_id)
 
     # If input is an image
     if args.input is not None:
@@ -143,4 +152,3 @@ if __name__ == '__main__':
             cv.imshow('{} Demo'.format(model.name), original_image)
 
             tm.reset()
-
