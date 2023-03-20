@@ -23,25 +23,25 @@ Guidelines:
 
 | Model                                                   | Task                          | Input Size | CPU-INTEL (ms) | CPU-RPI (ms) | GPU-JETSON (ms) | NPU-KV3 (ms) | NPU-Ascend310 (ms) | CPU-D1 (ms) |
 | ------------------------------------------------------- | ----------------------------- | ---------- | -------------- | ------------ | --------------- | ------------ | ------------------ | ----------- |
-| [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 1.45           | 5.43         | 12.18           | 4.04         | 1.73               | 86.69       |
-| [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 8.65           | 78.83        | 24.88           | 46.25        | 23.17              | ---         |
-| [FER](./models/facial_expression_recognition/)          | Facial Expression Recognition | 112x112    | 4.43           | 32.53        | 31.07           | 29.80        | 10.12              | ---         |
-| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | ---            | 167.70       | 56.12           | 29.53        | 8.70               | ---         |
-| [YOLOX](./models/object_detection_yolox/)               | Object Detection              | 640x640    | 176.68         | 1805.87      | 388.95          | 420.98       | 29.10              | ---         |
-| [NanoDet](./models/object_detection_nanodet/)           | Object Detection              | 416x416    | 157.91         | 225.10       | 64.94           | 116.64       | 35.97              | ---         |
-| [DB-IC15](./models/text_detection_db)                   | Text Detection                | 640x480    | 142.91         | 1862.75      | 208.41          | ---          | 229.74             | ---         |
-| [DB-TD500](./models/text_detection_db)                  | Text Detection                | 640x480    | 142.91         | 1878.45      | 210.51          | ---          | 247.29             | ---         |
-| [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 50.21          | 278.11       | 196.15          | 125.30       | 101.03             | ---         |
-| [CRNN-CN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 73.52          | 297.48       | 239.76          | 166.79       | 136.41             | ---         |
-| [PP-ResNet](./models/image_classification_ppresnet)     | Image Classification          | 224x224    | 56.05          | 463.93       | 98.64           | 75.45        | 6.99               | ---         |
-| [MobileNet-V1](./models/image_classification_mobilenet) | Image Classification          | 224x224    | 9.04           | 72.33        | 33.18           | 145.66\*     | 5.25               | ---         |
-| [MobileNet-V2](./models/image_classification_mobilenet) | Image Classification          | 224x224    | 8.86           | 66.56        | 31.92           | 146.31\*     | 5.82               | ---         |
-| [PP-HumanSeg](./models/human_segmentation_pphumanseg)   | Human Segmentation            | 192x192    | 19.92          | 73.13        | 67.97           | 74.77        | 7.07               | ---         |
-| [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 7.04           | 5.71         | ---             | ---          | ---                | ---         |
-| [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 36.15          | 712.94       | 76.82           | ---          | ---                | ---         |
-| [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 35.81          | 625.56       | 90.07           | 44.61        | 5.69               | ---         |
-| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 192x192    | 11.09          | 86.83        | 83.20           | 33.81        | 21.59              | ---         |
-| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 224x224    | 4.28           | 43.57        | 40.10           | 19.47        | 6.02               | ---         |
+| [YuNet](./models/face_detection_yunet)                  | Face Detection                | 160x120    | 0.72           | 5.43         | 12.18           | 4.04         | 1.73               | 86.69       |
+| [SFace](./models/face_recognition_sface)                | Face Recognition              | 112x112    | 6.04           | 78.83        | 24.88           | 46.25        | 23.17              | ---         |
+| [FER](./models/facial_expression_recognition/)          | Facial Expression Recognition | 112x112    | 3.16           | 32.53        | 31.07           | 29.80        | 10.12              | ---         |
+| [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | 8.63           | 167.70       | 56.12           | 29.53        | 8.70               | ---         |
+| [YOLOX](./models/object_detection_yolox/)               | Object Detection              | 640x640    | 141.20         | 1805.87      | 388.95          | 420.98       | 29.10              | ---         |
+| [NanoDet](./models/object_detection_nanodet/)           | Object Detection              | 416x416    | 66.03          | 225.10       | 64.94           | 116.64       | 35.97              | ---         |
+| [DB-IC15](./models/text_detection_db) (EN)              | Text Detection                | 640x480    | 71.03          | 1862.75      | 208.41          | ---          | 229.74             | ---         |
+| [DB-TD500](./models/text_detection_db) (EN&CN)          | Text Detection                | 640x480    | 72.31          | 1878.45      | 210.51          | ---          | 247.29             | ---         |
+| [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 20.16          | 278.11       | 196.15          | 125.30       | 101.03             | ---         |
+| [CRNN-CN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 23.07          | 297.48       | 239.76          | 166.79       | 136.41             | ---         |
+| [PP-ResNet](./models/image_classification_ppresnet)     | Image Classification          | 224x224    | 34.71          | 463.93       | 98.64           | 75.45        | 6.99               | ---         |
+| [MobileNet-V1](./models/image_classification_mobilenet) | Image Classification          | 224x224    | 5.90           | 72.33        | 33.18           | 145.66\*     | 5.25               | ---         |
+| [MobileNet-V2](./models/image_classification_mobilenet) | Image Classification          | 224x224    | 5.97           | 66.56        | 31.92           | 146.31\*     | 5.82               | ---         |
+| [PP-HumanSeg](./models/human_segmentation_pphumanseg)   | Human Segmentation            | 192x192    | 8.81           | 73.13        | 67.97           | 74.77        | 7.07               | ---         |
+| [WeChatQRCode](./models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 1.29           | 5.71         | ---             | ---          | ---                | ---         |
+| [DaSiamRPN](./models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 29.05          | 712.94       | 76.82           | ---          | ---                | ---         |
+| [YoutuReID](./models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 30.39          | 625.56       | 90.07           | 44.61        | 5.69               | ---         |
+| [MP-PalmDet](./models/palm_detection_mediapipe)         | Palm Detection                | 192x192    | 6.29           | 86.83        | 83.20           | 33.81        | 21.59              | ---         |
+| [MP-HandPose](./models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 224x224    | 4.68           | 43.57        | 40.10           | 19.47        | 6.02               | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
 
