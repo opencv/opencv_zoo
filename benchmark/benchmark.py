@@ -33,7 +33,8 @@ parser.add_argument('--cfg_overwrite_backend_target', type=int, default=-1,
                         {:d}: TIM-VX + NPU,
                         {:d}: CANN + NPU
                     '''.format(*[x for x in range(len(backend_target_pairs))]))
-parser.add_argument("--cfg_exclude", type=str, help="Configs to exclude when using --all. Split keywords with colons (:). Not sensitive to upper/lower case.")
+parser.add_argument("--cfg_exclude", type=str, help="Configs to be excluded when using --all. Split keywords with colons (:). Not sensitive to upper/lower case.")
+parser.add_argument("--model_exclude", type=str, help="Models to be excluded. Split model names with colons (:). Sensitive to upper/lower case.")
 parser.add_argument("--fp32", action="store_true", help="Benchmark models of float32 precision only.")
 parser.add_argument("--fp16", action="store_true", help="Benchmark models of float16 precision only.")
 parser.add_argument("--int8", action="store_true", help="Benchmark models of int8 precision only.")
@@ -186,6 +187,21 @@ if __name__ == '__main__':
                 _model_paths += model_paths['int8']
         else:
             _model_paths = model_paths['fp32'] + model_paths['fp16'] + model_paths['int8']
+        # filter out excluded models
+        excludes = []
+        if args.model_exclude is not None:
+            excludes = args.model_exclude.split(":")
+        _model_paths_excluded = []
+        for model_path in _model_paths:
+            skip_flag = False
+            for mp in model_path:
+                for exc in excludes:
+                    if exc in mp:
+                        skip_flag = True
+            if skip_flag:
+                continue
+            _model_paths_excluded.append(model_path)
+        _model_paths = _model_paths_excluded
 
         for model_path in _model_paths:
             model = model_handler(*model_path, **model_config)
