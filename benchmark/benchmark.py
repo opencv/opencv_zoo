@@ -131,7 +131,7 @@ class Benchmark:
     def printResults(self, model_name, model_path):
         for imgSize, res in self._benchmark_results_brief.items():
             mean, median, minimum = self._metric.getPerfStats(res)
-            print("mean={:.2f}, median={:.2f}, min={:.2f}, input size={}, model: {} with {}".format(
+            print("mean={:.2f}\tmedian={:.2f}\tmin={:.2f}\tinput size={}\tmodel: {} with {}".format(
                 mean, median, minimum, imgSize, model_name, model_path
             ))
 
