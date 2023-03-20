@@ -8,8 +8,8 @@ class Tracking(BaseMetric):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if self._warmup or self._repeat:
-            print('warmup and repeat in metric for tracking do not function.')
+        # if self._warmup or self._repeat:
+        #     print('warmup and repeat in metric for tracking do not function.')
 
     def forward(self, model, *args, **kwargs):
         stream, first_frame, rois = args
