@@ -52,19 +52,21 @@ CPU:
 ```
 $ python benchmark.py --all --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
 Benchmarking ...
+backend=cv.dnn.DNN_BACKEND_OPENCV
+target=cv.dnn.DNN_TARGET_CPU
 mean=0.72	median=0.70	min=0.62	input size=[160, 120]	model: YuNet with ['face_detection_yunet_2022mar.onnx']
 mean=0.90	median=0.90	min=0.62	input size=[160, 120]	model: YuNet with ['face_detection_yunet_2022mar_int8.onnx']
 mean=6.04	median=6.08	min=5.59	input size=[150, 150]	model: SFace with ['face_recognition_sface_2021dec.onnx']
 mean=7.34	median=7.94	min=5.59	input size=[150, 150]	model: SFace with ['face_recognition_sface_2021dec_int8.onnx']
 mean=3.16	median=3.37	min=2.87	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
-mean=4.14	median=3.98	min=2.87	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july-int8-quantized.onnx']
+mean=4.14	median=3.98	min=2.87	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
 mean=4.68	median=4.59	min=4.13	input size=[224, 224]	model: MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
 mean=4.90	median=4.71	min=4.13	input size=[224, 224]	model: MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
 mean=8.81	median=7.37	min=6.53	input size=[192, 192]	model: PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
 mean=5.90	median=5.87	min=5.10	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
 mean=5.97	median=6.66	min=5.10	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
-mean=6.34	median=6.01	min=5.10	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr-int8-quantized.onnx']
-mean=6.52	median=7.02	min=5.10	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr-int8-quantized.onnx']
+mean=6.34	median=6.01	min=5.10	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+mean=6.52	median=7.02	min=5.10	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
 mean=34.71	median=35.41	min=32.15	input size=[224, 224]	model: PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
 mean=35.03	median=35.31	min=32.15	input size=[224, 224]	model: PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
 mean=8.63	median=7.99	min=7.54	input size=[320, 240]	model: LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
@@ -98,19 +100,21 @@ CPU:
 ```
 $ python benchmark.py --all --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
 Benchmarking ...
+backend=cv.dnn.DNN_BACKEND_OPENCV
+target=cv.dnn.DNN_TARGET_CPU
 mean=5.43	median=5.41	min=5.38	input size=[160, 120]	model: YuNet with ['face_detection_yunet_2022mar.onnx']
 mean=6.09	median=6.19	min=5.38	input size=[160, 120]	model: YuNet with ['face_detection_yunet_2022mar_int8.onnx']
 mean=78.83	median=78.83	min=78.43	input size=[150, 150]	model: SFace with ['face_recognition_sface_2021dec.onnx']
 mean=92.56	median=94.20	min=78.43	input size=[150, 150]	model: SFace with ['face_recognition_sface_2021dec_int8.onnx']
 mean=32.53	median=32.51	min=32.33	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
-mean=38.61	median=39.19	min=32.33	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july-int8-quantized.onnx']
+mean=38.61	median=39.19	min=32.33	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
 mean=43.57	median=43.59	min=43.26	input size=[224, 224]	model: MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
 mean=46.69	median=47.12	min=43.26	input size=[224, 224]	model: MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
 mean=73.13	median=73.79	min=72.71	input size=[192, 192]	model: PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
 mean=72.33	median=72.49	min=72.13	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
 mean=66.56	median=66.92	min=61.25	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
-mean=67.47	median=62.02	min=61.25	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr-int8-quantized.onnx']
-mean=66.01	median=65.53	min=61.25	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr-int8-quantized.onnx']
+mean=67.47	median=62.02	min=61.25	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+mean=66.01	median=65.53	min=61.25	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
 mean=463.93	median=463.23	min=459.88	input size=[224, 224]	model: PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
 mean=441.38	median=434.24	min=373.27	input size=[224, 224]	model: PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
 mean=167.70	median=173.37	min=143.13	input size=[320, 240]	model: LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
@@ -141,5 +145,49 @@ mean=242.05	median=245.09	min=190.53	input size=[1280, 720]	model: CRNN with ['t
 
 CPU:
 
+```
+$ python3 benchmark.py --all --cfg_exclude wechat --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+Benchmarking ...
+backend=cv.dnn.DNN_BACKEND_OPENCV
+target=cv.dnn.DNN_TARGET_CPU
+mean=5.29	median=5.29	min=5.23	input size=[160, 120]	model: YuNet with ['face_detection_yunet_2022mar.onnx']
+mean=6.03	median=6.18	min=5.23	input size=[160, 120]	model: YuNet with ['face_detection_yunet_2022mar_int8.onnx']
+mean=65.42	median=65.37	min=65.20	input size=[150, 150]	model: SFace with ['face_recognition_sface_2021dec.onnx']
+mean=79.12	median=79.78	min=65.20	input size=[150, 150]	model: SFace with ['face_recognition_sface_2021dec_int8.onnx']
+mean=28.28	median=28.30	min=28.12	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
+mean=34.87	median=35.71	min=28.12	input size=[112, 112]	model: FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
+mean=40.87	median=40.84	min=40.71	input size=[224, 224]	model: MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
+mean=44.14	median=44.28	min=40.71	input size=[224, 224]	model: MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
+mean=65.94	median=65.86	min=65.72	input size=[192, 192]	model: PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
+mean=69.17	median=69.04	min=68.84	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
+mean=62.20	median=62.36	min=55.52	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
+mean=66.22	median=55.93	min=55.52	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+mean=65.34	median=75.35	min=55.52	input size=[224, 224]	model: MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
+mean=374.52	median=383.78	min=367.81	input size=[224, 224]	model: PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
+mean=389.18	median=408.69	min=367.81	input size=[224, 224]	model: PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
+mean=130.63	median=131.11	min=128.36	input size=[320, 240]	model: LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
+mean=214.30	median=212.83	min=212.53	input size=[416, 416]	model: NanoDet with ['object_detection_nanodet_2022nov.onnx']
+mean=216.49	median=220.40	min=212.53	input size=[416, 416]	model: NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
+mean=1225.13	median=1234.78	min=1213.85	input size=[640, 640]	model: YoloX with ['object_detection_yolox_2022nov.onnx']
+mean=1256.33	median=1261.81	min=1213.85	input size=[640, 640]	model: YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+mean=471.54	median=492.74	min=450.43	input size=[1280, 720]	model: DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
+mean=70.52	median=70.05	min=69.65	input size=[192, 192]	model: MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
+mean=82.59	median=82.46	min=69.65	input size=[192, 192]	model: MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
+mean=420.32	median=414.19	min=410.95	input size=[128, 256]	model: YoutuReID with ['person_reid_youtu_2021nov.onnx']
+mean=375.09	median=384.11	min=333.25	input size=[128, 256]	model: YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+mean=1106.86	median=1093.50	min=1090.64	input size=[640, 480]	model: DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
+mean=1104.27	median=1106.12	min=1086.68	input size=[640, 480]	model: DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
+mean=281.11	median=296.92	min=276.23	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
+mean=297.92	median=302.00	min=276.23	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_CN_2021nov.onnx']
+mean=277.85	median=313.29	min=240.38	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_EN_2021sep.onnx']
+[ WARN:0@1524.821] global onnx_graph_simplifier.cpp:804 getMatFromTensor DNN: load FP16 model as FP32 model, and it takes twice the FP16 RAM requirement.
+mean=275.41	median=299.86	min=240.38	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_CH_2023feb_fp16.onnx']
+mean=265.87	median=241.65	min=230.57	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_EN_2023feb_fp16.onnx']
+mean=264.09	median=255.31	min=230.57	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
+mean=264.84	median=276.17	min=230.57	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
+mean=259.24	median=249.23	min=224.99	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+```
+
+GPU:
 ```
 ```
