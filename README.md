@@ -86,6 +86,10 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![person det](./models/person_detection_mediapipe/examples/mppersondet_demo.webp)
 
+### Pose Estimation with [MP-Pose](models/pose_estimation_mediapipe)
+
+![pose_estimation](models/pose_estimation_mediapipe/examples/mpposeest_demo.webp)
+
 ### QR Code Detection and Parsing with [WeChatQRCode](./models/qrcode_wechatqrcode/)
 
 ![qrcode](./models/qrcode_wechatqrcode/examples/wechat_qrcode_demo.gif)

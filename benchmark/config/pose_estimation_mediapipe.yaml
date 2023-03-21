@@ -1,0 +1,17 @@
+Benchmark:
+  name: "Pose Estimation Benchmark"
+  type: "Recognition"
+  data:
+    path: "data/person_detection"
+    files: ["person1.jpg", "person2.jpg", "person3.jpg"]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [256, 256]
+  metric:
+    warmup: 30
+    repeat: 10
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "MPPose"
+  confThreshold: 0.9
