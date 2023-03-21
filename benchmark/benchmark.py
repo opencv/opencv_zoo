@@ -20,6 +20,13 @@ backend_target_pairs = [
     [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
     [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
 ]
+backend_target_str_pairs = [
+    ["cv.dnn.DNN_BACKEND_OPENCV", "cv.dnn.DNN_TARGET_CPU"],
+    ["cv.dnn.DNN_BACKEND_CUDA",   "cv.dnn.DNN_TARGET_CUDA"],
+    ["cv.dnn.DNN_BACKEND_CUDA",   "cv.dnn.DNN_TARGET_CUDA_FP16"],
+    ["cv.dnn.DNN_BACKEND_TIMVX",  "cv.dnn.DNN_TARGET_NPU"],
+    ["cv.dnn.DNN_BACKEND_CANN",   "cv.dnn.DNN_TARGET_NPU"]
+]
 
 parser = argparse.ArgumentParser("Benchmarks for OpenCV Zoo.")
 parser.add_argument('--cfg', '-c', type=str,
@@ -136,11 +143,6 @@ class Benchmark:
             ))
 
 if __name__ == '__main__':
-    if args.cfg_overwrite_backend_target >= 0:
-        backend_id = backend_target_pairs[args.backend_target][0]
-        target_id = backend_target_pairs[args.backend_target][1]
-        benchmark.setBackendAndTarget(backend_id, target_id)
-
     cfgs = []
     if args.cfg is not None:
         assert args.cfg.endswith('yaml'), 'Currently support configs of yaml format only.'
@@ -169,9 +171,20 @@ if __name__ == '__main__':
         raise NotImplementedError("Specify either one config or use flag --all for benchmark.")
 
     print("Benchmarking ...")
+    if args.cfg_overwrite_backend_target >= 0:
+        backend_str = backend_target_str_pairs[args.cfg_overwrite_backend_target][0]
+        target_str = backend_target_str_pairs[args.cfg_overwrite_backend_target][1]
+        print("backend={}".format(backend_str))
+        print("target={}".format(target_str))
     for cfg in cfgs:
         # Instantiate benchmark
         benchmark = Benchmark(**cfg['Benchmark'])
+
+        # Set backend and target
+        if args.cfg_overwrite_backend_target >= 0:
+            backend_id = backend_target_pairs[args.cfg_overwrite_backend_target][0]
+            target_id = backend_target_pairs[args.cfg_overwrite_backend_target][1]
+            benchmark.setBackendAndTarget(backend_id, target_id)
 
         # Instantiate model
         model_config = cfg['Model']
