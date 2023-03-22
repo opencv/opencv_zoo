@@ -27,8 +27,8 @@ backend_target_pairs = [
 parser = argparse.ArgumentParser(description='YuNet: A Fast and Accurate CNN-based Face Detector (https://github.com/ShiqiYu/libfacedetection).')
 parser.add_argument('--input', '-i', type=str,
                     help='Usage: Set input to a certain image, omit if using camera.')
-parser.add_argument('--model', '-m', type=str, default='face_detection_yunet_2022mar.onnx',
-                    help="Usage: Set model type, defaults to 'face_detection_yunet_2022mar.onnx'.")
+parser.add_argument('--model', '-m', type=str, default='face_detection_yunet_2023mar.onnx',
+                    help="Usage: Set model type, defaults to 'face_detection_yunet_2023mar.onnx'.")
 parser.add_argument('--backend_target', '-bt', type=int, default=0,
                     help='''Choose one of the backend-target pair to run this demo:
                         {:d}: (default) OpenCV implementation + CPU,

@@ -13,8 +13,8 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models      | Easy AP | Medium AP | Hard AP |
 | ----------- | ------- | --------- | ------- |
-| YuNet       | 0.8498  | 0.8384    | 0.7357  |
-| YuNet quant | 0.7751  | 0.8145    | 0.7312  |
+| YuNet       | 0.8871  | 0.8710    | 0.7681  |
+| YuNet quant | 0.8838  | 0.8683    | 0.7676  |
 
 \*: 'quant' stands for 'quantized'.
 

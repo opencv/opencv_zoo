@@ -112,7 +112,7 @@ int main(int argc, char** argv)
     cv::CommandLineParser parser(argc, argv,
         "{help  h           |                                   | Print this message}"
         "{input i           |                                   | Set input to a certain image, omit if using camera}"
-        "{model m           | face_detection_yunet_2022mar.onnx | Set path to the model}"
+        "{model m           | face_detection_yunet_2023mar.onnx  | Set path to the model}"
         "{backend b         | opencv                            | Set DNN backend}"
         "{target t          | cpu                               | Set DNN target}"
         "{save s            | false                             | Whether to save result image or not}"

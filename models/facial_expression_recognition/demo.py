@@ -86,7 +86,7 @@ if __name__ == '__main__':
     backend_id = backend_target_pairs[args.backend_target][0]
     target_id = backend_target_pairs[args.backend_target][1]
 
-    detect_model = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2022mar.onnx')
+    detect_model = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2023mar.onnx')
 
     fer_model = FacialExpressionRecog(modelPath=args.model,
                                       backendId=backend_id,
