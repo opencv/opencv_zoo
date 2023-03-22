@@ -171,9 +171,10 @@ if __name__ == '__main__':
         raise NotImplementedError("Specify either one config or use flag --all for benchmark.")
 
     print("Benchmarking ...")
-    if args.cfg_overwrite_backend_target >= 0:
-        backend_str = backend_target_str_pairs[args.cfg_overwrite_backend_target][0]
-        target_str = backend_target_str_pairs[args.cfg_overwrite_backend_target][1]
+    if args.all:
+        backend_target_id = args.cfg_overwrite_backend_target if args.cfg_overwrite_backend_target >= 0 else 0
+        backend_str = backend_target_str_pairs[backend_target_id][0]
+        target_str = backend_target_str_pairs[backend_target_id][1]
         print("backend={}".format(backend_str))
         print("target={}".format(target_str))
     for cfg in cfgs:
