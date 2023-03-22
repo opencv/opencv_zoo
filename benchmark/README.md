@@ -312,3 +312,7 @@ mean=178.31	median=178.62	min=177.75	input size=[1280, 720]	model: CRNN with ['t
 mean=183.10	median=184.61	min=177.75	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 mean=171.68	median=191.14	min=149.26	input size=[1280, 720]	model: CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
+
+### Toybrick RV1126
+
+
