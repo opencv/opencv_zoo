@@ -138,7 +138,7 @@ class Benchmark:
     def printResults(self, model_name, model_path):
         for imgSize, res in self._benchmark_results_brief.items():
             mean, median, minimum = self._metric.getPerfStats(res)
-            print("mean={:.2f}\tmedian={:.2f}\tmin={:.2f}\tinput size={}\tmodel: {} with {}".format(
+            print("{:<10.2f} {:<10.2f} {:<10.2f} {:<12} {} with {}".format(
                 mean, median, minimum, imgSize, model_name, model_path
             ))
 
@@ -177,6 +177,7 @@ if __name__ == '__main__':
         target_str = backend_target_str_pairs[backend_target_id][1]
         print("backend={}".format(backend_str))
         print("target={}".format(target_str))
+    print("{:<10} {:<10} {:<10} {:<12} {}".format("mean", "median", "min", "input size", "model"))
     for cfg in cfgs:
         # Instantiate benchmark
         benchmark = Benchmark(**cfg['Benchmark'])
