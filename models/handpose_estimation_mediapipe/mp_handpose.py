@@ -28,8 +28,8 @@ class MPHandPose:
         return self.__class__.__name__
 
     def setBackendAndTarget(self, backendId, targetId):
-        self._backendId = backendId
-        self._targetId = targetId
+        self.backend_id = backendId
+        self.target_id = targetId
         self.model.setPreferableBackend(self.backend_id)
         self.model.setPreferableTarget(self.target_id)
 
