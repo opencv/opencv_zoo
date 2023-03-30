@@ -28,13 +28,13 @@ parser = argparse.ArgumentParser(
     description="WeChat QR code detector for detecting and parsing QR code (https://github.com/opencv/opencv_contrib/tree/master/modules/wechat_qrcode)")
 parser.add_argument('--input', '-i', type=str,
                     help='Usage: Set path to the input image. Omit for using default camera.')
-parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021sep.prototxt',
+parser.add_argument('--detect_prototxt_path', type=str, default='detect_2021nov.prototxt',
                     help='Usage: Set path to detect.prototxt.')
-parser.add_argument('--detect_model_path', type=str, default='detect_2021sep.caffemodel',
+parser.add_argument('--detect_model_path', type=str, default='detect_2021nov.caffemodel',
                     help='Usage: Set path to detect.caffemodel.')
-parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021sep.prototxt',
+parser.add_argument('--sr_prototxt_path', type=str, default='sr_2021nov.prototxt',
                     help='Usage: Set path to sr.prototxt.')
-parser.add_argument('--sr_model_path', type=str, default='sr_2021sep.caffemodel',
+parser.add_argument('--sr_model_path', type=str, default='sr_2021nov.caffemodel',
                     help='Usage: Set path to sr.caffemodel.')
 parser.add_argument('--backend_target', '-bt', type=int, default=0,
                     help='''Choose one of the backend-target pair to run this demo:
