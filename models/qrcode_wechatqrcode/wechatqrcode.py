@@ -15,7 +15,7 @@ class WeChatQRCode:
             sr_prototxt_path,
             sr_model_path
         )
-        if backendId != 0:
+        if backendId != 0 and backendId != 3:
             raise NotImplementedError("Backend {} is not supported by cv.wechat_qrcode_WeChatQRCode()".format(backendId))
         if targetId != 0:
             raise NotImplementedError("Target {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
@@ -25,7 +25,7 @@ class WeChatQRCode:
         return self.__class__.__name__
 
     def setBackendAndTarget(self, backendId, targetId):
-        if backendId != 0:
+        if backendId != 0 and backendId != 3:
             raise NotImplementedError("Backend {} is not supported by cv.wechat_qrcode_WeChatQRCode()".format(backendId))
         if targetId != 0:
             raise NotImplementedError("Target {} is not supported by cv.wechat_qrcode_WeChatQRCode()")
