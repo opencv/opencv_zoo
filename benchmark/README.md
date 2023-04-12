@@ -19,7 +19,25 @@ Data for benchmarking will be downloaded and loaded in [data](./data) based on g
 
 ```shell
 export PYTHONPATH=$PYTHONPATH:.. 
+
+# Single config
 python benchmark.py --cfg ./config/face_detection_yunet.yaml
+
+# All configs
+python benchmark.py --all
+
+# All configs but only fp32 models (--fp32, --fp16, --int8 are available for now)
+python benchmark.py --all --fp32
+
+# All configs but exclude some of them (fill with config name keywords, not sensitive to upper/lower case, seperate with colons)
+python benchmark.py --all --cfg_exclude wechat
+python benchmark.py --all --cfg_exclude wechat:dasiamrpn
+
+# All configs but exclude some of the models (fill with exact model names, sensitive to upper/lower case, seperate with colons)
+python benchmark.py --all --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+
+# All configs with overwritten backend and target (run with --help to get available combinations)
+python benchmark.py --all --cfg_overwrite_backend_target 1
 ```
 
 **Windows**:
@@ -34,12 +52,6 @@ python benchmark.py --cfg ./config/face_detection_yunet.yaml
     $env:PYTHONPATH=$env:PYTHONPATH+";.."
     python benchmark.py --cfg ./config/face_detection_yunet.yaml
     ```
-<!--
-Omit `--cfg` if you want to benchmark all included models:
-```shell
-PYTHONPATH=.. python benchmark.py
-```
--->
 
 ## Detailed Results
 
