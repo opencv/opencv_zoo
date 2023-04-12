@@ -391,7 +391,7 @@ mean       median     min        input size   model
 NPU:
 
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:dasiamrpn:db:crnn --cfg_overwrite_backend_target 4
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:dasiamrpn:crnn --cfg_overwrite_backend_target 4
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CANN
 target=cv.dnn.DNN_TARGET_NPU
@@ -409,6 +409,8 @@ mean       median     min        input size   model
 28.59      28.60      27.91      [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 5.17       5.26       5.09       [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 5.58       5.57       5.54       [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
+17.15      17.18      16.83      [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
+17.95      18.61      16.83      [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 ```
 
 ### Khadas Edge2 (RK3588)

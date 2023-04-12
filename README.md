@@ -29,8 +29,8 @@ Guidelines:
 | [LPD-YuNet](./models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | 8.63           | 167.70       | 56.12           | 29.53        | 7.63               | ---         |
 | [YOLOX](./models/object_detection_yolox/)               | Object Detection              | 640x640    | 141.20         | 1805.87      | 388.95          | 420.98       | 28.59              | ---         |
 | [NanoDet](./models/object_detection_nanodet/)           | Object Detection              | 416x416    | 66.03          | 225.10       | 64.94           | 116.64       | 20.62              | ---         |
-| [DB-IC15](./models/text_detection_db) (EN)              | Text Detection                | 640x480    | 71.03          | 1862.75      | 208.41          | ---          | ---                | ---         |
-| [DB-TD500](./models/text_detection_db) (EN&CN)          | Text Detection                | 640x480    | 72.31          | 1878.45      | 210.51          | ---          | ---                | ---         |
+| [DB-IC15](./models/text_detection_db) (EN)              | Text Detection                | 640x480    | 71.03          | 1862.75      | 208.41          | ---          | 17.15              | ---         |
+| [DB-TD500](./models/text_detection_db) (EN&CN)          | Text Detection                | 640x480    | 72.31          | 1878.45      | 210.51          | ---          | 17.95              | ---         |
 | [CRNN-EN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 20.16          | 278.11       | 196.15          | 125.30       | ---                | ---         |
 | [CRNN-CN](./models/text_recognition_crnn)               | Text Recognition              | 100x32     | 23.07          | 297.48       | 239.76          | 166.79       | ---                | ---         |
 | [PP-ResNet](./models/image_classification_ppresnet)     | Image Classification          | 224x224    | 34.71          | 463.93       | 98.64           | 75.45        | 6.99               | ---         |
