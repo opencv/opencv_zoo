@@ -24,8 +24,8 @@ class YoloX:
         return self.__class__.__name__
 
     def setBackendAndTarget(self, backendId, targetId):
-        self._backendId = backendId
-        self._targetId = targetId
+        self.backendId = backendId
+        self.targetId = targetId
         self.net.setPreferableBackend(self.backendId)
         self.net.setPreferableTarget(self.targetId)
 

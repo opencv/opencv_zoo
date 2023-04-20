@@ -26,4 +26,4 @@ class Detection(BaseMetric):
             model.infer(img)
             self._timer.stop()
 
-        return self._getResult()
+        return self._timer.getRecords()

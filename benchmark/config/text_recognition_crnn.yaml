@@ -7,7 +7,6 @@ Benchmark:
   metric: # 'sizes' is omitted since this model requires input of fixed size
     warmup: 30
     repeat: 10
-    reduction: "median"
   backend: "default"
   target: "cpu"
 
