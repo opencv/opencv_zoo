@@ -34,7 +34,7 @@ class PPOCRv3DB:
 
         self._model.setInputSize(self._inputSize)
         self._model.setInputMean((123.675, 116.28, 103.53))
-        self._model.setInputScale(1.0/255.0/(0.229, 0.224, 0.225))
+        self._model.setInputScale(1.0/255.0/np.array([0.229, 0.224, 0.225]))
         self._model.setInputSwapRB(True)
 
     @property
@@ -51,7 +51,7 @@ class PPOCRv3DB:
         self._inputSize = tuple(input_size)
         self._model.setInputSize(self._inputSize)
         self._model.setInputMean((123.675, 116.28, 103.53))
-        self._model.setInputScale(1.0/255.0/(0.229, 0.224, 0.225))
+        self._model.setInputScale(1.0/255.0/np.array([0.229, 0.224, 0.225]))
         self._model.setInputSwapRB(True)
 
     def infer(self, image):

@@ -27,7 +27,7 @@ backend_target_pairs = [
 parser = argparse.ArgumentParser(description='PP-OCRv3 Text Detection (https://arxiv.org/abs/2206.03001).')
 parser.add_argument('--input', '-i', type=str,
                     help='Usage: Set path to the input image. Omit for using default camera.')
-parser.add_argument('--model', '-m', type=str, default='text_detection_en_ppocrv3_2023may.onnx',
+parser.add_argument('--model', '-m', type=str, default='./text_detection_en_ppocrv3_2023may.onnx',
                     help='Usage: Set model path, defaults to text_detection_en_ppocrv3_2023may.onnx.')
 parser.add_argument('--backend_target', '-bt', type=int, default=0,
                     help='''Choose one of the backend-target pair to run this demo:
