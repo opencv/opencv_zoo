@@ -1,10 +1,12 @@
-# DB
+# PP-OCRv3 Text Detection
 
-Real-time Scene Text Detection with Differentiable Binarization
+### NOTE: the PP-OCRv3 Text Detection can be supported `opencv >= 4.8.0`.
+PP-OCRv3: More Attempts for the Improvement of Ultra Lightweight OCR System
 
 Note:
 
-- Models source: [here](https://drive.google.com/drive/folders/1qzNCHfUJOS0NEUOIKn69eCtxdlNPpWbq).
+- Original Paddle Models source of English: [here](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_infer.tar).
+- Original Paddle Models source of Chinese: [here](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_infer.tar).
 - `IC15` in the filename means the model is trained on [IC15 dataset](https://rrc.cvc.uab.es/?ch=4&com=introduction), which can detect English text instances only.
 - `TD500` in the filename means the model is trained on [TD500 dataset](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500)), which can detect both English & Chinese instances.
 - Visit https://docs.opencv.org/master/d4/d43/tutorial_dnn_text_spotting.html for more information.
@@ -35,6 +37,6 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 ## Reference
 
-- https://arxiv.org/abs/1911.08947
-- https://github.com/MhLiao/DB
+- https://arxiv.org/abs/2206.03001
+- https://github.com/PaddlePaddle/PaddleOCR
 - https://docs.opencv.org/master/d4/d43/tutorial_dnn_text_spotting.html

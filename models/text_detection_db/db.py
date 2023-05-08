@@ -7,7 +7,7 @@
 import numpy as np
 import cv2 as cv
 
-class DB:
+class PPOCRv3DB:
     def __init__(self, modelPath, inputSize=[736, 736], binaryThreshold=0.3, polygonThreshold=0.5, maxCandidates=200, unclipRatio=2.0, backendId=0, targetId=0):
         self._modelPath = modelPath
         self._model = cv.dnn_TextDetectionModel_DB(
@@ -32,7 +32,10 @@ class DB:
         self._model.setUnclipRatio(self._unclipRatio)
         self._model.setMaxCandidates(self._maxCandidates)
 
-        self._model.setInputParams(1.0/255.0, self._inputSize, (122.67891434, 116.66876762, 104.00698793))
+        self._model.setInputSize(self._inputSize)
+        self._model.setInputMean((123.675, 116.28, 103.53))
+        self._model.setInputScale(1.0/255.0/(0.229, 0.224, 0.225))
+        self._model.setInputSwapRB(True)
 
     @property
     def name(self):
@@ -46,7 +49,10 @@ class DB:
 
     def setInputSize(self, input_size):
         self._inputSize = tuple(input_size)
-        self._model.setInputParams(1.0/255.0, self._inputSize, (122.67891434, 116.66876762, 104.00698793))
+        self._model.setInputSize(self._inputSize)
+        self._model.setInputMean((123.675, 116.28, 103.53))
+        self._model.setInputScale(1.0/255.0/(0.229, 0.224, 0.225))
+        self._model.setInputSwapRB(True)
 
     def infer(self, image):
         assert image.shape[0] == self._inputSize[1], '{} (height of input image) != {} (preset height)'.format(image.shape[0], self._inputSize[1])
