@@ -213,6 +213,10 @@ data_downloaders = dict(
         url='https://drive.google.com/u/0/uc?id=1LUUrQIWYYtiGoNAL_twZvdw5NkC39Swe&export=download',
         sha='4161a5cd3b0be1f51484abacf19dc9a2231e9894',
         filename='object_detection.zip'),
+    person_detection=Downloader(name='person_detection',
+        url='https://drive.google.com/u/0/uc?id=1RbLyetgqFUTt0IHaVmu6c_b7KeXJgKbc&export=download',
+        sha='fbae2fb0a47fe65e316bbd0ec57ba21461967550',
+        filename='person_detection.zip'),
 )
 
 if __name__ == '__main__':

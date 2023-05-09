@@ -1,0 +1,19 @@
+Benchmark:
+  name: "Person Detection Benchmark"
+  type: "Detection"
+  data:
+    path: "data/person_detection"
+    files: ["person1.jpg", "person2.jpg", "person3.jpg"]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [224, 224]
+  metric:
+    warmup: 30
+    repeat: 10
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "MPPersonDet"
+  scoreThreshold: 0.5
+  nmsThreshold: 0.3
+  topK: 1
