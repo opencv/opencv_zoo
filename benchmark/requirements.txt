@@ -1,4 +1,5 @@
 numpy
-opencv-python==4.5.4.58
+opencv-python<5.0
 pyyaml
 requests
+matplotlib>=3.7.1
