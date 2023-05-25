@@ -465,7 +465,7 @@ mean       median     min        input size   model
 
 Specs: [details](https://t.rock-chips.com/en/portal.php?mod=view&aid=26)
 - CPU: Quard core ARM Cortex-A7, up to 1.5GHz
-- NPU (Not supported by OpenCV): TBD
+- NPU (Not supported by OpenCV): 2.0TOPS, support 8bit / 16bit
 
 CPU:
 
@@ -516,9 +516,10 @@ mean       median     min        input size   model
 
 ### Khadas Edge2 (with RK3588)
 
-Specs: [details](https://www.khadas.com/edge2)
-- (SoC) CPU: 2.25GHz Quad Core ARM Cortex-A76 + 1.8GHz Quad Core Cortex-A55
-- NPU (Not supported by OpenCV): TBD
+Board specs: [details](https://www.khadas.com/edge2)
+SoC specs: [details](https://www.rock-chips.com/a/en/products/RK35_Series/2022/0926/1660.html)
+- CPU: 2.25GHz Quad Core ARM Cortex-A76 + 1.8GHz Quad Core Cortex-A55
+- NPU (Not supported by OpenCV): Build-in 6 TOPS Performance NPU, triple core, support int4 / int8 / int16 / fp16 / bf16 / tf32
 
 CPU:
 
@@ -624,7 +625,7 @@ mean       median     min        input size   model
 
 Specs: [details_en](https://wiki.sipeed.com/hardware/en/maixIII/ax-pi/axpi.html#Hardware), [details_cn](https://wiki.sipeed.com/hardware/zh/maixIII/ax-pi/axpi.html#%E7%A1%AC%E4%BB%B6%E5%8F%82%E6%95%B0)
 - CPU: Quad cores ARM Cortex-A7
-- NPU (Not supported by OpenCV): TBD
+- NPU (Not supported by OpenCV): 14.4Tops@int4，3.6Tops@int8
 
 CPU:
 
