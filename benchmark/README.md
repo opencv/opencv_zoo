@@ -629,5 +629,46 @@ Specs: [details_en](https://wiki.sipeed.com/hardware/en/maixIII/ax-pi/axpi.html#
 CPU:
 
 ```
-TBD
+$ python3 benchmark.py --all --cfg_exclude wechat --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+Benchmarking ...
+backend=cv.dnn.DNN_BACKEND_OPENCV
+target=cv.dnn.DNN_TARGET_CPU
+mean       median     min        input size   model
+98.16      98.99      97.73      [160, 120]   YuNet with ['face_detection_yunet_2022mar.onnx']
+93.21      93.81      89.15      [160, 120]   YuNet with ['face_detection_yunet_2022mar_int8.onnx']
+2093.12    2093.02    2092.54    [150, 150]   SFace with ['face_recognition_sface_2021dec.onnx']
+1845.87    1871.17    1646.65    [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
+811.32     811.47     810.80     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
+743.24     750.04     688.44     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
+636.22     635.89     635.43     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
+588.83     594.01     550.49     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
+2157.86    2157.82    2156.99    [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
+2091.13    2091.61    2090.72    [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
+1583.25    1634.14    1176.19    [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
+1450.55    1177.07    1176.19    [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+1272.81    1226.00    873.94     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
+15753.56   15751.29   15748.97   [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
+11610.11   12023.99   8290.04    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
+4300.13    4301.43    4298.29    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
+3360.20    3357.84    3356.70    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
+2961.58    3005.40    2641.27    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
+49994.75   49968.90   49958.48   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+35966.66   37391.40   24670.30   [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+19800.14   19816.02   19754.69   [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
+1191.81    1192.42    1191.40    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
+1162.64    1165.77    1138.35    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
+1835.97    1836.24    1835.34    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
+14886.02   14884.48   14881.73   [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
+10491.63   10930.80   6975.34    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+65681.91   65674.89   65612.09   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
+65630.56   65652.90   65531.21   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
+3248.11    3242.59    3241.18    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
+3330.69    3350.38    3241.18    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov.onnx']
+3277.07    3427.65    3195.84    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2021sep.onnx']
+[ WARN:0@17240.397] global onnx_graph_simplifier.cpp:804 getMatFromTensor DNN: load FP16 model as FP32 model, and it takes twice the FP16 RAM requirement.
+3263.48    3319.83    3195.84    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2023feb_fp16.onnx']
+3258.78    3196.90    3195.84    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2023feb_fp16.onnx']
+3090.12    3224.64    2353.81    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
+3001.31    3237.93    2353.81    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
+2887.05    3224.12    2206.89    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
