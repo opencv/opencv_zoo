@@ -624,6 +624,7 @@ mean       median     min        input size   model
 ### MAIX-III AX-PI
 
 Specs: [details_en](https://wiki.sipeed.com/hardware/en/maixIII/ax-pi/axpi.html#Hardware), [details_cn](https://wiki.sipeed.com/hardware/zh/maixIII/ax-pi/axpi.html#%E7%A1%AC%E4%BB%B6%E5%8F%82%E6%95%B0)
+SoC specs: [details_cn](https://axera-tech.com/product/T7297367876123493768)
 - CPU: Quad cores ARM Cortex-A7
 - NPU (Not supported by OpenCV): 14.4Tops@int4，3.6Tops@int8
 

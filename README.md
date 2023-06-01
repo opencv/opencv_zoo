@@ -27,6 +27,10 @@ Hardware Setup:
 
 - `CPU-INTEL`: [Intel Core i7-12700K](https://www.intel.com/content/www/us/en/products/sku/134594/intel-core-i712700k-processor-25m-cache-up-to-5-00-ghz/specifications.html), 8 Performance-cores (3.60 GHz, turbo up to 4.90 GHz), 4 Efficient-cores (2.70 GHz, turbo up to 3.80 GHz), 20 threads.
 - `CPU-RPI`: [Raspberry Pi 4B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/), Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5 GHz.
+- `CPU-RV1126`: [Toybrick RV1126](https://t.rock-chips.com/en/portal.php?mod=view&aid=26), Rockchip RV1126 SoC with a quard-core ARM Cortex-A7 CPU and a 2.0TOPs NPU.
+- `CPU-KVE2`: [Khadas Edge 2](https://www.khadas.com/edge2), Rockchip RK3588S SoC with a CPU of 2.25GHz Quad Core ARM Cortex-A76 + 1.8GHz Quad Core Cortex-A55, and a 6TOPS NPU.
+- `CPU-HSX3`: [Horizon Sunrise X3](https://developer.horizon.ai/sunrise), an SoC from Horizon Robotics with a quad-core ARM Cortex-A53 1.2GHz CPU and a 5TOPS BPU (a.k.a NPU).
+- `CPU-AXP`: [MAIX-III AXera-Pi](https://wiki.sipeed.com/hardware/en/maixIII/ax-pi/axpi.html#Hardware), Axera AX620A with a quad-core ARM Cortex-A7 CPU and a 3.6TOPS@int8 NPU.
 - `GPU-JETSON`: [NVIDIA Jetson Nano B01](https://developer.nvidia.com/embedded/jetson-nano-developer-kit), 128-core NVIDIA Maxwell GPU.
 - `NPU-KV3`: [Khadas VIM3](https://www.khadas.com/vim3), 5TOPS Performance. Benchmarks are done using **quantized** models. You will need to compile OpenCV with TIM-VX following [this guide](https://github.com/opencv/opencv/wiki/TIM-VX-Backend-For-Running-OpenCV-On-NPU) to run benchmarks. The test results use the `per-tensor` quantization model by default.
 - `NPU-Ascend310`: [Ascend 310](https://e.huawei.com/uk/products/cloud-computing-dc/atlas/atlas-200), 22 TOPS @ INT8. Benchmarks are done on [Atlas 200 DK AI Developer Kit](https://e.huawei.com/in/products/cloud-computing-dc/atlas/atlas-200). Get the latest OpenCV source code and build following [this guide](https://github.com/opencv/opencv/wiki/Huawei-CANN-Backend) to enable CANN backend.
