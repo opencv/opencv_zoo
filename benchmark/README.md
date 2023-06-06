@@ -57,32 +57,6 @@ python benchmark.py --all --cfg_overwrite_backend_target 1
 
 Benchmark is done with latest `opencv-python==4.7.0.72` and `opencv-contrib-python==4.7.0.72` on the following platforms. Some models are excluded because of support issues.
 
-
-| Model                                                    | Task                          | Input Size | CPU-INTEL (ms) | CPU-RPI (ms) | CPU-RV1126 (ms) | CPU-KVE2 (ms) | CPU-HSX3 (ms) | CPU-AXP (ms) | GPU-JETSON (ms) | NPU-KV3 (ms) | NPU-Ascend310 (ms) | CPU-D1 (ms) |
-| -------------------------------------------------------- | ----------------------------- | ---------- | -------------- | ------------ | --------------- | ------------- | ------------- | ------------ | --------------- | ------------ | ------------------ | ----------- |
-| [YuNet](../models/face_detection_yunet)                  | Face Detection                | 160x120    | 0.72           | 5.43         | 68.89           | 2.47          | 11.04         | 98.16        | 12.18           | 4.04         | 2.24               | 86.69       |
-| [SFace](../models/face_recognition_sface)                | Face Recognition              | 112x112    | 6.04           | 78.83        | 1550.71         | 33.79         | 140.83        | 2093.12      | 24.88           | 46.25        | 2.66               | ---         |
-| [FER](../models/facial_expression_recognition/)          | Facial Expression Recognition | 112x112    | 3.16           | 32.53        | 604.36          | 15.99         | 64.96         | 811.32       | 31.07           | 29.80        | 2.19               | ---         |
-| [LPD-YuNet](../models/license_plate_detection_yunet/)    | License Plate Detection       | 320x240    | 8.63           | 167.70       | 3222.92         | 57.57         | 283.75        | 4300.13      | 56.12           | 29.53        | 7.63               | ---         |
-| [YOLOX](../models/object_detection_yolox/)               | Object Detection              | 640x640    | 141.20         | 1805.87      | 38359.93        | 577.93        | 2749.22       | 49994.75     | 388.95          | 420.98       | 28.59              | ---         |
-| [NanoDet](../models/object_detection_nanodet/)           | Object Detection              | 416x416    | 66.03          | 225.10       | 2303.55         | 118.38        | 408.16        | 3360.20      | 64.94           | 116.64       | 20.62              | ---         |
-| [DB-IC15](../models/text_detection_db) (EN)              | Text Detection                | 640x480    | 71.03          | 1862.75      | 49065.03        | 394.77        | 1908.87       | 65681.91     | 208.41          | ---          | 17.15              | ---         |
-| [DB-TD500](../models/text_detection_db) (EN&CN)          | Text Detection                | 640x480    | 72.31          | 1878.45      | 49052.24        | 392.52        | 1922.34       | 65630.56     | 210.51          | ---          | 17.95              | ---         |
-| [CRNN-EN](../models/text_recognition_crnn)               | Text Recognition              | 100x32     | 20.16          | 278.11       | 2230.12         | 77.51         | 464.58        | 3277.07      | 196.15          | 125.30       | ---                | ---         |
-| [CRNN-CN](../models/text_recognition_crnn)               | Text Recognition              | 100x32     | 23.07          | 297.48       | 2244.03         | 82.93         | 495.94        | 3330.69      | 239.76          | 166.79       | ---                | ---         |
-| [PP-ResNet](../models/image_classification_ppresnet)     | Image Classification          | 224x224    | 34.71          | 463.93       | 11793.09        | 178.87        | 759.81        | 15753.56     | 98.64           | 75.45        | 6.99               | ---         |
-| [MobileNet-V1](../models/image_classification_mobilenet) | Image Classification          | 224x224    | 5.90           | 72.33        | 1546.16         | 32.78         | 140.60        | 2091.13      | 33.18           | 145.66\*     | 5.15               | ---         |
-| [MobileNet-V2](../models/image_classification_mobilenet) | Image Classification          | 224x224    | 5.97           | 66.56        | 1166.56         | 28.38         | 122.53        | 1583.25      | 31.92           | 146.31\*     | 5.41               | ---         |
-| [PP-HumanSeg](../models/human_segmentation_pphumanseg)   | Human Segmentation            | 192x192    | 8.81           | 73.13        | 1610.78         | 34.58         | 144.23        | 2157.86      | 67.97           | 74.77        | 6.94               | ---         |
-| [WeChatQRCode](../models/qrcode_wechatqrcode)            | QR Code Detection and Parsing | 100x100    | 1.29           | 5.71         | ---             | ---           | ---           | ---          | ---             | ---          | ---                | ---         |
-| [DaSiamRPN](../models/object_tracking_dasiamrpn)         | Object Tracking               | 1280x720   | 29.05          | 712.94       | 14738.64        | 152.78        | 929.63        | 19800.14     | 76.82           | ---          | ---                | ---         |
-| [YoutuReID](../models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 30.39          | 625.56       | 11117.07        | 195.67        | 898.23        | 14886.02     | 90.07           | 44.61        | 5.58               | ---         |
-| [MP-PalmDet](../models/palm_detection_mediapipe)         | Palm Detection                | 192x192    | 6.29           | 86.83        | 872.09          | 38.03         | 142.23        | 1191.81      | 83.20           | 33.81        | 5.17               | ---         |
-| [MP-HandPose](../models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 224x224    | 4.68           | 43.57        | 460.56          | 20.27         | 80.67         | 636.22       | 40.10           | 19.47        | 6.27               | ---         |
-| [MP-PersonDet](../models/person_detection_mediapipe)     | Person Detection              | 224x224    | 13.88          | 98.52        | 1326.56         | 46.07         | 191.41        | 1835.97      | 56.69           | ---          | 16.45              | ---         |
-
-\*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
-
 ### Intel 12700K
 
 Specs: [details](https://www.intel.com/content/www/us/en/products/sku/134594/intel-core-i712700k-processor-25m-cache-up-to-5-00-ghz/specifications.html)
