@@ -43,10 +43,10 @@ parser.add_argument('--topk', type=int, default=10,
                     help='Top-K closest from gallery for each query.')
 parser.add_argument('--model', '-m', type=str, default='person_reid_youtu_2021nov.onnx',
                     help='Path to the model.')
-parser.add_argument('--save', '-s', type=str2bool, default=False,
-                    help='Set true to save results. This flag is invalid when using camera.')
-parser.add_argument('--vis', '-v', type=str2bool, default=True,
-                    help='Set true to open a window for result visualization. This flag is invalid when using camera.')
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def readImageFromDirectory(img_dir, w=128, h=256):

@@ -42,7 +42,7 @@ Run the demo detecting English:
 # detect on camera input
 python demo.py
 # detect on an image
-python demo.py --input /path/to/image
+python demo.py --input /path/to/image -v
 
 # get help regarding various parameters
 python demo.py --help

@@ -11,7 +11,7 @@ Note:
 Run the following command to try the demo:
 
 ```shell
-python demo.py --query_dir /path/to/query --gallery_dir /path/to/gallery
+python demo.py --query_dir /path/to/query --gallery_dir /path/to/gallery -v
 
 # get help regarding various parameters
 python demo.py --help

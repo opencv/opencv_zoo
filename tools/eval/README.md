@@ -19,9 +19,9 @@ Supported datasets:
 - [ImageNet](#imagenet)
 - [WIDERFace](#widerface)
 - [LFW](#lfw)
-- [ICDAR](#ICDAR2003)
+- [ICDAR](#icdar2003)
 - [IIIT5K](#iiit5k)
-- [Mini Supervisely](#mini_supervisely)
+- [Mini Supervisely](#mini-supervisely)
 
 ## ImageNet
 

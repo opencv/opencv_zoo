@@ -79,7 +79,7 @@ Benchmark is done with latest `opencv-python==4.7.0.72` and `opencv-contrib-pyth
 | [YoutuReID](../models/person_reid_youtureid)             | Person Re-Identification      | 128x256    | 30.39          | 625.56       | 11117.07        | 195.67        | 898.23        | 14886.02     | 90.07           | 44.61        | 5.58               | ---         |
 | [MP-PalmDet](../models/palm_detection_mediapipe)         | Palm Detection                | 192x192    | 6.29           | 86.83        | 872.09          | 38.03         | 142.23        | 1191.81      | 83.20           | 33.81        | 5.17               | ---         |
 | [MP-HandPose](../models/handpose_estimation_mediapipe)   | Hand Pose Estimation          | 224x224    | 4.68           | 43.57        | 460.56          | 20.27         | 80.67         | 636.22       | 40.10           | 19.47        | 6.27               | ---         |
-| [MP-PersonDet](./models/person_detection_mediapipe)      | Person Detection              | 224x224    | 13.88          | 98.52        | 1326.56         | 46.07         | 191.41        | 1835.97      | 56.69           | ---          | 16.45              | ---         |
+| [MP-PersonDet](../models/person_detection_mediapipe)     | Person Detection              | 224x224    | 13.88          | 98.52        | 1326.56         | 46.07         | 191.41        | 1835.97      | 56.69           | ---          | 16.45              | ---         |
 
 \*: Models are quantized in per-channel mode, which run slower than per-tensor quantized models on NPU.
 
