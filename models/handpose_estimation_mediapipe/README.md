@@ -10,7 +10,7 @@ This model is converted from TFlite to ONNX using following tools:
 
 **Note**:
 - The int8-quantized model may produce invalid results due to a significant drop of accuracy.
-- Visit https://google.github.io/mediapipe/solutions/models.html#hands for models of larger scale.
+- Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#hands for models of larger scale.
 
 ## Demo
 
@@ -19,7 +19,7 @@ Run the following commands to try the demo:
 # detect on camera input
 python demo.py
 # detect on an image
-python demo.py -i /path/to/image
+python demo.py -i /path/to/image -v
 ```
 
 ### Example outputs
@@ -32,6 +32,7 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 ## Reference
 
-- MediaPipe Handpose: https://github.com/tensorflow/tfjs-models/tree/master/handpose
-- MediaPipe hands model and model card: https://google.github.io/mediapipe/solutions/models.html#hands
+- MediaPipe Handpose: https://developers.google.com/mediapipe/solutions/vision/hand_landmarker
+- MediaPipe hands model and model card: https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#hands
+- Handpose TFJS:https://github.com/tensorflow/tfjs-models/tree/master/handpose
 - Int8 model quantized with rgb evaluation set of FreiHAND: https://lmb.informatik.uni-freiburg.de/resources/datasets/FreihandDataset.en.html

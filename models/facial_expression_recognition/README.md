@@ -22,7 +22,7 @@ Results of accuracy evaluation on [RAF-DB](http://whdeng.cn/RAF/model1.html).
 Run the following command to try the demo:
 ```shell
 # recognize the facial expression on images
-python demo.py --input /path/to/image
+python demo.py --input /path/to/image -v
 ```
 
 ### Example outputs

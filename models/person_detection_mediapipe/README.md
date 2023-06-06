@@ -15,7 +15,7 @@ Run the following commands to try the demo:
 # detect on camera input
 python demo.py
 # detect on an image
-python demo.py -i /path/to/image
+python demo.py -i /path/to/image -v
 
 # get help regarding various parameters
 python demo.py --help
@@ -30,6 +30,6 @@ python demo.py --help
 All files in this directory are licensed under [Apache 2.0 License](LICENSE).
 
 ## Reference
-- MediaPipe Pose: https://google.github.io/mediapipe/solutions/pose
-- MediaPipe pose model and model card: https://google.github.io/mediapipe/solutions/models.html#pose
+- MediaPipe Pose: https://developers.google.com/mediapipe/solutions/vision/pose_landmarker
+- MediaPipe pose model and model card: https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#pose
 - BlazePose TFJS: https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs

@@ -15,7 +15,7 @@ Run the following command to try the demo:
 # track on camera input
 python demo.py
 # track on video input
-python demo.py --input /path/to/video
+python demo.py --input /path/to/video -v
 
 # get help regarding various parameters
 python demo.py --help
