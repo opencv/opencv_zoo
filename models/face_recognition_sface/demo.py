@@ -57,7 +57,7 @@ if __name__ == '__main__':
                        backendId=backend_id,
                        targetId=target_id)
     # Instantiate YuNet for face detection
-    detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2022mar.onnx',
+    detector = YuNet(modelPath='../face_detection_yunet/face_detection_yunet_2023mar.onnx',
                      inputSize=[320, 320],
                      confThreshold=0.9,
                      nmsThreshold=0.3,
