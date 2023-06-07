@@ -98,6 +98,7 @@ mean       median     min        input size   model
 13.88      14.82      12.39      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 30.87      30.69      29.85      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 30.77      30.02      27.97      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+7.72       8.84       6.13       [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 1.35       1.37       1.30       [100, 100]   WeChatQRCode with ['detect_2021nov.prototxt', 'detect_2021nov.caffemodel', 'sr_2021nov.prototxt', 'sr_2021nov.caffemodel']
 75.82      75.37      69.18      [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 74.80      75.16      69.05      [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
@@ -151,6 +152,7 @@ mean       median     min        input size   model
 98.52      98.95      97.58      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 676.15     655.20     636.06     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 548.93     582.29     443.32     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+90.26      92.06      88.80      [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 8.18       8.15       8.13       [100, 100]   WeChatQRCode with ['detect_2021nov.prototxt', 'detect_2021nov.caffemodel', 'sr_2021nov.prototxt', 'sr_2021nov.caffemodel']
 2025.09    2046.92    1971.57    [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 2041.85    2048.24    1971.57    [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
@@ -205,6 +207,7 @@ mean       median     min        input size   model
 98.38      98.20      97.69      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 411.49     417.53     402.57     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 372.94     370.17     335.95     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+74.36      75.15      72.22      [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 5.62       5.64       5.55       [100, 100]   WeChatQRCode with ['detect_2021nov.prototxt', 'detect_2021nov.caffemodel', 'sr_2021nov.prototxt', 'sr_2021nov.caffemodel']
 1089.89    1091.85    1071.95    [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 1089.94    1095.07    1071.95    [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
@@ -241,6 +244,7 @@ mean       median     min        input size   model
 67.34      67.83      62.38      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 56.69      55.54      48.96      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 126.65     126.63     124.96     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
+73.84      75.25      72.19      [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 303.12     302.80     299.30     [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 302.58     299.78     297.83     [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 58.05      62.90      52.47      [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
@@ -271,6 +275,7 @@ mean       median     min        input size   model
 212.86     213.21     210.03     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 221.12     255.53     217.16     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 96.68      94.21      89.24      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
+73.68      77.30      69.17      [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 343.38     344.17     337.62     [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 344.29     345.07     337.62     [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 48.91      50.31      45.41      [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
@@ -318,6 +323,7 @@ mean       median     min        input size   model
 84.42      85.99      83.30      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 439.53     431.92     406.03     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 358.63     379.93     296.32     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+68.51      66.87      66.53      [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 5.29       5.30       5.21       [100, 100]   WeChatQRCode with ['detect_2021nov.prototxt', 'detect_2021nov.caffemodel', 'sr_2021nov.prototxt', 'sr_2021nov.caffemodel']
 973.75     968.68     954.58     [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 961.44     959.29     935.29     [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
@@ -396,6 +402,7 @@ mean       median     min        input size   model
 134.10     134.43     133.62     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 631.70     631.81     630.61     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 595.32     599.48     565.32     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+108.55     117.88     106.66     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 1452.55    1453.75    1450.98    [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 1433.26    1432.08    1409.78    [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 299.36     299.92     298.75     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
@@ -412,7 +419,7 @@ mean       median     min        input size   model
 NPU:
 
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:dasiamrpn:crnn --cfg_overwrite_backend_target 4
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:dasiamrpn:crnn --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CANN
 target=cv.dnn.DNN_TARGET_NPU
@@ -475,6 +482,7 @@ mean       median     min        input size   model
 1326.56    1327.10    1305.18    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 11117.07   11109.12   11058.49   [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 7037.96    7424.89    3750.12    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+704.44     704.77     672.58     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 49065.03   49144.55   48943.50   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 49052.24   48992.64   48927.44   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 2200.08    2193.78    2175.77    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
@@ -529,6 +537,7 @@ mean       median     min        input size   model
 46.07      46.77      45.10      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 195.67     198.02     182.97     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 181.91     182.28     169.98     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+35.47      37.63      33.55      [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 394.77     407.60     371.95     [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 392.52     404.80     367.96     [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 77.32      77.72      75.27      [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
@@ -582,6 +591,7 @@ mean       median     min        input size   model
 191.41     191.48     191.00     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 898.23     897.52     896.58     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 749.83     765.90     630.39     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+158.50     160.55     155.64     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 1908.87    1905.00    1903.13    [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 1922.34    1920.65    1896.97    [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 470.78     469.17     467.92     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
@@ -636,6 +646,7 @@ mean       median     min        input size   model
 1835.97    1836.24    1835.34    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 14886.02   14884.48   14881.73   [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
 10491.63   10930.80   6975.34    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+987.30     992.59     982.71     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
 65681.91   65674.89   65612.09   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
 65630.56   65652.90   65531.21   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
 3248.11    3242.59    3241.18    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']

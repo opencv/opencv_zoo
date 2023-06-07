@@ -157,6 +157,13 @@ Models:
     acceptable_time: 1300
     keyword: "person_detection_mediapipe"
 
+  - name: "MP-Pose"
+    task: "Pose Estimation"
+    input_size: "256x256"
+    folder: "pose_estimation_mediapipe"
+    acceptable_time: 700
+    keyword: "pose_estimation_mediapipe"
+
 
 Devices:
   - name: "Intel 12700K"
