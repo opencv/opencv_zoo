@@ -22,7 +22,7 @@ python demo.py -i /path/to/image -v
 
 ### Example outputs
 
-![webcam demo](examples/mpposeest_demo.webp)
+![webcam demo](./example_outputs/mpposeest_demo.webp)
 
 ## License
 

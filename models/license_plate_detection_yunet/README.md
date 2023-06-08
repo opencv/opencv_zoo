@@ -19,7 +19,7 @@ python demo.py --help
 
 ### Example outputs
 
-![lpd](./examples/lpd_yunet_demo.gif)
+![lpd](./example_outputs/lpd_yunet_demo.gif)
 
 ## License
 

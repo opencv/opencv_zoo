@@ -29,9 +29,9 @@ Note:
 
 Here are some of the sample results that were observed using the model (**yolox_s.onnx**),
 
-![1_res.jpg](./samples/1_res.jpg)
-![2_res.jpg](./samples/2_res.jpg)
-![3_res.jpg](./samples/3_res.jpg)
+![1_res.jpg](./example_outputs/1_res.jpg)
+![2_res.jpg](./example_outputs/2_res.jpg)
+![3_res.jpg](./example_outputs/3_res.jpg)
 
 Check [benchmark/download_data.py](../../benchmark/download_data.py) for the original images.
 

@@ -53,9 +53,9 @@ cmake --build build
 
 ### Example outputs
 
-![webcam demo](./examples/yunet_demo.gif)
+![webcam demo](./example_outputs/yunet_demo.gif)
 
-![largest selfie](./examples/largest_selfie.jpg)
+![largest selfie](./example_outputs/largest_selfie.jpg)
 
 ## License
 

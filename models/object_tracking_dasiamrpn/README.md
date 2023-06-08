@@ -23,7 +23,7 @@ python demo.py --help
 
 ### Example outputs
 
-![webcam demo](./examples/dasiamrpn_demo.gif)
+![webcam demo](./example_outputs/dasiamrpn_demo.gif)
 
 ## License
 

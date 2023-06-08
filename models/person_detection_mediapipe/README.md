@@ -23,7 +23,7 @@ python demo.py --help
 
 ### Example outputs
 
-![webcam demo](examples/mppersondet_demo.webp)
+![webcam demo](./example_outputs/mppersondet_demo.webp)
 
 ## License
 
