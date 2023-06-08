@@ -66,9 +66,9 @@ Some examples are listed below. You can find more in the directory of each model
 
 ### Object Detection with [NanoDet](./models/object_detection_nanodet/) & [YOLOX](./models/object_detection_yolox/)
 
-![nanodet demo](./models/object_detection_nanodet/samples/1_res.jpg)
+![nanodet demo](./models/object_detection_nanodet/example_outputs/1_res.jpg)
 
-![yolox demo](./models/object_detection_yolox/samples/3_res.jpg)
+![yolox demo](./models/object_detection_yolox/example_outputs/3_res.jpg)
 
 ### Object Tracking with [DaSiamRPN](./models/object_tracking_dasiamrpn/)
 
