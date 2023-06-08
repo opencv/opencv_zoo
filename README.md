@@ -50,19 +50,19 @@ Some examples are listed below. You can find more in the directory of each model
 
 ### Face Detection with [YuNet](./models/face_detection_yunet/)
 
-![largest selfie](./models/face_detection_yunet/examples/largest_selfie.jpg)
+![largest selfie](./models/face_detection_yunet/example_outputs/largest_selfie.jpg)
 
 ### Facial Expression Recognition with [Progressive Teacher](./models/facial_expression_recognition/)
 
-![fer demo](./models/facial_expression_recognition/examples/selfie.jpg)
+![fer demo](./models/facial_expression_recognition/example_outputs/selfie.jpg)
 
 ### Human Segmentation with [PP-HumanSeg](./models/human_segmentation_pphumanseg/)
 
-![messi](./models/human_segmentation_pphumanseg/examples/messi.jpg)
+![messi](./models/human_segmentation_pphumanseg/example_outputs/messi.jpg)
 
 ### License Plate Detection with [LPD_YuNet](./models/license_plate_detection_yunet/)
 
-![license plate detection](./models/license_plate_detection_yunet/examples/lpd_yunet_demo.gif)
+![license plate detection](./models/license_plate_detection_yunet/example_outputs/lpd_yunet_demo.gif)
 
 ### Object Detection with [NanoDet](./models/object_detection_nanodet/) & [YOLOX](./models/object_detection_yolox/)
 
@@ -72,39 +72,39 @@ Some examples are listed below. You can find more in the directory of each model
 
 ### Object Tracking with [DaSiamRPN](./models/object_tracking_dasiamrpn/)
 
-![webcam demo](./models/object_tracking_dasiamrpn/examples/dasiamrpn_demo.gif)
+![webcam demo](./models/object_tracking_dasiamrpn/example_outputs/dasiamrpn_demo.gif)
 
 ### Palm Detection with [MP-PalmDet](./models/palm_detection_mediapipe/)
 
-![palm det](./models/palm_detection_mediapipe/examples/mppalmdet_demo.gif)
+![palm det](./models/palm_detection_mediapipe/example_outputs/mppalmdet_demo.gif)
 
 ### Hand Pose Estimation with [MP-HandPose](models/handpose_estimation_mediapipe/)
 
-![handpose estimation](models/handpose_estimation_mediapipe/examples/mphandpose_demo.webp)
+![handpose estimation](models/handpose_estimation_mediapipe/example_outputs/mphandpose_demo.webp)
 
 ### Person Detection with [MP-PersonDet](./models/person_detection_mediapipe)
 
-![person det](./models/person_detection_mediapipe/examples/mppersondet_demo.webp)
+![person det](./models/person_detection_mediapipe/example_outputs/mppersondet_demo.webp)
 
 ### Pose Estimation with [MP-Pose](models/pose_estimation_mediapipe)
 
-![pose_estimation](models/pose_estimation_mediapipe/examples/mpposeest_demo.webp)
+![pose_estimation](models/pose_estimation_mediapipe/example_outputs/mpposeest_demo.webp)
 
 ### QR Code Detection and Parsing with [WeChatQRCode](./models/qrcode_wechatqrcode/)
 
-![qrcode](./models/qrcode_wechatqrcode/examples/wechat_qrcode_demo.gif)
+![qrcode](./models/qrcode_wechatqrcode/example_outputs/wechat_qrcode_demo.gif)
 
 ### Chinese Text detection [DB](./models/text_detection_db/)
 
-![mask](./models/text_detection_db/examples/mask.jpg)
+![mask](./models/text_detection_db/example_outputs/mask.jpg)
 
 ### English Text detection [DB](./models/text_detection_db/)
 
-![gsoc](./models/text_detection_db/examples/gsoc.jpg)
+![gsoc](./models/text_detection_db/example_outputs/gsoc.jpg)
 
 ### Text Detection with [CRNN](./models/text_recognition_crnn/)
 
-![crnn_demo](./models/text_recognition_crnn/examples/CRNNCTC.gif)
+![crnn_demo](./models/text_recognition_crnn/example_outputs/CRNNCTC.gif)
 
 ## License
 
