@@ -26,7 +26,7 @@ python demo.py --help
 
 ### Example outputs
 
-![webcam demo](./examples/mppalmdet_demo.gif)
+![webcam demo](./example_outputs/mppalmdet_demo.gif)
 
 ## License
 

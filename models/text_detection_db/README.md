@@ -25,9 +25,9 @@ python demo.py --help
 
 ### Example outputs
 
-![mask](./examples/mask.jpg)
+![mask](./example_outputs/mask.jpg)
 
-![gsoc](./examples/gsoc.jpg)
+![gsoc](./example_outputs/gsoc.jpg)
 
 ## License
 

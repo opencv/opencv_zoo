@@ -23,7 +23,7 @@ python demo.py --help
 
 ### Example outputs
 
-![webcam demo](./examples/wechat_qrcode_demo.gif)
+![webcam demo](./example_outputs/wechat_qrcode_demo.gif)
 
 ## License
 

@@ -18,9 +18,9 @@ python demo.py --help
 
 ### Example outputs
 
-![webcam demo](./examples/pphumanseg_demo.gif)
+![webcam demo](./example_outputs/pphumanseg_demo.gif)
 
-![messi](./examples/messi.jpg)
+![messi](./example_outputs/messi.jpg)
 
 ---
 Results of accuracy evaluation with [tools/eval](../../tools/eval).

@@ -62,9 +62,9 @@ python demo.py --help
 
 ### Examples
 
-![CRNNCTC](./examples/CRNNCTC.gif)
+![CRNNCTC](./example_outputs/CRNNCTC.gif)
 
-![demo](./examples/demo.jpg)
+![demo](./example_outputs/demo.jpg)
 
 ## License
 

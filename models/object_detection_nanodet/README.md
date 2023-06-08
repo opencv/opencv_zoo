@@ -22,13 +22,13 @@ Note:
 
 Here are some of the sample results that were observed using the model,
 
-![test1_res.jpg](./samples/1_res.jpg)
-![test2_res.jpg](./samples/2_res.jpg)
+![test1_res.jpg](./example_outputs/1_res.jpg)
+![test2_res.jpg](./example_outputs/2_res.jpg)
 
 Check [benchmark/download_data.py](../../benchmark/download_data.py) for the original images.
 
 Video inference result,
-![WebCamR.gif](./samples/WebCamR.gif)
+![WebCamR.gif](./example_outputs/WebCamR.gif)
 
 ## Model metrics:
 

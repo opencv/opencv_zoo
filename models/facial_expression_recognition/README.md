@@ -29,7 +29,7 @@ python demo.py --input /path/to/image -v
 
 Note: Zoom in to to see the recognized facial expression in the top-left corner of each face boxes.
 
-![fer demo](./examples/selfie.jpg)
+![fer demo](./example_outputs/selfie.jpg)
 
 ## License
 
