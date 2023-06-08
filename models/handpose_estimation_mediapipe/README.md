@@ -4,6 +4,9 @@ This model estimates 21 hand keypoints per detected hand from [palm detector](..
  
 ![MediaPipe Hands Keypoints](./example_outputs/hand_keypoints.png)
 
+Hand gesture classification demo (0-9)
+![hand gestures](./example_outputs/gesture_classification.png)
+
 This model is converted from TFlite to ONNX using following tools:
 - TFLite model to ONNX: https://github.com/onnx/tensorflow-onnx
 - simplified by [onnx-simplifier](https://github.com/daquexian/onnx-simplifier)
