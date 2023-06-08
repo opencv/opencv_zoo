@@ -82,7 +82,7 @@ z
      </a>
     </g>
     <g id="patch_5">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#intel-12700k">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#intel-12700k">
       <path d="M 410.291063 81.498353 
 L 466.440562 81.498353 
 L 466.440562 28.698353 
@@ -92,18 +92,18 @@ z
      </a>
     </g>
     <g id="text_6">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#intel-12700k">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#intel-12700k">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(424.159484 43.308587)">Intel</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#intel-12700k">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#intel-12700k">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(414.970188 58.133665)">12700K</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#intel-12700k">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#intel-12700k">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(425.831828 72.958744)">CPU</text>
      </a>
     </g>
     <g id="patch_6">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#rasberry-pi-4b">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#rasberry-pi-4b">
       <path d="M 466.440562 81.498353 
 L 576.029438 81.498353 
 L 576.029438 28.698353 
@@ -113,18 +113,18 @@ z
      </a>
     </g>
     <g id="text_7">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#rasberry-pi-4b">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#rasberry-pi-4b">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(475.572969 43.265619)">Rasberry Pi 4B</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#rasberry-pi-4b">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#rasberry-pi-4b">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(492.225937 58.176634)">BCM2711</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#rasberry-pi-4b">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#rasberry-pi-4b">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(508.701016 73.001712)">CPU</text>
      </a>
     </g>
     <g id="patch_7">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#toybrick-rv1126">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#toybrick-rv1126">
       <path d="M 576.029438 81.498353 
 L 639.014063 81.498353 
 L 639.014063 28.698353 
@@ -134,18 +134,18 @@ z
      </a>
     </g>
     <g id="text_8">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#toybrick-rv1126">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#toybrick-rv1126">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(581.682063 43.265619)">Toybrick</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#toybrick-rv1126">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#toybrick-rv1126">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(583.723078 58.176634)">RV1126</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#toybrick-rv1126">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#toybrick-rv1126">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(594.987766 73.001712)">CPU</text>
      </a>
     </g>
     <g id="patch_8">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-edge2-(with-rk3588)">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-edge2-(with-rk3588)">
       <path d="M 639.014063 81.498353 
 L 744.40575 81.498353 
 L 744.40575 28.698353 
@@ -155,18 +155,18 @@ z
      </a>
     </g>
     <g id="text_9">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-edge2-(with-rk3588)">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-edge2-(with-rk3588)">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(647.796703 43.265619)">Khadas Edge2</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-edge2-(with-rk3588)">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-edge2-(with-rk3588)">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(663.945219 58.176634)">RK3588S</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-edge2-(with-rk3588)">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-edge2-(with-rk3588)">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(679.175922 73.001712)">CPU</text>
      </a>
     </g>
     <g id="patch_9">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#horizon-sunrise-x3-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#horizon-sunrise-x3-pi">
       <path d="M 744.40575 81.498353 
 L 881.238187 81.498353 
 L 881.238187 28.698353 
@@ -176,18 +176,18 @@ z
      </a>
     </g>
     <g id="text_10">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#horizon-sunrise-x3-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#horizon-sunrise-x3-pi">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(755.808453 43.308587)">Horizon Sunrise Pi</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#horizon-sunrise-x3-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#horizon-sunrise-x3-pi">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(804.755016 58.133665)">X3</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#horizon-sunrise-x3-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#horizon-sunrise-x3-pi">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(800.287984 72.958744)">CPU</text>
      </a>
     </g>
     <g id="patch_10">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#maix-iii-ax-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#maix-iii-ax-pi">
       <path d="M 881.238187 81.498353 
 L 982.407937 81.498353 
 L 982.407937 28.698353 
@@ -197,18 +197,18 @@ z
      </a>
     </g>
     <g id="text_11">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#maix-iii-ax-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#maix-iii-ax-pi">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(889.669 43.308587)">MAIX-III AX-Pi</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#maix-iii-ax-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#maix-iii-ax-pi">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(907.589547 58.133665)">AX620A</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#maix-iii-ax-pi">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#maix-iii-ax-pi">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(919.289078 72.958744)">CPU</text>
      </a>
     </g>
     <g id="patch_11">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <path d="M 982.407937 81.498353 
 L 1071.918375 81.498353 
 L 1071.918375 28.698353 
@@ -218,18 +218,18 @@ z
      </a>
     </g>
     <g id="text_12">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(989.867141 43.308587)">Jetson Nano</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1015.317531 58.133665)">B01</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1014.629172 72.958744)">CPU</text>
      </a>
     </g>
     <g id="patch_12">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <path d="M 1071.918375 81.498353 
 L 1168.705313 81.498353 
 L 1168.705313 28.698353 
@@ -239,18 +239,18 @@ z
      </a>
     </g>
     <g id="text_13">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1079.983953 43.308587)">Khadas VIM3</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1100.009109 58.133665)">A311D</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1107.777859 72.958744)">CPU</text>
      </a>
     </g>
     <g id="patch_13">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <path d="M 1168.705313 81.498353 
 L 1264.448625 81.498353 
 L 1264.448625 28.698353 
@@ -260,18 +260,18 @@ z
      </a>
     </g>
     <g id="text_14">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1176.683922 43.308587)">Atlas 200 DK</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1180.808922 58.133665)">Ascend 310</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1204.042984 72.958744)">CPU</text>
      </a>
     </g>
     <g id="patch_14">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <path d="M 1264.448625 81.498353 
 L 1353.959063 81.498353 
 L 1353.959063 28.698353 
@@ -281,18 +281,18 @@ z
      </a>
     </g>
     <g id="text_15">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1271.907828 43.308587)">Jetson Nano</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1297.358219 58.133665)">B01</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#jetson-nano-b01">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#jetson-nano-b01">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1296.192047 72.958744)">GPU</text>
      </a>
     </g>
     <g id="patch_15">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <path d="M 1353.959063 81.498353 
 L 1450.746 81.498353 
 L 1450.746 28.698353 
@@ -302,18 +302,18 @@ z
      </a>
     </g>
     <g id="text_16">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1362.024641 43.308587)">Khadas VIM3</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1382.049797 58.133665)">A311D</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#khadas-vim3">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#khadas-vim3">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1389.252219 72.958744)">NPU</text>
      </a>
     </g>
     <g id="patch_16">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <path d="M 1450.746 81.498353 
 L 1546.489312 81.498353 
 L 1546.489312 28.698353 
@@ -323,18 +323,18 @@ z
      </a>
     </g>
     <g id="text_17">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1458.724609 43.308587)">Atlas 200 DK</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1462.849609 58.133665)">Ascend 310</text>
      </a>
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/benchmark#atlas-200-dk">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/benchmark#atlas-200-dk">
       <text style="font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(1485.517344 72.958744)">NPU</text>
      </a>
     </g>
     <g id="patch_17">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/face_detection_yunet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet">
       <path d="M 0 105.498353 
 L 128.297812 105.498353 
 L 128.297812 81.498353 
@@ -344,7 +344,7 @@ z
      </a>
     </g>
     <g id="text_18">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/face_detection_yunet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="96.533665" transform="rotate(-0 12.829781 96.533665)">YuNet</text>
      </a>
     </g>
@@ -503,7 +503,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="96.533665" transform="rotate(-0 1460.320331 96.533665)">2.24</text>
     </g>
     <g id="patch_32">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/face_recognition_sface">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/face_recognition_sface">
       <path d="M 0 129.498353 
 L 128.297812 129.498353 
 L 128.297812 105.498353 
@@ -513,7 +513,7 @@ z
      </a>
     </g>
     <g id="text_33">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/face_recognition_sface">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/face_recognition_sface">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="120.533665" transform="rotate(-0 12.829781 120.533665)">SFace</text>
      </a>
     </g>
@@ -672,7 +672,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="120.533665" transform="rotate(-0 1460.320331 120.533665)">2.66</text>
     </g>
     <g id="patch_47">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/facial_expression_recognition">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/facial_expression_recognition">
       <path d="M 0 153.498353 
 L 128.297812 153.498353 
 L 128.297812 129.498353 
@@ -682,7 +682,7 @@ z
      </a>
     </g>
     <g id="text_48">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/facial_expression_recognition">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/facial_expression_recognition">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="144.533665" transform="rotate(-0 12.829781 144.533665)">FER</text>
      </a>
     </g>
@@ -841,7 +841,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="144.533665" transform="rotate(-0 1460.320331 144.533665)">2.19</text>
     </g>
     <g id="patch_62">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/license_plate_detection_yunet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/license_plate_detection_yunet">
       <path d="M 0 177.498353 
 L 128.297812 177.498353 
 L 128.297812 153.498353 
@@ -851,7 +851,7 @@ z
      </a>
     </g>
     <g id="text_63">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/license_plate_detection_yunet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/license_plate_detection_yunet">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="168.227728" transform="rotate(-0 12.829781 168.227728)">LPD_YuNet</text>
      </a>
     </g>
@@ -1010,7 +1010,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="168.533665" transform="rotate(-0 1460.320331 168.533665)">7.63</text>
     </g>
     <g id="patch_77">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/object_detection_yolox">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/object_detection_yolox">
       <path d="M 0 201.498353 
 L 128.297812 201.498353 
 L 128.297812 177.498353 
@@ -1020,7 +1020,7 @@ z
      </a>
     </g>
     <g id="text_78">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/object_detection_yolox">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/object_detection_yolox">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="192.533665" transform="rotate(-0 12.829781 192.533665)">YOLOX</text>
      </a>
     </g>
@@ -1179,7 +1179,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="192.533665" transform="rotate(-0 1460.320331 192.533665)">28.59</text>
     </g>
     <g id="patch_92">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/object_detection_nanodet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/object_detection_nanodet">
       <path d="M 0 225.498353 
 L 128.297812 225.498353 
 L 128.297812 201.498353 
@@ -1189,7 +1189,7 @@ z
      </a>
     </g>
     <g id="text_93">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/object_detection_nanodet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/object_detection_nanodet">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="216.533665" transform="rotate(-0 12.829781 216.533665)">NanoDet</text>
      </a>
     </g>
@@ -1348,7 +1348,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="216.533665" transform="rotate(-0 1460.320331 216.533665)">20.62</text>
     </g>
     <g id="patch_107">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_detection_db">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_detection_db">
       <path d="M 0 249.498353 
 L 128.297812 249.498353 
 L 128.297812 225.498353 
@@ -1358,7 +1358,7 @@ z
      </a>
     </g>
     <g id="text_108">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_detection_db">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_detection_db">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="240.533665" transform="rotate(-0 12.829781 240.533665)">DB-IC15 (EN)</text>
      </a>
     </g>
@@ -1517,7 +1517,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="240.533665" transform="rotate(-0 1460.320331 240.533665)">17.15</text>
     </g>
     <g id="patch_122">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_detection_db">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_detection_db">
       <path d="M 0 273.498353 
 L 128.297812 273.498353 
 L 128.297812 249.498353 
@@ -1527,7 +1527,7 @@ z
      </a>
     </g>
     <g id="text_123">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_detection_db">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_detection_db">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="264.533665" transform="rotate(-0 12.829781 264.533665)">DB-TD500 (EN&amp;CN)</text>
      </a>
     </g>
@@ -1686,7 +1686,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="264.533665" transform="rotate(-0 1460.320331 264.533665)">17.95</text>
     </g>
     <g id="patch_137">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_recognition_crnn">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_recognition_crnn">
       <path d="M 0 297.498353 
 L 128.297812 297.498353 
 L 128.297812 273.498353 
@@ -1696,7 +1696,7 @@ z
      </a>
     </g>
     <g id="text_138">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_recognition_crnn">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_recognition_crnn">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="288.533665" transform="rotate(-0 12.829781 288.533665)">CRNN-EN</text>
      </a>
     </g>
@@ -1855,7 +1855,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="288.533665" transform="rotate(-0 1460.320331 288.533665)">---</text>
     </g>
     <g id="patch_152">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_recognition_crnn">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_recognition_crnn">
       <path d="M 0 321.498353 
 L 128.297812 321.498353 
 L 128.297812 297.498353 
@@ -1865,7 +1865,7 @@ z
      </a>
     </g>
     <g id="text_153">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/text_recognition_crnn">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/text_recognition_crnn">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="312.533665" transform="rotate(-0 12.829781 312.533665)">CRNN-CN</text>
      </a>
     </g>
@@ -2024,7 +2024,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="312.533665" transform="rotate(-0 1460.320331 312.533665)">---</text>
     </g>
     <g id="patch_167">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/image_classification_ppresnet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/image_classification_ppresnet">
       <path d="M 0 345.498353 
 L 128.297812 345.498353 
 L 128.297812 321.498353 
@@ -2034,7 +2034,7 @@ z
      </a>
     </g>
     <g id="text_168">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/image_classification_ppresnet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/image_classification_ppresnet">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="336.533665" transform="rotate(-0 12.829781 336.533665)">PP-ResNet</text>
      </a>
     </g>
@@ -2193,7 +2193,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="336.533665" transform="rotate(-0 1460.320331 336.533665)">6.99</text>
     </g>
     <g id="patch_182">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/image_classification_mobilenet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/image_classification_mobilenet">
       <path d="M 0 369.498353 
 L 128.297812 369.498353 
 L 128.297812 345.498353 
@@ -2203,7 +2203,7 @@ z
      </a>
     </g>
     <g id="text_183">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/image_classification_mobilenet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/image_classification_mobilenet">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="360.533665" transform="rotate(-0 12.829781 360.533665)">MobileNet-V1</text>
      </a>
     </g>
@@ -2362,7 +2362,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="360.533665" transform="rotate(-0 1460.320331 360.533665)">5.15</text>
     </g>
     <g id="patch_197">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/image_classification_mobilenet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/image_classification_mobilenet">
       <path d="M 0 393.498353 
 L 128.297812 393.498353 
 L 128.297812 369.498353 
@@ -2372,7 +2372,7 @@ z
      </a>
     </g>
     <g id="text_198">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/image_classification_mobilenet">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/image_classification_mobilenet">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="384.533665" transform="rotate(-0 12.829781 384.533665)">MobileNet-V2</text>
      </a>
     </g>
@@ -2531,7 +2531,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="384.533665" transform="rotate(-0 1460.320331 384.533665)">5.41</text>
     </g>
     <g id="patch_212">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/human_segmentation_pphumanseg">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/human_segmentation_pphumanseg">
       <path d="M 0 417.498353 
 L 128.297812 417.498353 
 L 128.297812 393.498353 
@@ -2541,7 +2541,7 @@ z
      </a>
     </g>
     <g id="text_213">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/human_segmentation_pphumanseg">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/human_segmentation_pphumanseg">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="408.533665" transform="rotate(-0 12.829781 408.533665)">PP-HumanSeg</text>
      </a>
     </g>
@@ -2700,7 +2700,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="408.533665" transform="rotate(-0 1460.320331 408.533665)">6.94</text>
     </g>
     <g id="patch_227">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/qrcode_wechatqrcode">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/qrcode_wechatqrcode">
       <path d="M 0 441.498353 
 L 128.297812 441.498353 
 L 128.297812 417.498353 
@@ -2710,7 +2710,7 @@ z
      </a>
     </g>
     <g id="text_228">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/qrcode_wechatqrcode">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/qrcode_wechatqrcode">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="432.533665" transform="rotate(-0 12.829781 432.533665)">WeChatQRCode</text>
      </a>
     </g>
@@ -2869,7 +2869,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="432.533665" transform="rotate(-0 1460.320331 432.533665)">---</text>
     </g>
     <g id="patch_242">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/object_tracking_dasiamrpn">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/object_tracking_dasiamrpn">
       <path d="M 0 465.498353 
 L 128.297812 465.498353 
 L 128.297812 441.498353 
@@ -2879,7 +2879,7 @@ z
      </a>
     </g>
     <g id="text_243">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/object_tracking_dasiamrpn">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/object_tracking_dasiamrpn">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="456.533665" transform="rotate(-0 12.829781 456.533665)">DaSiamRPN</text>
      </a>
     </g>
@@ -3038,7 +3038,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="456.533665" transform="rotate(-0 1460.320331 456.533665)">---</text>
     </g>
     <g id="patch_257">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/person_reid_youtureid">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/person_reid_youtureid">
       <path d="M 0 489.498353 
 L 128.297812 489.498353 
 L 128.297812 465.498353 
@@ -3048,7 +3048,7 @@ z
      </a>
     </g>
     <g id="text_258">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/person_reid_youtureid">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/person_reid_youtureid">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="480.533665" transform="rotate(-0 12.829781 480.533665)">YoutuReID</text>
      </a>
     </g>
@@ -3207,7 +3207,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="480.533665" transform="rotate(-0 1460.320331 480.533665)">5.58</text>
     </g>
     <g id="patch_272">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/palm_detection_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/palm_detection_mediapipe">
       <path d="M 0 513.498353 
 L 128.297812 513.498353 
 L 128.297812 489.498353 
@@ -3217,7 +3217,7 @@ z
      </a>
     </g>
     <g id="text_273">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/palm_detection_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/palm_detection_mediapipe">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="504.533665" transform="rotate(-0 12.829781 504.533665)">MP-PalmDet</text>
      </a>
     </g>
@@ -3376,7 +3376,7 @@ z
      <text style="fill: #ffffff; font: 700 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="504.533665" transform="rotate(-0 1460.320331 504.533665)">5.17</text>
     </g>
     <g id="patch_287">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/handpose_estimation_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/handpose_estimation_mediapipe">
       <path d="M 0 537.498353 
 L 128.297812 537.498353 
 L 128.297812 513.498353 
@@ -3386,7 +3386,7 @@ z
      </a>
     </g>
     <g id="text_288">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/handpose_estimation_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/handpose_estimation_mediapipe">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="528.533665" transform="rotate(-0 12.829781 528.533665)">MP-HandPose</text>
      </a>
     </g>
@@ -3545,7 +3545,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="528.533665" transform="rotate(-0 1460.320331 528.533665)">6.27</text>
     </g>
     <g id="patch_302">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/person_detection_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/person_detection_mediapipe">
       <path d="M 0 561.498353 
 L 128.297812 561.498353 
 L 128.297812 537.498353 
@@ -3555,7 +3555,7 @@ z
      </a>
     </g>
     <g id="text_303">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/person_detection_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/person_detection_mediapipe">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="552.533665" transform="rotate(-0 12.829781 552.533665)">MP-PersonDet</text>
      </a>
     </g>
@@ -3714,7 +3714,7 @@ z
      <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="1460.320331" y="552.533665" transform="rotate(-0 1460.320331 552.533665)">16.45</text>
     </g>
     <g id="patch_317">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/pose_estimation_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/pose_estimation_mediapipe">
       <path d="M 0 585.498353 
 L 128.297812 585.498353 
 L 128.297812 561.498353 
@@ -3724,7 +3724,7 @@ z
      </a>
     </g>
     <g id="text_318">
-     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/master/models/pose_estimation_mediapipe">
+     <a xlink:href="https://github.com/opencv/opencv_zoo/tree/main/models/pose_estimation_mediapipe">
       <text style="font: 11px 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="12.829781" y="576.533665" transform="rotate(-0 12.829781 576.533665)">MP-Pose</text>
      </a>
     </g>
