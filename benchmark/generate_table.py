@@ -202,7 +202,7 @@ def render_table(header, body, save_path, cfg, cmap_type):
                          loc="upper left")
     # set style of header, each url of hardware
     ori_height = table[0, 0].get_height()
-    url_base = 'https://github.com/opencv/opencv_zoo/tree/master/benchmark#'
+    url_base = 'https://github.com/opencv/opencv_zoo/tree/main/benchmark#'
     hw_urls = [f"{url_base}{x['name'].lower().replace(' ', '-')}" for x in cfg["Devices"]]
     hw_urls = [""] * 3 + hw_urls
     for col in range(len(header)):
@@ -211,7 +211,7 @@ def render_table(header, body, save_path, cfg, cmap_type):
         cell.set_url(hw_urls[col])
         cell.set_height(ori_height * 2.2)
 
-    url_base = 'https://github.com/opencv/opencv_zoo/tree/master/models/'
+    url_base = 'https://github.com/opencv/opencv_zoo/tree/main/models/'
     model_urls = [f"{url_base}{x['folder']}" for x in cfg["Models"]]
     model_urls = [""] + model_urls
     for row in range(len(body) + 1):
