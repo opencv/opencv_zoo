@@ -4,12 +4,12 @@ using namespace std;
 using namespace cv;
 using namespace dnn;
 
-vector< pair<int, int> > backendTargetPairs = {
-        std::make_pair<int, int>(dnn::DNN_BACKEND_OPENCV, dnn::DNN_TARGET_CPU),
-        std::make_pair<int, int>(dnn::DNN_BACKEND_CUDA, dnn::DNN_TARGET_CUDA),
-        std::make_pair<int, int>(dnn::DNN_BACKEND_CUDA, dnn::DNN_TARGET_CUDA_FP16),
-        std::make_pair<int, int>(dnn::DNN_BACKEND_TIMVX, dnn::DNN_TARGET_NPU),
-        std::make_pair<int, int>(dnn::DNN_BACKEND_CANN, dnn::DNN_TARGET_NPU)};
+vector< pair<dnn::Backend, dnn::Target> > backendTargetPairs = {
+        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_OPENCV, dnn::DNN_TARGET_CPU),
+        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CUDA, dnn::DNN_TARGET_CUDA),
+        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CUDA, dnn::DNN_TARGET_CUDA_FP16),
+        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_TIMVX, dnn::DNN_TARGET_NPU),
+        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CANN, dnn::DNN_TARGET_NPU)};
         
 
 std::string keys =
