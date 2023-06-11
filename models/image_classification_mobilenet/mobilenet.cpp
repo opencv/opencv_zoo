@@ -44,10 +44,6 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    Scalar mean(123.675, 116.28, 103.53);
-    Scalar std(255*0.229, 255*0.224, 255*0.225);
-    double scale = 1.0;
-    Size inpSize(224, 224);
     int rszWidth = parser.get<int>("initial_width");
     int rszHeight = parser.get<int>("initial_height");
     bool swapRB = parser.get<bool>("rgb");
@@ -88,16 +84,20 @@ int main(int argc, char** argv)
         {
             resize(frame, frame, Size(rszWidth, rszHeight));
         }
-
+        Image2BlobParams paramMobilenet;
+        paramMobilenet.datalayout = DNN_LAYOUT_NCHW;
+        paramMobilenet.ddepth = CV_32F;
+        paramMobilenet.mean = Scalar(123.675, 116.28, 103.53);
+        paramMobilenet.scalefactor = Scalar(1 / (255. * 0.229), 1 / (255. * 0.224), 1 / (255. * 0.225));
+        paramMobilenet.size = Size(224, 224);
+        paramMobilenet.swapRB = swapRB;
+        if (crop)
+            paramMobilenet.paddingmode = DNN_PMODE_CROP_CENTER;
+        else
+            paramMobilenet.paddingmode = DNN_PMODE_NULL;
         //! [Create a 4D blob from a frame]
-        blobFromImage(frame, blob, scale, inpSize, mean, swapRB, crop);
-
-        // Check std values.
-        if (std.val[0] != 0.0 && std.val[1] != 0.0 && std.val[2] != 0.0)
-        {
-            // Divide blob by std.
-            divide(blob, std, blob);
-        }
+        blobFromImageWithParams(frame, blob, paramMobilenet);
+        
         //! [Set input blob]
         net.setInput(blob);
         Mat prob = net.forward();
