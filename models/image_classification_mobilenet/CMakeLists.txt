@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.2)
-set(project_name "mobilenet")
+set(project_name "opencv_zoo_image_classification_mobilenet")
 
 PROJECT (${project_name})
 
-find_package(OpenCV REQUIRED)
+find_package(OpenCV ${OPENCV_VERSION} REQUIRED HINTS ${OPENCV_INSTALLATION_PATH})
 # Find OpenCV, you may need to set OpenCV_DIR variable
 # to the absolute path to the directory containing OpenCVConfig.cmake file
 # via the command line or GUI
 
+set(OPENCV_VERSION "4.7.0")
+set(OPENCV_INSTALLATION_PATH "" CACHE PATH "Where to look for OpenCV installation")
 
 file(GLOB SourceFile
-    "mobilenet.cpp")
+    "demo.cpp")
 # If the package has been found, several variables will
 # be set, you can find the full list with descriptions
 # in the OpenCVConfig.cmake file.

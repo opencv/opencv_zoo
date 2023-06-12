@@ -1,3 +1,7 @@
+#include <vector>
+#include <string>
+#include <utility>
+
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -9,27 +13,23 @@ vector< pair<dnn::Backend, dnn::Target> > backendTargetPairs = {
         std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CUDA, dnn::DNN_TARGET_CUDA),
         std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CUDA, dnn::DNN_TARGET_CUDA_FP16),
         std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_TIMVX, dnn::DNN_TARGET_NPU),
-        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CANN, dnn::DNN_TARGET_NPU)};
-        
+        std::make_pair<dnn::Backend, dnn::Target>(dnn::DNN_BACKEND_CANN, dnn::DNN_TARGET_NPU) };
+
 
 std::string keys =
-"{ help  h          | | Print help message. }"
-"{ model m             | image_classification_mobilenetv1_2022apr.onnx | Usage: Set model type, defaults to image_classification_mobilenetv1_2022apr.onnx (v1) }"
-"{ input i          | | Path to input image or video file. Skip this argument to capture frames from a camera.}"
-"{ initial_width    | 0 | Preprocess input image by initial resizing to a specific width.}"
-"{ initial_height   | 0 | Preprocess input image by initial resizing to a specific height.}"
-"{ rgb              | true | swap R and B plane.}"
-"{ crop             | false | Preprocess input image by center cropping.}"
-"{ backend bt         | 0 | Choose one of computation backends: "
-"0: (default) OpenCV implementation + CPU,"
-"1: CUDA + GPU (CUDA),"
-"2: CUDA + GPU (CUDA FP16),"
-"3: TIM-VX + NPU,"
+"{ help  h          |                                               | Print help message. }"
+"{ model m          | image_classification_mobilenetv1_2022apr.onnx | Usage: Set model type, defaults to image_classification_mobilenetv1_2022apr.onnx (v1) }"
+"{ input i          |                                               | Path to input image or video file. Skip this argument to capture frames from a camera.}"
+"{ initial_width    | 0                                             | Preprocess input image by initial resizing to a specific width.}"
+"{ initial_height   | 0                                             | Preprocess input image by initial resizing to a specific height.}"
+"{ rgb              | true                                          | swap R and B plane.}"
+"{ crop             | false                                         | Preprocess input image by center cropping.}"
+"{ backend bt       | 0                                             | Choose one of computation backends: "
+"0: (default) OpenCV implementation + CPU, "
+"1: CUDA + GPU (CUDA), "
+"2: CUDA + GPU (CUDA FP16), "
+"3: TIM-VX + NPU, "
 "4: CANN + NPU}";
-
-using namespace std;
-using namespace cv;
-using namespace dnn;
 
 vector<string> getLabelImagenet1k();
 
@@ -48,14 +48,14 @@ int main(int argc, char** argv)
     int rszHeight = parser.get<int>("initial_height");
     bool swapRB = parser.get<bool>("rgb");
     bool crop = parser.get<bool>("crop");
-    String model = samples::findFile(parser.get<String>("model"));
+    String model = parser.get<String>("model");
     int backendTargetid = parser.get<int>("backend");
- 
+
     if (model.empty())
     {
         CV_Error(Error::StsError, "Model file " + model + " not found");
     }
-    vector<string> labels =  getLabelImagenet1k();
+    vector<string> labels = getLabelImagenet1k();
 
     Net net = readNet(model);
     net.setPreferableBackend(backendTargetPairs[backendTargetid].first);
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     if (parser.has("input"))
         cap.open(parser.get<String>("input"));
     else
-        cap.open(0, CAP_DSHOW);
+        cap.open(0);
     if (!cap.isOpened())
         CV_Error(Error::StsError, "Cannot opend video or file");
     Mat frame, blob;
@@ -97,7 +97,7 @@ int main(int argc, char** argv)
             paramMobilenet.paddingmode = DNN_PMODE_NULL;
         //! [Create a 4D blob from a frame]
         blobFromImageWithParams(frame, blob, paramMobilenet);
-        
+
         //! [Set input blob]
         net.setInput(blob);
         Mat prob = net.forward();
@@ -1120,7 +1120,7 @@ vector<string> getLabelImagenet1k()
         "bolete",
         "ear, spike, capitulum",
         "toilet tissue, toilet paper, bathroom tissue",
-     };
+    };
 
     return labels;
 }
