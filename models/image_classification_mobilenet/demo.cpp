@@ -25,6 +25,7 @@ std::string keys =
 "{ initial_height   | 0                                             | Preprocess input image by initial resizing to a specific height.}"
 "{ rgb              | true                                          | swap R and B plane.}"
 "{ crop             | false                                         | Preprocess input image by center cropping.}"
+"{ vis v            | true                                          | Usage: Specify to open a new window to show results.}"
 "{ backend bt       | 0                                             | Choose one of computation backends: "
 "0: (default) OpenCV implementation + CPU, "
 "1: CUDA + GPU (CUDA), "
@@ -48,6 +49,7 @@ int main(int argc, char** argv)
     int rszHeight = parser.get<int>("initial_height");
     bool swapRB = parser.get<bool>("rgb");
     bool crop = parser.get<bool>("crop");
+    bool vis = parser.get<bool>("vis");
     String model = parser.get<String>("model");
     int backendTargetid = parser.get<int>("backend");
 
@@ -70,6 +72,7 @@ int main(int argc, char** argv)
         CV_Error(Error::StsError, "Cannot opend video or file");
     Mat frame, blob;
     static const std::string kWinName = model;
+    int nbInference = 0;
     while (waitKey(1) < 0)
     {
         cap >> frame;
@@ -110,8 +113,21 @@ int main(int argc, char** argv)
         std::string label = format("%s: %.4f", (labels.empty() ? format("Class #%d", classId).c_str() :
             labels[classId].c_str()),
             confidence);
-        putText(frame, label, Point(0, 55), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0));
-        imshow(kWinName, frame);
+        if (vis)
+        {
+            putText(frame, label, Point(0, 55), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0));
+            imshow(kWinName, frame);
+        }
+        else
+        {
+            cout << label << endl;
+            nbInference++;
+            if (nbInference > 100)
+            {
+                cout << nbInference << " inference made. Demo existing" << endl;
+                break;
+            }
+        }
     }
     return 0;
 }
