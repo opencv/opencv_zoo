@@ -57,13 +57,13 @@ int main(int argc, char** argv)
     }
     vector<string> labels = getLabelsImagenet1k();
 
-    Net net = readNet(model);
+    Net net = readNet(samples::findFile(model));
     net.setPreferableBackend(backendTargetPairs[backendTargetid].first);
     net.setPreferableTarget(backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     VideoCapture cap;
     if (parser.has("input"))
-        cap.open(parser.get<String>("input"));
+        cap.open(samples::findFile(parser.get<String>("input")));
     else
         cap.open(0);
     if (!cap.isOpened())
