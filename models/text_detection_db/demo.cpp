@@ -93,7 +93,7 @@ int main(int argc, char** argv)
     CommandLineParser parser(argc, argv, keys);
 
     parser.about("Use this program to run Real-time Scene Text Detection with Differentiable Binarization in opencv Zoo  using OpenCV.");
-    if (argc == 1 || parser.has("help"))
+    if (parser.has("help"))
     {
         parser.printMessage();
         return 0;

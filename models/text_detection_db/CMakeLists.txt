@@ -3,13 +3,12 @@ set(project_name "opencv_zoo_text_detection_db")
 
 PROJECT (${project_name})
 
+set(OPENCV_VERSION "4.7.0")
+set(OPENCV_INSTALLATION_PATH "" CACHE PATH "Where to look for OpenCV installation")
 find_package(OpenCV ${OPENCV_VERSION} REQUIRED HINTS ${OPENCV_INSTALLATION_PATH})
 # Find OpenCV, you may need to set OpenCV_DIR variable
 # to the absolute path to the directory containing OpenCVConfig.cmake file
 # via the command line or GUI
-
-set(OPENCV_VERSION "4.7.0")
-set(OPENCV_INSTALLATION_PATH "" CACHE PATH "Where to look for OpenCV installation")
 
 file(GLOB SourceFile
     "demo.cpp")
