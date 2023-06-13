@@ -37,8 +37,8 @@ int main(int argc, char** argv)
 {
     CommandLineParser parser(argc, argv, keys);
 
-    parser.about("Use this script to run classification deep learning networks in opencv Zoo  using OpenCV.");
-    if (argc == 1 || parser.has("help"))
+    parser.about("Use this script to run classification deep learning networks in opencv Zoo using OpenCV.");
+    if (parser.has("help"))
     {
         parser.printMessage();
         return 0;
