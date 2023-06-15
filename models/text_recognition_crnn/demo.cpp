@@ -1,5 +1,4 @@
 #include <iostream>
-#include <uchar.h>
 #include <codecvt>
 
 
@@ -218,7 +217,7 @@ int main(int argc, char** argv)
     bool save = parser.get<bool>("save");
     bool viz = parser.get<float>("viz");
 
-    DB detector("C:/lib/opencv_zoo/models/text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx", inpSize, binThresh, polyThresh, maxCand, unRatio, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
+    DB detector("../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx", inpSize, binThresh, polyThresh, maxCand, unRatio, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     CRNN recognizer(modelPath, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     VideoCapture cap;
