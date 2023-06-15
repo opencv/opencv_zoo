@@ -13,6 +13,8 @@ Note:
 
 ## Demo
 
+### Python
+
 Run the following command to try the demo: 
 ```shell
 # detect on camera input
@@ -23,6 +25,23 @@ python demo.py --input /path/to/image -v
 Note: 
 - image result saved as "result.jpg"
 - this model requires `opencv-python>=4.7.0`
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/opencv_zoo_object_detection_yolox
+# detect on an image
+./build/opencv_zoo_object_detection_yolox -m=/path/to/model -i=/path/to/image -v
+# get help messages
+./build/opencv_zoo_object_detection_yolox -h
+```
 
 
 ## Results
