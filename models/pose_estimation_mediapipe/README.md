@@ -12,12 +12,31 @@ This model is converted from TFlite to ONNX using following tools:
 - Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#pose for models of larger scale.
 ## Demo
 
+### Python
+
 Run the following commands to try the demo:
 ```bash
 # detect on camera input
 python demo.py
 # detect on an image
 python demo.py -i /path/to/image -v
+```
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/opencv_zoo_pose_estimation_mediapipe
+# detect on an image
+./build/opencv_zoo_pose_estimation_mediapipe -m=/path/to/model -i=/path/to/image -v
+# get help messages
+./build/opencv_zoo_pose_estimation_mediapipe -h
 ```
 
 ### Example outputs
