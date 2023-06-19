@@ -36,6 +36,8 @@ Note:
   - Try `text_recognition_CRNN_CH_2021sep.onnx` with `charset_94_CH.txt`
   - Try `text_recognition_CRNN_CN_2021sep.onnx` with `charset_3944_CN.txt`.
 
+### Python
+
 Run the demo detecting English:
 
 ```shell
@@ -59,6 +61,31 @@ python demo.py --input /path/to/image --model text_recognition_CRNN_CN_2021nov.o
 # get help regarding various parameters
 python demo.py --help
 ```
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# detect on camera input
+./build/opencv_zoo_text_recognition_crnn 
+# detect on an image
+./build/opencv_zoo_text_recognition_crnn --input /path/to/image -v
+
+# get help regarding various parameters
+./build/opencv_zoo_text_recognition_crnn --help
+```
+
+Run the demo detecting Chinese:
+
+```shell
+# detect on camera input
+./build/opencv_zoo_text_recognition_crnn  --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
+# detect on an image
+./build/opencv_zoo_text_recognition_crnn  --input /path/to/image --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
+
+# get help regarding various parameters
+./build/opencv_zoo_text_recognition_crnn  --help
+
 
 ### Examples
 
