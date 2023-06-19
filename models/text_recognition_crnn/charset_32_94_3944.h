@@ -4078,7 +4078,8 @@ std::vector<std::u16string> loadCharset(std::string name){
     u"偘",
     u"佚",
     u"$",
-    u";" };
+    u";",
+	u"^"};
 
     if (name == "CHARSET_EN_36")
         return CHARSET_EN_36;
