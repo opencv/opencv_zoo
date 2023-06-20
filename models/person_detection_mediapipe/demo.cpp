@@ -97,7 +97,7 @@ public:
         Mat boxLandDelta = outputs[0].reshape(outputs[0].size[0], outputs[0].size[1]);
         Mat boxDelta = boxLandDelta.colRange(0, 4);
         Mat landmarkDelta = boxLandDelta.colRange(4, boxLandDelta.cols);
-        double scale = max(orgSize.height, orgSize.width);
+        float scale = float(max(orgSize.height, orgSize.width));
         Mat mask = score < -100;
         score.setTo(-100, mask);
         mask = score > 100;
@@ -113,17 +113,17 @@ public:
         Mat xy2 = (boxDelta.colRange(0, 2) + boxDelta.colRange(2, 4) / 2 + this->anchors) * scale;
         Mat boxes;
         hconcat(xy1, xy2, boxes);
-        vector< Rect2d > rotBoxes(boxes.rows);
+        vector< Rect > rotBoxes(boxes.rows);
         boxes.colRange(0, 1) = boxes.colRange(0, 1) - padBias.width;
         boxes.colRange(1, 2) = boxes.colRange(1, 2) - padBias.height;
         boxes.colRange(2, 3) = boxes.colRange(2, 3) - padBias.width;
         boxes.colRange(3, 4) = boxes.colRange(3, 4) - padBias.height;
         for (int i = 0; i < boxes.rows; i++)
         {
-            rotBoxes[i] = Rect2d(Point(boxes.at<float>(i, 0), boxes.at<float>(i, 1)), Point(boxes.at<float>(i, 2), boxes.at<float>(i, 3)));
+            rotBoxes[i] = Rect( Point(int(boxes.at<float>(i, 0)), int(boxes.at<float>(i, 1))), Point(int(boxes.at<float>(i, 2)), int(boxes.at<float>(i, 3))));
         }
         vector< int > keep;
-        NMSBoxes(rotBoxes, score, this->scoreThreshold, this->nmsThreshold, keep, this->topK);
+        NMSBoxes(rotBoxes, score, this->scoreThreshold, this->nmsThreshold, keep, 1.f, this->topK);
         if (keep.size() == 0)
             return Mat();
         int nbCols = landmarkDelta.cols + boxes.cols + 1;
@@ -157,8 +157,8 @@ std::string keys =
 "{ score_threshold  | 0.5                                           | Usage:  Set the minimum needed confidence for the model to identify a person, defaults to 0.5. Smaller values may result in faster detection, but will limit accuracy. Filter out persons of confidence < conf_threshold. }"
 "{ nms_threshold    | 0.3                                           | Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3. }"
 "{ top_k            | 1                                             | Usage: Keep top_k bounding boxes before NMS. }"
-"{ save s           | true                                          | Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. }"
-"{ vis v            | true                                          | Usage: Specify to open a new window to show results. Invalid in case of camera input. }"
+"{ save s           | 0                                             | Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. }"
+"{ vis v            | 1                                             | Usage: Specify to open a new window to show results. Invalid in case of camera input. }"
 "{ backend bt       | 0                                             | Choose one of computation backends: "
 "0: (default) OpenCV implementation + CPU, "
 "1: CUDA + GPU (CUDA), "
@@ -178,17 +178,17 @@ Mat visualize(Mat img, Mat results, double fps = -1)
         Mat personLandmarks;
         results.row(row).colRange(4, results.cols - 1).reshape(0, 4).convertTo(personLandmarks, CV_32S);
 
-        Point hipPoint = personLandmarks.row(0);
-        Point fullBody = personLandmarks.row(1);
-        Point shoulderPoint = personLandmarks.row(2);
-        Point upperBody = personLandmarks.row(3);
+        Point hipPoint = Point(personLandmarks.row(0));
+        Point fullBody = Point(personLandmarks.row(1));
+        Point shoulderPoint = Point(personLandmarks.row(2));
+        Point upperBody = Point(personLandmarks.row(3));
 
         // draw circle for full body
-        int radius = norm(hipPoint - fullBody);
+        int radius = int(norm(hipPoint - fullBody));
         circle(resImg, hipPoint, radius, Scalar(255, 0, 0), 2);
 
         // draw circle for upper body
-        radius = norm(shoulderPoint - upperBody);
+        radius = int(norm(shoulderPoint - upperBody));
         circle(resImg, shoulderPoint, radius, Scalar(0, 255, 255), 2);
 
         // draw points for each keypoint
@@ -257,18 +257,15 @@ int main(int argc, char** argv)
         tm.stop();
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
         Mat img = visualize(frame, results, tm.getFPS());
-        if (vis)
+        if (save && parser.has("input"))
+        {
+            cout << "Results saved to result.jpg\n";
+            imwrite("result.jpg", img);
+        }
+
+        if (vis || !parser.has("input"))
         {
             imshow(kWinName, img);
-        }
-        else
-        {
-            nbInference++;
-            if (nbInference > 100)
-            {
-                cout << nbInference << " inference made. Demo existing" << endl;
-                break;
-            }
         }
     }
     return 0;
