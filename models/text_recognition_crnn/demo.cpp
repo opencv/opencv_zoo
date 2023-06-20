@@ -6,7 +6,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
-#include "charset_32_94_3844.h"
+#include "charset_32_94_3944.h"
 
 using namespace std;
 using namespace cv;
@@ -23,7 +23,7 @@ vector<u16string> loadCharset(string);
 
 std::string keys =
 "{ help  h           |                                              | Print help message. }"
-"{ model m           | text_detection_DB_IC15_resnet18_2021sep.onnx | Usage: Set model type, defaults to text_detection_DB_IC15_resnet18_2021sep.onnx }"
+"{ model m           | text_recognition_CRNN_EN_2021sep.onnx        | Usage: Set model type, defaults to text_recognition_CRNN_EN_2021sep.onnx }"
 "{ input i           |                                              | Usage: Path to input image or video file. Skip this argument to capture frames from a camera.}"
 "{ width             | 736                                          | Usage: Resize input image to certain width, default = 736. It should be multiple by 32.}"
 "{ height            | 736                                          | Usage: Resize input image to certain height, default = 736. It should be multiple by 32.}"
@@ -31,8 +31,8 @@ std::string keys =
 "{ polygon_threshold | 0.5                                          | Usage: Threshold of polygons, default = 0.5.}"
 "{ max_candidates    | 200                                          | Usage: Set maximum number of polygon candidates, default = 200.}"
 "{ unclip_ratio      | 2.0                                          | Usage: The unclip ratio of the detected text region, which determines the output size, default = 2.0.}"
-"{ save s            | true                                         | Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.}"
-"{ viz v             | true                                         | Usage: Specify to open a new window to show results. Invalid in case of camera input.}"
+"{ save s            | 1                                            | Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.}"
+"{ viz v             | 1                                            | Usage: Specify to open a new window to show results.}"
 "{ backend bt        | 0                                            | Choose one of computation backends: "
 "0: (default) OpenCV implementation + CPU, "
 "1: CUDA + GPU (CUDA), "
@@ -195,7 +195,7 @@ int main(int argc, char** argv)
     CommandLineParser parser(argc, argv, keys);
 
     parser.about("Use this program to run Real-time Scene Text Detection with Differentiable Binarization in opencv Zoo  using OpenCV.");
-    if (argc == 1 || parser.has("help"))
+    if (parser.has("help"))
     {
         parser.printMessage();
         return 0;
@@ -284,7 +284,7 @@ int main(int argc, char** argv)
             if (viz)
                 imshow(kWinName, originalImage);
         }
-        else
+        else if (viz)
             imshow(kWinName, originalImage);
     }
     return 0;

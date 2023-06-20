@@ -79,9 +79,9 @@ Run the demo detecting Chinese:
 
 ```shell
 # detect on camera input
-./build/opencv_zoo_text_recognition_crnn  --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
+./build/opencv_zoo_text_recognition_crnn  --model=text_recognition_CRNN_CN_2021nov.onnx --charset=charset_3944_CN.txt
 # detect on an image
-./build/opencv_zoo_text_recognition_crnn  --input /path/to/image --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
+./build/opencv_zoo_text_recognition_crnn  --input=/path/to/image --model=text_recognition_CRNN_CN_2021nov.onnx --charset=charset_3944_CN.txt
 
 # get help regarding various parameters
 ./build/opencv_zoo_text_recognition_crnn  --help
