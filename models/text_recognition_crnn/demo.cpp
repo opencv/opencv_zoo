@@ -284,8 +284,9 @@ int main(int argc, char** argv)
             if (viz)
                 imshow(kWinName, originalImage);
         }
-        else if (viz)
+        else
             imshow(kWinName, originalImage);
+  
     }
     return 0;
 }
