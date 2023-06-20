@@ -194,7 +194,7 @@ std::string keys =
 "{ obj              | 0.5                                           | Enter object threshold }"
 "{ nms              | 0.5                                           | Enter nms IOU threshold }"
 "{ save s           | true                                          | Specify to save results. This flag is invalid when using camera. }"
-"{ vis v            | true                                          | Specify to open a window for result visualization. This flag is invalid when using camera. }"
+"{ vis v            | 1                                             | Specify to open a window for result visualization. This flag is invalid when using camera. }"
 "{ backend bt       | 0                                             | Choose one of computation backends: "
 "0: (default) OpenCV implementation + CPU, "
 "1: CUDA + GPU (CUDA), "
@@ -254,7 +254,7 @@ int main(int argc, char** argv)
 {
     CommandLineParser parser(argc, argv, keys);
 
-    parser.about("Use this script to run Yolox deep learning networks in opencv Zoo using OpenCV.");
+    parser.about("Use this script to run Yolox deep learning networks in opencv_zoo using OpenCV.");
     if (parser.has("help"))
     {
         parser.printMessage();
@@ -306,7 +306,7 @@ int main(int argc, char** argv)
         Mat predictions = modelNet.infer(inputBlob);
         tm.stop();
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
-        Mat img = visualize(predictions, frame, letterboxScale);
+        Mat img = visualize(predictions, frame, letterboxScale, tm.getFPS());
         if (vis)
         {
             imshow(kWinName, img);
