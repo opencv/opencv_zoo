@@ -194,7 +194,7 @@ int main(int argc, char** argv)
 {
     CommandLineParser parser(argc, argv, keys);
 
-    parser.about("Use this program to run Real-time Scene Text Detection with Differentiable Binarization in opencv Zoo  using OpenCV.");
+    parser.about("An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition (https://arxiv.org/abs/1507.05717)");
     if (parser.has("help"))
     {
         parser.printMessage();
