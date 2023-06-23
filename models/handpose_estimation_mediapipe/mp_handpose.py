@@ -54,8 +54,8 @@ class MPHandPose:
             center_palm_bbox - new_half_size,
             center_palm_bbox + new_half_size])
         palm_bbox = palm_bbox.astype(np.int32)
-        palm_bbox[:, 0] = np.clip(palm_bbox[:, 0], 0, image.shape[0])
-        palm_bbox[:, 1] = np.clip(palm_bbox[:, 1], 0, image.shape[1])
+        palm_bbox[:, 0] = np.clip(palm_bbox[:, 0], 0, image.shape[1])
+        palm_bbox[:, 1] = np.clip(palm_bbox[:, 1], 0, image.shape[0])
         # crop to the size of interest
         image = image[palm_bbox[0][1]:palm_bbox[1][1], palm_bbox[0][0]:palm_bbox[1][0], :]
         # pad to ensure conner pixels won't be cropped
