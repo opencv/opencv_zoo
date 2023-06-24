@@ -109,10 +109,7 @@ public:
         else if (this->modelPath.find("_CN_") != string::npos)
             this->charset = loadCharset("CHARSET_CN_3944");
         else
-        {
             CV_Error(-1, "Charset not supported! Exiting ...");
-
-        }
 
         this->inputSize = Size(100, 32); // Fixed
         this->targetVertices = Mat(4, 1, CV_32FC2);
@@ -122,7 +119,8 @@ public:
         this->targetVertices.row(3) = Vec2f(this->inputSize.width - 1, this->inputSize.height - 1);
     }
 
-    Mat preprocess(Mat image, Mat rbbox) {
+    Mat preprocess(Mat image, Mat rbbox)
+	{
         // Remove conf, reshape and ensure all is np.float32
         Mat vertices;
         rbbox.reshape(2, 4).convertTo(vertices, CV_32FC2);
@@ -139,7 +137,8 @@ public:
         return blob;
     }
 
-    u16string infer(Mat image, Mat rbbox) {
+    u16string infer(Mat image, Mat rbbox)
+	{
         // Preprocess
         Mat inputBlob = this->preprocess(image, rbbox);
 
@@ -153,7 +152,8 @@ public:
         return results;
     }
 
-    u16string postprocess(Mat outputBlob) {
+    u16string postprocess(Mat outputBlob)
+	{
         // Decode charaters from outputBlob
         Mat character = outputBlob.reshape(1, outputBlob.size[0]);
         u16string    text(u"");
@@ -163,9 +163,7 @@ public:
             Point maxIdx;
             minMaxLoc(character.row(i), &minVal, &maxVal, nullptr, &maxIdx);
             if (maxIdx.x != 0)
-            {
                 text += charset[maxIdx.x - 1];
-            }
             else
                 text += u"-";
         }

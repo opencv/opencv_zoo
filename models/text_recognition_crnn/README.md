@@ -54,9 +54,9 @@ Run the demo detecting Chinese:
 
 ```shell
 # detect on camera input
-python demo.py --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
+python demo.py --model text_recognition_CRNN_CN_2021nov.onnx
 # detect on an image
-python demo.py --input /path/to/image --model text_recognition_CRNN_CN_2021nov.onnx --charset charset_3944_CN.txt
+python demo.py --input /path/to/image --model text_recognition_CRNN_CN_2021nov.onnx
 
 # get help regarding various parameters
 python demo.py --help
