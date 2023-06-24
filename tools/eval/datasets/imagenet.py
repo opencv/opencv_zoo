@@ -48,7 +48,7 @@ class ImageNet:
             img = cv.resize(img, dsize=(256, 256))
             img = img[16:240, 16:240, :]
 
-            pred = model.infer(img)
+            pred = model.infer(img, False)
             if label == pred[0][0]:
                 top_1_hits += 1
             if label in pred[0]:

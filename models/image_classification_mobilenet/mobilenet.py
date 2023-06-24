@@ -46,7 +46,7 @@ class MobileNet:
         input_blob = input_blob.astype(np.float32)
         return input_blob
 
-    def infer(self, image):
+    def infer(self, image, load_label=True):
         # Preprocess
         input_blob = self._preprocess(image)
 
@@ -55,16 +55,16 @@ class MobileNet:
         output_blob = self.model.forward(self.output_names)
 
         # Postprocess
-        results = self._postprocess(output_blob)
+        results = self._postprocess(output_blob, load_label)
 
         return results
 
-    def _postprocess(self, output_blob):
+    def _postprocess(self, output_blob, load_label):
         batched_class_id_list = []
         for o in output_blob:
             class_id_list = o.argsort()[::-1][:self.top_k]
             batched_class_id_list.append(class_id_list)
-        if len(self._labels) > 0:
+        if len(self._labels) > 0 and load_label:
             batched_predicted_labels = []
             for class_id_list in batched_class_id_list:
                 predicted_labels = []
