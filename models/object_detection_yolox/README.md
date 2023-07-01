@@ -22,7 +22,7 @@ python demo.py --input /path/to/image -v
 ```
 Note: 
 - image result saved as "result.jpg"
-- this model requires `opencv-python>=4.7.0`
+- this model requires `opencv-python>=4.8.0`
 
 
 ## Results

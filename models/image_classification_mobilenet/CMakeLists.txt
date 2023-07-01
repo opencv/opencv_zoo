@@ -3,7 +3,7 @@ set(project_name "opencv_zoo_image_classification_mobilenet")
 
 PROJECT (${project_name})
 
-set(OPENCV_VERSION "4.7.0")
+set(OPENCV_VERSION "4.8.0")
 set(OPENCV_INSTALLATION_PATH "" CACHE PATH "Where to look for OpenCV installation")
 find_package(OpenCV ${OPENCV_VERSION} REQUIRED HINTS ${OPENCV_INSTALLATION_PATH})
 # Find OpenCV, you may need to set OpenCV_DIR variable
