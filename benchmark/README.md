@@ -67,7 +67,7 @@ Specs: [details](https://www.intel.com/content/www/us/en/products/sku/134594/int
 CPU: 
 
 ```
-$ python3 benchmark.py --all --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+$ python3 benchmark.py --all
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_OPENCV
 target=cv.dnn.DNN_TARGET_CPU
