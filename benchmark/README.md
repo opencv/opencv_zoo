@@ -344,25 +344,25 @@ mean       median     min        input size   model
 NPU (TIMVX):
 
 ```
-$ python3 benchmark.py --all --int8 --cfg_overwrite_backend_target 3
+$ python3 benchmark.py --all --int8 --cfg_overwrite_backend_target 3 --cfg_exclude face_detection:license_plate
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_TIMVX
 target=cv.dnn.DNN_TARGET_NPU
 mean       median     min        input size   model
-5.67       5.74       5.59       [160, 120]   YuNet with ['face_detection_yunet_2022mar_int8.onnx']
-76.97      77.86      75.59      [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
-40.38      39.41      38.12      [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
-44.36      45.77      42.06      [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
-60.75      62.46      56.34      [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
-57.40      58.10      52.11      [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
-340.20     347.74     330.70     [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
-200.50     224.02     160.81     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
-1103.24    1091.76    1059.77    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-95.92      102.80     92.77      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
-307.90     310.52     302.46     [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
-178.71     178.87     177.84     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
-183.51     183.72     177.84     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
-172.06     189.19     149.19     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+45.83      47.06      43.04      [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
+29.20      27.55      26.25      [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
+18.47      18.16      17.96      [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
+28.25      28.35      27.98      [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar_int8.onnx']
+149.05     155.10     144.42     [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+147.40     147.49     135.90     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
+75.91      79.27      71.98      [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
+117.71     119.69     107.37     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
+379.46     366.19     360.02     [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+33.90      36.32      31.71      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
+40.34      41.50      38.47      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+239.68     239.31     236.03     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
+199.42     203.20     166.15     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
+197.49     169.51     166.15     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
 
 ### Atlas 200 DK
