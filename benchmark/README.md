@@ -226,6 +226,7 @@ mean       median     min        input size   model
 ```
 
 GPU (CUDA-FP32):
+<!-- config wechat is excluded due to its api does not support setting backend and target -->
 ```
 $ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 1
 Benchmarking ...
@@ -256,7 +257,7 @@ mean       median     min        input size   model
 ```
 
 GPU (CUDA-FP16):
-
+<!-- config wechat is excluded due to its api does not support setting backend and target -->
 ```
 $ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 2
 Benchmarking ...
@@ -342,7 +343,7 @@ mean       median     min        input size   model
 ```
 
 NPU (TIMVX):
-
+<!-- config face_detection and licence_plate are excluded due to https://github.com/opencv/opencv_zoo/pull/190#discussion_r1257832066 -->
 ```
 $ python3 benchmark.py --all --int8 --cfg_overwrite_backend_target 3 --cfg_exclude face_detection:license_plate
 Benchmarking ...
@@ -372,7 +373,7 @@ Specs: [details_en](https://e.huawei.com/uk/products/cloud-computing-dc/atlas/at
 - NPU: Ascend 310, dual DaVinci AI cores, 22/16/8 TOPS INT8.
 
 CPU:
-
+<!-- config wechat is excluded due to it needs building with opencv_contrib -->
 ```
 $ python3 benchmark.py --all --cfg_exclude wechat
 Benchmarking ...
@@ -453,51 +454,52 @@ Specs: [details](https://t.rock-chips.com/en/portal.php?mod=view&aid=26)
 - NPU (Not supported by OpenCV): 2.0TOPS, support 8bit / 16bit
 
 CPU:
-
+<!-- config wechat is excluded due to it needs building with opencv_contrib -->
 ```
-$ python3 benchmark.py --all --cfg_exclude wechat --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+$ python3 benchmark.py --all --cfg_exclude wechat
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_OPENCV
 target=cv.dnn.DNN_TARGET_CPU
 mean       median     min        input size   model
-68.89      68.59      68.23      [160, 120]   YuNet with ['face_detection_yunet_2022mar.onnx']
-60.98      61.11      52.00      [160, 120]   YuNet with ['face_detection_yunet_2022mar_int8.onnx']
-1550.71    1578.99    1527.58    [150, 150]   SFace with ['face_recognition_sface_2021dec.onnx']
-1214.15    1261.66    920.50     [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
-604.36     611.24     578.99     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
-496.42     537.75     397.23     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
-460.56     470.15     440.77     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
-387.63     379.96     318.71     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
-1610.78    1599.92    1583.95    [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
-1546.16    1539.50    1513.14    [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
-1166.56    1211.97    827.10     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
-983.80     868.18     689.32     [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
-840.38     801.83     504.54     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
-11793.09   11817.73   11741.04   [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
-7740.03    8134.99    4464.30    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
-3222.92    3225.18    3170.71    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
-2303.55    2307.46    2289.41    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
-1888.15    1920.41    1528.78    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
-38359.93   39021.21   37180.85   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
-24504.50   25439.34   13443.63   [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-14738.64   14764.84   14655.76   [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
-872.09     877.72     838.99     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
-764.48     775.55     653.25     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
-1326.56    1327.10    1305.18    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
-11117.07   11109.12   11058.49   [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
-7037.96    7424.89    3750.12    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
-704.44     704.77     672.58     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
-49065.03   49144.55   48943.50   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
-49052.24   48992.64   48927.44   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
-2200.08    2193.78    2175.77    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
-2244.03    2240.25    2175.77    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov.onnx']
-2230.12    2290.28    2175.77    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2021sep.onnx']
-[ WARN:0@1315.065] global onnx_graph_simplifier.cpp:804 getMatFromTensor DNN: load FP16 model as FP32 model, and it takes twice the FP16 RAM requirement.
-2220.33    2281.75    2171.61    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2023feb_fp16.onnx']
-2216.44    2212.48    2171.61    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2023feb_fp16.onnx']
-2041.65    2209.50    1268.91    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
-1933.06    2210.81    1268.91    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
-1826.34    2234.66    1184.53    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+56.45      56.29      56.18      [160, 120]   YuNet with ['face_detection_yunet_2023mar.onnx']
+48.83      49.41      41.52      [160, 120]   YuNet with ['face_detection_yunet_2023mar_int8.onnx']
+1554.78    1545.63    1523.62    [150, 150]   SFace with ['face_recognition_sface_2021dec.onnx']
+1215.44    1251.08    921.26     [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
+612.58     613.61     587.83     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
+502.02     513.29     399.51     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
+525.72     532.34     502.00     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
+415.87     442.23     318.14     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
+1631.40    1635.83    1608.43    [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
+1115.29    1159.60    675.51     [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar_int8.onnx']
+1546.54    1547.64    1516.69    [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
+1163.10    1227.05    816.99     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
+980.56     852.38     689.31     [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+837.72     778.61     507.03     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
+11819.74   11778.79   11758.31   [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
+7742.66    8151.17    4442.93    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
+3266.08    3250.08    3216.03    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
+2260.88    2368.00    1437.58    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar_int8.onnx']
+2335.65    2342.12    2304.69    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
+1903.82    1962.71    1533.79    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
+37604.10   37569.30   37502.48   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+24229.20   25577.94   13483.54   [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+14860.23   14988.15   14769.91   [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
+1133.44    1131.54    1124.83    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
+883.96     919.07     655.33     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
+1430.98    1424.55    1415.68    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
+11131.81   11141.37   11080.20   [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
+7065.00    7461.37    3748.85    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+790.98     823.19     755.99     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
+49331.32   49285.30   49210.67   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
+49327.34   49489.22   49210.67   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
+2183.70    2172.36    2156.29    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
+2225.19    2222.58    2156.29    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov.onnx']
+2214.03    2302.61    2156.29    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2021sep.onnx']
+2203.45    2231.47    2150.19    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2023feb_fp16.onnx']
+2201.14    2188.00    2150.19    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2023feb_fp16.onnx']
+2029.28    2178.36    1268.17    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
+1923.12    2219.63    1268.17    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
+1818.21    2196.98    1184.98    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
 
 ### Khadas Edge2 (with RK3588)
@@ -508,9 +510,9 @@ SoC specs: [details](https://www.rock-chips.com/a/en/products/RK35_Series/2022/0
 - NPU (Not supported by OpenCV): Build-in 6 TOPS Performance NPU, triple core, support int4 / int8 / int16 / fp16 / bf16 / tf32
 
 CPU:
-
+<!-- config wechat is excluded due to it needs building with opencv_contrib -->
 ```
-$ python3 benchmark.py --all --cfg_exclude wechat --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+$ python3 benchmark.py --all --cfg_exclude wechat
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_OPENCV
 target=cv.dnn.DNN_TARGET_CPU
@@ -554,6 +556,7 @@ mean       median     min        input size   model
 68.29      65.04      61.14      [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 69.58      68.63      61.14      [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 68.99      65.02      61.14      [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+```
 
 ### Horizon Sunrise X3 PI
 
@@ -673,47 +676,50 @@ Specs: [details_cn](https://doc.rvspace.org/VisionFive2/PB/VisionFive_2/specific
 - GPU: IMG BXE-4-32 MC1 with work frequency up to 600 MHz
 
 CPU:
-
+<!-- config wechat is excluded due to it needs building with opencv_contrib -->
+<!-- config dasiam is excluded due to opencv cannot find ffmpeg and its components -->
 ```
-$ python3 benchmark.py --all --cfg_exclude wechat:dasiam --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
+$ python3 benchmark.py --all --cfg_exclude wechat:dasiam
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_OPENCV
 target=cv.dnn.DNN_TARGET_CPU
 mean       median     min        input size   model
-50.28      50.42      50.08      [160, 120]   YuNet with ['face_detection_yunet_2022mar.onnx']
-44.45      44.84      39.29      [160, 120]   YuNet with ['face_detection_yunet_2022mar_int8.onnx']
-1059.87    1059.79    1058.95    [150, 150]   SFace with ['face_recognition_sface_2021dec.onnx']
-838.07     859.42     658.86     [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
-424.55     424.74     424.06     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
-350.30     357.95     290.66     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
-314.50     313.75     313.67     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
-275.80     280.48     243.97     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
-1131.91    1132.16    1131.08    [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
-1072.77    1073.31    1072.07    [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
-811.64     837.32     602.08     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
-692.68     602.74     516.39     [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
-596.12     559.52     382.75     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
-8131.86    8132.90    8128.55    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
-5412.98    5684.12    3236.35    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
-2265.62    2264.83    2263.38    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
-1727.39    1727.31    1726.31    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
-1429.48    1458.69    1189.19    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
-26156.87   26169.88   26134.95   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
-17151.71   17933.90   9675.03    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-316.26     315.72     315.55     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
-276.38     280.84     243.11     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
-586.18     586.28     585.62     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
-542.79     546.26     506.12     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
-910.67     910.62     909.72     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
-7628.31    7624.65    7623.26    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
-4899.76    5171.88    2714.07    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
-486.59     490.33     484.31     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
-34888.37   34834.51   34103.30   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
-35123.00   35996.09   34103.30   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
-1425.08    1543.33    1413.01    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
-1455.55    1580.51    1413.01    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov.onnx']
-1457.01    1484.13    1413.01    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2021sep.onnx']
-1281.84    1468.77    810.51     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
-1191.52    1517.48    810.51     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
-1111.95    1131.27    775.96     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+41.10      41.09      41.04      [160, 120]   YuNet with ['face_detection_yunet_2023mar.onnx']
+35.87      36.37      31.62      [160, 120]   YuNet with ['face_detection_yunet_2023mar_int8.onnx']
+1050.45    1050.38    1050.01    [150, 150]   SFace with ['face_recognition_sface_2021dec.onnx']
+832.25     854.08     657.41     [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
+425.36     425.42     425.19     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july.onnx']
+351.86     372.26     292.72     [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
+348.67     347.98     347.67     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb.onnx']
+290.95     297.03     243.79     [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
+1135.09    1135.25    1134.72    [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar.onnx']
+788.33     822.69     509.67     [192, 192]   PPHumanSeg with ['human_segmentation_pphumanseg_2023mar_int8.onnx']
+1065.61    1065.99    1065.30    [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr.onnx']
+805.26     830.66     595.78     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr.onnx']
+687.98     609.35     514.14     [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
+592.59     555.25     381.33     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
+8091.50    8090.44    8088.72    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan.onnx']
+5394.46    5666.14    3235.23    [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
+2270.14    2270.29    2267.51    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
+1584.83    1656.13    1033.23    [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar_int8.onnx']
+1732.53    1732.14    1731.47    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
+1434.56    1463.32    1194.57    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
+26172.62   26160.04   26151.67   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+17004.06   17909.88   9659.54    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+734.97     735.58     733.95     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
+609.61     621.69     508.04     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
+961.41     962.26     960.39     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
+7594.21    7590.75    7589.16    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
+4884.04    5154.38    2715.94    [128, 256]   YoutuReID with ['person_reid_youtu_2021nov_int8.onnx']
+548.41     550.86     546.09     [256, 256]   MPPose with ['pose_estimation_mediapipe_2023mar.onnx']
+34074.19   34077.97   34058.43   [640, 480]   DB with ['text_detection_DB_IC15_resnet18_2021sep.onnx']
+34073.67   34069.82   34054.29   [640, 480]   DB with ['text_detection_DB_TD500_resnet18_2021sep.onnx']
+1397.09    1396.95    1396.74    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2021sep.onnx']
+1428.65    1432.59    1396.74    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov.onnx']
+1429.56    1467.34    1396.74    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2021sep.onnx']
+1419.29    1450.55    1395.55    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2023feb_fp16.onnx']
+1421.72    1434.46    1395.55    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2023feb_fp16.onnx']
+1307.27    1415.63    807.66     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
+1237.00    1395.68    807.66     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
+1169.59    1415.29    774.09     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
