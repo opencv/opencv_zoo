@@ -216,7 +216,7 @@ Devices:
 
   - name: "Atlas 200 DK"
     display_info: "Atlas 200 DK\nAscend 310\nNPU"
-    platform: "NPU"
+    platform: "NPU (CANN)"
 
 Suffixes:
   - model: "MobileNet-V1"
