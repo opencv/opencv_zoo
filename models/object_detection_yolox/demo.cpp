@@ -310,15 +310,6 @@ int main(int argc, char** argv)
         {
             imshow(kWinName, img);
         }
-        else
-        {
-            nbInference++;
-            if (nbInference > 100)
-            {
-                cout << nbInference << " inference made. Demo existing" << endl;
-                break;
-            }
-        }
     }
     return 0;
 }
