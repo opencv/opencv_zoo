@@ -148,7 +148,6 @@ public:
             candidates.at<float>(row, 5) = float(maxScoreIdx[idx]);
             row++;
         }
-        // candidates = np.concatenate([boxes_xyxy, max_scores[:, None], max_scores_idx[:, None]], axis = 1)
         if (keep.size() == 0)
             return Mat();
         return candidates;
