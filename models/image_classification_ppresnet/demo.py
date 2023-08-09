@@ -37,13 +37,16 @@ parser.add_argument('--backend_target', '-bt', type=int, default=0,
                         {:d}: TIM-VX + NPU,
                         {:d}: CANN + NPU
                     '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--top_k', type=int, default=1,
+                    help='Usage: Get top k predictions.')
 args = parser.parse_args()
 
 if __name__ == '__main__':
     backend_id = backend_target_pairs[args.backend_target][0]
     target_id = backend_target_pairs[args.backend_target][1]
+    top_k = args.top_k
     # Instantiate ResNet
-    model = PPResNet(modelPath=args.model, backendId=backend_id, targetId=target_id)
+    model = PPResNet(modelPath=args.model, topK=top_k, backendId=backend_id, targetId=target_id)
 
     # Read image and get a 224x224 crop from a 256x256 resized
     image = cv.imread(args.input)
