@@ -11,7 +11,7 @@ parser.add_argument('--input1', '-i1', type=str,
 parser.add_argument('--input2', '-i2', type=str,
                     help='Usage: Set input path to second image, omit if using camera.')
 parser.add_argument('--model', '-m', type=str, default='optical_flow_estimation_raft_2023aug.onnx',
-                    help='Usage: Set model path, defaults to optical_flow_estimation_raft_2023jul.onnx.')
+                    help='Usage: Set model path, defaults to optical_flow_estimation_raft_2023aug.onnx.')
 parser.add_argument('--save', '-s', action='store_true',
                     help='Usage: Specify to save a file with results. Invalid in case of camera input.')
 parser.add_argument('--vis', '-v', action='store_true',
