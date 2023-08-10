@@ -2,25 +2,19 @@
 
 import cv2 as cv
 import numpy as np
-import onnxruntime
 
 
 class Raft:
     def __init__(self, modelPath):
         self._modelPath = modelPath
-        self.session = onnxruntime.InferenceSession(self._modelPath, providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+        self.model = cv.dnn.readNet(self._modelPath)
         
-        model_inputs = self.session.get_inputs()
-        self.input_names = [model_inputs[i].name for i in range(len(model_inputs))]
-        self.input_shape = model_inputs[0].shape
-        self.input_height = self.input_shape[2]
-        self.input_width = self.input_shape[3]
-
-        model_outputs = self.session.get_outputs()
-        self.output_names = [model_outputs[i].name for i in range(len(model_outputs))]
-        self.output_shape = model_outputs[0].shape
-        self.output_height = self.output_shape[2]
-        self.output_width = self.output_shape[3]
+        self.input_names = ['0', '1']
+        self.first_input_name = self.input_names[0]
+        self.second_input_name = self.input_names[1]
+        self.input_shape = [360, 480] # change if going to use different model with different input shape
+        self.input_height = self.input_shape[0]
+        self.input_width = self.input_shape[1]
 
     @property
     def name(self):
@@ -40,9 +34,14 @@ class Raft:
         # Preprocess
         input_1 = self._preprocess(image1)
         input_2 = self._preprocess(image2)
+        
         # Forward
-        output = self.session.run(self.output_names, {self.input_names[0]: input_1, 
-													   self.input_names[1]: input_2})
+        self.model.setInput(input_1, self.first_input_name)
+        self.model.setInput(input_2, self.second_input_name)
+        layer_names = self.model.getLayerNames()
+        outputlayers = [layer_names[i-1] for i in self.model.getUnconnectedOutLayers()]
+        output = self.model.forward(outputlayers)
+        
         # Postprocess
         results = self._postprocess(output)
 

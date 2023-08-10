@@ -1,5 +1,5 @@
 # RAFT
-This model is originally created by Zachary Teed and Jia Deng of Princeton University. The source code for the model is at [Raft](https://github.com/princeton-vl/RAFT), and the original research paper is at [Raft](https://arxiv.org/abs/2003.12039). The model was converted to ONNX by [PINTO0309](https://github.com/PINTO0309) in his [model zoo](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT). The ONNX model has several variations depending on the training dataset and input dimesnions. The model used is trained on KITTI dataset with input size of 240 $\times$ 320.
+This model is originally created by Zachary Teed and Jia Deng of Princeton University. The source code for the model is at [their repository](https://github.com/princeton-vl/RAFT), and the original research paper is published on [Arxiv](https://arxiv.org/abs/2003.12039). The model was converted to ONNX by [PINTO0309](https://github.com/PINTO0309) in his [model zoo](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT). The ONNX model has several variations depending on the training dataset and input dimesnions. The model used in this demo is trained on Sintel dataset with input size of 360 $\times$ 480.
 
 
 ## Demo
@@ -9,14 +9,18 @@ Run the following command to try the demo:
 ```shell
 # run on camera input
 python demo.py
-# run on two images
+
+# run on two images and visualize result
 python demo.py --input1 /path/to/image1 --input2 /path/to/image2 -v
+
+# run on two images and save result
+python demo.py --input1 /path/to/image1 --input2 /path/to/image2 -s
 
 # get help regarding various parameters
 python demo.py --help
 ```
 
-The model either runs on camera input or takes two images to compute optical flow across frames. The save and vis arguments of the shell command are only valid in the case of using two images as input. To run a different variation of the model, such as a model trained on different dataset or with different input size, refer to [RAFT ONNX](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT) to download your chosen model and run the following command:
+The model either runs on camera input or takes two images to compute optical flow across frames. The save and vis arguments of the shell command are only valid in the case of using two images as input. To run a different variation of the model, such as a model trained on a different dataset or with a different input size, refer to [RAFT ONNX](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT) to download your chosen model. And if your chosen model has different input shape from 360 $\times$ 480, change the input shape in raft.py line 15. Then run the following command:
 
 ```shell
 # run on camera input
@@ -38,9 +42,9 @@ The save argument saves the result only.
 
 ## License
 
-The original RAFT model is under [BSD-3-Clause license](./BSD-3-LICENSE.txt).
-The conversion of the RAFT model to the ONNX format by [PINTO0309](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT) is under M[MIT License](./MITLICENSE.txt).
-Some of the code in demo.py and raft.py is adapted from [ibaiGorordo's repository](https://github.com/ibaiGorordo/ONNX-RAFT-Optical-Flow-Estimation/tree/main) under [BSD-3-Clause license](./BSD-3-LICENSE.txt).
+The original RAFT model is under [BSD-3-Clause license](./BSD-3-LICENSE.txt). <br />
+The conversion of the RAFT model to the ONNX format by [PINTO0309](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT) is under [MIT License](./MITLICENSE.txt). <br />
+Some of the code in demo.py and raft.py is adapted from [ibaiGorordo's repository](https://github.com/ibaiGorordo/ONNX-RAFT-Optical-Flow-Estimation/tree/main) under [BSD-3-Clause license](./BSD-3-LICENSE.txt).<br />
 
 ## Reference
 
