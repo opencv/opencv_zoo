@@ -575,18 +575,22 @@ int main(int argc, char** argv)
         cap >> frame;
         if (frame.empty())
         {
-            cout << "Frame is empty" << endl;
-            waitKey();
-            break;
+            if (parser.has("input"))
+            {
+                cout << "Frame is empty" << endl;
+                break;
+            }
+            else
+                continue;
         }
         TickMeter tm;
         tm.start();
         Mat person = modelNet.infer(frame);
         tm.stop();
         vector<tuple<Mat, Mat, Mat, Mat, Mat, float>> pose;
-        for (int idxRow = 0; idxRow < person.rows; idxRow++)
+        if  (person.rows != 0)
         {
-            pose.push_back(poseEstimator.infer(frame, person.row(idxRow)));
+            pose.push_back(poseEstimator.infer(frame, person.row(0)));
         }
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
         pair<Mat, Mat> duoimg = visualize(frame, pose, tm.getFPS());
