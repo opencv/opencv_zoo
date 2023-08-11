@@ -588,9 +588,11 @@ int main(int argc, char** argv)
         Mat person = modelNet.infer(frame);
         tm.stop();
         vector<tuple<Mat, Mat, Mat, Mat, Mat, float>> pose;
-        if  (person.rows != 0)
+        for (int idxRow = 0; idxRow < person.rows; idxRow++)
         {
-            pose.push_back(poseEstimator.infer(frame, person.row(0)));
+            tuple<Mat, Mat, Mat, Mat, Mat, float> re = poseEstimator.infer(frame, person.row(idxRow));
+            if (!get<0>(re).empty())
+                pose.push_back(re);
         }
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
         pair<Mat, Mat> duoimg = visualize(frame, pose, tm.getFPS());
