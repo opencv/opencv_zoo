@@ -4,7 +4,8 @@
 #include <cmath>
 
 #include <opencv2/opencv.hpp>
-const long double M_PI = 3.141592653589793238L;
+
+const long double _M_PI = 3.141592653589793238L;
 using namespace std;
 using namespace cv;
 using namespace dnn;
@@ -98,7 +99,7 @@ public:
         Mat boxLandDelta = outputs[0].reshape(outputs[0].size[0], outputs[0].size[1]);
         Mat boxDelta = boxLandDelta.colRange(0, 4);
         Mat landmarkDelta = boxLandDelta.colRange(4, boxLandDelta.cols);
-        double scale = max(orgSize.height, orgSize.width);
+        float scale = float(max(orgSize.height, orgSize.width));
         Mat mask = score < -100;
         score.setTo(-100, mask);
         mask = score > 100;
@@ -124,7 +125,7 @@ public:
             rotBoxes[i] = Rect2d(Point2d(boxes.at<float>(i, 0), boxes.at<float>(i, 1)), Point2d(boxes.at<float>(i, 2), boxes.at<float>(i, 3)));
         }
         vector< int > keep;
-        NMSBoxes(rotBoxes, score, this->scoreThreshold, this->nmsThreshold, keep, this->topK);
+        NMSBoxes(rotBoxes, score, this->scoreThreshold, this->nmsThreshold, keep, 1.0f, this->topK);
         if (keep.size() == 0)
             return Mat();
         int nbCols = landmarkDelta.cols + boxes.cols + 1;
@@ -234,18 +235,18 @@ public:
 
         image = image(Rect(personBox.at<int>(0, 0), personBox.at<int>(1, 0), personBox.at<int>(0, 1) - personBox.at<int>(0, 0), personBox.at<int>(1, 1) - personBox.at<int>(1, 0)));
         // pad to square
-        int top = personBox.at<int>(1, 0) - fullBox.at<float>(1, 0);
-        int left = personBox.at<int>(0, 0) - fullBox.at<float>(0, 0);
-        int bottom = fullBox.at<float>(1, 1) - personBox.at<int>(1, 1);
-        int right = fullBox.at<float>(0, 1) - personBox.at<int>(0, 1);
+        int top = int(personBox.at<int>(1, 0) - fullBox.at<float>(1, 0));
+        int left = int(personBox.at<int>(0, 0) - fullBox.at<float>(0, 0));
+        int bottom = int(fullBox.at<float>(1, 1) - personBox.at<int>(1, 1));
+        int right = int(fullBox.at<float>(0, 1) - personBox.at<int>(0, 1));
         copyMakeBorder(image, image, top, bottom, left, right, BORDER_CONSTANT, Scalar(0, 0, 0));
         padBias = Point(padBias) + Point(personBox.col(0)) - Point(left, top);
         // compute rotation
         midHipPoint -= Point2f(padBias);
         fullBodyPoint -= Point2f(padBias);
-        float radians = M_PI / 2 - atan2(-(fullBodyPoint.y - midHipPoint.y), fullBodyPoint.x - midHipPoint.x);
-        radians = radians - 2 * M_PI * int((radians + M_PI) / (2 * M_PI));
-        float angle = (radians * 180 / M_PI);
+        float radians = float(_M_PI / 2 - atan2(-(fullBodyPoint.y - midHipPoint.y), fullBodyPoint.x - midHipPoint.x));
+        radians = radians - 2 * float(_M_PI) * int((radians + _M_PI) / (2 * _M_PI));
+        float angle = (radians * 180 / float(_M_PI));
         //  get rotation matrix*
         Mat rotationMatrix = getRotationMatrix2D(midHipPoint, angle, 1.0);
         //  get rotated image
@@ -282,7 +283,6 @@ public:
 
         // Forward
         this->net.setInput(inputBlob);
-        cout << inputBlob.size[0] << " " << inputBlob.size[1] << " " << inputBlob.size[2] << " " << inputBlob.size[3] << endl;
         vector<Mat> outputBlob;
         this->net.forward(outputBlob, this->net.getUnconnectedOutLayersNames());
 
@@ -337,8 +337,8 @@ public:
         originalCenter.at<double>(1) = center.dot(inverseRotationMatrix.row(1));
         for (int idxRow = 0; idxRow < rotatedLandmarks.rows; idxRow++)
         {
-            landmarks.at<float>(idxRow, 0) = rotatedLandmarks.at<float>(idxRow, 0) + originalCenter.at<double>(0) + padBias.width; // 
-            landmarks.at<float>(idxRow, 1) = rotatedLandmarks.at<float>(idxRow, 1) + originalCenter.at<double>(1) + padBias.height; // 
+            landmarks.at<float>(idxRow, 0) = float(rotatedLandmarks.at<float>(idxRow, 0) + originalCenter.at<double>(0) + padBias.width); // 
+            landmarks.at<float>(idxRow, 1) = float(rotatedLandmarks.at<float>(idxRow, 1) + originalCenter.at<double>(1) + padBias.height); // 
         }
         // get bounding box from rotated_landmarks
         double vmin0, vmin1, vmax0, vmax1;
@@ -359,7 +359,7 @@ public:
         Mat invertRotationMask;
         warpAffine(mask, invertRotationMask, invertRotationMatrix, Size(mask.cols, mask.rows));
         // enlarge mask
-        resize(invertRotationMask, invertRotationMask, Size(whRotatedPersonPbox.at<float>(0), whRotatedPersonPbox.at<float>(1)));
+        resize(invertRotationMask, invertRotationMask, Size(int(whRotatedPersonPbox.at<float>(0)), int(whRotatedPersonPbox.at<float>(1))));
         // crop and pad mask
         int minW = -min(padBias.width, 0);
         int minH= -min(padBias.height, 0);
@@ -389,11 +389,9 @@ public:
 
 std::string keys =
 "{ help  h          |                                               | Print help message. }"
-"{ model m          | person_detection_mediapipe_2023mar.onnx       | Usage: Path to the model, defaults to person_detection_mediapipe_2023mar.onnx  }"
+"{ model m          | pose_estimation_mediapipe_2023mar.onnx        | Usage: Path to the model, defaults to person_detection_mediapipe_2023mar.onnx  }"
 "{ input i          |                                               | Path to input image or video file. Skip this argument to capture frames from a camera.}"
-"{ conf_threshold  | 0.5                                            | Usage: Filter out hands of confidence < conf_threshold. }"
-// "{ score_threshold  | 0.5                                           | Usage: Set the minimum needed confidence for the model to identify a person, defaults to 0.5. Smaller values may result in faster detection, but will limit accuracy. Filter out persons of confidence < conf_threshold. }"
-// "{ nms_threshold    | 0.3                                           | Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3. }"
+"{ conf_threshold   | 0.5                                           | Usage: Filter out hands of confidence < conf_threshold. }"
 "{ top_k            | 1                                             | Usage: Keep top_k bounding boxes before NMS. }"
 "{ save s           | true                                          | Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input. }"
 "{ vis v            | true                                          | Usage: Specify to open a new window to show results. Invalid in case of camera input. }"
@@ -404,43 +402,6 @@ std::string keys =
 "3: TIM-VX + NPU, "
 "4: CANN + NPU}";
 
-Mat visualizePerson(Mat img, Mat results, double fps = -1)
-{
-    Mat resImg = img.clone();
-    if (fps > 0)
-        putText(resImg, format("FPS: %2f", fps), Point(0, 15), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255));
-
-    for (int row = 0; row < results.rows; row++)
-    {
-        float score = results.at<float>(row, results.cols - 1);
-        Mat personLandmarks;
-        results.row(row).colRange(4, results.cols - 1).reshape(0, 4).convertTo(personLandmarks, CV_32S);
-
-        Point hipPoint = Point(personLandmarks.row(0));
-        Point fullBody = Point(personLandmarks.row(1));
-        Point shoulderPoint = Point(personLandmarks.row(2));
-        Point upperBody = Point(personLandmarks.row(3));
-
-        // draw circle for full body
-        int radius = norm(hipPoint - fullBody);
-        circle(resImg, hipPoint, radius, Scalar(255, 0, 0), 2);
-
-        // draw circle for upper body
-        radius = norm(shoulderPoint - upperBody);
-        circle(resImg, shoulderPoint, radius, Scalar(0, 255, 255), 2);
-
-        // draw points for each keypoint
-        for (int iRow=0; iRow < personLandmarks.rows; iRow++)
-            circle(resImg, Point(personLandmarks.row(iRow)), 2, Scalar(0, 0, 255), 2);
-        putText(resImg, format("Score: %4f", score), Point(0, resImg.rows - 48), FONT_HERSHEY_DUPLEX, 0.5, Scalar(0, 255, 0));
-    }
-    // put score
-    putText(resImg, string("Yellow: upper body circle"), Point(0, resImg.rows - 36), FONT_HERSHEY_DUPLEX, 0.5, Scalar(0, 255, 255));
-    putText(resImg, string("Blue: full body circle"), Point(0, resImg.rows - 24), FONT_HERSHEY_DUPLEX, 0.5, Scalar(255, 0, 0));
-    putText(resImg, string("Red: keypoint"), Point(0, resImg.rows - 12), FONT_HERSHEY_DUPLEX, 0.5, Scalar(0, 0, 255));
-
-    return resImg;
-}
 
 void drawLines(Mat image, Mat landmarks, Mat keeplandmarks, bool isDrawPoint = true, int thickness = 2)
 {
@@ -464,7 +425,7 @@ void drawLines(Mat image, Mat landmarks, Mat keeplandmarks, bool isDrawPoint = t
 }
 
 
-pair<Mat, Mat> visualize(Mat image, vector<tuple<Mat, Mat, Mat, Mat, Mat, float>> poses)
+pair<Mat, Mat> visualize(Mat image, vector<tuple<Mat, Mat, Mat, Mat, Mat, float>> poses, float fps=-1)
 {
     Mat displayScreen = image.clone();
     Mat display3d(400, 400, CV_8UC3, Scalar::all(0));
@@ -479,84 +440,89 @@ pair<Mat, Mat> visualize(Mat image, vector<tuple<Mat, Mat, Mat, Mat, Mat, float>
     for (auto pose : poses)
     {
         Mat bbox = get<0>(pose);
-        Mat landmarksScreen = get<1>(pose);
-        Mat landmarksWord = get<2>(pose);
-        Mat mask;
-        get<3>(pose).convertTo(mask, CV_8U);
-        Mat heatmap = get<4>(pose);
-        float conf = get<5>(pose);
-        Mat edges;
-        Canny(mask, edges, 100, 200);
-        Mat kernel(2, 2, CV_8UC1, Scalar::all(1)); // expansion edge to 2 pixels
-        dilate(edges, edges, kernel);
-        Mat edgesBGR;
-        cvtColor(edges, edgesBGR, COLOR_GRAY2BGR);
-        Mat idxSelec = edges == 255;
-        edgesBGR.setTo(Scalar(0, 255, 0), idxSelec);
-
-        add(edgesBGR, displayScreen, displayScreen);
-        // draw box
-        Mat box;
-        bbox.convertTo(box, CV_32S);
-
-        rectangle(displayScreen, Point(box.row(0)), Point(box.row(1)), Scalar(0, 255, 0), 2);
-        putText(displayScreen, format("%4f", conf), Point(box.at<int>(0, 0), box.at<int>(1, 0) + 12), FONT_HERSHEY_DUPLEX, 0.5, Scalar(0, 0, 255));
-        // Draw line between each key points
-        landmarksScreen = landmarksScreen.rowRange(0, landmarksScreen.rows - 6);
-        landmarksWord = landmarksWord.rowRange(0, landmarksWord.rows - 6);
-
-        Mat keepLandmarks = landmarksScreen.col(4) > 0.8; // only show visible keypoints which presence bigger than 0.8
-
-        Mat landmarksXY;
-        landmarksScreen.colRange(0, 2).convertTo(landmarksXY, CV_32S);
-        drawLines(displayScreen, landmarksXY, keepLandmarks, false);
-
-        // z value is relative to HIP, but we use constant to instead
-        for (int idxRow = 0; idxRow < landmarksScreen.rows; idxRow++)
+        if (!bbox.empty())
         {
-            Mat landmark;// p in enumerate(landmarks_screen[:, 0 : 3].astype(np.int32))
-            landmarksScreen.row(idxRow).convertTo(landmark, CV_32S);
-            if (keepLandmarks.at<uchar>(idxRow))
-                circle(displayScreen, Point(landmark.at<int>(0), landmark.at<int>(1)), 2, Scalar(0, 0, 255), -1);
-        }
+            Mat landmarksScreen = get<1>(pose);
+            Mat landmarksWord = get<2>(pose);
+            Mat mask;
+            get<3>(pose).convertTo(mask, CV_8U);
+            Mat heatmap = get<4>(pose);
+            float conf = get<5>(pose);
+            Mat edges;
+            Canny(mask, edges, 100, 200);
+            Mat kernel(2, 2, CV_8UC1, Scalar::all(1)); // expansion edge to 2 pixels
+            dilate(edges, edges, kernel);
+            Mat edgesBGR;
+            cvtColor(edges, edgesBGR, COLOR_GRAY2BGR);
+            Mat idxSelec = edges == 255;
+            edgesBGR.setTo(Scalar(0, 255, 0), idxSelec);
 
-        if (!isDraw)
-        {
-            isDraw = true;
-            // Main view
-            Mat landmarksXY = landmarksWord.colRange(0, 2).clone();
-            Mat x = landmarksXY * 100 + 100;
-            x.convertTo(landmarksXY, CV_32S);
-            drawLines(display3d, landmarksXY, keepLandmarks, 2);
+            add(edgesBGR, displayScreen, displayScreen);
+            // draw box
+            Mat box;
+            bbox.convertTo(box, CV_32S);
 
-            // Top view
-            Mat landmarksXZ;
-            hconcat(landmarksWord.col(0), landmarksWord.col(2), landmarksXZ);
-            landmarksXZ.col(1) = -landmarksXZ.col(1);
-            x = landmarksXZ * 100;
-            x.col(0) += 300;
-            x.col(1) += 100;
-            x.convertTo(landmarksXZ, CV_32S);
-            drawLines(display3d, landmarksXZ, keepLandmarks, 2);
+            rectangle(displayScreen, Point(box.row(0)), Point(box.row(1)), Scalar(0, 255, 0), 2);
+            putText(displayScreen, format("Conf = %4f", conf), Point(0, 35), FONT_HERSHEY_DUPLEX, 0.7,Scalar(0, 0, 255), 2);
+            if (fps > 0)
+                putText(displayScreen, format("FPS = %.2f", fps), Point(0, 55), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 255), 2);
+            // Draw line between each key points
+            landmarksScreen = landmarksScreen.rowRange(0, landmarksScreen.rows - 6);
+            landmarksWord = landmarksWord.rowRange(0, landmarksWord.rows - 6);
 
-            // Left view
-            Mat landmarksYZ;
-            hconcat(landmarksWord.col(2), landmarksWord.col(1), landmarksYZ);
-            landmarksYZ.col(0) = -landmarksYZ.col(0);
-            x = landmarksYZ * 100;
-            x.col(0) += 100;
-            x.col(1) += 300;
-            x.convertTo(landmarksYZ, CV_32S);
-            drawLines(display3d, landmarksYZ, keepLandmarks, 2);
+            Mat keepLandmarks = landmarksScreen.col(4) > 0.8; // only show visible keypoints which presence bigger than 0.8
 
-            // Right view
-            Mat landmarksZY;
-            hconcat(landmarksWord.col(2), landmarksWord.col(1), landmarksZY);
-            x = landmarksZY * 100;
-            x.col(0) += 300;
-            x.col(1) += 300;
-            x.convertTo(landmarksZY, CV_32S);
-            drawLines(display3d, landmarksZY, keepLandmarks, 2);
+            Mat landmarksXY;
+            landmarksScreen.colRange(0, 2).convertTo(landmarksXY, CV_32S);
+            drawLines(displayScreen, landmarksXY, keepLandmarks, false);
+
+            // z value is relative to HIP, but we use constant to instead
+            for (int idxRow = 0; idxRow < landmarksScreen.rows; idxRow++)
+            {
+                Mat landmark;// p in enumerate(landmarks_screen[:, 0 : 3].astype(np.int32))
+                landmarksScreen.row(idxRow).convertTo(landmark, CV_32S);
+                if (keepLandmarks.at<uchar>(idxRow))
+                    circle(displayScreen, Point(landmark.at<int>(0), landmark.at<int>(1)), 2, Scalar(0, 0, 255), -1);
+            }
+
+            if (!isDraw)
+            {
+                isDraw = true;
+                // Main view
+                Mat landmarksXY = landmarksWord.colRange(0, 2).clone();
+                Mat x = landmarksXY * 100 + 100;
+                x.convertTo(landmarksXY, CV_32S);
+                drawLines(display3d, landmarksXY, keepLandmarks, true, 2);
+
+                // Top view
+                Mat landmarksXZ;
+                hconcat(landmarksWord.col(0), landmarksWord.col(2), landmarksXZ);
+                landmarksXZ.col(1) = -landmarksXZ.col(1);
+                x = landmarksXZ * 100;
+                x.col(0) += 300;
+                x.col(1) += 100;
+                x.convertTo(landmarksXZ, CV_32S);
+                drawLines(display3d, landmarksXZ, keepLandmarks, true, 2);
+
+                // Left view
+                Mat landmarksYZ;
+                hconcat(landmarksWord.col(2), landmarksWord.col(1), landmarksYZ);
+                landmarksYZ.col(0) = -landmarksYZ.col(0);
+                x = landmarksYZ * 100;
+                x.col(0) += 100;
+                x.col(1) += 300;
+                x.convertTo(landmarksYZ, CV_32S);
+                drawLines(display3d, landmarksYZ, keepLandmarks, true, 2);
+
+                // Right view
+                Mat landmarksZY;
+                hconcat(landmarksWord.col(2), landmarksWord.col(1), landmarksZY);
+                x = landmarksZY * 100;
+                x.col(0) += 300;
+                x.col(1) += 300;
+                x.convertTo(landmarksZY, CV_32S);
+                drawLines(display3d, landmarksZY, keepLandmarks, true, 2);
+            }
         }
     }
     return pair<Mat, Mat>(displayScreen, display3d);
@@ -567,16 +533,7 @@ pair<Mat, Mat> visualize(Mat image, vector<tuple<Mat, Mat, Mat, Mat, Mat, float>
 int main(int argc, char** argv)
 {
     CommandLineParser parser(argc, argv, keys);
-    Point2f pf(38.4, 40.7);
-    Point pi(pf);
-    cout << "Point float : " << pf << " "<< Mat(pf) << " "<< Mat(pf).rows << " "<< Mat(pf).cols<<endl;
-    cout << "Point int : " << pi << endl;
-    Mat xf = (Mat_<float>(2, 1) << 38.4, 40.7);
-    Mat xi;
-    xf.convertTo(xi, CV_32S);
-    cout << "Mat float : " << xf << endl;
-    cout << "Mat int : " << xi << endl;
-
+ 
     parser.about("Person Detector from MediaPipe");
     if (parser.has("help"))
     {
@@ -585,10 +542,10 @@ int main(int argc, char** argv)
     }
 
     string model = parser.get<String>("model");
-    float confThreshold = parser.get<float>("conf_threshold");; //  parser.get<float>("score_threshold");
-    float scoreThreshold = 0.5; //  parser.get<float>("score_threshold");
-    float nmsThreshold = 0.3; //  parser.get<float>("nms_threshold");
-    int topK = 5000; //  parser.get<int>("top_k");
+    float confThreshold = parser.get<float>("conf_threshold");
+    float scoreThreshold = 0.5f;
+    float nmsThreshold = 0.3f;
+    int topK = 5000;
     bool vis = parser.get<bool>("vis");
     bool save = parser.get<bool>("save");
     int backendTargetid = parser.get<int>("backend");
@@ -604,7 +561,7 @@ int main(int argc, char** argv)
         cap.open(0);
     Mat frame;
     // person detector
-    MPPersonDet modelNet("c:/users/laurent/Desktop/Nouveau dossier/person_detection_mediapipe_2023mar.onnx", nmsThreshold, scoreThreshold, topK,
+    MPPersonDet modelNet("../person_detection_mediapipe/person_detection_mediapipe_2023mar.onnx", nmsThreshold, scoreThreshold, topK,
         backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     // pose estimator
     MPPose poseEstimator(model, confThreshold, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
@@ -612,12 +569,11 @@ int main(int argc, char** argv)
     if (!cap.isOpened())
         CV_Error(Error::StsError, "Cannot opend video or file");
 
-    static const std::string kWinName = "MPPersonDet Demo";
-    int nbInference = 0;
-    while (waitKey() < 0)
+    static const std::string kWinName = "MPPose Demo";
+    while (waitKey(1) < 0)
     {
         cap >> frame;
-         if (frame.empty())
+        if (frame.empty())
         {
             cout << "Frame is empty" << endl;
             waitKey();
@@ -633,20 +589,11 @@ int main(int argc, char** argv)
             pose.push_back(poseEstimator.infer(frame, person.row(idxRow)));
         }
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
-        pair<Mat, Mat> duoimg = visualize(frame, pose);
+        pair<Mat, Mat> duoimg = visualize(frame, pose, tm.getFPS());
         if (vis)
         {
             imshow(kWinName, get<0>(duoimg));
             imshow("3d", get<1>(duoimg));
-        }
-        else
-        {
-            nbInference++;
-            if (nbInference > 100)
-            {
-                cout << nbInference << " inference made. Demo existing" << endl;
-                break;
-            }
         }
     }
     return 0;
