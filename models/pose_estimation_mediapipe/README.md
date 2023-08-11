@@ -31,7 +31,7 @@ cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
 cmake --build build
 
 # detect on camera input
-./build/opencv_zoo_person_detection_mediapipe
+./build/opencv_zoo_pose_detection_mediapipe
 # detect on an image
 ./build/opencv_zoo_pose_detection_mediapipe -m=/path/to/model -i=/path/to/image -v
 # get help messages
