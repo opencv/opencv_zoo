@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.24)
 set(project_name "opencv_zoo_pose_estimation_mediapipe")
 
 PROJECT (${project_name})
