@@ -7,14 +7,16 @@ from raft import Raft
 
 parser = argparse.ArgumentParser(description='RAFT (https://github.com/princeton-vl/RAFT)')
 parser.add_argument('--input1', '-i1', type=str,
-                    help='Usage: Set input path to first image, omit if using camera.')
+                    help='Usage: Set input1 path to first image, omit if using camera or video.')
 parser.add_argument('--input2', '-i2', type=str,
-                    help='Usage: Set input path to second image, omit if using camera.')
+                    help='Usage: Set input2 path to second image, omit if using camera or video.')
+parser.add_argument('--video', '-vid', type=str,
+                    help='Usage: Set video path to desired input video, omit if using camera or two image inputs.')
 parser.add_argument('--model', '-m', type=str, default='optical_flow_estimation_raft_2023aug.onnx',
                     help='Usage: Set model path, defaults to optical_flow_estimation_raft_2023aug.onnx.')
 parser.add_argument('--save', '-s', action='store_true',
                     help='Usage: Specify to save a file with results. Invalid in case of camera input.')
-parser.add_argument('--vis', '-v', action='store_true',
+parser.add_argument('--visual', '-vis', action='store_true',
                     help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
 
@@ -218,8 +220,65 @@ if __name__ == '__main__':
             cv.imwrite('result.jpg', flow_image)
 
         # Visualize results in a new window
-        if args.vis:
+        if args.visual:
             input_output_visualization = visualize(image1, image2, flow_image)
+            
+            
+    elif args.video is not None:
+        cap = cv.VideoCapture(args.video)    
+        FLOW_FRAME_OFFSET = 3 # Number of frame difference to estimate the optical flow
+        
+        if args.visual:
+            cv.namedWindow("Estimated flow", cv.WINDOW_NORMAL)
+        
+        frame_list = []	
+        img_array = []
+        frame_num = 0
+        while cap.isOpened():
+            try:
+                # Read frame from the video
+                ret, prev_frame = cap.read()
+                frame_list.append(prev_frame)
+                if not ret:	
+                    break
+            except:
+                continue
+
+            frame_num += 1
+            if frame_num <= FLOW_FRAME_OFFSET:
+                continue
+            else:
+                frame_num = 0
+
+            result = model.infer(frame_list[0], frame_list[-1])
+            img_height, img_width, img_channels = frame_list[0].shape
+            flow_img = draw_flow(result, img_width, img_height)
+
+            alpha = 0.6
+            combined_img = cv.addWeighted(frame_list[0], alpha, flow_img, (1-alpha),0)
+
+            if args.visual:
+                cv.imshow("Estimated flow", combined_img)
+            img_array.append(combined_img)
+            # Remove the oldest frame
+            frame_list.pop(0)
+
+            # Press key q to stop
+            if cv.waitKey(1) == ord('q'):
+                break
+            
+        cap.release()
+
+        if args.save:
+            fourcc = cv.VideoWriter_fourcc(*'mp4v') 
+            height,width,layers= img_array[0].shape
+            video = cv.VideoWriter('result.mp4', fourcc, 30.0, (width, height), isColor=True)
+            for img in img_array:
+                video.write(img)
+            video.release()
+
+        cv.destroyAllWindows()
+
 
     else: # Omit input to call default camera
         deviceId = 0
