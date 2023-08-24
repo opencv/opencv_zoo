@@ -32,7 +32,7 @@ python demo.py --video /path/to/video -s -vis
 python demo.py --help
 ```
 
-While running on video, you can press q anytime to stop. The model demo runs on camera input, video input, or takes two images to compute optical flow across frames. The save and vis arguments of the shell command are only valid in the case of using video or two images as input. To run a different variation of the model, such as a model trained on a different dataset or with a different input size, refer to [RAFT ONNX](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT) to download your chosen model. And if your chosen model has different input shape from 360 $\times$ 480, change the input shape in raft.py line 15. Then, add the model path to the --model argument of the shell command, such as in the following example commands:
+While running on video, you can press q anytime to stop. The model demo runs on camera input, video input, or takes two images to compute optical flow across frames. The save and vis arguments of the shell command are only valid in the case of using video or two images as input. To run a different variation of the model, such as a model trained on a different dataset or with a different input size, refer to [RAFT ONNX in PINTO Model Zoo](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT) to download your chosen model. And if your chosen model has different input shape from 360 $\times$ 480, **change the input shape in raft.py line 15 to the new input shape**. Then, add the model path to the --model argument of the shell command, such as in the following example commands:
 
 ```shell
 # run on camera input
