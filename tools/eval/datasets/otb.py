@@ -27,17 +27,13 @@ def success_overlap(gt_bb, result_bb, n_frame):
     thresholds_overlap = np.arange(0, 1.05, 0.05)
     success = np.zeros(len(thresholds_overlap))
     iou = np.ones(len(gt_bb)) * (-1)
-    # mask = np.sum(gt_bb > 0, axis=1) == 4 #TODO check all dataset
     mask = np.sum(gt_bb[:, 2:] > 0, axis=1) == 2
-    # print(len(gt_bb))
-    # print(len(result_bb))
     iou[mask] = overlap_ratio(gt_bb[mask], result_bb[mask])
     for i in range(len(thresholds_overlap)):
         success[i] = np.sum(iou > thresholds_overlap[i]) / float(n_frame)
     return success
 
 def success_error(gt_center, result_center, thresholds, n_frame):
-    # n_frame = len(gt_center)
     success = np.zeros(len(thresholds))
     dist = np.ones(len(gt_center)) * (-1)
     mask = np.sum(gt_center > 0, axis=1) == 2
@@ -156,7 +152,6 @@ class OPEBenchmark:
             header1 = "|{:^21}|".format("Tracker name")
             header2 = "|{:^21}|".format("Video name")
             for tracker_name in success_ret.keys():
-                # col_len = max(20, len(tracker_name))
                 header1 += ("{:^21}|").format(tracker_name)
                 header2 += "{:^9}|{:^11}|".format("success", "precision")
             print('-'*len(header1))
