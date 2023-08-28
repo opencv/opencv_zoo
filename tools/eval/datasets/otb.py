@@ -136,7 +136,6 @@ class OPEBenchmark:
         print(header)
         print('-'*len(header))
         for tracker_name in tracker_names:
-            # success = np.mean(list(success_ret[tracker_name].values()))
             success = tracker_auc[tracker_name]
             if precision_ret is not None:
                 precision = np.mean(list(precision_ret[tracker_name].values()), axis=0)[20]
