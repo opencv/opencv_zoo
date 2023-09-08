@@ -6,10 +6,11 @@ class MobileNet:
     Works with MobileNet V1 & V2.
     '''
 
-    def __init__(self, modelPath, topK=1, backendId=0, targetId=0):
+    def __init__(self, modelPath, topK=1, loadLabel=True, backendId=0, targetId=0):
         self.model_path = modelPath
         assert topK >= 1
         self.top_k = topK
+        self.load_label = loadLabel
         self.backend_id = backendId
         self.target_id = targetId
 
@@ -64,7 +65,7 @@ class MobileNet:
         for o in output_blob:
             class_id_list = o.argsort()[::-1][:self.top_k]
             batched_class_id_list.append(class_id_list)
-        if len(self._labels) > 0:
+        if len(self._labels) > 0 and self.load_label:
             batched_predicted_labels = []
             for class_id_list in batched_class_id_list:
                 predicted_labels = []

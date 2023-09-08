@@ -9,10 +9,11 @@ import numpy as np
 import cv2 as cv
 
 class PPResNet:
-    def __init__(self, modelPath, topK=1, backendId=0, targetId=0):
+    def __init__(self, modelPath, topK=1, loadLabel=True, backendId=0, targetId=0):
         self._modelPath = modelPath
         assert topK >= 1
         self._topK = topK
+        self._load_label = loadLabel
         self._backendId = backendId
         self._targetId = targetId
 
@@ -69,7 +70,7 @@ class PPResNet:
         for ob in outputBlob:
             class_id_list = ob.argsort()[::-1][:self._topK]
             batched_class_id_list.append(class_id_list)
-        if len(self._labels) > 0:
+        if len(self._labels) > 0 and self._load_label:
             batched_predicted_labels = []
             for class_id_list in batched_class_id_list:
                 predicted_labels = []
