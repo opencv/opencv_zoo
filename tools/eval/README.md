@@ -5,7 +5,7 @@ Make sure you have the following packages installed:
 ```shell
 pip install tqdm
 pip install scikit-learn
-pip install scipy
+pip install scipy==1.8.1
 ```
 
 Generally speaking, evaluation can be done with the following command:
@@ -27,7 +27,7 @@ Supported datasets:
 
 ### Prepare data
 
-Please visit https://image-net.org/ to download the ImageNet dataset and [the labels from caffe](http://dl.caffe.berkeleyvision.org/caffe_ilsvrc12.tar.gz). Organize files as follow:
+Please visit https://image-net.org/ to download the ImageNet dataset (only need images in `ILSVRC/Data/CLS-LOC/val`) and [the labels from caffe](http://dl.caffe.berkeleyvision.org/caffe_ilsvrc12.tar.gz). Organize files as follow:
 
 ```shell
 $ tree -L 2 /path/to/imagenet
