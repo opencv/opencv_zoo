@@ -5,6 +5,9 @@ Vit tracker(vision transformer tracker) is a much better model for  real-time ob
 video demo: https://youtu.be/MJiPnu1ZQRI
  In target tracking tasks, the score is an important indicator that can  indicate whether the current target is lost. In the video, vit tracker  can track the target and display the current score in the upper left  corner of the video. When the target is lost, the score drops  significantly. While nanotrack will only return 0.9 score in any  situation, so that we cannot determine whether the target is lost.
 
+**NOTE: OpenCV > 4.8.0**
+
+
 # speed test
 
 NOTE: The speed below is tested by **onnxruntime** because opencv has poor support for the transformer architecture for now.
