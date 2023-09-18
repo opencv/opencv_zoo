@@ -33,7 +33,7 @@ classes = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
            'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush')
 
 def letterbox(srcimg, target_size=(640, 640)):
-    padded_img = np.ones((target_size[0], target_size[1], 3)) * 114.0
+    padded_img = np.ones((target_size[0], target_size[1], 3)).astype(np.float32) * 114.0
     ratio = min(target_size[0] / srcimg.shape[0], target_size[1] / srcimg.shape[1])
     resized_img = cv.resize(
         srcimg, (int(srcimg.shape[1] * ratio), int(srcimg.shape[0] * ratio)), interpolation=cv.INTER_LINEAR
