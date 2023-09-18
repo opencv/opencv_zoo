@@ -350,6 +350,7 @@ Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_TIMVX
 target=cv.dnn.DNN_TARGET_NPU
 mean       median     min        input size   model
+5.08       4.72       4.70       [160, 120]   YuNet with ['face_detection_yunet_2023mar_int8.onnx']
 45.83      47.06      43.04      [150, 150]   SFace with ['face_recognition_sface_2021dec_int8.onnx']
 29.20      27.55      26.25      [112, 112]   FacialExpressionRecog with ['facial_expression_recognition_mobilefacenet_2022july_int8.onnx']
 18.47      18.16      17.96      [224, 224]   MPHandPose with ['handpose_estimation_mediapipe_2023feb_int8.onnx']
@@ -357,6 +358,7 @@ mean       median     min        input size   model
 149.05     155.10     144.42     [224, 224]   MobileNet with ['image_classification_mobilenetv1_2022apr_int8.onnx']
 147.40     147.49     135.90     [224, 224]   MobileNet with ['image_classification_mobilenetv2_2022apr_int8.onnx']
 75.91      79.27      71.98      [224, 224]   PPResNet with ['image_classification_ppresnet50_2022jan_int8.onnx']
+30.98      30.56      29.36      [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar_int8.onnx']
 117.71     119.69     107.37     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 379.46     366.19     360.02     [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
 33.90      36.32      31.71      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
