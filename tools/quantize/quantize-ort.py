@@ -46,7 +46,7 @@ class DataReader(CalibrationDataReader):
         return blobs
 
 class Quantize:
-    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8', data_dim='chw'):
+    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8', data_dim='chw', nodes_to_exclude=[]):
         self.type_dict = {"uint8" : QuantType.QUInt8, "int8" : QuantType.QInt8}
 
         self.model_path = model_path
@@ -55,6 +55,7 @@ class Quantize:
         self.per_channel = per_channel
         self.act_type = act_type
         self.wt_type = wt_type
+        self.nodes_to_exclude = nodes_to_exclude
 
         # data reader
         self.dr = DataReader(self.model_path, self.calibration_image_dir, self.transforms, data_dim)
@@ -80,15 +81,18 @@ class Quantize:
                         quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
                         per_channel=self.per_channel,
                         weight_type=self.type_dict[self.wt_type],
-                        activation_type=self.type_dict[self.act_type])
+                        activation_type=self.type_dict[self.act_type],
+                        nodes_to_exclude=self.nodes_to_exclude)
         if new_model_path != self.model_path:
             os.remove(new_model_path)
         print('\tQuantized model saved to {}'.format(output_name))
 
 models=dict(
-    yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2022mar.onnx',
+    yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2023mar.onnx',
                    calibration_image_dir='../../benchmark/data/face_detection',
-                   transforms=Compose([Resize(size=(160, 120))])),
+                   transforms=Compose([Resize(size=(160, 120))]),
+                   nodes_to_exclude=['MaxPool_5', 'MaxPool_18', 'MaxPool_25', 'MaxPool_32'],
+    ),
     sface=Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
                    calibration_image_dir='../../benchmark/data/face_recognition',
                    transforms=Compose([Resize(size=(112, 112))])),
@@ -119,7 +123,9 @@ models=dict(
                         ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
     lpd_yunet=Quantize(model_path='../../models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2023mar.onnx',
                        calibration_image_dir='../../benchmark/data/license_plate_detection',
-                       transforms=Compose([Resize(size=(320, 240))])),
+                       transforms=Compose([Resize(size=(320, 240))]),
+                       nodes_to_exclude=['MaxPool_5', 'MaxPool_18', 'MaxPool_25', 'MaxPool_32', 'MaxPool_39'],
+    ),
 )
 
 if __name__ == '__main__':
