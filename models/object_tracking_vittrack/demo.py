@@ -76,3 +76,4 @@ if __name__ == '__main__':
         frame = visualize(frame, bbox, score, isLocated, fps=tm.getFPS())
         cv.imshow('vittrack Demo', frame)
         tm.reset()
+
