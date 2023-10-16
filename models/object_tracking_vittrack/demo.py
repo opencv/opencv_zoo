@@ -1,3 +1,4 @@
+import numpy as np
 import cv2 as cv
 import argparse
 
@@ -9,8 +10,8 @@ parser = argparse.ArgumentParser(
     description="VIT track opencv API")
 parser.add_argument('--input', '-i', type=str,
                     help='Usage: Set path to the input video. Omit for using default camera.')
-parser.add_argument('--model_path', type=str, default='vitTracker.onnx',
-                    help='Usage: Set model path, defaults to vitTracker.onnx.')
+parser.add_argument('--model_path', type=str, default='object_tracking_vittrack_2023sep.onnx',
+                    help='Usage: Set model path')
 args = parser.parse_args()
 
 def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),text_color=(0, 255, 0), fontScale = 1, fontSize = 1):
@@ -55,7 +56,12 @@ if __name__ == '__main__':
     cv.putText(first_frame_copy, "1. Drag a bounding box to track.", (0, 15), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
     cv.putText(first_frame_copy, "2. Press ENTER to confirm", (0, 35), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
     roi = cv.selectROI('vitTrack Demo', first_frame_copy)
-    print("Selected ROI: {}".format(roi))
+
+    if np.all(np.array(roi) == 0):
+        print("No roi is selected! Exiting ...")
+        exit()
+    else:
+        print("Selected ROI: {}".format(roi))
 
     # Init tracker with ROI
     model.init(first_frame, roi)
