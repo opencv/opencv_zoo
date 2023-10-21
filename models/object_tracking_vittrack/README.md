@@ -11,7 +11,7 @@ This model is contributed by [Pengyu Liu](https://github.com/lpylpy0514) in GSoC
 
 # Demo
 
-```python
+```bash
 #  tracking on video
 python demo.py --input /path/to/video
 
@@ -21,7 +21,7 @@ python demo.py --help
 
 # Example outputs
 
-![](README.assets/vittrack_demo.gif)
+<img src="example_outputs/vittrack_demo.gif" style="zoom:200%;" />
 
 
 # Speed test
