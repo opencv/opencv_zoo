@@ -5,10 +5,26 @@ VIT tracker(vision transformer tracker) is a much better model for  real-time ob
 video demo: https://youtu.be/MJiPnu1ZQRI
  In target tracking tasks, the score is an important indicator that can  indicate whether the current target is lost. In the video, vit tracker  can track the target and display the current score in the upper left  corner of the video. When the target is lost, the score drops  significantly. While nanotrack will only return 0.9 score in any  situation, so that we cannot determine whether the target is lost.
 
+This model is contributed by [Pengyu Liu](https://github.com/lpylpy0514) in GSoC 2023 project [**Realtime object tracking models**](https://github.com/opencv/opencv/wiki/GSoC_2023#idea-realtime-object-tracking-models)
+
 **NOTE: OpenCV > 4.8.0**
 
+# Demo
 
-# speed test
+```bash
+#  tracking on video
+python demo.py --input /path/to/video
+
+# get help regarding various parameters
+python demo.py --help
+```
+
+# Example outputs
+
+<img src="example_outputs/vittrack_demo.gif" style="zoom:200%;" />
+
+
+# Speed test
 
 NOTE: The speed below is tested by **onnxruntime** because opencv has poor support for the transformer architecture for now.
 
@@ -26,7 +42,7 @@ ONNX speed test on x86 platform(intel i3 10105)(ms):
 | nanotrack   | 3.20 | 2.75 | 2.46 | 2.55 |
 | vit tracker | 3.84 | 2.37 | 2.10 | 2.01 |
 
-# performance test
+# Performance test
 
 preformance test on lasot dataset(AUC is the most important data. Higher AUC means better tracker):
 
@@ -34,3 +50,13 @@ preformance test on lasot dataset(AUC is the most important data. Higher AUC mea
 | ----------- | ---- | ---- | ----- |
 | nanotrack   | 46.8 | 45.0 | 43.3  |
 | vit tracker | 48.6 | 44.8 | 54.7  |
+
+# License
+
+All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
+
+# Reference:
+
+OSTrack: https://github.com/botaoye/OSTrack
+
+OpenCV Sample: https://github.com/opencv/opencv/blob/4.x/samples/dnn/vit_tracker.cpp
