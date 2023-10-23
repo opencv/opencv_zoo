@@ -11,7 +11,6 @@ from .human_segmentation_pphumanseg.pphumanseg import PPHumanSeg
 from .person_detection_mediapipe.mp_persondet import MPPersonDet
 from .pose_estimation_mediapipe.mp_pose import MPPose
 from .qrcode_wechatqrcode.wechatqrcode import WeChatQRCode
-from .object_tracking_dasiamrpn.dasiamrpn import DaSiamRPN
 from .person_reid_youtureid.youtureid import YoutuReID
 from .image_classification_mobilenet.mobilenet import MobileNet
 from .palm_detection_mediapipe.mp_palmdet import MPPalmDet
@@ -85,7 +84,6 @@ MODELS.register(PPHumanSeg)
 MODELS.register(MPPersonDet)
 MODELS.register(MPPose)
 MODELS.register(WeChatQRCode)
-MODELS.register(DaSiamRPN)
 MODELS.register(YoutuReID)
 MODELS.register(MobileNet)
 MODELS.register(MPPalmDet)
