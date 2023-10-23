@@ -1,0 +1,14 @@
+Benchmark:
+  name: "Object Tracking Benchmark"
+  type: "Tracking"
+  data:
+    type: "TrackingVideoLoader"
+    path: "data/object_tracking"
+    files: ["throw_cup.mp4"]
+  metric:
+    type: "Tracking"
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "VitTrack"
