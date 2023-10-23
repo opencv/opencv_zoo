@@ -3,3 +3,4 @@ onnx
 onnxruntime
 onnxruntime-extensions
 neural-compressor
+onnxconverter-common
