@@ -122,13 +122,6 @@ Models:
     acceptable_time: 100
     keyword: "WeChatQRCode"
 
-  - name: "DaSiamRPN"
-    task: "Object Tracking"
-    input_size: "1280x720"
-    folder: "object_tracking_dasiamrpn"
-    acceptable_time: 3000
-    keyword: "object_tracking_dasiamrpn"
-
   - name: "YoutuReID"
     task: "Person Re-Identification"
     input_size: "128x256"

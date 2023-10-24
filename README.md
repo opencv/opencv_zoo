@@ -71,9 +71,9 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![yolox demo](./models/object_detection_yolox/example_outputs/3_res.jpg)
 
-### Object Tracking with [DaSiamRPN](./models/object_tracking_dasiamrpn/)
+### Object Tracking with [VitTrack](./models/object_tracking_vittrack/)
 
-![webcam demo](./models/object_tracking_dasiamrpn/example_outputs/dasiamrpn_demo.gif)
+![webcam demo](./models/object_tracking_vittrack/example_outputs/vittrack_demo.gif)
 
 ### Palm Detection with [MP-PalmDet](./models/palm_detection_mediapipe/)
 

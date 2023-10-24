@@ -102,7 +102,7 @@ models=dict(
     ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
                         calibration_image_dir='../../benchmark/data/image_classification',
                         transforms=Compose([Resize(size=(224, 224))])),
-    # TBD: DaSiamRPN
+    # TBD: VitTrack
     youtureid=Quantize(model_path='../../models/person_reid_youtureid/person_reid_youtu_2021nov.onnx',
                        calibration_image_dir='../../benchmark/data/person_reid',
                        transforms=Compose([Resize(size=(128, 256))])),

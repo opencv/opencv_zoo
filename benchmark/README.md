@@ -31,7 +31,7 @@ python benchmark.py --all --fp32
 
 # All configs but exclude some of them (fill with config name keywords, not sensitive to upper/lower case, seperate with colons)
 python benchmark.py --all --cfg_exclude wechat
-python benchmark.py --all --cfg_exclude wechat:dasiamrpn
+python benchmark.py --all --cfg_exclude wechat:crnn
 
 # All configs but exclude some of the models (fill with exact model names, sensitive to upper/lower case, seperate with colons)
 python benchmark.py --all --model_exclude license_plate_detection_lpd_yunet_2023mar_int8.onnx:human_segmentation_pphumanseg_2023mar_int8.onnx
@@ -94,7 +94,6 @@ mean       median     min        input size   model
 46.10      47.53      43.06      [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 144.89     149.58     125.71     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 143.83     146.39     119.75     [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-23.43      22.82      20.90      [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 12.99      13.11      12.14      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 12.64      12.44      10.82      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 12.64      11.83      11.03      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -149,7 +148,6 @@ mean       median     min        input size   model
 212.90     212.93     209.55     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 1690.06    2303.34    1480.63    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 1489.54    1435.48    1308.12    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-564.90     580.35     527.49     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 356.63     357.29     354.42     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 217.52     229.39     101.61     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 198.63     198.25     196.68     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -205,7 +203,6 @@ mean       median     min        input size   model
 216.18     216.19     214.30     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 1207.83    1208.71    1203.64    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 1236.98    1250.21    1203.64    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-456.79     456.90     445.83     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 124.89     125.25     124.53     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 107.99     109.82     94.05      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 108.41     108.33     107.91     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -244,7 +241,6 @@ mean       median     min        input size   model
 54.24      55.24      52.87      [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 63.63      63.43      63.32      [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 371.45     378.00     366.39     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
-77.50      77.73      76.16      [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 33.85      33.90      33.61      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 38.16      37.33      37.10      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 91.65      91.98      89.90      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -275,7 +271,6 @@ mean       median     min        input size   model
 366.46     366.88     363.46     [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 163.06     163.34     161.77     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 301.10     311.52     297.74     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
-53.34      54.30      51.79      [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 149.37     149.95     148.01     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 153.89     153.96     153.43     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 44.29      44.03      43.62      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -323,7 +318,6 @@ mean       median     min        input size   model
 212.69     262.75     170.88     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 1110.87    1112.27    1085.31    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 1128.73    1157.12    1085.31    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-382.57     464.42     354.66     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 147.01     144.01     139.27     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 119.70     118.95     94.09      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 107.63     107.09     105.61     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -404,7 +398,6 @@ mean       median     min        input size   model
 322.98     323.45     312.13     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 1875.33    1877.53    1871.26    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 1989.04    2005.25    1871.26    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-637.54     640.61     626.98     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 159.80     159.62     159.40     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 152.18     152.86     145.56     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 145.83     145.77     145.45     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -426,7 +419,7 @@ mean       median     min        input size   model
 NPU (CANN):
 
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:dasiamrpn:crnn --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:crnn --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CANN
 target=cv.dnn.DNN_TARGET_NPU
@@ -485,7 +478,6 @@ mean       median     min        input size   model
 1903.82    1962.71    1533.79    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 37604.10   37569.30   37502.48   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 24229.20   25577.94   13483.54   [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-14860.23   14988.15   14769.91   [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 1133.44    1131.54    1124.83    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 883.96     919.07     655.33     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 1430.98    1424.55    1415.68    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -541,7 +533,6 @@ mean       median     min        input size   model
 117.28     150.31     83.33      [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 553.58     558.76     535.47     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 594.18     592.64     535.47     [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-138.82     151.00     113.82     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 56.35      55.73      55.25      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 57.07      57.19      55.25      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 47.94      48.41      47.05      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -596,7 +587,6 @@ mean       median     min        input size   model
 406.28     416.58     385.68     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 2608.90    2612.42    2597.93    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 2609.88    2609.39    2597.93    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-809.55     814.66     794.67     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 228.95     228.74     228.35     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 227.97     228.61     226.76     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 192.29     192.26     191.74     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -653,7 +643,6 @@ mean       median     min        input size   model
 3002.36    3047.94    2655.38    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 50678.08   50651.82   50651.19   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 36249.71   37771.22   24606.37   [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
-19974.99   19984.80   19948.63   [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
 1502.15    1501.98    1500.99    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 1300.15    1320.44    1137.60    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 1993.05    1993.98    1991.86    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -680,9 +669,9 @@ Specs: [details_cn](https://doc.rvspace.org/VisionFive2/PB/VisionFive_2/specific
 
 CPU:
 <!-- config wechat is excluded due to it needs building with opencv_contrib -->
-<!-- config dasiam is excluded due to opencv cannot find ffmpeg and its components -->
+<!-- config vittrack is excluded due to opencv cannot find ffmpeg and its components -->
 ```
-$ python3 benchmark.py --all --cfg_exclude wechat:dasiam
+$ python3 benchmark.py --all --cfg_exclude wechat:vittrack
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_OPENCV
 target=cv.dnn.DNN_TARGET_CPU
