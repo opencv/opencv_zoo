@@ -207,6 +207,8 @@ mean       median     min        input size   model
 216.18     216.19     214.30     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 1207.83    1208.71    1203.64    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 1236.98    1250.21    1203.64    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+456.79     456.90     445.83     [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
+123.30     125.37     116.69     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 124.89     125.25     124.53     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 107.99     109.82     94.05      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 108.41     108.33     107.91     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -245,6 +247,8 @@ mean       median     min        input size   model
 54.24      55.24      52.87      [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 63.63      63.43      63.32      [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 371.45     378.00     366.39     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+77.50      77.73      76.16      [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
+126.86     129.59     118.19     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 33.85      33.90      33.61      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 38.16      37.33      37.10      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 91.65      91.98      89.90      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -275,6 +279,8 @@ mean       median     min        input size   model
 366.46     366.88     363.46     [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 163.06     163.34     161.77     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 301.10     311.52     297.74     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+53.34      54.30      51.79      [1280, 720]  DaSiamRPN with ['object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx', 'object_tracking_dasiamrpn_kernel_r1_2021nov.onnx', 'object_tracking_dasiamrpn_model_2021nov.onnx']
+125.94     121.17     117.67     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 149.37     149.95     148.01     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 153.89     153.96     153.43     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 44.29      44.03      43.62      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -724,3 +730,35 @@ mean       median     min        input size   model
 1237.00    1395.68    807.66     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 1169.59    1415.29    774.09     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
+
+<!--
+
+### Khadas VIM4
+
+CPU:
+
+```
+67.65      67.84      66.39      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
+```
+
+### NVIDIA Jetson Orin Nano
+
+CPU:
+
+```
+59.30      58.45      57.90      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
+```
+
+CUDA:
+
+```
+59.40      59.92      57.87      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
+```
+
+CUDA-FP16:
+
+```
+59.00      59.25      57.67      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
+```
+
+-->
