@@ -227,8 +227,9 @@ mean       median     min        input size   model
 
 GPU (CUDA-FP32):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
+<!-- config vittrack is excluded due to https://github.com/opencv/opencv/issues/24460 -->
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 1
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:vittrack --cfg_overwrite_backend_target 1
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA
@@ -244,7 +245,6 @@ mean       median     min        input size   model
 54.24      55.24      52.87      [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 63.63      63.43      63.32      [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 371.45     378.00     366.39     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
-126.86     129.59     118.19     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 33.85      33.90      33.61      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 38.16      37.33      37.10      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 91.65      91.98      89.90      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -258,8 +258,9 @@ mean       median     min        input size   model
 
 GPU (CUDA-FP16):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
+<!-- config vittrack is excluded due to https://github.com/opencv/opencv/issues/24460 -->
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 2
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:vittrack --cfg_overwrite_backend_target 2
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA_FP16
@@ -275,7 +276,6 @@ mean       median     min        input size   model
 366.46     366.88     363.46     [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 163.06     163.34     161.77     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 301.10     311.52     297.74     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
-125.94     121.17     117.67     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 149.37     149.95     148.01     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 153.89     153.96     153.43     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 44.29      44.03      43.62      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -404,6 +404,7 @@ mean       median     min        input size   model
 322.98     323.45     312.13     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 1875.33    1877.53    1871.26    [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 1989.04    2005.25    1871.26    [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+143.62     143.19     137.16     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 159.80     159.62     159.40     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 152.18     152.86     145.56     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 145.83     145.77     145.45     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
@@ -424,8 +425,10 @@ mean       median     min        input size   model
 
 NPU (CANN):
 
+<!-- vittrack is excluded due to HardSwish is not supported by CANN backend yet -->
+
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:crnn --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:crnn:vittrack --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CANN
 target=cv.dnn.DNN_TARGET_NPU
@@ -652,6 +655,7 @@ mean       median     min        input size   model
 3002.36    3047.94    2655.38    [416, 416]   NanoDet with ['object_detection_nanodet_2022nov_int8.onnx']
 50678.08   50651.82   50651.19   [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
 36249.71   37771.22   24606.37   [640, 640]   YoloX with ['object_detection_yolox_2022nov_int8.onnx']
+707.79     706.32     699.40     [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 1502.15    1501.98    1500.99    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 1300.15    1320.44    1137.60    [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb_int8.onnx']
 1993.05    1993.98    1991.86    [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
