@@ -1,18 +1,19 @@
 # VIT tracker
 
-VIT tracker(vision transformer tracker) is a much better model for  real-time object tracking. VIT tracker can achieve speeds exceeding  nanotrack by 20% in single-threaded mode with ARM chip, and the  advantage becomes even more pronounced in multi-threaded mode. In  addition, on the dataset, vit tracker demonstrates better performance  compared to nanotrack. Moreover, vit trackerprovides confidence values  during the tracking process, which can be used to determine if the  tracking is currently lost.
+VIT tracker(vision transformer tracker) is a much better model for real-time object tracking. VIT tracker can achieve speeds exceeding nanotrack by 20% in single-threaded mode with ARM chip, and the advantage becomes even more pronounced in multi-threaded mode. In addition, on the dataset, vit tracker demonstrates better performance compared to nanotrack. Moreover, vit trackerprovides confidence values during the tracking process, which can be used to determine if the tracking is currently lost.
 
-video demo: https://youtu.be/MJiPnu1ZQRI
- In target tracking tasks, the score is an important indicator that can  indicate whether the current target is lost. In the video, vit tracker  can track the target and display the current score in the upper left  corner of the video. When the target is lost, the score drops  significantly. While nanotrack will only return 0.9 score in any  situation, so that we cannot determine whether the target is lost.
+In target tracking tasks, the score is an important indicator that can indicate whether the current target is lost. In the video, vit tracker can track the target and display the current score in the upper left corner of the video. When the target is lost, the score drops significantly. While nanotrack will only return 0.9 score in any situation, so that we cannot determine whether the target is lost.
+
+Video demo: https://youtu.be/MJiPnu1ZQRI
 
 This model is contributed by [Pengyu Liu](https://github.com/lpylpy0514) in GSoC 2023 project [**Realtime object tracking models**](https://github.com/opencv/opencv/wiki/GSoC_2023#idea-realtime-object-tracking-models)
 
-**NOTE: OpenCV > 4.8.0**
+**NOTE: OpenCV > 4.8.0 is required. Build from source with instructions from https://opencv.org/get-started/.**
 
 # Demo
 
 ```bash
-#  tracking on video
+# tracking on video
 python demo.py --input /path/to/video
 
 # get help regarding various parameters

@@ -227,7 +227,6 @@ mean       median     min        input size   model
 
 GPU (CUDA-FP32):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
-<!-- config vittrack is excluded due to https://github.com/opencv/opencv/issues/24460 -->
 ```
 $ python3 benchmark.py --all --fp32 --cfg_exclude wechat:vittrack --cfg_overwrite_backend_target 1
 Benchmarking ...
@@ -245,6 +244,7 @@ mean       median     min        input size   model
 54.24      55.24      52.87      [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 63.63      63.43      63.32      [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 371.45     378.00     366.39     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+43.06      42.32      39.92      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 33.85      33.90      33.61      [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 38.16      37.33      37.10      [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 91.65      91.98      89.90      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -276,6 +276,7 @@ mean       median     min        input size   model
 366.46     366.88     363.46     [320, 240]   LPD_YuNet with ['license_plate_detection_lpd_yunet_2023mar.onnx']
 163.06     163.34     161.77     [416, 416]   NanoDet with ['object_detection_nanodet_2022nov.onnx']
 301.10     311.52     297.74     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+43.36      40.65      39.85      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 149.37     149.95     148.01     [192, 192]   MPPalmDet with ['palm_detection_mediapipe_2023feb.onnx']
 153.89     153.96     153.43     [224, 224]   MPPersonDet with ['person_detection_mediapipe_2023mar.onnx']
 44.29      44.03      43.62      [128, 256]   YoutuReID with ['person_reid_youtu_2021nov.onnx']
@@ -751,13 +752,13 @@ CPU:
 CUDA:
 
 ```
-59.40      59.92      57.87      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
+13.69      13.69      13.04      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 ```
 
 CUDA-FP16:
 
 ```
-59.00      59.25      57.67      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
+16.29      15.77      15.77      [1280, 720]  VitTrack with ['object_tracking_vittrack_2023sep.onnx']
 ```
 
 ### Atlas 200I DK
