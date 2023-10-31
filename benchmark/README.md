@@ -228,7 +228,7 @@ mean       median     min        input size   model
 GPU (CUDA-FP32):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:vittrack --cfg_overwrite_backend_target 1
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 1
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA
@@ -258,9 +258,8 @@ mean       median     min        input size   model
 
 GPU (CUDA-FP16):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
-<!-- config vittrack is excluded due to https://github.com/opencv/opencv/issues/24460 -->
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:vittrack --cfg_overwrite_backend_target 2
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 2
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA_FP16
@@ -683,9 +682,8 @@ Specs: [details_cn](https://doc.rvspace.org/VisionFive2/PB/VisionFive_2/specific
 
 CPU:
 <!-- config wechat is excluded due to it needs building with opencv_contrib -->
-<!-- config vittrack is excluded due to opencv cannot find ffmpeg and its components -->
 ```
-$ python3 benchmark.py --all --cfg_exclude wechat:vittrack
+$ python3 benchmark.py --all --cfg_exclude wechat
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_OPENCV
 target=cv.dnn.DNN_TARGET_CPU
