@@ -1,10 +1,26 @@
+# This file is part of OpenCV Zoo project.
+# It is subject to the license terms in the LICENSE file found in the same directory.
+
+import argparse
+
 import numpy as np
 import cv2 as cv
-import argparse
+
+
+from vittrack import VitTrack
 
 # Check OpenCV version
 assert cv.__version__ > "4.8.0", \
        "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
+
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
 
 parser = argparse.ArgumentParser(
     description="VIT track opencv API")
@@ -12,6 +28,18 @@ parser.add_argument('--input', '-i', type=str,
                     help='Usage: Set path to the input video. Omit for using default camera.')
 parser.add_argument('--model_path', type=str, default='object_tracking_vittrack_2023sep.onnx',
                     help='Usage: Set model path')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
+parser.add_argument('--save', '-s', action='store_true',
+                    help='Usage: Specify to save a file with results. Invalid in case of camera input.')
+parser.add_argument('--vis', '-v', action='store_true',
+                    help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
 
 def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),text_color=(0, 255, 0), fontScale = 1, fontSize = 1):
@@ -35,16 +63,16 @@ def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),tex
     return output
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
 
-    params = cv.TrackerVit_Params()
-    params.net = args.model_path
-    model = cv.TrackerVit_create(params)
+    model = VitTrack(
+        model_path=args.model_path,
+        backend_id=backend_id,
+        target_id=target_id)
 
     # Read from args.input
-    _input = args.input
-    if args.input is None:
-        device_id = 0
-        _input = device_id
+    _input = 0 if args.input is None else args.input
     video = cv.VideoCapture(_input)
 
     # Select an object
@@ -75,11 +103,9 @@ if __name__ == '__main__':
             break
         # Inference
         tm.start()
-        isLocated, bbox = model.update(frame)
-        score = model.getTrackingScore()
+        isLocated, bbox, score = model.infer(frame)
         tm.stop()
         # Visualize
         frame = visualize(frame, bbox, score, isLocated, fps=tm.getFPS())
-        cv.imshow('vittrack Demo', frame)
+        cv.imshow('VitTrack Demo', frame)
         tm.reset()
-

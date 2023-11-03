@@ -157,6 +157,13 @@ Models:
     acceptable_time: 700
     keyword: "pose_estimation_mediapipe"
 
+  - name: "VitTrack"
+    task: "Object Tracking"
+    input_size: "1280x720"
+    folder: "object_tracking_vittrack"
+    acceptable_time: 1000
+    keyword: "object_tracking_vittrack"
+
 
 Devices:
   - name: "Intel 12700K"

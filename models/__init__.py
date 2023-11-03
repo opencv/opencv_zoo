@@ -19,6 +19,7 @@ from .license_plate_detection_yunet.lpd_yunet import LPD_YuNet
 from .object_detection_nanodet.nanodet import NanoDet
 from .object_detection_yolox.yolox import YoloX
 from .facial_expression_recognition.facial_fer_model import FacialExpressionRecog
+from .object_tracking_vittrack.vittrack import VitTrack
 
 class ModuleRegistery:
     def __init__(self, name):
@@ -92,3 +93,4 @@ MODELS.register(LPD_YuNet)
 MODELS.register(NanoDet)
 MODELS.register(YoloX)
 MODELS.register(FacialExpressionRecog)
+MODELS.register(VitTrack)
