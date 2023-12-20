@@ -73,6 +73,20 @@ Models:
     acceptable_time: 2000
     keyword: "text_detection_DB_TD500_resnet18"
 
+  - name: "PPOCRDet-CN"
+    task: "Text Detection"
+    input_size: "640x480"
+    folder: "text_detection_ppocr"
+    acceptable_time: 2000
+    keyword: "text_detection_cn_ppocrv3_2023may"
+
+  - name: "PPOCRDet-EN"
+    task: "Text Detection"
+    input_size: "640x480"
+    folder: "text_detection_ppocr"
+    acceptable_time: 2000
+    keyword: "text_detection_en_ppocrv3_2023may"
+
   - name: "CRNN-EN"
     task: "Text Recognition"
     input_size: "100*32"
