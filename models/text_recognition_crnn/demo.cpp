@@ -41,10 +41,10 @@ std::string keys =
 "4: CANN + NPU}";
 
 
-class DB {
+class PPOCRDet {
 public:
 
-    DB(string modPath, Size inSize = Size(736, 736), float binThresh = 0.3,
+    PPOCRDet(string modPath, Size inSize = Size(736, 736), float binThresh = 0.3,
         float polyThresh = 0.5, int maxCand = 200, double unRatio = 2.0,
         dnn::Backend bId = DNN_BACKEND_DEFAULT, dnn::Target tId = DNN_TARGET_CPU) : modelPath(modPath), inputSize(inSize), binaryThreshold(binThresh),
         polygonThreshold(polyThresh), maxCandidates(maxCand), unclipRatio(unRatio),
@@ -215,7 +215,7 @@ int main(int argc, char** argv)
     bool save = parser.get<bool>("save");
     bool viz = parser.get<float>("viz");
 
-    DB detector("../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx", inpSize, binThresh, polyThresh, maxCand, unRatio, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
+    PPOCRDet detector("../text_detection_ppocr/text_detection_en_ppocrv3_2023may.onnx", inpSize, binThresh, polyThresh, maxCand, unRatio, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     CRNN recognizer(modelPath, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     VideoCapture cap;
@@ -232,9 +232,13 @@ int main(int argc, char** argv)
         cap >> originalImage;
         if (originalImage.empty())
         {
-            cout << "Frame is empty" << endl;
-            waitKey();
-            break;
+            if (parser.has("input"))
+            {
+                cout << "Frame is empty" << endl;
+                break;
+            }
+            else
+                continue;
         }
         int originalW = originalImage.cols;
         int originalH = originalImage.rows;
