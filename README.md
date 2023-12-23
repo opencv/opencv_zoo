@@ -95,13 +95,13 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![qrcode](./models/qrcode_wechatqrcode/example_outputs/wechat_qrcode_demo.gif)
 
-### Chinese Text detection [DB](./models/text_detection_db/)
+### Chinese Text detection [PPOCR-Det](./models/text_detection_ppocr/)
 
-![mask](./models/text_detection_db/example_outputs/mask.jpg)
+![mask](./models/text_detection_ppocr/example_outputs/mask.jpg)
 
-### English Text detection [DB](./models/text_detection_db/)
+### English Text detection [PPOCR-Det](./models/text_detection_ppocr/)
 
-![gsoc](./models/text_detection_db/example_outputs/gsoc.jpg)
+![gsoc](./models/text_detection_ppocr/example_outputs/gsoc.jpg)
 
 ### Text Detection with [CRNN](./models/text_recognition_crnn/)
 

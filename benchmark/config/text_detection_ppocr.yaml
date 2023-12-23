@@ -1,0 +1,20 @@
+Benchmark:
+  name: "Text Detection Benchmark"
+  type: "Detection"
+  data:
+    path: "data/text"
+    files: ["1.jpg", "2.jpg", "3.jpg"]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [640, 480]
+  metric:
+    warmup: 30
+    repeat: 10
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "PPOCRDet"
+  binaryThreshold: 0.3
+  polygonThreshold: 0.5
+  maxCandidates: 200
+  unclipRatio: 2.0
