@@ -12,8 +12,8 @@ import cv2 as cv
 
 from crnn import CRNN
 
-sys.path.append('../text_detection_db')
-from db import DB
+sys.path.append('../text_detection_ppocr')
+from ppocr_det import PPOCRDet
 
 # Check OpenCV version
 assert cv.__version__ >= "4.8.0", \
@@ -65,8 +65,8 @@ if __name__ == '__main__':
     backend_id = backend_target_pairs[args.backend_target][0]
     target_id = backend_target_pairs[args.backend_target][1]
 
-    # Instantiate DB for text detection
-    detector = DB(modelPath='../text_detection_db/text_detection_DB_IC15_resnet18_2021sep.onnx',
+    # Instantiate PPOCRDet for text detection
+    detector = PPOCRDet(modelPath='../text_detection_ppocr/text_detection_en_ppocrv3_2023may.onnx',
                   inputSize=[args.width, args.height],
                   binaryThreshold=0.3,
                   polygonThreshold=0.5,

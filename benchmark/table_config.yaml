@@ -59,20 +59,6 @@ Models:
     acceptable_time: 2000
     keyword: "object_detection_nanodet"
 
-  - name: "DB-IC15 (EN)"
-    task: "Text Detection"
-    input_size: "640x480"
-    folder: "text_detection_db"
-    acceptable_time: 2000
-    keyword: "text_detection_DB_IC15_resnet18"
-
-  - name: "DB-TD500 (EN&CN)"
-    task: "Text Detection"
-    input_size: "640x480"
-    folder: "text_detection_db"
-    acceptable_time: 2000
-    keyword: "text_detection_DB_TD500_resnet18"
-
   - name: "PPOCRDet-CN"
     task: "Text Detection"
     input_size: "640x480"
