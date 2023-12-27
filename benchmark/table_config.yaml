@@ -198,6 +198,10 @@ Devices:
     display_info: "Jetson Nano\nB01\nCPU"
     platform: "CPU"
 
+  - name: "Jetson Nano Orin"
+    display_info: "Jetson Nano\nOrin\nCPU"
+    platform: "CPU"
+
   - name: "Khadas VIM3"
     display_info: "Khadas VIM3\nA311D\nCPU"
     platform: "CPU"
@@ -212,6 +216,10 @@ Devices:
 
   - name: "Jetson Nano B01"
     display_info: "Jetson Nano\nB01\nGPU"
+    platform: "GPU (CUDA-FP32)"
+
+  - name: "Jetson Nano Orin"
+    display_info: "Jetson Nano\nOrin\nGPU"
     platform: "GPU (CUDA-FP32)"
 
   - name: "Khadas VIM3"
