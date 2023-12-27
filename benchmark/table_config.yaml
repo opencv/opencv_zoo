@@ -170,8 +170,8 @@ Devices:
     display_info: "Intel\n12700K\nCPU"
     platform: "CPU"
 
-  - name: "Rasberry Pi 4B"
-    display_info: "Rasberry Pi 4B\nBCM2711\nCPU"
+  - name: "Raspberry Pi 4B"
+    display_info: "Raspberry Pi 4B\nBCM2711\nCPU"
     platform: "CPU"
 
   - name: "StarFive VisionFive 2"
