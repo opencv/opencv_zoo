@@ -202,6 +202,10 @@ Devices:
     display_info: "Khadas VIM3\nA311D\nCPU"
     platform: "CPU"
 
+  - name: "Khadas VIM4"
+    display_info: "Khadas VIM4\nA311D2\nCPU"
+    platform: "CPU"
+
   - name: "Atlas 200 DK"
     display_info: "Atlas 200 DK\nAscend 310\nCPU"
     platform: "CPU"
