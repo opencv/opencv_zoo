@@ -217,6 +217,10 @@ data_downloaders = dict(
         url='https://drive.google.com/u/0/uc?id=1RbLyetgqFUTt0IHaVmu6c_b7KeXJgKbc&export=download',
         sha='fbae2fb0a47fe65e316bbd0ec57ba21461967550',
         filename='person_detection.zip'),
+    optical_flow_estimation=Downloader(name='optical_flow_estimation',
+        url='https://drive.google.com/u/0/uc?id=1_fvN7cgc-j92MeI_wHKGkhWxbXeML_gR&export=download',
+        sha='96b75eaef250efdde62184b07707827d76bd336c',
+        filename='optical_flow_estimation.zip'),
 )
 
 if __name__ == '__main__':

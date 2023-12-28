@@ -29,6 +29,12 @@ class Raft:
         img_input = img_input.astype(np.float32)
         return img_input
 
+    def setBackendAndTarget(self, backendId, targetId):
+        self.backend_id = backendId
+        self.target_id = targetId
+        self.model.setPreferableBackend(self.backend_id)
+        self.model.setPreferableTarget(self.target_id)
+
     def infer(self, image1, image2):
 
         # Preprocess

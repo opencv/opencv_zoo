@@ -1,0 +1,16 @@
+Benchmark:
+  name: "Optical Flow Estimation Benchmark"
+  type: "OpticalFlow"
+  data:
+    path: "data/optical_flow_estimation"
+    files: [["driving0.png", "driving1.png"], ["flyingThings3D0.png", "flyingThings3D1.png"], ["monkaa0.png", "monkaa1.png"]]
+    sizes: # [[w1, h1], ...], Omit to run at original scale
+      - [360, 480]
+  metric:
+    warmup: 30
+    repeat: 10
+  backend: "default"
+  target: "cpu"
+
+Model:
+  name: "Raft"

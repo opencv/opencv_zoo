@@ -115,6 +115,10 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![crnn_demo](./models/text_recognition_crnn/example_outputs/CRNNCTC.gif)
 
+### Optical Estimation with [RAFT](./models/optical_flow_estimation_raft/)
+
+![raft_demo](./models/optical_flow_estimation_raft/example_outputs/result.jpg)
+
 ## License
 
 OpenCV Zoo is licensed under the [Apache 2.0 license](./LICENSE). Please refer to licenses of different models.
