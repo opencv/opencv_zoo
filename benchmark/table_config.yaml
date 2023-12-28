@@ -75,14 +75,14 @@ Models:
 
   - name: "CRNN-EN"
     task: "Text Recognition"
-    input_size: "100*32"
+    input_size: "100x32"
     folder: "text_recognition_crnn"
     acceptable_time: 2000
     keyword: "text_recognition_CRNN_EN"
 
   - name: "CRNN-CN"
     task: "Text Recognition"
-    input_size: "100*32"
+    input_size: "100x32"
     folder: "text_recognition_crnn"
     acceptable_time: 2000
     keyword: "text_recognition_CRNN_CN"
@@ -238,9 +238,9 @@ Suffixes:
   - model: "MobileNet-V1"
     device: "Khadas VIM3"
     platform: "NPU (TIMVX)"
-    str: "\\*"
+    str: "\\"
 
   - model: "MobileNet-V2"
     device: "Khadas VIM3"
     platform: "NPU (TIMVX)"
-    str: "\\*"
+    str: "\\"
