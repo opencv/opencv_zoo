@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24.0)
 project(opencv_zoo_face_detection_yunet)
 
-set(OPENCV_VERSION "4.8.0")
+set(OPENCV_VERSION "4.9.0")
 set(OPENCV_INSTALLATION_PATH "" CACHE PATH "Where to look for OpenCV installation")
 
 # Find OpenCV

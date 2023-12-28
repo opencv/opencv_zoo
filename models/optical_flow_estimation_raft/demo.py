@@ -5,6 +5,10 @@ import numpy as np
 
 from raft import Raft
 
+# Check OpenCV version
+assert cv.__version__ > "4.9.0", \
+       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
+
 parser = argparse.ArgumentParser(description='RAFT (https://github.com/princeton-vl/RAFT)')
 parser.add_argument('--input1', '-i1', type=str,
                     help='Usage: Set input1 path to first image, omit if using camera or video.')
