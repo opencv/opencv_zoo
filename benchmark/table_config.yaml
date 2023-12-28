@@ -170,28 +170,24 @@ Devices:
     display_info: "Intel\n12700K\nCPU"
     platform: "CPU"
 
-  - name: "Raspberry Pi 4B"
-    display_info: "Raspberry Pi 4B\nBCM2711\nCPU"
+  - name: "Khadas VIM3"
+    display_info: "Khadas VIM3\nA311D\nCPU"
     platform: "CPU"
 
-  - name: "StarFive VisionFive 2"
-    display_info: "StarFive VisionFive 2\nStarFive JH7110\nCPU"
-    platform: "CPU"
-
-  - name: "Toybrick RV1126"
-    display_info: "Toybrick\nRV1126\nCPU"
+  - name: "Khadas VIM4"
+    display_info: "Khadas VIM4\nA311D2\nCPU"
     platform: "CPU"
 
   - name: "Khadas Edge2 (with RK3588)"
     display_info: "Khadas Edge2\nRK3588S\nCPU"
     platform: "CPU"
 
-  - name: "Horizon Sunrise X3 PI"
-    display_info: "Horizon Sunrise Pi\nX3\nCPU"
+  - name: "Atlas 200 DK"
+    display_info: "Atlas 200 DK\nAscend 310\nCPU"
     platform: "CPU"
 
-  - name: "MAIX-III AX-PI"
-    display_info: "MAIX-III AX-Pi\nAX620A\nCPU"
+  - name: "Atlas 200I DK A2"
+    display_info: "Atlas 200I DK A2\nAscend 310B\nCPU"
     platform: "CPU"
 
   - name: "Jetson Nano B01"
@@ -202,20 +198,24 @@ Devices:
     display_info: "Jetson Nano\nOrin\nCPU"
     platform: "CPU"
 
-  - name: "Khadas VIM3"
-    display_info: "Khadas VIM3\nA311D\nCPU"
+  - name: "Raspberry Pi 4B"
+    display_info: "Raspberry Pi 4B\nBCM2711\nCPU"
     platform: "CPU"
 
-  - name: "Khadas VIM4"
-    display_info: "Khadas VIM4\nA311D2\nCPU"
+  - name: "Horizon Sunrise X3 PI"
+    display_info: "Horizon Sunrise Pi\nX3\nCPU"
     platform: "CPU"
 
-  - name: "Atlas 200 DK"
-    display_info: "Atlas 200 DK\nAscend 310\nCPU"
+  - name: "MAIX-III AX-PI"
+    display_info: "MAIX-III AX-Pi\nAX620A\nCPU"
     platform: "CPU"
 
-  - name: "Atlas 200I DK A2"
-    display_info: "Atlas 200I DK A2\nAscend 310B\nCPU"
+  - name: "Toybrick RV1126"
+    display_info: "Toybrick\nRV1126\nCPU"
+    platform: "CPU"
+
+  - name: "StarFive VisionFive 2"
+    display_info: "StarFive VisionFive 2\nStarFive JH7110\nCPU"
     platform: "CPU"
 
   - name: "Jetson Nano B01"
