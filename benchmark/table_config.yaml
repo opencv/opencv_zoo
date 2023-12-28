@@ -170,6 +170,14 @@ Devices:
     display_info: "Intel\n12700K\nCPU"
     platform: "CPU"
 
+  - name: "Atlas 200I DK A2"
+    display_info: "Atlas 200I DK A2\nAscend 310B\nCPU"
+    platform: "CPU"
+
+  - name: "Atlas 200 DK"
+    display_info: "Atlas 200 DK\nAscend 310\nCPU"
+    platform: "CPU"
+
   - name: "Khadas VIM3"
     display_info: "Khadas VIM3\nA311D\nCPU"
     platform: "CPU"
@@ -180,14 +188,6 @@ Devices:
 
   - name: "Khadas Edge2 (with RK3588)"
     display_info: "Khadas Edge2\nRK3588S\nCPU"
-    platform: "CPU"
-
-  - name: "Atlas 200 DK"
-    display_info: "Atlas 200 DK\nAscend 310\nCPU"
-    platform: "CPU"
-
-  - name: "Atlas 200I DK A2"
-    display_info: "Atlas 200I DK A2\nAscend 310B\nCPU"
     platform: "CPU"
 
   - name: "Jetson Nano B01"
