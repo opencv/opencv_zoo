@@ -238,9 +238,9 @@ Suffixes:
   - model: "MobileNet-V1"
     device: "Khadas VIM3"
     platform: "NPU (TIMVX)"
-    str: "\\"
+    str: "\\*"
 
   - model: "MobileNet-V2"
     device: "Khadas VIM3"
     platform: "NPU (TIMVX)"
-    str: "\\"
+    str: "\\*"
