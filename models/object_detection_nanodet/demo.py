@@ -5,7 +5,7 @@ import argparse
 from nanodet import NanoDet
 
 # Check OpenCV version
-assert cv.__version__ >= "4.8.0", \
+assert cv.__version__ >= "4.9.0", \
        "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
 # Valid combinations of backends and targets
