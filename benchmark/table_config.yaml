@@ -214,6 +214,10 @@ Devices:
     display_info: "Atlas 200 DK\nAscend 310\nCPU"
     platform: "CPU"
 
+  - name: "Atlas 200I DK A2"
+    display_info: "Atlas 200I DK A2\nAscend 310B\nCPU"
+    platform: "CPU"
+
   - name: "Jetson Nano B01"
     display_info: "Jetson Nano\nB01\nGPU"
     platform: "GPU (CUDA-FP32)"
