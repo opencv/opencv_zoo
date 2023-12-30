@@ -114,6 +114,7 @@ mean       median     min        input size   model
 9.68       9.21       7.74       [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 9.85       10.63      7.74       [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 9.63       9.28       7.74       [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+1023.71    1024.90    1016.75    [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### Raspberry Pi 4B
@@ -171,6 +172,7 @@ mean       median     min        input size   model
 223.58     219.82     200.44     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 225.60     243.89     200.44     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 220.97     223.16     193.91     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+16176.34   16377.71   15127.76   [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### Jetson Nano B01
@@ -229,12 +231,13 @@ mean       median     min        input size   model
 243.46     238.98     219.06     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 246.87     256.05     219.06     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 243.37     238.90     219.06     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+12659.89   12689.15   12543.48   [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 GPU (CUDA-FP32):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 1
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:raft --cfg_overwrite_backend_target 1
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA
@@ -265,7 +268,7 @@ mean       median     min        input size   model
 GPU (CUDA-FP16):
 <!-- config wechat is excluded due to its api does not support setting backend and target -->
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 2
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:raft --cfg_overwrite_backend_target 2
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA_FP16
@@ -348,6 +351,7 @@ mean       median     min        input size   model
 182.90     178.97     161.37     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 184.26     194.43     161.37     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 180.65     180.59     155.36     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+9608.99    9618.12    9544.66    [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 NPU (TIMVX):
@@ -433,6 +437,7 @@ mean       median     min        input size   model
 277.84     262.99     243.87     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 283.02     280.77     243.87     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 279.21     262.55     243.87     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+22969.43   22973.42   22954.32   [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 NPU (CANN):
@@ -440,7 +445,7 @@ NPU (CANN):
 <!-- vittrack is excluded due to HardSwish is not supported by CANN backend yet -->
 
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:crnn:vittrack --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:crnn:vittrack:raft --model_exclude pose_estimation_mediapipe_2023mar.onnx --cfg_overwrite_backend_target 4
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CANN
 target=cv.dnn.DNN_TARGET_NPU
@@ -516,6 +521,7 @@ mean       median     min        input size   model
 2035.98    2185.05    1268.94    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 1927.93    2178.84    1268.94    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 1822.23    2213.30    1183.93    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+316818.19  316973.10  316458.29  [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### Khadas Edge2 (with RK3588)
@@ -574,6 +580,7 @@ mean       median     min        input size   model
 67.36      65.65      61.13      [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 68.52      69.93      61.13      [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 68.36      65.65      61.13      [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+4643.54    4649.53    4575.53    [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### Horizon Sunrise X3 PI
@@ -632,6 +639,7 @@ mean       median     min        input size   model
 425.24     426.69     380.35     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 431.14     447.85     380.35     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 424.77     417.01     380.35     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+25455.99   25444.32   25274.29   [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### MAIX-III AX-PI
@@ -690,6 +698,7 @@ mean       median     min        input size   model
 3065.33    3217.99    2348.42    [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 2976.24    3244.75    2348.42    [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 2864.72    3219.46    2208.44    [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+433898.12  433937.47  433829.11  [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### StarFive VisionFive 2
@@ -747,6 +756,7 @@ mean       median     min        input size   model
 1313.68    1427.46    808.70     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 1242.07    1408.93    808.70     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 1174.32    1426.07    774.78     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+221318.94  221288.53  221240.32  [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### Khadas VIM4
@@ -807,6 +817,7 @@ mean       median     min        input size   model
 127.63     124.81     113.82     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 129.24     134.50     113.82     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 126.64     125.09     110.45     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+7945.31    7945.83    7917.72    [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 ### Jetson Nano Orin
@@ -865,12 +876,13 @@ mean       median     min        input size   model
 135.17     130.23     109.24     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 138.38     143.25     109.24     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 137.08     134.22     109.24     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+4404.12    4435.06    4329.78    [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
 
 GPU (CUDA-FP32):
 
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 1
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:raft --cfg_overwrite_backend_target 1
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA
@@ -901,7 +913,7 @@ mean       median     min        input size   model
 GPU (CUDA-FP16):
 
 ```
-$ python3 benchmark.py --all --fp32 --cfg_exclude wechat --cfg_overwrite_backend_target 2
+$ python3 benchmark.py --all --fp32 --cfg_exclude wechat:raft --cfg_overwrite_backend_target 2
 Benchmarking ...
 backend=cv.dnn.DNN_BACKEND_CUDA
 target=cv.dnn.DNN_TARGET_CUDA_FP16
@@ -984,4 +996,5 @@ mean       median     min        input size   model
 163.43     152.16     135.52     [1280, 720]  CRNN with ['text_recognition_CRNN_CH_2022oct_int8.onnx']
 173.46     162.85     135.52     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 175.28     145.22     135.52     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
+11978.21   11971.35   11135.99   [360, 480]   Raft with ['optical_flow_estimation_raft_2023aug.onnx']
 ```
