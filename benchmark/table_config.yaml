@@ -164,6 +164,13 @@ Models:
     acceptable_time: 1000
     keyword: "object_tracking_vittrack"
 
+  - name: "RAFT"
+    task: "Optical Flow Estimation"
+    input_size: "360x480"
+    folder: "optical_flow_estimation_raft"
+    acceptable_time: 30000
+    keyword: "optical_flow_estimation_raft"
+
 
 Devices:
   - name: "Intel 12700K"
