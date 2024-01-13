@@ -32,6 +32,12 @@ python demo.py --target /path/to/image1 --query /path/to/image2
 python demo.py --help
 ```
 
+### Example outputs
+
+![sface demo](./example_outputs/demo.jpg)
+
+Note: Left part of the image is the target identity, the right part is the query. Green boxes are the same identity, red boxes are different identities compared to the left.
+
 ## License
 
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE).

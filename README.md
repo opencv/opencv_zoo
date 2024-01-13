@@ -61,6 +61,10 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![largest selfie](./models/face_detection_yunet/example_outputs/largest_selfie.jpg)
 
+### Face Recognition with [SFace](./models/face_recognition_sface/)
+
+![sface demo](./models/face_recognition_sface/example_outputs/demo.jpg)
+
 ### Facial Expression Recognition with [Progressive Teacher](./models/facial_expression_recognition/)
 
 ![fer demo](./models/facial_expression_recognition/example_outputs/selfie.jpg)
