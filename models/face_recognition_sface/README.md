@@ -26,7 +26,7 @@ Run the following command to try the demo:
 
 ```shell
 # recognize on images
-python demo.py --input1 /path/to/image1 --input2 /path/to/image2
+python demo.py --target /path/to/image1 --query /path/to/image2
 
 # get help regarding various parameters
 python demo.py --help
