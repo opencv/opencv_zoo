@@ -57,7 +57,7 @@ class SFace:
 
         if self._disType == 0: # COSINE
             cosine_score = self._model.match(feature1, feature2, self._disType)
-            return 1 if cosine_score >= self._threshold_cosine else 0
+            return cosine_score, 1 if cosine_score >= self._threshold_cosine else 0
         else: # NORM_L2
             norml2_distance = self._model.match(feature1, feature2, self._disType)
-            return 1 if norml2_distance <= self._threshold_norml2 else 0
+            return norml2_distance, 1 if norml2_distance <= self._threshold_norml2 else 0

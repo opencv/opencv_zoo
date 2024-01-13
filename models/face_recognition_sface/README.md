@@ -26,11 +26,17 @@ Run the following command to try the demo:
 
 ```shell
 # recognize on images
-python demo.py --input1 /path/to/image1 --input2 /path/to/image2
+python demo.py --target /path/to/image1 --query /path/to/image2
 
 # get help regarding various parameters
 python demo.py --help
 ```
+
+### Example outputs
+
+![sface demo](./example_outputs/demo.jpg)
+
+Note: Left part of the image is the target identity, the right part is the query. Green boxes are the same identity, red boxes are different identities compared to the left.
 
 ## License
 
