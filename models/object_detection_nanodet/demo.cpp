@@ -387,7 +387,10 @@ void processImage(Mat& inputImage, NanoDet& nanodet, TickMeter& tm, bool save, b
     tm.start();
     Mat predictions = nanodet.infer(inputBlob);
     tm.stop();
-    cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
+    if (!video)
+    {
+        cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
+    }
 
     Mat img = visualize(predictions, inputImage, letterboxScale, video, tm.getFPS());
     cvtColor(img, img, COLOR_BGR2RGB);
