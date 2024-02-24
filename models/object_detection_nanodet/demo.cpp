@@ -395,6 +395,10 @@ void processImage(Mat& inputImage, NanoDet& nanodet, TickMeter& tm, bool save, b
     {
         static const string kOutputName = "result.jpg";
         imwrite(kOutputName, img);
+        if (!video)
+        {
+            cout << "Results saved to " + kOutputName << endl;
+        }
     }
     if (vis)
     {
