@@ -471,6 +471,7 @@ int main(int argc, char** argv)
                 waitKey();
                 break;
             }
+            tm.reset();
             processImage(frame, nanodet, tm, save, vis);
         }
         cap.release();
