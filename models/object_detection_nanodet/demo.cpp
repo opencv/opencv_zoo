@@ -344,11 +344,11 @@ vector<int> unletterbox(const Mat& bbox, const Size& original_image_shape, const
 }
 
 // Function to visualize predictions on an image
-Mat visualize(const Mat& preds, const Mat& result_image, const vector<double>& letterbox_scale, double fps = 0.0) {
+Mat visualize(const Mat& preds, const Mat& result_image, const vector<double>& letterbox_scale, bool video, double fps = 0.0) {
     Mat visualized_image = result_image.clone();
 
     // Draw FPS if provided
-    if (fps > 0.0) {
+    if (fps > 0.0 && video) {
         string fps_text = "FPS: " + to_string(fps);
         putText(visualized_image, fps_text, Point(10, 25), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
     }
@@ -377,7 +377,7 @@ Mat visualize(const Mat& preds, const Mat& result_image, const vector<double>& l
     return visualized_image;
 }
 
-void processImage(Mat& inputImage, NanoDet& nanodet, TickMeter& tm, bool save, bool vis)
+void processImage(Mat& inputImage, NanoDet& nanodet, TickMeter& tm, bool save, bool vis, bool video)
 {
     cvtColor(inputImage, inputImage, COLOR_BGR2RGB);
     tuple<Mat, vector<double>> w = letterbox(inputImage);
@@ -389,7 +389,7 @@ void processImage(Mat& inputImage, NanoDet& nanodet, TickMeter& tm, bool save, b
     tm.stop();
     cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
 
-    Mat img = visualize(predictions, inputImage, letterboxScale, tm.getFPS());
+    Mat img = visualize(predictions, inputImage, letterboxScale, video, tm.getFPS());
     cvtColor(img, img, COLOR_BGR2RGB);
     if (save)
     {
@@ -406,12 +406,12 @@ void processImage(Mat& inputImage, NanoDet& nanodet, TickMeter& tm, bool save, b
 
 const String keys =
         "{ help  h          |                                               | Print help message. }"
-        "{ model m          | object_detection_nanodet_2022nov.onnx        | Usage: Path to the model, defaults to object_detection_nanodet_2022nov.onnx  }"
+        "{ model m          | object_detection_nanodet_2022nov.onnx         | Usage: Path to the model, defaults to object_detection_nanodet_2022nov.onnx  }"
         "{ input i          |                                               | Path to the input image. Omit for using the default camera.}"
         "{ confidence       | 0.35                                          | Class confidence }"
         "{ nms              | 0.6                                           | Enter nms IOU threshold }"
-        "{ save s           | false                                         | Specify to save results. This flag is invalid when using the camera. }"
-        "{ vis v            | false                                         | Specify to open a window for result visualization. This flag is invalid when using the camera. }"
+        "{ save s           | true                                          | Specify to save results. This flag is invalid when using the camera. }"
+        "{ vis v            | true                                          | Specify to open a window for result visualization. This flag is invalid when using the camera. }"
         "{ backend bt       | 0                                             | Choose one of computation backends: "
         "0: (default) OpenCV implementation + CPU, "
         "1: CUDA + GPU (CUDA), "
@@ -450,7 +450,9 @@ int main(int argc, char** argv)
     if (parser.has("input"))
     {
         Mat inputImage = imread(samples::findFile(inputPath));
-        processImage(inputImage, nanodet, tm, save, vis);
+        static const bool kNotVideo = false;
+        processImage(inputImage, nanodet, tm, save, vis, kNotVideo);
+        waitKey(0);
     }
     else
     {
@@ -472,7 +474,8 @@ int main(int argc, char** argv)
                 break;
             }
             tm.reset();
-            processImage(frame, nanodet, tm, save, vis);
+            static const bool kIsVideo = true;
+            processImage(frame, nanodet, tm, save, vis, kIsVideo);
         }
         cap.release();
     }
