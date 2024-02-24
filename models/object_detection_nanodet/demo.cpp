@@ -8,7 +8,8 @@ using namespace std;
 using namespace cv;
 using namespace dnn;
 
-const auto backendTargetPairs = vector<pair<Backend, Target>>{
+const auto backendTargetPairs = vector<pair<Backend, Target>>
+{
     {DNN_BACKEND_OPENCV, DNN_TARGET_CPU},
     {DNN_BACKEND_CUDA, DNN_TARGET_CUDA},
     {DNN_BACKEND_CUDA, DNN_TARGET_CUDA_FP16},
@@ -16,7 +17,8 @@ const auto backendTargetPairs = vector<pair<Backend, Target>>{
     {DNN_BACKEND_CANN, DNN_TARGET_NPU}
 };
 
-const vector<string> nanodetClassLabels = {
+const vector<string> nanodetClassLabels = 
+{
     "person", "bicycle", "car", "motorcycle", "airplane", "bus",
     "train", "truck", "boat", "traffic light", "fire hydrant",
     "stop sign", "parking meter", "bench", "bird", "cat", "dog",
@@ -30,9 +32,11 @@ const vector<string> nanodetClassLabels = {
     "potted plant", "bed", "dining table", "toilet", "tv", "laptop",
     "mouse", "remote", "keyboard", "cell phone", "microwave",
     "oven", "toaster", "sink", "refrigerator", "book", "clock",
-    "vase", "scissors", "teddy bear", "hair drier", "toothbrush" };
+    "vase", "scissors", "teddy bear", "hair drier", "toothbrush" 
+};
 
-class NanoDet {
+class NanoDet 
+{
 public:
     NanoDet(const String& modelPath, const float probThresh = 0.35, const float iouThresh = 0.6, 
             const Backend bId = DNN_BACKEND_DEFAULT, const Target tId = DNN_TARGET_CPU) :
@@ -121,7 +125,8 @@ public:
 
         Mat indices_float = indices.colRange(0, nms_pre);
         Mat selected_anchors, selected_bbox_pred, selected_cls_score;
-        for (int j = 0; j < indices_float.cols; ++j) {
+        for (int j = 0; j < indices_float.cols; ++j) 
+        {
             selected_anchors.push_back(anchors.row(indices_float.at<int>(j)));
             selected_bbox_pred.push_back(bbox_pred.row(indices_float.at<int>(j)));
             selected_cls_score.push_back(cls_score.row(indices_float.at<int>(j)));
@@ -161,7 +166,8 @@ public:
         Mat bboxes_wh(bboxes.clone());
         bboxes_wh.colRange(2, 4) = bboxes_wh.colRange(2, 4) -= bboxes_wh.colRange(0, 2);
         vector<Rect2d> boxesXYXY;
-        for (size_t i = 0; i < bboxes_wh.rows; i++) {
+        for (size_t i = 0; i < bboxes_wh.rows; i++) 
+        {
             boxesXYXY.emplace_back(bboxes.at<float>(i, 0),
                                    bboxes.at<float>(i, 1),
                                    bboxes.at<float>(i, 2),
@@ -175,7 +181,8 @@ public:
         Mat classIds(scores.rows, 1, CV_32FC1);
         Mat confidences(scores.rows, 1, CV_32FC1);
 
-        for (size_t i = 0; i < scores.rows; ++i) {
+        for (size_t i = 0; i < scores.rows; ++i) 
+        {
             Point maxLoc;
             minMaxLoc(scores.row(i), nullptr, nullptr, nullptr, &maxLoc);
             classIds.at<float>(i) = maxLoc.x;
@@ -187,7 +194,8 @@ public:
     Mat postProcess(const vector<Mat>& preds)
     {
         vector<Mat> cls_scores, bbox_preds;
-        for (size_t i = 0; i < preds.size(); i += 2) {
+        for (size_t i = 0; i < preds.size(); i += 2) 
+        {
             cls_scores.push_back(preds[i]);
             bbox_preds.push_back(preds[i + 1]);
         }
@@ -195,7 +203,8 @@ public:
         vector<Mat> bboxes_mlvl;
         vector<Mat> scores_mlvl;
 
-        for (size_t i = 0; i < strides.size(); ++i) {
+        for (size_t i = 0; i < strides.size(); ++i) 
+        {
             if (i >= cls_scores.size() || i >= bbox_preds.size()) continue;
             // Extract necessary data
             int stride = strides[i];
@@ -209,7 +218,8 @@ public:
             bbox_pred = stride * bbox_pred;
 
             const int nms_pre = 1000;
-            if (nms_pre > 0 && cls_score.rows > nms_pre) {
+            if (nms_pre > 0 && cls_score.rows > nms_pre) 
+            {
                 preNMS(anchors, bbox_pred, cls_score, nms_pre);
             }
             
@@ -231,14 +241,16 @@ public:
         NMSBoxes(boxesXYXY, confidences, probThreshold, iouThreshold, indices);
 
         Mat det_bboxes, det_conf, det_classid;
-        for (int idx : indices) {
+        for (int idx : indices) 
+        {
             det_bboxes.push_back(bboxes.row(idx));
             det_conf.push_back(confidences.at<float>(idx));
             det_classid.push_back(classIds.at<float>(idx));
         }
 
         Mat result;
-        if (!det_bboxes.empty()) {
+        if (!det_bboxes.empty()) 
+        {
             hconcat(det_bboxes, det_conf, result);
             hconcat(result, det_classid, result);
         }
@@ -254,8 +266,10 @@ public:
             
             vector<Mat> anchors;
             
-            for (int y = 0; y < feat_h; ++y) {
-                for (int x = 0; x < feat_w; ++x) {
+            for (int y = 0; y < feat_h; ++y) 
+            {
+                for (int x = 0; x < feat_w; ++x) 
+                {
                     float shift_x = x * stride;
                     float shift_y = y * stride;
                     float cx = shift_x + 0.5 * (stride - 1);
@@ -286,27 +300,34 @@ private:
 };
 
 // Function to resize and pad an image and return both the image and scale information
-tuple<Mat, vector<double>> letterbox(const Mat& sourceImage, const Size& target_size = Size(416, 416)) {
+tuple<Mat, vector<double>> letterbox(const Mat& sourceImage, const Size& target_size = Size(416, 416)) 
+{
     Mat img = sourceImage.clone();
 
     double top = 0, left = 0, newh = target_size.height, neww = target_size.width;
 
-    if (img.rows != img.cols) {
+    if (img.rows != img.cols) 
+    {
         double hw_scale = static_cast<double>(img.rows) / img.cols;
-        if (hw_scale > 1) {
+        if (hw_scale > 1) 
+        {
             newh = target_size.height;
             neww = static_cast<int>(target_size.width / hw_scale);
             resize(img, img, Size(neww, newh), 0, 0, INTER_AREA);
             left = static_cast<int>((target_size.width - neww) * 0.5);
             copyMakeBorder(img, img, 0, 0, left, target_size.width - neww - left, BORDER_CONSTANT, Scalar(0));
-        } else {
+        } 
+        else 
+        {
             newh = static_cast<int>(target_size.height * hw_scale);
             neww = target_size.width;
             resize(img, img, Size(neww, newh), 0, 0, INTER_AREA);
             top = static_cast<int>((target_size.height - newh) * 0.5);
             copyMakeBorder(img, img, top, target_size.height - newh - top, 0, 0, BORDER_CONSTANT, Scalar(0));
         }
-    } else {
+    } 
+    else 
+    {
         resize(img, img, target_size, 0, 0, INTER_AREA);
     }
     vector<double> letterbox_scale = {top, left, newh, neww};
@@ -315,7 +336,8 @@ tuple<Mat, vector<double>> letterbox(const Mat& sourceImage, const Size& target_
 }
 
 // Function to scale bounding boxes back to original image coordinates
-vector<int> unletterbox(const Mat& bbox, const Size& original_image_shape, const vector<double>& letterbox_scale) {
+vector<int> unletterbox(const Mat& bbox, const Size& original_image_shape, const vector<double>& letterbox_scale) 
+{
     vector<int> ret(bbox.cols);
 
     int h = original_image_shape.height;
@@ -325,9 +347,11 @@ vector<int> unletterbox(const Mat& bbox, const Size& original_image_shape, const
     double newh = letterbox_scale[2];
     double neww = letterbox_scale[3];
 
-    if (h == w) {
+    if (h == w) 
+    {
         double ratio = static_cast<double>(h) / newh;
-        for (int& val : ret) {
+        for (int& val : ret) 
+        {
             val = static_cast<int>(val * ratio);
         }
         return ret;
@@ -344,18 +368,21 @@ vector<int> unletterbox(const Mat& bbox, const Size& original_image_shape, const
 }
 
 // Function to visualize predictions on an image
-Mat visualize(const Mat& preds, const Mat& result_image, const vector<double>& letterbox_scale, bool video, double fps = 0.0) {
+Mat visualize(const Mat& preds, const Mat& result_image, const vector<double>& letterbox_scale, bool video, double fps = 0.0) 
+{
     Mat visualized_image = result_image.clone();
 
     // Draw FPS if provided
-    if (fps > 0.0 && video) {
+    if (fps > 0.0 && video) 
+    {
         std::ostringstream fps_stream;
         fps_stream << "FPS: " << std::fixed << std::setprecision(2) << fps;
         putText(visualized_image, fps_stream.str(), Point(10, 25), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
     }
 
     // Draw bounding boxes and labels for each prediction
-    for (size_t i = 0; i < preds.rows; i++) {
+    for (size_t i = 0; i < preds.rows; i++) 
+    {
         Mat pred = preds.row(i);
         Mat bbox = pred.colRange(0, 4);
         double conf = pred.at<float>(4);
@@ -487,6 +514,5 @@ int main(int argc, char** argv)
         }
         cap.release();
     }
-
     return 0;
 }
