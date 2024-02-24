@@ -349,8 +349,9 @@ Mat visualize(const Mat& preds, const Mat& result_image, const vector<double>& l
 
     // Draw FPS if provided
     if (fps > 0.0 && video) {
-        string fps_text = "FPS: " + to_string(fps);
-        putText(visualized_image, fps_text, Point(10, 25), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
+        std::ostringstream fps_stream;
+        fps_stream << "FPS: " << std::fixed << std::setprecision(2) << fps;
+        putText(visualized_image, fps_stream.str(), Point(10, 25), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
     }
 
     // Draw bounding boxes and labels for each prediction
