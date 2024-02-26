@@ -306,6 +306,10 @@ int main(int argc, char** argv)
         tm.stop();
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
         Mat img = visualize(predictions, frame, letterboxScale, tm.getFPS());
+        if (save)
+        {
+            imwrite("result.jpg", img);
+        }
         if (vis)
         {
             imshow(kWinName, img);
