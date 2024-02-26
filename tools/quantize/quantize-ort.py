@@ -77,7 +77,7 @@ class Quantize:
         print('Quantizing {}: act_type {}, wt_type {}'.format(self.model_path, self.act_type, self.wt_type))
         new_model_path = self.check_opset()
         quant_pre_process(new_model_path, new_model_path)
-        output_name = '{}_{}_new.onnx'.format(self.model_path[:-5], self.wt_type)
+        output_name = '{}_{}.onnx'.format(self.model_path[:-5], self.wt_type)
         quantize_static(new_model_path, output_name, self.dr,
                         quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
                         per_channel=self.per_channel,
