@@ -124,7 +124,7 @@ public:
         {
             rotBoxes[i] = Rect2d(Point2d(boxes.at<float>(i, 0), boxes.at<float>(i, 1)), Point2d(boxes.at<float>(i, 2), boxes.at<float>(i, 3)));
         }
-        vector< int > keep;
+        vector<int> keep;
         NMSBoxes(rotBoxes, score, this->scoreThreshold, this->nmsThreshold, keep, 1.0f, this->topK);
         if (keep.size() == 0)
             return Mat();
@@ -567,7 +567,7 @@ int main(int argc, char** argv)
     MPPose poseEstimator(model, confThreshold, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     if (!cap.isOpened())
-        CV_Error(Error::StsError, "Cannot opend video or file");
+        CV_Error(Error::StsError, "Cannot open video or file");
 
     static const std::string kWinName = "MPPose Demo";
     while (waitKey(1) < 0)

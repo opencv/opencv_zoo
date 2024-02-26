@@ -237,10 +237,9 @@ int main(int argc, char** argv)
         backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     if (!cap.isOpened())
-        CV_Error(Error::StsError, "Cannot opend video or file");
+        CV_Error(Error::StsError, "Cannot  video or file");
 
     static const std::string kWinName = "MPPersonDet Demo";
-    int nbInference = 0;
     while (waitKey(1) < 0)
     {
         cap >> frame;

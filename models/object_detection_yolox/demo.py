@@ -120,7 +120,7 @@ if __name__=='__main__':
         img = vis(preds, image, letterbox_scale)
 
         if args.save:
-            print('Resutls saved to result.jpg\n')
+            print('Results saved to result.jpg\n')
             cv.imwrite('result.jpg', img)
 
         if args.vis:
