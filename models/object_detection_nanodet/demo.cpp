@@ -112,7 +112,7 @@ public:
         multiply(input, repeat_project, input);
         reduce(input, input, 1, REDUCE_SUM, CV_32F);
         Mat projection = input.col(0).clone();
-        return projection.reshape(0, (4, projection.total() / 4));
+        return projection.reshape(0, projection.total() / 4);
     }
 
     void preNMS(Mat& anchors, Mat& bbox_pred, Mat& cls_score, const int nms_pre = 1000)
@@ -235,7 +235,9 @@ public:
         vconcat(scores_mlvl, scores);
 
         vector<Rect2d> boxesXYXY = bboxMatToRect2d(bboxes);
-        auto [classIds, confidences] = getClassIdAndConfidences(scores);
+        std::tuple<Mat, Mat> classIdAndConfidences = getClassIdAndConfidences(scores);
+        Mat classIds = std::get<0>(classIdAndConfidences);
+        Mat confidences = std::get<1>(classIdAndConfidences);
 
         vector<int> indices;
         NMSBoxes(boxesXYXY, confidences, probThreshold, iouThreshold, indices);
