@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
+set(CMAKE_CXX_STANDARD 11)
 set(project_name "opencv_zoo_face_expression_recognition")
 
 PROJECT (${project_name})
