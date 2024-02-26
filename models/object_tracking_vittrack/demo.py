@@ -52,7 +52,7 @@ def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),tex
         # bbox: Tuple of length 4
         x, y, w, h = bbox
         cv.rectangle(output, (x, y), (x+w, y+h), box_color, 2)
-        cv.putText(output, '{:.2f}'.format(score), (x, y+20), cv.FONT_HERSHEY_DUPLEX, fontScale, text_color, fontSize)
+        cv.putText(output, '{:.2f}'.format(score), (x, y+25), cv.FONT_HERSHEY_DUPLEX, fontScale, text_color, fontSize)
     else:
         text_size, baseline = cv.getTextSize('Target lost!', cv.FONT_HERSHEY_DUPLEX, fontScale, fontSize)
         text_x = int((w - text_size[0]) / 2)
