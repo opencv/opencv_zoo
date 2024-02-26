@@ -45,7 +45,10 @@ private:
     int target_id;
     
 public:
-    FER(const string& modelPath, int backend_id, int target_id) : modelPath(modelPath), backend_id(backend_id), target_id(target_id)
+    FER(const string& modelPath, 
+        int backend_id = 0, 
+        int target_id = 0) 
+      : modelPath(modelPath), backend_id(backend_id), target_id(target_id)
     {
         this->model = readNet(modelPath);
         this->model.setPreferableBackend(backend_id);
@@ -202,7 +205,7 @@ string keys =
                                                                                         "3: TIM-VX + NPU,\n"
                                                                                         "4: CANN + NPU}"
 "{ save s           | false                                                             | Specify to save results.}"
-"{ vis v            | false                                                             | Specify to open a window for result visualization.}"
+"{ vis v            | true                                                              | Specify to open a window for result visualization.}"
 ;
 
 
