@@ -267,7 +267,6 @@ int main(int argc, char** argv)
     bool vis = parser.get<bool>("vis");
     bool save = parser.get<bool>("save");
     int backendTargetid = parser.get<int>("backend");
-    bool isInputImageProvided = parser.has("input");
 
     if (model.empty())
     {
@@ -278,7 +277,7 @@ int main(int argc, char** argv)
         backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     VideoCapture cap;
-    if (isInputImageProvided)
+    if (parser.has("input"))
         cap.open(samples::findFile(parser.get<String>("input")));
     else
         cap.open(0);
@@ -307,7 +306,7 @@ int main(int argc, char** argv)
         tm.stop();
         cout << "Inference time: " << tm.getTimeMilli() << " ms\n";
         Mat img = visualize(predictions, frame, letterboxScale, tm.getFPS());
-        if (save && isInputImageProvided)
+        if (save && parser.has("input"))
         {
             imwrite("result.jpg", img);
         }
