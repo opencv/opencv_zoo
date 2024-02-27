@@ -176,21 +176,6 @@ public:
         return boxesXYXY;
     }
 
-    std::tuple<Mat, Mat> getClassIdAndConfidences(const Mat& scores)
-    {
-        Mat classIds(scores.rows, 1, CV_32FC1);
-        Mat confidences(scores.rows, 1, CV_32FC1);
-
-        for (size_t i = 0; i < scores.rows; ++i) 
-        {
-            Point maxLoc;
-            minMaxLoc(scores.row(i), nullptr, nullptr, nullptr, &maxLoc);
-            classIds.at<float>(i) = maxLoc.x;
-            confidences.at<float>(i) = scores.at<float>(i, maxLoc.x);
-        }
-        return std::make_tuple(classIds, confidences);
-    }
-
     Mat postProcess(const vector<Mat>& preds)
     {
         vector<Mat> cls_scores, bbox_preds;
@@ -235,28 +220,31 @@ public:
         vconcat(scores_mlvl, scores);
 
         vector<Rect2d> boxesXYXY = bboxMatToRect2d(bboxes);
-        std::tuple<Mat, Mat> classIdAndConfidences = getClassIdAndConfidences(scores);
-        Mat classIds = std::get<0>(classIdAndConfidences);
-        Mat confidences = std::get<1>(classIdAndConfidences);
+        vector<int> classIds;
+        vector<float> confidences;
+        for (size_t i = 0; i < scores.rows; ++i) 
+        {
+            Point maxLoc;
+            minMaxLoc(scores.row(i), nullptr, nullptr, nullptr, &maxLoc);
+            classIds.push_back(maxLoc.x);
+            confidences.push_back(scores.at<float>(i, maxLoc.x));
+        }
 
         vector<int> indices;
-        NMSBoxes(boxesXYXY, confidences, probThreshold, iouThreshold, indices);
-
-        Mat det_bboxes, det_conf, det_classid;
-        for (int idx : indices) 
+        NMSBoxesBatched(boxesXYXY, confidences, classIds, probThreshold, iouThreshold, indices);
+        Mat result(int(indices.size()), 6, CV_32FC1);
+        int row = 0;
+        for (auto idx : indices)
         {
-            det_bboxes.push_back(bboxes.row(idx));
-            det_conf.push_back(confidences.at<float>(idx));
-            det_classid.push_back(classIds.at<float>(idx));
+            bboxes.rowRange(idx, idx + 1).copyTo(result(Rect(0, row, 4, 1)));
+            result.at<float>(row, 4) = confidences[idx];
+            result.at<float>(row, 5) = static_cast<float>(classIds[idx]);
+            row++;
         }
-
-        Mat result;
-        if (!det_bboxes.empty()) 
+        if (indices.size() == 0)
         {
-            hconcat(det_bboxes, det_conf, result);
-            hconcat(result, det_classid, result);
+            return Mat();
         }
-
         return result;
     }
 

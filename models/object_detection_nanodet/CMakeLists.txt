@@ -25,5 +25,8 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 # Declare the executable target built from your sources
 add_executable(${project_name} ${SourceFile})
 
+# Set C++ compilation standard to C++11
+set(CMAKE_CXX_STANDARD 11)
+
 # Link your application with OpenCV libraries
 target_link_libraries(${project_name} PRIVATE ${OpenCV_LIBS})
