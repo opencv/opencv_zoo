@@ -224,7 +224,7 @@ int main(int argc, char** argv)
     else
         cap.open(0);
     if (!cap.isOpened())
-        CV_Error(Error::StsError, "Cannot opend video or file");
+        CV_Error(Error::StsError, "Cannot open video or file");
     Mat originalImage;
     static const std::string kWinName = modelPath;
     while (waitKey(1) < 0)
