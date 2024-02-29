@@ -43,14 +43,6 @@ public:
         this->anchors = getMediapipeAnchor();
     }
 
-    void setBackendAndTarget(dnn::Backend bId, dnn::Target tId)
-    {
-        this->backendId = bId;
-        this->targetId = tId;
-        this->net.setPreferableBackend(this->backendId);
-        this->net.setPreferableTarget(this->targetId);
-    }
-
     pair<Mat, Size> preprocess(Mat img)
     {
         Mat blob;
@@ -237,10 +229,9 @@ int main(int argc, char** argv)
         backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
     //! [Open a video file or an image file or a camera stream]
     if (!cap.isOpened())
-        CV_Error(Error::StsError, "Cannot opend video or file");
+        CV_Error(Error::StsError, "Cannot open video or file");
 
     static const std::string kWinName = "MPPersonDet Demo";
-    int nbInference = 0;
     while (waitKey(1) < 0)
     {
         cap >> frame;

@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     else
         cap.open(0);
     if (!cap.isOpened())
-        CV_Error(Error::StsError, "Cannot opend video or file");
+        CV_Error(Error::StsError, "Cannot open video or file");
     Mat frame, blob;
     static const std::string kWinName = model;
     int nbInference = 0;

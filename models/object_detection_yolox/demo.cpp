@@ -61,14 +61,6 @@ public:
         this->generateAnchors();
     }
 
-    void setBackendAndTarget(dnn::Backend bId, dnn::Target tId)
-    {
-        this->backendId = bId;
-        this->targetId = tId;
-        this->net.setPreferableBackend(this->backendId);
-        this->net.setPreferableTarget(this->targetId);
-    }
-
     Mat preprocess(Mat img)
     {
         Mat blob;
@@ -137,7 +129,7 @@ public:
             boxesXYXY[r].height = boxes_xyxy.at<float>(r, 3);
         }
 
-        vector< int > keep;
+        vector<int> keep;
         NMSBoxesBatched(boxesXYXY, maxScores, maxScoreIdx, this->confThreshold, this->nmsThreshold, keep);
         Mat candidates(int(keep.size()), 6, CV_32FC1);
         int row = 0;
@@ -282,7 +274,7 @@ int main(int argc, char** argv)
     else
         cap.open(0);
     if (!cap.isOpened())
-        CV_Error(Error::StsError, "Cannot opend video or file");
+        CV_Error(Error::StsError, "Cannot open video or file");
     Mat frame, inputBlob;
     double letterboxScale;
 
