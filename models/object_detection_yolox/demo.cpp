@@ -61,14 +61,6 @@ public:
         this->generateAnchors();
     }
 
-    void setBackendAndTarget(dnn::Backend bId, dnn::Target tId)
-    {
-        this->backendId = bId;
-        this->targetId = tId;
-        this->net.setPreferableBackend(this->backendId);
-        this->net.setPreferableTarget(this->targetId);
-    }
-
     Mat preprocess(Mat img)
     {
         Mat blob;

@@ -46,7 +46,8 @@ public:
     {
         this->strides = { 8, 16, 32, 64 };
         this->net = readNet(modelPath);
-        setBackendAndTarget(bId, tId);
+        this->net.setPreferableBackend(bId);
+        this->net.setPreferableTarget(tId);
         this->project = Mat::zeros(1, this->regMax + 1, CV_32F);
         for (size_t i = 0; i <= this->regMax; ++i) 
         {
@@ -55,12 +56,6 @@ public:
         this->mean = Scalar(103.53, 116.28, 123.675);
         this->std = Scalar(1.0 / 57.375, 1.0 / 57.12, 1.0 / 58.395);
         this->generateAnchors();
-    }
-
-    void setBackendAndTarget(Backend bId, Target tId)
-    {
-        this->net.setPreferableBackend(bId);
-        this->net.setPreferableTarget(tId);
     }
 
     Mat preProcess(const Mat& inputImage)

@@ -45,14 +45,6 @@ public:
         this->anchors = getMediapipeAnchor();
     }
 
-    void setBackendAndTarget(dnn::Backend bId, dnn::Target tId)
-    {
-        this->backendId = bId;
-        this->targetId = tId;
-        this->net.setPreferableBackend(this->backendId);
-        this->net.setPreferableTarget(this->targetId);
-    }
-
     pair<Mat, Size> preprocess(Mat img)
     {
         Mat blob;
@@ -177,14 +169,6 @@ public:
         // RoI will be larger so the performance will be better, but preprocess will be slower.Default to 1.
         this->personBoxPreEnlargeFactor = 1;
         this->personBoxEnlargeFactor = 1.25;
-    }
-
-    void setBackendAndTarget(dnn::Backend bId, dnn::Target tId)
-    {
-        this->backendId = bId;
-        this->targetId = tId;
-        this->net.setPreferableBackend(this->backendId);
-        this->net.setPreferableTarget(this->targetId);
     }
 
     tuple<Mat, Mat, float, Mat, Size> preprocess(Mat image, Mat person)

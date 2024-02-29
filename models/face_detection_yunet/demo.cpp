@@ -31,13 +31,6 @@ public:
         model = cv::FaceDetectorYN::create(model_path_, "", input_size_, conf_threshold_, nms_threshold_, top_k_, backend_id_, target_id_);
     }
 
-    void setBackendAndTarget(int backend_id, int target_id)
-    {
-        backend_id_ = backend_id;
-        target_id_ = target_id;
-        model = cv::FaceDetectorYN::create(model_path_, "", input_size_, conf_threshold_, nms_threshold_, top_k_, backend_id_, target_id_);
-    }
-
     /* Overwrite the input size when creating the model. Size format: [Width, Height].
     */
     void setInputSize(const cv::Size& input_size)

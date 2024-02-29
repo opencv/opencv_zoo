@@ -43,14 +43,6 @@ public:
         this->anchors = getMediapipeAnchor();
     }
 
-    void setBackendAndTarget(dnn::Backend bId, dnn::Target tId)
-    {
-        this->backendId = bId;
-        this->targetId = tId;
-        this->net.setPreferableBackend(this->backendId);
-        this->net.setPreferableTarget(this->targetId);
-    }
-
     pair<Mat, Size> preprocess(Mat img)
     {
         Mat blob;
