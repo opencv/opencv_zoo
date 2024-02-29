@@ -18,7 +18,7 @@ vector< pair<cv::dnn::Backend, cv::dnn::Target> > backendTargetPairs = {
 
 std::string keys =
 "{ help  h           |                                              | Print help message. }"
-"{ model m           | text_detection_ch_ppocrv3_2023may.onnx       | Usage: Set model type, defaults to text_detection_ch_ppocrv3_2023may.onnx }"
+"{ model m           | text_detection_cn_ppocrv3_2023may.onnx       | Usage: Set model type, defaults to text_detection_ch_ppocrv3_2023may.onnx }"
 "{ input i           |                                              | Usage: Path to input image or video file. Skip this argument to capture frames from a camera.}"
 "{ width             | 736                                          | Usage: Resize input image to certain width, default = 736. It should be multiple by 32.}"
 "{ height            | 736                                          | Usage: Resize input image to certain height, default = 736. It should be multiple by 32.}"
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     int maxCand = parser.get<int>("max_candidates");
     double unRatio = parser.get<float>("unclip_ratio");
     bool save = parser.get<bool>("save");
-    bool viz = parser.get<float>("viz");
+    bool viz = parser.get<bool>("viz");
 
     PPOCRDet model(modelName, inpSize, binThresh, polyThresh, maxCand, unRatio, backendTargetPairs[backendTargetid].first, backendTargetPairs[backendTargetid].second);
 
@@ -172,7 +172,10 @@ int main(int argc, char** argv)
                 imwrite("result.jpg", originalImage);
             }
             if (viz)
+            {
                 imshow(kWinName, originalImage);
+                waitKey(0);
+            }
         }
         else
             imshow(kWinName, originalImage);

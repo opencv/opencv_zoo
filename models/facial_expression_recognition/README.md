@@ -19,10 +19,28 @@ Results of accuracy evaluation on [RAF-DB](http://whdeng.cn/RAF/model1.html).
 
 ***NOTE***: This demo uses [../face_detection_yunet](../face_detection_yunet) as face detector, which supports 5-landmark detection for now (2021sep).
 
+### Python
 Run the following command to try the demo:
 ```shell
 # recognize the facial expression on images
 python demo.py --input /path/to/image -v
+```
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/opencv_zoo_face_expression_recognition
+# detect on an image
+./build/opencv_zoo_face_expression_recognition -i=/path/to/image
+# get help messages
+./build/opencv_zoo_face_expression_recognition -h
 ```
 
 ### Example outputs

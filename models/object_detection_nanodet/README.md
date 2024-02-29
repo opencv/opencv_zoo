@@ -7,6 +7,8 @@ Note:
 
 ## Demo
 
+### Python
+
 Run the following command to try the demo: 
 ```shell
 # detect on camera input
@@ -16,6 +18,23 @@ python demo.py --input /path/to/image -v
 ```
 Note: 
 - image result saved as "result.jpg"
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/opencv_zoo_object_detection_nanodet
+# detect on an image
+./build/opencv_zoo_object_detection_nanodet -i=/path/to/image
+# get help messages
+./build/opencv_zoo_object_detection_nanodet -h
+```
 
 
 ## Results
