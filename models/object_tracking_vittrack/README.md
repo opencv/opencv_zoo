@@ -11,13 +11,33 @@ This model is contributed by [Pengyu Liu](https://github.com/lpylpy0514) in GSoC
 **NOTE: OpenCV > 4.8.0 is required. Build from source with instructions from https://opencv.org/get-started/.**
 
 # Demo
-
+## Python
 ```bash
+# tracking on camera input
+python demo.py
+
 # tracking on video
 python demo.py --input /path/to/video
 
 # get help regarding various parameters
 python demo.py --help
+```
+## C++
+Install latest OpenCV and CMake >= 3.24.0 to get started.
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# tracking on camera input
+./build/opencv_zoo_object_tracking_vittrack
+
+# tracking on video
+./build/opencv_zoo_object_tracking_vittrack -i=/path/to/video
+
+# get help messages
+./build/opencv_zoo_object_tracking_vittrack -h
 ```
 
 # Example outputs
