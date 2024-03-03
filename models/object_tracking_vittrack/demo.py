@@ -40,7 +40,6 @@ parser.add_argument('--save', '-s', action='store_true',
 parser.add_argument('--vis', '-v', action='store_true',
                     help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
 args = parser.parse_args()
-
 def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),text_color=(0, 255, 0), fontScale = 1, fontSize = 1):
     output = image.copy()
     h, w, _ = output.shape
