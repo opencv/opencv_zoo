@@ -62,7 +62,9 @@ int main(int argc, char** argv) {
     cv::CommandLineParser parser(argc, argv,
         "{input i           |                                       |Set path to the input video. Omit for using default camera.}"
         "{model_path        |object_tracking_vittrack_2023sep.onnx  |Set model path}"
-        "{backend_target bt |0                                      |Choose backend-target pair: 0 - OpenCV implementation + CPU, 1 - CUDA + GPU (CUDA), 2 - CUDA + GPU (CUDA FP16), 3 - TIM-VX + NPU, 4 - CANN + NPU}");
+        "{backend_target bt |0                                      |Choose backend-target pair: 0 - OpenCV implementation + CPU, 1 - CUDA + GPU (CUDA), 2 - CUDA + GPU (CUDA FP16), 3 - TIM-VX + NPU, 4 - CANN + NPU}"
+        "{save s            |false                                  |Specify to save a file with results. Invalid in case of camera input.}"
+        "{vis v             |false                                  |Specify to open a new window to show results. Invalid in case of camera input.}");
 
     std::string input_path = parser.get<std::string>("input");
     std::string model_path = parser.get<std::string>("model_path");

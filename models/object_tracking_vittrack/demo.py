@@ -80,12 +80,12 @@ if __name__ == '__main__':
         print('No frames grabbed!')
         exit()
     first_frame_copy = first_frame.copy()
-    cv.putText(first_frame_copy, "1. Drag a bounding box to track.", (0, 15), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-    cv.putText(first_frame_copy, "2. Press ENTER to confirm", (0, 35), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-    roi = cv.selectROI('vitTrack Demo', first_frame_copy)
+    cv.putText(first_frame_copy, "1. Drag a bounding box to track.", (0, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+    cv.putText(first_frame_copy, "2. Press ENTER to confirm", (0, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+    roi = cv.selectROI('VitTrack Demo', first_frame_copy)
 
     if np.all(np.array(roi) == 0):
-        print("No roi is selected! Exiting ...")
+        print("No ROI is selected! Exiting ...")
         exit()
     else:
         print("Selected ROI: {}".format(roi))
