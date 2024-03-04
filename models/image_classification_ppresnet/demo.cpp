@@ -19,7 +19,8 @@ public:
         loadLabels();
     }
 
-    Mat preprocess(const Mat& image) {
+    Mat preprocess(const Mat& image) 
+    {
         Mat floatImage;
         image.convertTo(floatImage, CV_32F, 1.0 / 255.0);
         subtract(floatImage, _mean, floatImage);
@@ -27,7 +28,8 @@ public:
         return blobFromImage(floatImage);
     }
 
-    vector<string> infer(const Mat& image) {
+    vector<string> infer(const Mat& image) 
+    {
         assert(image.rows == _inputSize.height && image.cols == _inputSize.width);
         Mat inputBlob = preprocess(image);
         _model.setInput(inputBlob, _inputName);
@@ -36,21 +38,25 @@ public:
         return results;
     }
 
-    vector<string> postprocess(const Mat& outputBlob) {
+    vector<string> postprocess(const Mat& outputBlob) 
+    {
         vector<int> class_id_list;
         sortIdx(outputBlob, class_id_list, SORT_EVERY_ROW | SORT_DESCENDING);
         class_id_list.resize(min(_topK, static_cast<int>(outputBlob.cols)));
         vector<string> predicted_labels;
-        for (int class_id : class_id_list) {
+        for (int class_id : class_id_list) 
+        {
             predicted_labels.push_back(_labels[class_id]);
         }
         return predicted_labels;
     }
 
-    void loadLabels() {
+    void loadLabels() 
+    {
         istringstream labelsStream(LABELS_IMAGENET_1K);
         string line;
-        while (getline(labelsStream, line)) {
+        while (getline(labelsStream, line)) 
+        {
             _labels.push_back(line);
         }
     }
@@ -66,7 +72,8 @@ private:
     string _outputName = "save_infer_model/scale_0.tmp_0";
 };
 
-const vector<vector<int>> backend_target_pairs = {
+const vector<vector<int>> backend_target_pairs = 
+{
     {DNN_BACKEND_OPENCV, DNN_TARGET_CPU},
     {DNN_BACKEND_CUDA, DNN_TARGET_CUDA},
     {DNN_BACKEND_CUDA, DNN_TARGET_CUDA_FP16},
@@ -74,7 +81,8 @@ const vector<vector<int>> backend_target_pairs = {
     {DNN_BACKEND_CANN, DNN_TARGET_NPU}
 };
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
     CommandLineParser parser(argc, argv,
         "{ input i               |                                               | Set input path to a certain image, omit if using camera.}"
         "{ model m               | image_classification_ppresnet50_2022jan.onnx  | Set model path.}"
