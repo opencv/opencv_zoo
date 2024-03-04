@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
     }
     else 
     {
-        std::cout << "Predicted Top-K Labels (0 to N): " << std::endl;
+        std::cout << "Predicted Top-K Labels (in decreasing confidence): " << std::endl;
         for (size_t i = 0; i < predictions.size(); ++i) 
         {
             std::cout << "(" << i+1 << ") " << predictions[i] << std::endl;
