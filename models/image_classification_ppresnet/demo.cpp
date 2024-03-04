@@ -32,7 +32,6 @@ public:
     }
 
     std::vector<std::string> postprocess(const cv::Mat& outputBlob) {
-        std::cout << outputBlob.rows << std::endl;
         std::vector<int> class_id_list;
         cv::sortIdx(outputBlob, class_id_list, cv::SORT_EVERY_ROW | cv::SORT_DESCENDING);
         class_id_list.resize(std::min(_topK, static_cast<int>(outputBlob.cols)));
@@ -40,7 +39,6 @@ public:
         for (int class_id : class_id_list) {
             predicted_labels.push_back(_labels[class_id]);
         }
-        std::cout << predicted_labels.size() << std::endl;
         return predicted_labels;
     }
 
