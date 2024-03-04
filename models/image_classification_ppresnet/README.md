@@ -44,17 +44,6 @@ cmake --build build
 ./build/opencv_zoo_image_classification_ppresnet -h
 ```
 
-### Example Results
-![fish](./example_input/goldfish.jpg)
-```
-Predicted Top-K Labels (in decreasing confidence): 
-(1) goldfish
-(2) anemone fish
-(3) rock beauty
-(4) coral reef
-(5) tench
-```
-
 ## License
 
 All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
