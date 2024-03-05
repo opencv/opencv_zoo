@@ -12,7 +12,8 @@ struct TrackingResult
     float score;
 };
 
-class VitTrack {
+class VitTrack
+{
 public:
 
     VitTrack(const string& model_path, int backend_id = 0, int target_id = 0) 
@@ -92,7 +93,8 @@ int main(int argc, char** argv)
     bool save = parser.get<bool>("save");
     bool vis = parser.get<bool>("vis");
 
-    vector<vector<int>> backend_target_pairs = {
+    vector<vector<int>> backend_target_pairs =
+    {
         {DNN_BACKEND_OPENCV, DNN_TARGET_CPU},
         {DNN_BACKEND_CUDA, DNN_TARGET_CUDA},
         {DNN_BACKEND_CUDA, DNN_TARGET_CUDA_FP16},
