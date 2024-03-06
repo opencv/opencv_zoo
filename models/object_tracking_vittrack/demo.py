@@ -35,12 +35,11 @@ parser.add_argument('--backend_target', '-bt', type=int, default=0,
                         {:d}: TIM-VX + NPU,
                         {:d}: CANN + NPU
                     '''.format(*[x for x in range(len(backend_target_pairs))]))
-parser.add_argument('--save', '-s', action='store_true',
-                    help='Usage: Specify to save a file with results. Invalid in case of camera input.')
-parser.add_argument('--vis', '-v', action='store_true',
-                    help='Usage: Specify to open a new window to show results. Invalid in case of camera input.')
+parser.add_argument('--save', '-s', action='store_true', default=False,
+                    help='Usage: Specify to save a file with results.')
+parser.add_argument('--vis', '-v', action='store_true', default=True,
+                    help='Usage: Specify to open a new window to show results.')
 args = parser.parse_args()
-
 def visualize(image, bbox, score, isLocated, fps=None, box_color=(0, 255, 0),text_color=(0, 255, 0), fontScale = 1, fontSize = 1):
     output = image.copy()
     h, w, _ = output.shape
@@ -80,15 +79,20 @@ if __name__ == '__main__':
         print('No frames grabbed!')
         exit()
     first_frame_copy = first_frame.copy()
-    cv.putText(first_frame_copy, "1. Drag a bounding box to track.", (0, 15), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-    cv.putText(first_frame_copy, "2. Press ENTER to confirm", (0, 35), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-    roi = cv.selectROI('vitTrack Demo', first_frame_copy)
+    cv.putText(first_frame_copy, "1. Drag a bounding box to track.", (0, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+    cv.putText(first_frame_copy, "2. Press ENTER to confirm", (0, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+    roi = cv.selectROI('VitTrack Demo', first_frame_copy)
 
     if np.all(np.array(roi) == 0):
-        print("No roi is selected! Exiting ...")
+        print("No ROI is selected! Exiting ...")
         exit()
     else:
         print("Selected ROI: {}".format(roi))
+
+    if args.save:
+        fps = video.get(cv.CAP_PROP_FPS)
+        frame_size = (first_frame.shape[1], first_frame.shape[0])
+        output_video = cv.VideoWriter('output.mp4', cv.VideoWriter_fourcc(*'mp4v'), fps, frame_size)
 
     # Init tracker with ROI
     model.init(first_frame, roi)
@@ -106,5 +110,15 @@ if __name__ == '__main__':
         tm.stop()
         # Visualize
         frame = visualize(frame, bbox, score, isLocated, fps=tm.getFPS())
-        cv.imshow('VitTrack Demo', frame)
+        if args.save:
+            output_video.write(frame)
+
+        if args.vis:
+            cv.imshow('VitTrack Demo', frame)
         tm.reset()
+
+    if args.save:
+        output_video.release()
+
+    video.release()
+    cv.destroyAllWindows()
