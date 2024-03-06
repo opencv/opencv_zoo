@@ -55,7 +55,12 @@ if __name__ == '__main__':
     image = image[16:240, 16:240, :]
 
     # Inference
-    result = model.infer(image)
+    result = model.infer(image)[0]
 
     # Print result
-    print('label: {}'.format(result))
+    if top_k == 1:
+        print(f"Predicted Label: {result[0]}")
+    else:
+        print("Predicted Top-K Labels (in decreasing confidence):")
+        for i, prediction in enumerate(result):
+            print(f"({i+1}) {prediction}")
