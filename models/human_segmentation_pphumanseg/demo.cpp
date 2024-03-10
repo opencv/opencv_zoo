@@ -173,7 +173,7 @@ int main(int argc, char** argv)
         CV_Error(Error::StsError, "Model file " + modelPath + " not found");
 
     PPHS humanSegmentationModel(modelPath, backend_target_pairs[backendTarget].first, backend_target_pairs[backendTarget].second);
-    cout << inputPath << endl;
+
     VideoCapture cap;
     if (!inputPath.empty())
         cap.open(samples::findFile(inputPath));
