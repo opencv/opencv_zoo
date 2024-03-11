@@ -71,7 +71,9 @@ public:
 
     Mat postprocess(Mat image) 
     {
-        image = image.reshape(image.size[0], image.size[1]).row(0).reshape(1,image.size[2]);
+        reduceArgMax(image,image,1);
+        image = image.reshape(1,image.size[2]);
+        image.convertTo(image, CV_32F);
         resize(image, image, this->currentSize, 0, 0, INTER_LINEAR);
         image.convertTo(image, CV_8U);
 
