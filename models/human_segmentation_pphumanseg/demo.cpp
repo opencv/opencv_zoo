@@ -109,7 +109,7 @@ vector<uint8_t> getColorMapList(int num_classes) {
     return cm;
 };
 
-Mat visualize(const Mat& image, const Mat& result, float fps = -1.f, float weight = 0.5)
+Mat visualize(const Mat& image, const Mat& result, float fps = -1.f, float weight = 0.4)
 {
     const Scalar& text_color = Scalar(0, 255, 0);
     Mat output_image = image.clone();
