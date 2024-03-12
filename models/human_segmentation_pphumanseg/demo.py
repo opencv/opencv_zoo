@@ -83,8 +83,8 @@ def visualize(image, result, weight=0.6, fps=None):
         vis_result (np.ndarray): The visualized result.
     """
     color_map = get_color_map_list(256)
-    color_map = [color_map[i:i + 3] for i in range(0, len(color_map), 3)]
-    color_map = np.array(color_map).astype(np.uint8)
+    color_map = np.array(color_map).reshape(256, 3).astype(np.uint8)
+
     # Use OpenCV LUT for color mapping
     c1 = cv.LUT(result, color_map[:, 0])
     c2 = cv.LUT(result, color_map[:, 1])
@@ -158,3 +158,4 @@ if __name__ == '__main__':
             cv.imshow('PPHumanSeg Demo', frame)
 
             tm.reset()
+
