@@ -22,6 +22,7 @@ Supported datasets:
 - [ICDAR](#icdar2003)
 - [IIIT5K](#iiit5k)
 - [Mini Supervisely](#mini-supervisely)
+- [OTB](#otb)
 
 ## ImageNet
 
@@ -211,4 +212,32 @@ Run evaluation on quantized model with the following command :
 
 ```shell
 python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
+```
+
+## OTB
+
+### Prepare data
+
+Please visit [here](https://drive.google.com/drive/folders/1DZvtlnG9U94cgLD6Yi3eU7r6QZJkjdl-?usp=sharing) to download the OTB dataset and the json file. Organize files as follow:
+
+```shell
+$ tree -L 2 /path/to/imagenet
+.
+├── Basketball
+│   ├── groundtruth_rect.txt
+│   ├── img
+│   │        └── XXXX.jpg
+├── Biker
+│   ├── groundtruth_rect.txt
+│   ├── img
+│   │        └── XXXX.jpg
+└── OTB.json
+```
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m dasiamrpn -d otb -dr /path/to/otb
 ```
