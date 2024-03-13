@@ -95,12 +95,10 @@ models = dict(
         name="PPHumanSeg",
         topic="human_segmentation",
         modelPath=os.path.join(root_dir, "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2023mar_int8.onnx")),
-    dasiamrpn=dict(
-        name="DaSiamRPN",
+    vittrack=dict(
+        name="VitTrack",
         topic="object_tracking",
-        kernel_cls1_path=os.path.join(root_dir, "models/object_tracking_dasiamrpn/object_tracking_dasiamrpn_kernel_cls1_2021nov.onnx"),
-        kernel_r1_path=os.path.join(root_dir, "models/object_tracking_dasiamrpn/object_tracking_dasiamrpn_kernel_r1_2021nov.onnx"),
-        model_path=os.path.join(root_dir, "models/object_tracking_dasiamrpn/object_tracking_dasiamrpn_model_2021nov.onnx")),
+        model_path=os.path.join(root_dir, "models/object_tracking_vittrack/object_tracking_vittrack_2023sep.onnx")),
 )
 
 datasets = dict(
