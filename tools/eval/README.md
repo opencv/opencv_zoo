@@ -22,7 +22,7 @@ Supported datasets:
 - [ICDAR](#icdar2003)
 - [IIIT5K](#iiit5k)
 - [Mini Supervisely](#mini-supervisely)
-- [OTB](#otb)
+- [OTB-2015](#otb-2015)
 
 ## ImageNet
 
@@ -214,16 +214,19 @@ Run evaluation on quantized model with the following command :
 python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
 ```
 
-## OTB
+## OTB-2015
 
 ### Prepare data
 
-Please visit [here](https://drive.google.com/drive/folders/1DZvtlnG9U94cgLD6Yi3eU7r6QZJkjdl-?usp=sharing) to download the OTB dataset and the json file. Please both files together in a directory.
+1. The official site is http://cvlab.hanyang.ac.kr/.
+2. In case it is down, users can download from the alternative link we provide.
+
+Alternative Link: TBA
 
 ### Evaluation
 
 Run evaluation with the following command:
 
 ```shell
-python eval.py -m vittrack -d otb -dr /path/to/otb
+python eval.py -m vittrack -d otb2015 -dr /path/to/otb2015
 ```
