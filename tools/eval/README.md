@@ -219,9 +219,7 @@ python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
 ### Prepare data
 
 1. The official site is http://cvlab.hanyang.ac.kr/.
-2. In case it is down, users can download from the alternative link we provide.
-
-Alternative Link: TBA
+2. In case it is down, users can download from the alternative [Google Drive Link](https://drive.google.com/drive/folders/1iTwCQAMgzdWWrlwncOjpshuHvipIWPMN?usp=sharing).
 
 ### Evaluation
 

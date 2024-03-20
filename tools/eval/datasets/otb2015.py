@@ -252,26 +252,26 @@ class OTB2015:
             root = os.path.dirname(root)
         print(root)
 
-        # Unzip the OTB2015.zip file
-        if os.path.exists(f'{root}/OTB2015.zip'):
-            os.system(f'unzip -q "{os.path.join(root, "OTB2015.zip")}" -d "{root}"')
-            os.remove(f'{root}/OTB2015.zip')
+        # Unzip the OTB100.zip file
+        if os.path.exists(f'{root}/OTB100.zip'):
+            os.system(f'unzip -q "{os.path.join(root, "OTB100.zip")}" -d "{root}"')
+            os.remove(f'{root}/OTB100.zip')
 
         # Move the JSON label in if it's outside
         if os.path.exists(f'{root}/OTB.json'):
-            os.rename(f'{root}/OTB.json', f'{root}/OTB2015/OTB.json')
+            os.rename(f'{root}/OTB.json', f'{root}/OTB100/OTB.json')
 
-        if os.path.exists(f'{root}/OTB2015'):
+        if os.path.exists(f'{root}/OTB100'):
             original_directories = ['Jogging', 'Skating2', 'Human4']
             updated_directories = ['Jogging-1', 'Jogging-2', 'Skating2-1', 'Skating2-2', 'Human4-2', 'OTB.json']
-            original_exist = all(os.path.exists(f'{root}/OTB2015/{dir}') for dir in original_directories)
-            updated_exist = all(os.path.exists(f'{root}/OTB2015/{dir}') for dir in updated_directories)
+            original_exist = all(os.path.exists(f'{root}/OTB100/{dir}') for dir in original_directories)
+            updated_exist = all(os.path.exists(f'{root}/OTB100/{dir}') for dir in updated_directories)
             if original_exist:
-                os.rename(f'{root}/OTB2015/Jogging', f'{root}/OTB2015/Jogging-1')
-                os.rename(f'{root}/OTB2015/Skating2', f'{root}/OTB2015/Skating2-1')
-                os.rename(f'{root}/OTB2015/Human4', f'{root}/OTB2015/Human4-2')
-                os.system(f'cp -r "{root}/OTB2015/Jogging-1" "{root}/OTB2015/Jogging-2"')
-                os.system(f'cp -r "{root}/OTB2015/Skating2-1" "{root}/OTB2015/Skating2-2"')
+                os.rename(f'{root}/OTB100/Jogging', f'{root}/OTB100/Jogging-1')
+                os.rename(f'{root}/OTB100/Skating2', f'{root}/OTB100/Skating2-1')
+                os.rename(f'{root}/OTB100/Human4', f'{root}/OTB100/Human4-2')
+                os.system(f'cp -r "{root}/OTB100/Jogging-1" "{root}/OTB100/Jogging-2"')
+                os.system(f'cp -r "{root}/OTB100/Skating2-1" "{root}/OTB100/Skating2-2"')
             elif not updated_exist:
                 raise RuntimeError("Not all files needed for setup are present.")
 
