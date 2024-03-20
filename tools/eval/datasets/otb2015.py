@@ -8,15 +8,16 @@ from multiprocessing import Pool, cpu_count
 
 def overlap_ratio(rect1, rect2):
     """Calculate the Intersection over Union (IoU) overlap ratio between two sets of rectangles."""  
-    left = np.maximum(rect1[:, 0], rect2[:, 0])
-    right = np.minimum(rect1[:, 0] + rect1[:, 2], rect2[:, 0] + rect2[:, 2])
-    top = np.maximum(rect1[:, 1], rect2[:, 1])
-    bottom = np.minimum(rect1[:, 1] + rect1[:, 3], rect2[:, 1] + rect2[:, 3])
-    intersect = np.maximum(right - left, 0) * np.maximum(bottom - top, 0)
-    union = rect1[:, 2] * rect1[:, 3] + rect2[:, 2] * rect2[:, 3] - intersect
-    iou = intersect / union
-    iou = np.clip(iou, 0, 1)
+    tl = np.maximum(rect1[:, :2], rect2[:, :2])
+    br = np.minimum(rect1[:, :2] + rect1[:, 2:] - 1.0, rect2[:, :2] + rect2[:, 2:] - 1.0)
+    sz = np.maximum(br - tl + 1.0, 0)
+
+    # Area
+    intersection = np.prod(sz, axis=1)
+    union = np.prod(rect1[:, 2:], axis=1) + np.prod(rect2[:, 2:], axis=1) - intersection
+    iou = np.clip(intersection / union, 0, 1)
     return iou
+
 
 def success_overlap(gt_bb, result_bb, n_frame):
     """Calculate the success rate based on the overlap ratio between ground truth and predicted bounding boxes."""
@@ -80,7 +81,7 @@ class OPEBenchmark:
         tracker_names = [x[0] for x in tracker_auc]
         tracker_name_len = max(max(len(x) for x in success.keys()) + 2, 12)
         header = ("|{:^" + str(tracker_name_len) + "}|{:^9}|{:^11}|{:^16}|").format(
-            "Tracker name", "Success", "Precision", "Norm Precision")
+            "Tracker name", "IOU", "Precision", "Norm Precision")
         formatter = "|{:^" + str(tracker_name_len) + "}|{:^9.3f}|{:^11.3f}|{:^16.3f}|"
 
         print('-' * len(header))
@@ -243,7 +244,7 @@ def get_axis_aligned_bbox(region):
         cy = y + h / 2
     return cx, cy, w, h
 
-class OTB:
+class OTB2015:
     def __init__(self, root):
         # Go up one if directory is provided
         root = os.path.abspath(root)

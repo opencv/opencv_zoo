@@ -123,7 +123,7 @@ datasets = dict(
             name="MiniSupervisely",
             topic="human_segmentation"),
         otb2015=dict(
-            name="OTB-2015",
+            name="OTB2015",
             topic="object_tracking"),
 )
 
