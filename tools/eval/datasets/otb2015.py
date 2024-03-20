@@ -81,7 +81,7 @@ class OPEBenchmark:
         tracker_names = [x[0] for x in tracker_auc]
         tracker_name_len = max(max(len(x) for x in success.keys()) + 2, 12)
         header = ("|{:^" + str(tracker_name_len) + "}|{:^9}|{:^11}|{:^16}|").format(
-            "Tracker name", "IOU", "Precision", "Norm Precision")
+            "Tracker name", "AUC", "Precision", "Norm Precision")
         formatter = "|{:^" + str(tracker_name_len) + "}|{:^9.3f}|{:^11.3f}|{:^16.3f}|"
 
         print('-' * len(header))
