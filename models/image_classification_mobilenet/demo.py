@@ -35,7 +35,7 @@ parser.add_argument('--top_k', type=int, default=1,
                     help='Usage: Get top k predictions.')
 args = parser.parse_args()
 
-if __name__ == '__main__':
+def process_image():
     backend_id = backend_target_pairs[args.backend_target][0]
     target_id = backend_target_pairs[args.backend_target][1]
     top_k = args.top_k
@@ -50,6 +50,15 @@ if __name__ == '__main__':
 
     # Inference
     result = model.infer(image)
+    return result
+
+if __name__ == '__main__':
+    # multiple image paths as input, processes them asynchronously using a thread pool, and prints the results . Caution only if large datasets
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results = executor.map(process_image, args.input)
+
+    for idx, result in enumerate(results):
+        print(f'Result for image {idx+1}: {result}')
 
     # Print result
-    print('label: {}'.format(result))
+    #print('label: {}'.format(result))
