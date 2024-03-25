@@ -1,6 +1,6 @@
 # CRNN
 
-An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition
+[An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition](https://arxiv.org/abs/1507.05717)
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval) at different text recognition datasets.
 
@@ -21,9 +21,9 @@ Note:
   - `text_recognition_CRNN_EN_2021sep.onnx`: https://docs.opencv.org/4.5.2/d9/d1e/tutorial_dnn_OCR.html (CRNN_VGG_BiLSTM_CTC.onnx)
   - `text_recognition_CRNN_CH_2021sep.onnx`: https://docs.opencv.org/4.x/d4/d43/tutorial_dnn_text_spotting.html (crnn_cs.onnx)
   - `text_recognition_CRNN_CN_2021nov.onnx`: https://docs.opencv.org/4.5.2/d4/d43/tutorial_dnn_text_spotting.html (crnn_cs_CN.onnx)
-- `text_recognition_CRNN_EN_2021sep.onnx` can detect digits (0\~9) and letters (return lowercase letters a\~z) (view `charset_36_EN.txt` for details).
-- `text_recognition_CRNN_CH_2021sep.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), and some special characters (view `charset_94_CH.txt` for details).
-- `text_recognition_CRNN_CN_2021nov.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), some Chinese characters and some special characters (view `charset_3944_CN.txt` for details).
+- `text_recognition_CRNN_EN_2021sep.onnx` can detect digits (0\~9) and letters (return lowercase letters a\~z) (see `CHARSET_EN_36` for details in `crnn.py`).
+- `text_recognition_CRNN_CH_2021sep.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), and some special characters (see `CHARSET_CH_94` for details in `crnn.py`).
+- `text_recognition_CRNN_CN_2021nov.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), some Chinese characters and some special characters (see `CHARSET_CN_3944` for details in `crnn.py`).
 - For details on training this model series, please visit https://github.com/zihaomu/deep-text-recognition-benchmark.
 
 ## Demo
@@ -31,10 +31,6 @@ Note:
 ***NOTE***:
 
 - This demo uses [text_detection_db](../text_detection_db) as text detector.
-- Selected model must match with the charset:
-  - Try `text_recognition_CRNN_EN_2021sep.onnx` with `charset_36_EN.txt`.
-  - Try `text_recognition_CRNN_CH_2021sep.onnx` with `charset_94_CH.txt`
-  - Try `text_recognition_CRNN_CN_2021sep.onnx` with `charset_3944_CN.txt`.
 
 ### Python
 
@@ -85,7 +81,7 @@ Run the demo detecting Chinese:
 
 # get help regarding various parameters
 ./build/opencv_zoo_text_recognition_crnn  --help
-
+```
 
 ### Examples
 
