@@ -195,14 +195,12 @@ class OTBDATASET:
             meta_data[sequence_info['name']]['gt_rect'] = ground_truth_rect
             meta_data[sequence_info['name']]['attr'] = [sequence_info["object_class"]]
 
-        self.data = meta_data
-        self.root = root
         self.videos = {}
         pbar = tqdm(meta_data.keys(), desc='Loading OTB', ncols=100)
         for video in pbar:
             pbar.set_postfix_str(video)
             self.videos[video] = Video(video,
-                                       self.root,
+                                       root,
                                        meta_data[video]['video_dir'],
                                        meta_data[video]['init_rect'],
                                        meta_data[video]['img_names'],
