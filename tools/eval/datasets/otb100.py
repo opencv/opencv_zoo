@@ -184,10 +184,9 @@ class OTBDATASET:
                 init_omit = sequence_info['initOmit']
             frames = [f'{root}/OTB100/{sequence_path}/{frame_num:0{nz}}.{ext}' for \
                       frame_num in range(start_frame+init_omit, end_frame+1)]
-
             anno_path = f'{root}/OTB100/{sequence_info["anno_path"]}'
-
             ground_truth_rect = load_text_numpy(str(anno_path), (',', None), np.float64)[init_omit:,:]
+
             meta_data[sequence_info['name']] = {}
             meta_data[sequence_info['name']]['video_dir'] = sequence_info['path']
             meta_data[sequence_info['name']]['init_rect'] = ground_truth_rect[0]
@@ -252,18 +251,14 @@ def get_axis_aligned_bbox(region):
     return cx, cy, w, h
 
 def load_text_numpy(path, delimiter, dtype):
-    if isinstance(delimiter, (tuple, list)):
-        for d in delimiter:
-            try:
-                ground_truth_rect = np.loadtxt(path, delimiter=d, dtype=dtype)
-                return ground_truth_rect
-            except:
-                pass
+    for d in delimiter:
+        try:
+            ground_truth_rect = np.loadtxt(path, delimiter=d, dtype=dtype)
+            return ground_truth_rect
+        except:
+            pass
 
-        raise Exception('Could not read file {}'.format(path))
-    else:
-        ground_truth_rect = np.loadtxt(path, delimiter=delimiter, dtype=dtype)
-        return ground_truth_rect
+    raise Exception('Could not read file {}'.format(path))
 
 class OTB100:
     def __init__(self, root):
@@ -329,7 +324,7 @@ class OTB100:
 
         benchmark.show_result(**evaluation_results, show_video_level=False)
 
-
+# Sourced from https://github.com/lpylpy0514/VitTracker
 sequence_info_list = [
     {"name": "Basketball", "path": "Basketball/img", "startFrame": 1, "endFrame": 725, "nz": 4, "ext": "jpg", "anno_path": "Basketball/groundtruth_rect.txt",
         "object_class": "person"},
