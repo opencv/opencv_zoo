@@ -221,7 +221,7 @@ python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
 1. The official site is http://cvlab.hanyang.ac.kr/.
 2. In case it is down, users can download from the alternative [Google Drive Link](https://drive.google.com/drive/folders/1iTwCQAMgzdWWrlwncOjpshuHvipIWPMN?usp=sharing).
 
-Download both the `OTB100.zip` and `OTB.json`, organize files as follow:
+Download `OTB100.zip` and unzip it in a directory, the tree structure should appear as follows:
 
 ```shell
 $ tree -L 2 /path/to/otb100
@@ -230,8 +230,7 @@ $ tree -L 2 /path/to/otb100
 │   ├── groundtruth_rect.txt
 │   └── img
 ├── ...
-├── Woman
-└── OTB.json
+└── Woman
 
 ```
 
