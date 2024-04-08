@@ -22,7 +22,7 @@ Supported datasets:
 - [ICDAR](#icdar2003)
 - [IIIT5K](#iiit5k)
 - [Mini Supervisely](#mini-supervisely)
-- [OTB-2015](#otb-2015)
+- [OTB-100](#otb-100)
 
 ## ImageNet
 
@@ -214,7 +214,7 @@ Run evaluation on quantized model with the following command :
 python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
 ```
 
-## OTB-2015
+## OTB-100
 
 ### Prepare data
 
