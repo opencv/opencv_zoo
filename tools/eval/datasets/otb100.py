@@ -273,30 +273,20 @@ class OTB100:
 
     def eval(self, model):
         for video in tqdm(self.dataset, desc="Evaluating: ", total=100, ncols=100):
-            total_time = 0
             pred_bboxes = []
-            scores = []
-            track_times = []
 
             for idx, (img, gt_bbox) in enumerate(video):
                 img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-                tic = cv.getTickCount()
-
                 if idx == 0:
                     cx, cy, w, h = get_axis_aligned_bbox(np.array(gt_bbox))
                     gt_bbox_ = (int(cx - w / 2), int(cy - h / 2), int(w), int(h))
                     model.init(img, gt_bbox_)
                     pred_bbox = gt_bbox_
-                    scores.append(None)
                 else:
                     isLocated, bbox, score = model.infer(img)
                     pred_bbox = bbox
-                    scores.append(score)
 
                 pred_bboxes.append(pred_bbox)
-                toc = (cv.getTickCount() - tic) / cv.getTickFrequency()
-                total_time += toc
-                track_times.append(toc)
 
             model_path = os.path.join('OTB_results')
             os.makedirs(model_path, exist_ok=True)
