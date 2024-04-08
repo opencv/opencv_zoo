@@ -1,10 +1,11 @@
 import os
-import json
 import numpy as np
 import cv2 as cv
 from colorama import Style, Fore
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
+
+PRED_BBOXES_DICT = {}
 
 def overlap_ratio(rect1, rect2):
     """Calculate the Intersection over Union (IoU) overlap ratio between two sets of rectangles."""  
@@ -12,12 +13,10 @@ def overlap_ratio(rect1, rect2):
     br = np.minimum(rect1[:, :2] + rect1[:, 2:] - 1.0, rect2[:, :2] + rect2[:, 2:] - 1.0)
     sz = np.maximum(br - tl + 1.0, 0)
 
-    # Area
     intersection = np.prod(sz, axis=1)
     union = np.prod(rect1[:, 2:], axis=1) + np.prod(rect2[:, 2:], axis=1) - intersection
     iou = np.clip(intersection / union, 0, 1)
     return iou
-
 
 def success_overlap(gt_bb, result_bb, n_frame):
     """Calculate the success rate based on the overlap ratio between ground truth and predicted bounding boxes."""
@@ -157,17 +156,11 @@ class Video:
                 yield cv.imread(self.img_names[i]), self.gt_traj[i]
 
     def load_tracker(self):
-        """Load tracker results from file."""
-        traj_file = os.path.join("OTB_results", self.name+'.txt')
-        if os.path.exists(traj_file):
-            with open(traj_file, 'r') as f:
-                pred_traj = [list(map(float, x.strip().split(','))) for x in f.readlines()]
-                if len(pred_traj) != len(self.gt_traj):
-                    print("tracker", len(pred_traj), len(self.gt_traj), self.name)
-                else:
-                    return pred_traj
+        if self.name in PRED_BBOXES_DICT:
+            return PRED_BBOXES_DICT[self.name]
         else:
-            print(traj_file)
+            print(f"No prediction found for video {self.name}")
+            return None
 
 class OTBDATASET:
     def __init__(self, root):
@@ -274,7 +267,6 @@ class OTB100:
     def eval(self, model):
         for video in tqdm(self.dataset, desc="Evaluating: ", total=100, ncols=100):
             pred_bboxes = []
-
             for idx, (img, gt_bbox) in enumerate(video):
                 img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
                 if idx == 0:
@@ -283,17 +275,9 @@ class OTB100:
                     model.init(img, gt_bbox_)
                     pred_bbox = gt_bbox_
                 else:
-                    isLocated, bbox, score = model.infer(img)
-                    pred_bbox = bbox
-
+                    pred_bbox = model.infer(img)[1]
                 pred_bboxes.append(pred_bbox)
-
-            model_path = os.path.join('OTB_results')
-            os.makedirs(model_path, exist_ok=True)
-            result_path = os.path.join(model_path, '{}.txt'.format(video.name))
-            with open(result_path, 'w') as f:
-                for bbox in pred_bboxes:
-                    f.write(','.join(map(str, bbox)) + '\n')
+            PRED_BBOXES_DICT[video.name] = pred_bboxes
 
     def print_result(self):
         benchmark = OPEBenchmark(self.dataset)
