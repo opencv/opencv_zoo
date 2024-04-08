@@ -195,9 +195,7 @@ class OTBDATASET:
             meta_data[sequence_info['name']]['attr'] = [sequence_info["object_class"]]
 
         self.videos = {}
-        pbar = tqdm(meta_data.keys(), desc='Loading OTB', ncols=100)
-        for video in pbar:
-            pbar.set_postfix_str(video)
+        for video in meta_data.keys():
             self.videos[video] = Video(video,
                                        root,
                                        meta_data[video]['video_dir'],
@@ -274,7 +272,7 @@ class OTB100:
         return self.__class__.__name__
 
     def eval(self, model):
-        for v_idx, video in enumerate(self.dataset):
+        for video in tqdm(self.dataset, desc="Evaluating: ", total=100, ncols=100):
             total_time = 0
             pred_bboxes = []
             scores = []
@@ -303,14 +301,9 @@ class OTB100:
             model_path = os.path.join('OTB_results')
             os.makedirs(model_path, exist_ok=True)
             result_path = os.path.join(model_path, '{}.txt'.format(video.name))
-            print(result_path)
             with open(result_path, 'w') as f:
                 for bbox in pred_bboxes:
                     f.write(','.join(map(str, bbox)) + '\n')
-
-            avg_fps = len(video) / total_time if total_time > 0 else 0
-            print('({:3d}) Video: {:12s} Time: {:5.1f}s Speed: {:3.1f}fps'.format(
-                v_idx + 1, video.name, total_time, avg_fps))
 
     def print_result(self):
         benchmark = OPEBenchmark(self.dataset)
@@ -319,7 +312,7 @@ class OTB100:
         metrics = ["success", "precision", "norm_precision"]
         for metric in metrics:
             with Pool(processes=min(num_cores, max(1, num_cores - 1))) as pool:
-                for ret in tqdm(pool.imap_unordered(benchmark.evaluate, [metric], 1), desc=f'eval {metric}', total=1, ncols=100):
+                for ret in pool.imap_unordered(benchmark.evaluate, [metric], 1):
                     evaluation_results[metric] = ret
 
         benchmark.show_result(**evaluation_results, show_video_level=False)
