@@ -15,13 +15,33 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 ## Demo
 
-Run the following command to try the demo:
+Run the following commands to try the demo:
+
+### Python
 
 ```shell
 python demo.py --input /path/to/image
 
 # get help regarding various parameters
 python demo.py --help
+```
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on an image
+./build/opencv_zoo_image_classification_ppresnet -i=/path/to/image
+
+# detect on an image and display top N classes
+./build/opencv_zoo_image_classification_ppresnet -i=/path/to/image -k=N
+
+# get help messages
+./build/opencv_zoo_image_classification_ppresnet -h
 ```
 
 ## License
