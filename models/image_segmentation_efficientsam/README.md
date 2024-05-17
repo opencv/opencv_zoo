@@ -14,7 +14,6 @@ Run the following command to try the demo:
 python demo.py --input /path/to/image
 ```
 
-### C++
 
 ## Result
 
