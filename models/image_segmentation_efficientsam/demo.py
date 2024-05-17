@@ -76,6 +76,8 @@ def select(event, x, y, flags, param):
         clicked_left = True
 
 if __name__ == '__main__':
+    backend_id = backend_target_pairs[args.backend_target][0]
+    target_id = backend_target_pairs[args.backend_target][1]
     # Load the EfficientSAM model
     model = EfficientSam(modelPath=args.model)
 
