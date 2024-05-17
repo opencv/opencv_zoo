@@ -3,7 +3,8 @@
 EfficientSAM: Leveraged Masked Image Pretraining for Efficient Segment Anything
 
 Notes:
-- 
+- The current implementation of the EfficientSAM demo uses the EfficientSAM-Ti model, which is specifically tailored for scenarios requiring higher speed and lightweight. 
+
 
 ## Demo
 
@@ -14,6 +15,7 @@ Run the following command to try the demo:
 python demo.py --input /path/to/image
 ```
 
+Click only **once** on the object you wish to segment in the displayed image. After the click, the segmentation result will be shown in a new window.
 
 ## Result
 
