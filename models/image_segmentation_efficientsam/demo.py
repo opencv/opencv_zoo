@@ -7,11 +7,28 @@ from efficientSAM import EfficientSam
 assert cv.__version__ >= "4.9.0", \
        "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
+# Valid combinations of backends and targets
+backend_target_pairs = [
+    [cv.dnn.DNN_BACKEND_OPENCV, cv.dnn.DNN_TARGET_CPU],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA],
+    [cv.dnn.DNN_BACKEND_CUDA,   cv.dnn.DNN_TARGET_CUDA_FP16],
+    [cv.dnn.DNN_BACKEND_TIMVX,  cv.dnn.DNN_TARGET_NPU],
+    [cv.dnn.DNN_BACKEND_CANN,   cv.dnn.DNN_TARGET_NPU]
+]
+
 parser = argparse.ArgumentParser(description='EfficientSAM Demo')
 parser.add_argument('--input', '-i', type=str,
-                    help='Set input path to a certain image, omit if using camera.')
+                    help='Set input path to a certain image.')
 parser.add_argument('--model', '-m', type=str, default='image_segmentation_efficientsam_ti_2024may.onnx',
                     help='Set model path, defaults to image_segmentation_efficientsam_ti_2024may.onnx.')
+parser.add_argument('--backend_target', '-bt', type=int, default=0,
+                    help='''Choose one of the backend-target pair to run this demo:
+                        {:d}: (default) OpenCV implementation + CPU,
+                        {:d}: CUDA + GPU (CUDA),
+                        {:d}: CUDA + GPU (CUDA FP16),
+                        {:d}: TIM-VX + NPU,
+                        {:d}: CANN + NPU
+                    '''.format(*[x for x in range(len(backend_target_pairs))]))
 parser.add_argument('--save', '-s', action='store_true',
                     help='Specify to save a file with results. Invalid in case of camera input.')
 args = parser.parse_args()
@@ -46,8 +63,8 @@ def visualize(image, result):
     vis_result[:, :, 2] = red_channel  
     
     # draw borders
-    contours, hierarchy = cv.findContours(binary, cv.RETR_LIST  ,cv.CHAIN_APPROX_TC89_L1)
-    cv.drawContours(vis_result, contours, contourIdx = -1, color = (255,255,255), thickness=2, )
+    contours, hierarchy = cv.findContours(binary, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
+    cv.drawContours(vis_result, contours, contourIdx = -1, color = (255,255,255), thickness=2)
     return vis_result
 
 def select(event, x, y, flags, param):
@@ -112,6 +129,7 @@ if __name__ == '__main__':
 
         
     else:
+        print('Set input path to a certain image.')
         pass
         '''
         since the model need about 2s to predict, the camera demo couldn't support now, I will try to update later
