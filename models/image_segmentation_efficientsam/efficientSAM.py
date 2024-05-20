@@ -68,6 +68,6 @@ class EfficientSAM:
         
         mask_uint8 = (mask * 255).astype(np.uint8)
         # change to real image size
-        mask_uint8 = cv.resize(mask_uint8, dsize=(self._currentInputSize[0], self._currentInputSize[1]), interpolation=2)
+        mask_uint8 = cv.resize(mask_uint8, dsize=self._currentInputSize, interpolation=2)
                 
         return mask_uint8

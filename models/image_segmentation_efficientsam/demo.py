@@ -1,7 +1,7 @@
 import argparse
 import numpy as np
 import cv2 as cv
-from efficientSAM import EfficientSam
+from efficientSAM import EfficientSAM
 
 # Check OpenCV version
 assert cv.__version__ >= "4.9.0", \
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     backend_id = backend_target_pairs[args.backend_target][0]
     target_id = backend_target_pairs[args.backend_target][1]
     # Load the EfficientSAM model
-    model = EfficientSam(modelPath=args.model)
+    model = EfficientSAM(modelPath=args.model)
 
     if args.input is not None:
         # Read image
