@@ -20,6 +20,7 @@ from .object_detection_yolox.yolox import YoloX
 from .facial_expression_recognition.facial_fer_model import FacialExpressionRecog
 from .object_tracking_vittrack.vittrack import VitTrack
 from .text_detection_ppocr.ppocr_det import PPOCRDet
+from .image_segmentation_efficientsam.efficientSAM import EfficientSAM
 
 class ModuleRegistery:
     def __init__(self, name):
@@ -94,3 +95,4 @@ MODELS.register(YoloX)
 MODELS.register(FacialExpressionRecog)
 MODELS.register(VitTrack)
 MODELS.register(PPOCRDet)
+MODELS.register(EfficientSAM)

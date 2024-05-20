@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-class EfficientSam:
+class EfficientSAM:
     def __init__(self, modelPath, backendId=0, targetId=0):
         self._modelPath = modelPath
         self._backendId = backendId
