@@ -105,7 +105,7 @@ if __name__ == '__main__':
             # receive click
             if clicked_left:
                 # put the click point (x,y) into the model to predict
-                result = model.infer(image=image, points=point, lables=[1])
+                result = model.infer(image=image, points=point, labels=[1])
                 # get the visualized result
                 vis_result = visualize(image, result)
                 # create window to show visualized result

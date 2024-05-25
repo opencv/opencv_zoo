@@ -27,7 +27,7 @@ class EfficientSAM:
         self._model.setPreferableBackend(self._backendId)
         self._model.setPreferableTarget(self._targetId)
 
-    def _preprocess(self, image, points, lables):
+    def _preprocess(self, image, points, labels):
         
         image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         # record the input image size, (width, height)
@@ -46,17 +46,17 @@ class EfficientSAM:
         
         points_blob = np.array([[points]], dtype=np.float32)
         
-        lables_blob = np.array([[[lables]]])
+        labels_blob = np.array([[[labels]]])
         
-        return image_blob, points_blob, lables_blob
+        return image_blob, points_blob, labels_blob
 
-    def infer(self, image, points, lables):
+    def infer(self, image, points, labels):
         # Preprocess
-        imageBlob, pointsBlob, lablesBlob = self._preprocess(image, points, lables)
+        imageBlob, pointsBlob, labelsBlob = self._preprocess(image, points, labels)
         # Forward
         self._model.setInput(imageBlob, self._inputNames[0])
         self._model.setInput(pointsBlob, self._inputNames[1])
-        self._model.setInput(lablesBlob, self._inputNames[2])
+        self._model.setInput(labelsBlob, self._inputNames[2])
         outputBlob = self._model.forward()
         # Postprocess
         results = self._postprocess(outputBlob)
