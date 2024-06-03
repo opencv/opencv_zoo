@@ -26,6 +26,9 @@ Here are some of the sample results that were observed using the model:
 ![test1_res.jpg](./example_outputs/example1.png)
 ![test2_res.jpg](./example_outputs/example2.png)
 
+Video inference result,
+![sam_present.gif](./example_outputs/sam_present.gif)
+
 ## Model metrics:
 
 ## License
