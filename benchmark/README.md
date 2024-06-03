@@ -55,7 +55,7 @@ python benchmark.py --all --cfg_overwrite_backend_target 1
 
 ## Detailed Results
 
-Benchmark is done with latest `opencv-python==4.8.0.74` and `opencv-contrib-python==4.8.0.74` on the following platforms. Some models are excluded because of support issues.
+Benchmark is done with latest opencv-python & opencv-contrib-python (current 4.10.0) on the following platforms. Some models are excluded because of support issues.
 
 ### Intel 12700K
 
