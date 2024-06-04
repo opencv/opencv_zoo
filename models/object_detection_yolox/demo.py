@@ -2,11 +2,12 @@ import numpy as np
 import cv2 as cv
 import argparse
 
-from yolox import YoloX
-
 # Check OpenCV version
-assert cv.__version__ >= "4.10.0", \
-       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
+opencv_python_version = lambda str_version: tuple(map(int, (str_version.split("."))))
+assert opencv_python_version(cv.__version__) >= opencv_python_version("4.10.0"), \
+       "Please install latest opencv-python for benchmark: python3 -m pip install --upgrade opencv-python"
+
+from yolox import YoloX
 
 # Valid combinations of backends and targets
 backend_target_pairs = [
