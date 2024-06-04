@@ -73,6 +73,10 @@ Some examples are listed below. You can find more in the directory of each model
 
 ![messi](./models/human_segmentation_pphumanseg/example_outputs/messi.jpg)
 
+### Image Segmentation with [EfficientSAM](./models/image_segmentation_efficientsam/)
+
+![sam_present](./models/image_segmentation_efficientsam/example_outputs/sam_present.gif)
+
 ### License Plate Detection with [LPD_YuNet](./models/license_plate_detection_yunet/)
 
 ![license plate detection](./models/license_plate_detection_yunet/example_outputs/lpd_yunet_demo.gif)
