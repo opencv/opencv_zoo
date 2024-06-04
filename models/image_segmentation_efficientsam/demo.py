@@ -4,7 +4,7 @@ import cv2 as cv
 from efficientSAM import EfficientSAM
 
 # Check OpenCV version
-assert cv.__version__ >= "4.9.0", \
+assert cv.__version__ >= "4.10.0", \
        "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
 
 # Valid combinations of backends and targets
@@ -133,25 +133,4 @@ if __name__ == '__main__':
     else:
         print('Set input path to a certain image.')
         pass
-        '''
-        since the model need about 2s to predict, the camera demo couldn't support now, I will try to update later
-        '''
-        # # Camera input
-        # cap = cv.VideoCapture(0)
         
-        # while cv.waitKey(1) < 0:
-        #     ret, frame = cap.read()
-        #     if not ret:
-        #         break
-
-        #     # Preprocess and run the model on the frame
-        #     blob = cv.dnn.blobFromImage(frame, size=(224, 224), mean=(123.675, 116.28, 103.53), swapRB=True, crop=False)
-        #     model.setInput(blob)
-        #     result = model.forward()
-
-        #     # Visualize the results
-        #     vis_frame = visualize(frame, result)
-        #     cv.imshow('EfficientSAM Demo', vis_frame)
-
-        # # Release the camera
-        # cap.release()
