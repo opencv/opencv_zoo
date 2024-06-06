@@ -5,8 +5,6 @@ from colorama import Style, Fore
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
 
-PRED_BBOXES_DICT = {}
-
 def overlap_ratio(rect1, rect2):
     """Calculate the Intersection over Union (IoU) overlap ratio between two sets of rectangles."""  
     tl = np.maximum(rect1[:, :2], rect2[:, :2])
@@ -125,7 +123,7 @@ class OPEBenchmark:
             print('-' * len(header1))
 
 class Video:
-    def __init__(self, name, root, video_dir, init_rect, img_names, gt_rect, attr):
+    def __init__(self, name, root, video_dir, init_rect, img_names, gt_rect, attr, pred_bboxes_dict):
         self.name = name
         self.video_dir = video_dir
         self.init_rect = init_rect
@@ -138,6 +136,7 @@ class Video:
         assert img is not None, self.img_names[0]
         self.width = img.shape[1]
         self.height = img.shape[0]
+        self.pred_bboxes_dict = pred_bboxes_dict
 
     def __len__(self):
         return len(self.img_names)
@@ -156,14 +155,15 @@ class Video:
                 yield cv.imread(self.img_names[i]), self.gt_traj[i]
 
     def load_tracker(self):
-        if self.name in PRED_BBOXES_DICT:
-            return PRED_BBOXES_DICT[self.name]
+        if self.name in self.pred_bboxes_dict:
+            return self.pred_bboxes_dict[self.name]
         else:
             print(f"No prediction found for video {self.name}")
             return None
 
 class OTBDATASET:
     def __init__(self, root):
+        self.pred_bboxes_dict = {}
         meta_data = {}
         for sequence_info in sequence_info_list:
             sequence_path = sequence_info['path']
@@ -195,7 +195,8 @@ class OTBDATASET:
                                        meta_data[video]['init_rect'],
                                        meta_data[video]['img_names'],
                                        meta_data[video]['gt_rect'],
-                                       meta_data[video]['attr'])
+                                       meta_data[video]['attr'],
+                                       self.pred_bboxes_dict)
         self.attr = {'ALL': list(self.videos.keys())}
         all_attributes = [x.attr for x in self.videos.values()]
         all_attributes = set(sum(all_attributes, []))
@@ -277,7 +278,7 @@ class OTB100:
                 else:
                     pred_bbox = model.infer(img)[1]
                 pred_bboxes.append(pred_bbox)
-            PRED_BBOXES_DICT[video.name] = pred_bboxes
+            self.dataset.pred_bboxes_dict[video.name] = pred_bboxes
 
     def print_result(self):
         benchmark = OPEBenchmark(self.dataset)
