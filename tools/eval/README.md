@@ -22,6 +22,7 @@ Supported datasets:
 - [ICDAR](#icdar2003)
 - [IIIT5K](#iiit5k)
 - [Mini Supervisely](#mini-supervisely)
+- [OTB-100](#otb-100)
 
 ## ImageNet
 
@@ -211,4 +212,32 @@ Run evaluation on quantized model with the following command :
 
 ```shell
 python eval.py -m pphumanseg_q -d mini_supervisely -dr /path/to/pphumanseg
+```
+
+## OTB-100
+
+### Prepare data
+
+1. The official site is http://cvlab.hanyang.ac.kr/.
+2. In case it is down, users can download from the alternative [Google Drive Link](https://drive.google.com/drive/folders/1iTwCQAMgzdWWrlwncOjpshuHvipIWPMN?usp=sharing).
+
+Download `OTB100.zip` and unzip it in a directory, the tree structure should appear as follows:
+
+```shell
+$ tree -L 2 /path/to/otb100
+.
+├── Basketball
+│   ├── groundtruth_rect.txt
+│   └── img
+├── ...
+└── Woman
+
+```
+
+### Evaluation
+
+Run evaluation with the following command:
+
+```shell
+python eval.py -m vittrack -d otb2015 -dr /path/to/otb2015
 ```
