@@ -8,11 +8,8 @@ Notes:
 - The included model combines a pretrained MobileFaceNet backbone, with a quality regression head trained using the proceedure presented in the original paper.
 - The model predicts quality scores of aligned face samples, where a higher predicted score corresponds to a higher quality of the input sample.
 
-## Performance comparison
 
 ## Demo
-
-
 
 ***NOTE***: The provided demo uses [../face_detection_yunet](../face_detection_yunet) for face detection, in order to properly align the face samples, while the original implementation uses a RetinaFace(ResNet50) model, which might cause some differences between the results of the two implementations.
 
