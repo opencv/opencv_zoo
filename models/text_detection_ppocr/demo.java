@@ -54,12 +54,12 @@ public class demo {
         @Parameter(names = "--unclip_ratio", order = 8,
                 description = "The unclip ratio of the detected text region, which determines the output size.")
         double unclipRatio = 2.0;
-        @Parameter(names = {"--save", "-s"}, order = 9, arity = 1,
+        @Parameter(names = {"--save", "-s"}, order = 9,
                 description = "Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.")
-        boolean save = true;
-        @Parameter(names = {"--viz", "-v"}, order = 10, arity = 1,
+        boolean save;
+        @Parameter(names = {"--viz", "-v"}, order = 10,
                 description = "Specify to open a new window to show results. Invalid in case of camera input.")
-        boolean viz = true;
+        boolean viz;
         @Parameter(names = {"--backend", "-bt"}, order = 11,
                 description = "Choose one of computation backends:" +
                         " 0: OpenCV implementation + CPU," +
@@ -93,8 +93,12 @@ public class demo {
         }
 
         public Map.Entry<PointVectorVector, FloatPointer> infer(Mat image) {
-            assert image.rows() == inputSize.height() : "height of input image != net input size";
-            assert image.cols() == inputSize.width() : "width of input image != net input size";
+            if (image.rows() != inputSize.height()) {
+                throw new IllegalArgumentException("height of input image != net input size");
+            }
+            if (image.cols() != inputSize.width()) {
+                throw new IllegalArgumentException("width of input image != net input size");
+            }
             final PointVectorVector pt = new PointVectorVector();
             final FloatPointer confidences = new FloatPointer();
             model.detect(image, pt, confidences);
@@ -125,8 +129,7 @@ public class demo {
     }
 
     /**
-     * Execute:
-     * mvn compile exec:java -Dexec.mainClass=demo -q -Dexec.args="--help"
+     * Execute: mvn compile exec:java -q -Dexec.args=""
      */
     public static void main(String[] argv) {
         final Args args = new Args();
@@ -140,7 +143,9 @@ public class demo {
             return;
         }
         final int[] backendTargetPair = backendTargetPairs[args.backend];
-        assert args.model != null && !args.model.isEmpty() : "Model name is empty";
+        if (args.model == null || args.model.isEmpty()) {
+            throw new IllegalArgumentException("Model name is empty");
+        }
         final Size inpSize = new Size(args.width, args.height);
 
         final PPOCRDet model = new PPOCRDet(args.model, inpSize,
@@ -153,7 +158,9 @@ public class demo {
         } else {
             cap.open(0);
         }
-        assert cap.isOpened() : "Cannot open video or file";
+        if (!cap.isOpened()) {
+            throw new IllegalArgumentException("Cannot open video or file");
+        }
         Mat originalImage = new Mat();
 
         final OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
@@ -167,9 +174,8 @@ public class demo {
         final Scalar boxColor = new Scalar(0, 255, 0, 0);
         final Scalar textColor = new Scalar(0, 0, 255, 0);
         final TickMeter tm = new TickMeter();
-        while (cap.read(originalImage)) {
-            cap.read(originalImage);
 
+        while (cap.read(originalImage)) {
             final int originalW = originalImage.cols();
             final int originalH = originalImage.rows();
             final double scaleHeight = originalH / (double) inpSize.height();
@@ -179,7 +185,7 @@ public class demo {
 
             // inference
             tm.start();
-            Map.Entry<PointVectorVector, FloatPointer> results = model.infer(image);
+            final Map.Entry<PointVectorVector, FloatPointer> results = model.infer(image);
             tm.stop();
             // Scale the results bounding box
             final PointVectorVector pvv = results.getKey();

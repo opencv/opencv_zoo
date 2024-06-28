@@ -19,6 +19,7 @@
         <module>text_detection_ppocr</module>
     </modules>
 
+
     <dependencies>
         <dependency>
             <groupId>org.bytedeco</groupId>
@@ -66,6 +67,16 @@
                     <artifactId>tesseract-platform</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv-platform-gpu</artifactId>
+            <version>4.9.0-1.5.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>cuda-platform-redist</artifactId>
+            <version>12.3-8.9-1.5.10</version>
         </dependency>
         <dependency>
             <groupId>com.beust</groupId>
