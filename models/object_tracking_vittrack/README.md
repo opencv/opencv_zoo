@@ -40,6 +40,21 @@ cmake --build build
 ./build/opencv_zoo_object_tracking_vittrack -h
 ```
 
+## Java
+
+Install Maven to get started.
+
+```shell
+# tracking on camera input
+mvn compile exec:java -q
+
+# tracking on video
+mvn compile exec:java -q -Dexec.args="-i /path/to/video"
+
+# get help messages
+mvn compile exec:java -q -Dexec.args="-h"
+```
+
 # Example outputs
 
 <img src="example_outputs/vittrack_demo.gif" style="zoom:200%;" />

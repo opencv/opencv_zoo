@@ -13,19 +13,4 @@
 
     <artifactId>text_detection_ppocr</artifactId>
 
-    <build>
-        <sourceDirectory>${project.basedir}</sourceDirectory>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <executable>java</executable>
-                    <mainClass>demo</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
