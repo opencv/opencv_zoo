@@ -6,12 +6,14 @@ MobileNetV2: Inverted Residuals and Linear Bottlenecks
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
+Quantization was done via Per Channel method for V1 and Per Tensor for V2.
+
 | Models             | Top-1 Accuracy | Top-5 Accuracy |
 | ------------------ | -------------- | -------------- |
 | MobileNet V1       | 67.64          | 87.97          |
-| MobileNet V1 quant | 55.53          | 78.74          |
+| MobileNet V1 quant | 40.50          | 53.87          |
 | MobileNet V2       | 69.44          | 89.23          |
-| MobileNet V2 quant | 68.37          | 88.56          |
+| MobileNet V2 quant | 58.10          | 87.40          |
 
 \*: 'quant' stands for 'quantized'.
 
