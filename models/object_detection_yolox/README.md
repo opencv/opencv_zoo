@@ -10,6 +10,7 @@ Key features of the YOLOX object detector
 
 Note:
 - This version of YoloX: YoloX_s
+- Quantization was done via Per Tensor method.
 
 ## Demo
 
