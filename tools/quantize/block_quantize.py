@@ -50,7 +50,7 @@ class ConvParams:
     bias: Optional[np.ndarray] = None
 
 
-def closest_divisor(number: int, divisor: int):
+def closest_divisor(number: int, divisor: int) -> int:
     for d in range(divisor, 0, -1):
         if number % d == 0:
             return d
@@ -59,7 +59,7 @@ def closest_divisor(number: int, divisor: int):
 
 def block_dequantize_tensor(
     x: np.ndarray, block_axis: int, scale: np.ndarray, zero_point: np.ndarray
-):
+) -> np.ndarray:
     repeats = x.shape[block_axis] // scale.shape[block_axis]
 
     x_scale_elementwise = np.repeat(scale, repeats=repeats, axis=block_axis)
@@ -78,7 +78,7 @@ def block_quantize_tensor(
     scale: np.ndarray,
     zero_point: np.ndarray,
     n_bits: int,
-):
+) -> np.ndarray:
     repeats = x.shape[block_axis] // scale.shape[block_axis]
 
     y_scale_elementwise = np.repeat(scale, repeats=repeats, axis=block_axis)
@@ -99,7 +99,7 @@ def create_dequantize_node(
     dequantized_weights,
     block_size,
     axis,
-):
+) -> onnx.NodeProto:
     block_size_attr = helper.make_attribute("block_size", block_size)
     axis_attr = helper.make_attribute("axis", axis)
 
@@ -115,7 +115,7 @@ def create_dequantize_node(
 
 def create_reshape_node(
     node_name, dequantized_weights, shape_tensor, reshaped_weights_name
-):
+) -> onnx.NodeProto:
     return helper.make_node(
         "Reshape",
         inputs=[dequantized_weights, shape_tensor],
