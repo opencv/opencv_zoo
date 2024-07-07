@@ -8,13 +8,14 @@ Notes:
 - This model can detect **faces of pixels between around 10x10 to 300x300** due to the training scheme.
 - For details on training this model, please visit https://github.com/ShiqiYu/libfacedetection.train.
 - This ONNX model has fixed input shape, but OpenCV DNN infers on the exact shape of input image. See https://github.com/opencv/opencv_zoo/issues/44 for more information.
+- Quantization was done via Per Tensor method.
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models      | Easy AP | Medium AP | Hard AP |
 | ----------- | ------- | --------- | ------- |
 | YuNet       | 0.8871  | 0.8710    | 0.7681  |
-| YuNet quant | 0.8838  | 0.8683    | 0.7676  |
+| YuNet quant | 0.8809  | 0.8626    | 0.7493  |
 
 \*: 'quant' stands for 'quantized'.
 
