@@ -14,6 +14,7 @@ This model is converted from TFlite to ONNX using following tools:
 **Note**:
 - The int8-quantized model may produce invalid results due to a significant drop of accuracy.
 - Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#hands for models of larger scale.
+- Quantization was done via Per Tensor method.
 
 ## Demo
 
