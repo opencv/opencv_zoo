@@ -1,7 +1,14 @@
+import sys
+
+MIN_PYTHON_VERSION = (3, 7)
+
+if sys.version_info < MIN_PYTHON_VERSION:
+    raise ImportError("This script requires Python 3.7 or higher!")
+
 import argparse
 import os
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple
 
 import numpy as np
 import onnx
