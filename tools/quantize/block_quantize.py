@@ -16,13 +16,10 @@ from onnx import helper
 
 BITS_TO_NUMPY_TYPE = {8: np.uint8, 16: np.uint16}
 
-CONVOLUTION = "Conv"
 
-KERNEL_SHAPE = "kernel_shape"
-STRIDE = "strides"
-PADS = "pads"
-DILATIONS = "dilations"
-GROUP = "group"
+SUPPORTED_OPS = {
+    "Conv"
+}
 
 ONNX_OPSET = 21
 
@@ -47,12 +44,7 @@ class BlockQuantizeResult:
 
 
 @dataclass
-class ConvParams:
-    kernel_shape: List[int] = field(default_factory=list)
-    strides: List[int] = field(default_factory=list)
-    pads: List[int] = field(default_factory=list)
-    dilations: List[int] = field(default_factory=list)
-    group: int = 1
+class LayerParams:
     weights: np.ndarray = field(default_factory=lambda: np.array([]))
     bias: Optional[np.ndarray] = None
 
@@ -177,20 +169,8 @@ class BlockQuantizer:
 
         return None
 
-    def get_conv_params(self, node: onnx.NodeProto) -> ConvParams:
-        params = ConvParams()
-
-        for attr in node.attribute:
-            if attr.name == KERNEL_SHAPE:
-                params.kernel_shape = onnx.helper.get_attribute_value(attr)
-            elif attr.name == STRIDE:
-                params.strides = onnx.helper.get_attribute_value(attr)
-            elif attr.name == PADS:
-                params.pads = onnx.helper.get_attribute_value(attr)
-            elif attr.name == DILATIONS:
-                params.dilations = onnx.helper.get_attribute_value(attr)
-            elif attr.name == GROUP:
-                params.group = onnx.helper.get_attribute_value(attr)
+    def get_layer_params(self, node: onnx.NodeProto) -> LayerParams:
+        params = LayerParams()
 
         weights_name = node.input[1]
         params.weights = self.get_initializer_tensor(weights_name)
@@ -299,8 +279,8 @@ class BlockQuantizer:
         for node in self.model.graph.node:
             if node.name in visited_nodes:
                 continue
-            if node.op_type == CONVOLUTION:
-                conv_params = self.get_conv_params(node)
+            if node.op_type in SUPPORTED_OPS:
+                conv_params = self.get_layer_params(node)
                 block_quantize_res = self.block_quantize(conv_params.weights)
 
                 quantized_weights_name = f"{node.name}_quantized_weights"
