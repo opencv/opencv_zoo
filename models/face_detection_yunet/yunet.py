@@ -52,4 +52,4 @@ class YuNet:
     def infer(self, image):
         # Forward
         faces = self._model.detect(image)
-        return np.array([]) if faces[1] is None else faces[1]
+        return np.empty(shape=(0, 5)) if faces[1] is None else faces[1]
