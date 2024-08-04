@@ -375,7 +375,8 @@ class BlockQuantizer:
                     self.graph.value_info.insert(0, dequantized_weights_info)
 
                     sqe.append(block_quantize_res.quantization_error**2)
-                    visited_nodes.append(node.name)
+                    
+                visited_nodes.append(node.name)
 
         onnx.checker.check_model(self.model, full_check=True)
         onnx.save(self.model, self.conf.output_model_path)
