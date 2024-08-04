@@ -17,11 +17,7 @@ from onnx import helper
 BITS_TO_NUMPY_TYPE = {8: np.uint8, 16: np.uint16}
 
 
-SUPPORTED_OPS = {
-    "Conv",
-    "Gemm",
-    "MatMul"
-}
+SUPPORTED_OPS = {"Conv", "Gemm", "MatMul"}
 
 ONNX_OPSET = 21
 
@@ -43,6 +39,7 @@ class BlockQuantizeResult:
     axis: int = 1
     original_shape: Tuple = field(default_factory=tuple)
     quantization_error: np.ndarray = field(default_factory=lambda: np.array([]))
+
 
 def closest_divisor(number: int, divisor: int) -> int:
     for d in range(divisor, 0, -1):
@@ -198,16 +195,18 @@ class BlockQuantizer:
         else:
             quantization_axis = 0
 
-        block_size = closest_divisor(weight.shape[quantization_axis], self.conf.block_size)
+        block_size = closest_divisor(
+            weight.shape[quantization_axis], self.conf.block_size
+        )
 
         assert (
             weight.shape[quantization_axis] % block_size == 0
         ), f"weight shape ({weight.shape[quantization_axis]}) must be divisible by block size ({block_size})"
 
-        # Flattening the tensor after the quantization axis 
-        new_shape = list(weight.shape[:quantization_axis + 1]) + [-1]
+        # Flattening the tensor after the quantization axis
+        new_shape = list(weight.shape[: quantization_axis + 1]) + [-1]
         new_shape[quantization_axis] = new_shape[quantization_axis] // block_size
-        
+
         blocked_weight = weight.reshape(new_shape)
 
         blocked_max = np.max(blocked_weight, -1)
@@ -266,11 +265,9 @@ class BlockQuantizer:
             if node.name in visited_nodes:
                 continue
             if node.op_type in SUPPORTED_OPS:
-
                 for input_idx, input_name in enumerate(node.input):
-
                     weight = self.get_initializer_tensor(input_name)
-                    
+
                     quantized_weights_name = f"{input_name}_quantized"
                     quantized_node_name = f"{input_name}_quantized_node"
                     dequantized_weights_name = f"{input_name}_dequantized"
@@ -281,22 +278,24 @@ class BlockQuantizer:
                     shape_name = f"{input_name}_shape"
                     reshaped_weights_name = f"{input_name}_reshaped"
 
-
                     # Skip quantization if weights are taken as external input
                     # or if they don't contain enough elements to create at least 1 block
                     if weight is None or weight.size < self.conf.block_size:
                         continue
-                    
+
                     reshape_needed = weight.ndim > 2
 
                     # In case of parameter sharing
                     if input_name in quantized_inputs:
-                        node.input[input_idx] = reshaped_weights_name if reshape_needed else dequantized_weights_name
+                        node.input[input_idx] = (
+                            reshaped_weights_name
+                            if reshape_needed
+                            else dequantized_weights_name
+                        )
                         continue
-                    
+
                     quantized_inputs.append(input_name)
                     block_quantize_res = self.block_quantize(weight)
-
 
                     dequantize_node = create_dequantize_node(
                         quantized_node_name,
@@ -326,7 +325,8 @@ class BlockQuantizer:
                         block_quantize_res.zero_point, name=zero_point_name
                     )
                     quantized_weights_initializer = onnx.numpy_helper.from_array(
-                        block_quantize_res.quantized_weights, name=quantized_weights_name
+                        block_quantize_res.quantized_weights,
+                        name=quantized_weights_name,
                     )
 
                     dequantized_weights_info = helper.make_tensor_value_info(
@@ -360,8 +360,11 @@ class BlockQuantizer:
                         )
                     )
 
-
-                    node.input[input_idx] = reshaped_weights_name if reshape_needed else dequantized_weights_name
+                    node.input[input_idx] = (
+                        reshaped_weights_name
+                        if reshape_needed
+                        else dequantized_weights_name
+                    )
 
                     # Preserving graph nodes topological order
                     if reshape_needed:
