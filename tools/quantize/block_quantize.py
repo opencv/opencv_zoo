@@ -14,7 +14,7 @@ import numpy as np
 import onnx
 from onnx import helper
 
-BITS_TO_NUMPY_TYPE = {8: np.uint8, 16: np.uint16}
+BITS_TO_NUMPY_TYPE = {8: np.int8, 16: np.int16}
 
 
 SUPPORTED_OPS = {"Conv", "Gemm", "MatMul"}
@@ -257,13 +257,14 @@ class BlockQuantizer:
     def run(self):
         print("Quantizing the model...")
 
-        visited_nodes = []
         quantized_inputs = []
         sqe = []
 
-        for node in self.model.graph.node:
-            if node.name in visited_nodes:
-                continue
+        node_idx = 0
+
+        while node_idx < len(self.model.graph.node):
+            node = self.model.graph.node[node_idx]
+
             if node.op_type in SUPPORTED_OPS:
                 for input_idx, input_name in enumerate(node.input):
                     weight = self.get_initializer_tensor(input_name)
@@ -369,14 +370,16 @@ class BlockQuantizer:
                     # Preserving graph nodes topological order
                     if reshape_needed:
                         self.graph.node.insert(0, reshape_node)
+                        node_idx += 1
 
                     self.graph.node.insert(0, dequantize_node)
+                    node_idx += 1
                     self.graph.value_info.insert(0, shape_info)
                     self.graph.value_info.insert(0, dequantized_weights_info)
 
                     sqe.append(block_quantize_res.quantization_error**2)
                     
-                visited_nodes.append(node.name)
+            node_idx += 1
 
         onnx.checker.check_model(self.model, full_check=True)
         onnx.save(self.model, self.conf.output_model_path)
