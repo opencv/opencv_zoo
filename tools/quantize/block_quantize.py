@@ -14,12 +14,10 @@ import numpy as np
 import onnx
 from onnx import helper
 
-BITS_TO_NUMPY_TYPE = {8: np.uint8, 16: np.uint16}
+BITS_TO_NUMPY_TYPE = {8: np.int8, 16: np.int16}
 
 
-SUPPORTED_OPS = {
-    "Conv"
-}
+SUPPORTED_OPS = {"Conv", "Gemm", "MatMul"}
 
 ONNX_OPSET = 21
 
@@ -41,12 +39,6 @@ class BlockQuantizeResult:
     axis: int = 1
     original_shape: Tuple = field(default_factory=tuple)
     quantization_error: np.ndarray = field(default_factory=lambda: np.array([]))
-
-
-@dataclass
-class LayerParams:
-    weights: np.ndarray = field(default_factory=lambda: np.array([]))
-    bias: Optional[np.ndarray] = None
 
 
 def closest_divisor(number: int, divisor: int) -> int:
@@ -169,18 +161,6 @@ class BlockQuantizer:
 
         return None
 
-    def get_layer_params(self, node: onnx.NodeProto) -> LayerParams:
-        params = LayerParams()
-
-        weights_name = node.input[1]
-        params.weights = self.get_initializer_tensor(weights_name)
-
-        if len(node.input) > 2:
-            bias_name = node.input[2]
-            params.bias = self.get_initializer_tensor(bias_name)
-
-        return params
-
     def compute_scale_zeropoint(
         self, b_min: np.ndarray, b_max: np.ndarray
     ) -> Tuple[np.ndarray, np.ndarray]:
@@ -208,24 +188,28 @@ class BlockQuantizer:
 
     def block_quantize(self, weight: np.ndarray) -> BlockQuantizeResult:
         original_shape = weight.shape
-        weight = weight.reshape((weight.shape[0], -1))
 
-        quantization_axis = 1
+        if weight.ndim > 1:
+            weight = weight.reshape((weight.shape[0], -1))
+            quantization_axis = 1
+        else:
+            quantization_axis = 0
 
-        block_size = closest_divisor(weight.shape[1], self.conf.block_size)
-
-        assert (
-            weight.shape[1] % block_size == 0
-        ), f"weight shape ({weight.shape[1]}) must be divisible by block size ({block_size})"
-
-        # Warning, axis = 1 specific instruction!
-        blocked_weight = weight.reshape(
-            (weight.shape[0], weight.shape[1] // block_size, -1)
+        block_size = closest_divisor(
+            weight.shape[quantization_axis], self.conf.block_size
         )
 
-        # Warning, axis = 1 specific instruction!
+        assert (
+            weight.shape[quantization_axis] % block_size == 0
+        ), f"weight shape ({weight.shape[quantization_axis]}) must be divisible by block size ({block_size})"
+
+        # Flattening the tensor after the quantization axis
+        new_shape = list(weight.shape[: quantization_axis + 1]) + [-1]
+        new_shape[quantization_axis] = new_shape[quantization_axis] // block_size
+
+        blocked_weight = weight.reshape(new_shape)
+
         blocked_max = np.max(blocked_weight, -1)
-        # Warning, axis = 1 specific instruction!
         blocked_min = np.min(blocked_weight, -1)
 
         scales, zeropoints = self.compute_scale_zeropoint(blocked_min, blocked_max)
@@ -273,93 +257,129 @@ class BlockQuantizer:
     def run(self):
         print("Quantizing the model...")
 
-        visited_nodes = []
+        quantized_inputs = []
         sqe = []
 
-        for node in self.model.graph.node:
-            if node.name in visited_nodes:
-                continue
+        node_idx = 0
+
+        while node_idx < len(self.model.graph.node):
+            node = self.model.graph.node[node_idx]
+
             if node.op_type in SUPPORTED_OPS:
-                conv_params = self.get_layer_params(node)
-                block_quantize_res = self.block_quantize(conv_params.weights)
+                for input_idx, input_name in enumerate(node.input):
+                    weight = self.get_initializer_tensor(input_name)
 
-                quantized_weights_name = f"{node.name}_quantized_weights"
-                quantized_node_name = f"{node.name}_quantized_node"
-                dequantized_weights_name = f"{node.name}_dequantized_weights"
-                scales_name = f"{node.name}_scales"
-                zero_point_name = f"{node.name}_zero_point"
+                    quantized_weights_name = f"{input_name}_quantized"
+                    quantized_node_name = f"{input_name}_quantized_node"
+                    dequantized_weights_name = f"{input_name}_dequantized"
+                    scales_name = f"{input_name}_scales"
+                    zero_point_name = f"{input_name}_zero_point"
 
-                shape_node_name = f"{node.name}_shape_node"
-                shape_name = f"{node.name}_shape"
-                reshaped_weights_name = f"{node.name}_reshaped_weights"
+                    shape_node_name = f"{input_name}_shape_node"
+                    shape_name = f"{input_name}_shape"
+                    reshaped_weights_name = f"{input_name}_reshaped"
 
-                dequantize_node = create_dequantize_node(
-                    quantized_node_name,
-                    quantized_weights_name,
-                    scales_name,
-                    zero_point_name,
-                    dequantized_weights_name,
-                    block_quantize_res.block_size,
-                    block_quantize_res.axis,
-                )
-                reshape_node = create_reshape_node(
-                    shape_node_name,
-                    dequantized_weights_name,
-                    shape_name,
-                    reshaped_weights_name,
-                )
+                    # Skip quantization if weights are taken as external input
+                    # or if they don't contain enough elements to create at least 1 block
+                    if weight is None or weight.size < self.conf.block_size:
+                        continue
 
-                shape_tensor = onnx.numpy_helper.from_array(
-                    np.array(block_quantize_res.original_shape), name=shape_name
-                )
-                scale_initializer = onnx.numpy_helper.from_array(
-                    block_quantize_res.scales, name=scales_name
-                )
-                zero_point_initializer = onnx.numpy_helper.from_array(
-                    block_quantize_res.zero_point, name=zero_point_name
-                )
-                quantized_weights_initializer = onnx.numpy_helper.from_array(
-                    block_quantize_res.quantized_weights, name=quantized_weights_name
-                )
+                    reshape_needed = weight.ndim > 2
 
-                dequantized_weights_info = helper.make_tensor_value_info(
-                    dequantized_weights_name,
-                    onnx.TensorProto.FLOAT,
-                    block_quantize_res.quantized_weights.shape,
-                )
-                shape_info = helper.make_tensor_value_info(
-                    reshaped_weights_name,
-                    onnx.TensorProto.FLOAT,
-                    block_quantize_res.original_shape,
-                )
+                    # In case of parameter sharing
+                    if input_name in quantized_inputs:
+                        node.input[input_idx] = (
+                            reshaped_weights_name
+                            if reshape_needed
+                            else dequantized_weights_name
+                        )
+                        continue
 
-                self.graph.initializer.extend(
-                    [
-                        scale_initializer,
-                        zero_point_initializer,
-                        shape_tensor,
-                        quantized_weights_initializer,
-                    ]
-                )
+                    quantized_inputs.append(input_name)
+                    block_quantize_res = self.block_quantize(weight)
 
-                # Removing fp32 weights
-                self.graph.initializer.remove(
-                    next(
-                        init
-                        for init in self.graph.initializer
-                        if init.name == node.input[1]
+                    dequantize_node = create_dequantize_node(
+                        quantized_node_name,
+                        quantized_weights_name,
+                        scales_name,
+                        zero_point_name,
+                        dequantized_weights_name,
+                        block_quantize_res.block_size,
+                        block_quantize_res.axis,
                     )
-                )
-                node.input[1] = reshaped_weights_name
 
-                # Preserving the topological order of graph nodes
-                self.graph.node.insert(0, reshape_node)
-                self.graph.node.insert(0, dequantize_node)
-                self.graph.value_info.insert(0, shape_info)
-                self.graph.value_info.insert(0, dequantized_weights_info)
+                    if reshape_needed:
+                        reshape_node = create_reshape_node(
+                            shape_node_name,
+                            dequantized_weights_name,
+                            shape_name,
+                            reshaped_weights_name,
+                        )
 
-                sqe.append(block_quantize_res.quantization_error**2)
-                visited_nodes.append(node.name)
+                    shape_tensor = onnx.numpy_helper.from_array(
+                        np.array(block_quantize_res.original_shape), name=shape_name
+                    )
+                    scale_initializer = onnx.numpy_helper.from_array(
+                        block_quantize_res.scales, name=scales_name
+                    )
+                    zero_point_initializer = onnx.numpy_helper.from_array(
+                        block_quantize_res.zero_point, name=zero_point_name
+                    )
+                    quantized_weights_initializer = onnx.numpy_helper.from_array(
+                        block_quantize_res.quantized_weights,
+                        name=quantized_weights_name,
+                    )
+
+                    dequantized_weights_info = helper.make_tensor_value_info(
+                        dequantized_weights_name,
+                        onnx.TensorProto.FLOAT,
+                        block_quantize_res.quantized_weights.shape,
+                    )
+
+                    if reshape_needed:
+                        shape_info = helper.make_tensor_value_info(
+                            reshaped_weights_name,
+                            onnx.TensorProto.FLOAT,
+                            block_quantize_res.original_shape,
+                        )
+
+                    self.graph.initializer.extend(
+                        [
+                            scale_initializer,
+                            zero_point_initializer,
+                            shape_tensor,
+                            quantized_weights_initializer,
+                        ]
+                    )
+
+                    # Removing fp32 weights
+                    self.graph.initializer.remove(
+                        next(
+                            init
+                            for init in self.graph.initializer
+                            if init.name == input_name
+                        )
+                    )
+
+                    node.input[input_idx] = (
+                        reshaped_weights_name
+                        if reshape_needed
+                        else dequantized_weights_name
+                    )
+
+                    # Preserving graph nodes topological order
+                    if reshape_needed:
+                        self.graph.node.insert(0, reshape_node)
+                        node_idx += 1
+
+                    self.graph.node.insert(0, dequantize_node)
+                    node_idx += 1
+                    self.graph.value_info.insert(0, shape_info)
+                    self.graph.value_info.insert(0, dequantized_weights_info)
+
+                    sqe.append(block_quantize_res.quantization_error**2)
+                    
+            node_idx += 1
 
         onnx.checker.check_model(self.model, full_check=True)
         onnx.save(self.model, self.conf.output_model_path)
