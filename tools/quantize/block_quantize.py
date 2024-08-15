@@ -28,6 +28,7 @@ class WeightCategory(Enum):
     CONSTANT = auto()
     NONE = auto()
 
+
 @dataclass
 class BlockQuantizeConfig:
     input_model_path: str
@@ -87,9 +88,7 @@ def block_quantize_tensor(
 
     y = np.rint(x / y_scale_elementwise + y_zero_point_elementwise)
     y = np.clip(y, min_value, max_value)
-    y = y.astype(
-        BITS_TO_NUMPY_TYPE[n_bits]
-    )
+    y = y.astype(BITS_TO_NUMPY_TYPE[n_bits])
 
     return y
 
@@ -142,8 +141,10 @@ class BlockQuantizer:
             init.name: init for init in self.model.graph.initializer
         }
         self.costants_map = {
-            node.output[0]: next(attr.t for attr in node.attribute if attr.name == "value") 
-            for node in self.model.graph.node 
+            node.output[0]: next(
+                attr.t for attr in node.attribute if attr.name == "value"
+            )
+            for node in self.model.graph.node
             if node.op_type == "Constant"
         }
 
@@ -171,7 +172,7 @@ class BlockQuantizer:
             raise ValueError(
                 f"Bits must be one of the following values: [{allowed_values}]."
             )
-        
+
     def get_weight_category(self, name: str) -> WeightCategory:
         if name in self.initializers_map:
             return WeightCategory.INITIALIZER
@@ -179,7 +180,6 @@ class BlockQuantizer:
             return WeightCategory.CONSTANT
         else:
             return WeightCategory.NONE
-        
 
     def get_weight_tensor(self, name: str, category: WeightCategory) -> np.ndarray:
         if category == WeightCategory.INITIALIZER:
@@ -188,20 +188,16 @@ class BlockQuantizer:
             return onnx.numpy_helper.to_array(self.costants_map[name])
         else:
             raise AssertionError("Invalid weight category")
-    
+
     def remove_fp32_weights(self, name: str, category: WeightCategory):
         if category == WeightCategory.INITIALIZER:
             self.graph.initializer.remove(
-                next(
-                    init
-                    for init in self.graph.initializer
-                    if init.name == name
-                )
+                next(init for init in self.graph.initializer if init.name == name)
             )
         elif category == WeightCategory.CONSTANT:
             self.graph.node.remove(
                 next(
-                    node 
+                    node
                     for node in self.graph.node
                     if node.op_type == "Constant" and node.output[0] == name
                 )
@@ -214,9 +210,7 @@ class BlockQuantizer:
     ) -> Tuple[np.ndarray, np.ndarray]:
         assert (
             b_min <= b_max
-        ).all(), (
-            "minimum must not be greater than maximum when computing scale and zero point"
-        )
+        ).all(), "minimum must not be greater than maximum when computing scale and zero point"
 
         # zero must be present in the range, this enforces qmin <= zero_point <= qmax
         b_min = np.minimum(b_min, np.zeros_like(b_min, dtype=b_min.dtype))
@@ -228,9 +222,9 @@ class BlockQuantizer:
 
         dq = qmax - qmin
 
-        scales = np.where(b_max != b_min, (b_max - b_min) / dq, 1.) 
+        scales = np.where(b_max != b_min, (b_max - b_min) / dq, 1.0)
 
-        zeropoints = np.where(b_max != b_min, np.rint(qmin - b_min / scales), 0.)
+        zeropoints = np.where(b_max != b_min, np.rint(qmin - b_min / scales), 0.0)
         zeropoints = zeropoints.astype(BITS_TO_NUMPY_TYPE[self.conf.bits])
 
         return (scales, zeropoints)
@@ -293,7 +287,9 @@ class BlockQuantizer:
     def display_summary(self, sqe: List):
         if len(sqe) == 0:
             mse = 0
-            print("Warning: No weights have been quantized, likely due to unsupported layers.")
+            print(
+                "Warning: No weights have been quantized, likely due to unsupported layers."
+            )
         else:
             mse = sum(sqe) / len(sqe)
         original_model_size = self.get_model_size(self.conf.input_model_path)
@@ -429,7 +425,7 @@ class BlockQuantizer:
                     self.graph.value_info.insert(0, dequantized_weights_info)
 
                     sqe.append(block_quantize_res.quantization_error**2)
-                    
+
             node_idx += 1
 
         onnx.checker.check_model(self.model, full_check=True)
