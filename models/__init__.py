@@ -46,6 +46,7 @@ class ModuleRegistery:
         fp32_model_paths = []
         fp16_model_paths = []
         int8_model_paths = []
+        bint8_model_paths = []
         # onnx
         ret_onnx = sorted(glob.glob(os.path.join(model_dir, "*.onnx")))
         if "object_tracking" in item.__module__:
@@ -57,6 +58,8 @@ class ModuleRegistery:
                     int8_model_paths.append([r])
                 elif "fp16" in r: # exclude fp16 for now
                     fp16_model_paths.append([r])
+                elif "blocked" in r:
+                    bint8_model_paths.append([r])
                 else:
                     fp32_model_paths.append([r])
         # caffe
@@ -72,6 +75,7 @@ class ModuleRegistery:
             fp32=fp32_model_paths,
             fp16=fp16_model_paths,
             int8=int8_model_paths,
+            bint8=bint8_model_paths
         )
 
         self._dict[item.__name__] = (item, all_model_paths)
