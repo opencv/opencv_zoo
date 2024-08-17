@@ -46,11 +46,13 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models             | Accuracy       | mIoU          |
 | ------------------ | -------------- | ------------- |
-| PPHumanSeg         | 0.9581         | 0.8996        |
-| PPHumanSeg quant   | 0.4365         | 0.2788        |
+| PPHumanSeg         | 0.9656         | 0.9164        |
+| PPHumanSeg block   | 0.9655         | 0.9162        |
+| PPHumanSeg quant   | 0.7285         | 0.3642        |
 
 
 \*: 'quant' stands for 'quantized'.
+\*\*: 'block' stands for 'blockwise quantized'.
 
 ---
 ## License

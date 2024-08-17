@@ -352,6 +352,10 @@ class BlockQuantizer:
                     quantized_inputs.append(input_name)
                     block_quantize_res = self.block_quantize(weight)
 
+                    # Skip quantization if it wouldn't reduce the model size
+                    if block_quantize_res.block_size == 1:
+                        continue
+
                     dequantize_node = create_dequantize_node(
                         quantized_node_name,
                         quantized_weights_name,
@@ -421,7 +425,8 @@ class BlockQuantizer:
 
                     self.graph.node.insert(0, dequantize_node)
                     node_idx += 1
-                    self.graph.value_info.insert(0, shape_info)
+                    if reshape_needed:
+                        self.graph.value_info.insert(0, shape_info)
                     self.graph.value_info.insert(0, dequantized_weights_info)
 
                     sqe.append(block_quantize_res.quantization_error**2)
