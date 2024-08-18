@@ -8,7 +8,7 @@ if sys.version_info < MIN_PYTHON_VERSION:
 import argparse
 import os
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Dict, Tuple
 from enum import Enum, auto
 
 import numpy as np
@@ -35,6 +35,7 @@ class BlockQuantizeConfig:
     output_model_path: str
     block_size: int
     bits: int
+    verbose: bool
 
 
 @dataclass
@@ -264,7 +265,8 @@ class BlockQuantizer:
             quantized_weight, quantization_axis, scales, zeropoints
         )
 
-        qerror = np.linalg.norm(reconstructed_mat - weight)
+        # Relative Norm
+        qerror = np.linalg.norm(reconstructed_mat - weight) / (np.linalg.norm(weight) + 1e-10)
 
         res = BlockQuantizeResult(
             quantized_weight,
@@ -284,22 +286,32 @@ class BlockQuantizer:
 
         return size_mb
 
-    def display_summary(self, sqe: List):
-        if len(sqe) == 0:
+    def display_summary(self, sqe: Dict[str, int]):
+        sqe_v = list(sqe.values())
+        if len(sqe_v) == 0:
             mse = 0
             print(
                 "Warning: No weights have been quantized, likely due to unsupported layers."
             )
         else:
-            mse = sum(sqe) / len(sqe)
+            mse = sum(sqe_v) / len(sqe_v)
         original_model_size = self.get_model_size(self.conf.input_model_path)
         quantized_model_size = self.get_model_size(self.conf.output_model_path)
+
+        if self.conf.verbose:
+            sorted_sqe = sorted(sqe.items(), key=lambda item: item[1], reverse=True)
+            longest_key_len = max(len(key) for key in sqe.keys())
+            
+            print("Quantization error (Relative Norm) sorted in ascending order:")
+
+            for key, value in sorted_sqe:
+                print(f"{key:<{longest_key_len}} : {value}")
 
         print("Done! Results saved in", self.conf.output_model_path)
         print("\nSummary of Results:\n")
         print(f"{'Metric':<30} {'Value':<10}")
         print(f"{'-'*40}")
-        print(f"{'Mean Squared Quantization Error':<30} {mse:.6f}")
+        print(f"{'Relative Norm Error':<31} {mse:.6f}")
         print(f"{'Original Model Size (KB)':<31} {original_model_size:,.2f}")
         print(f"{'Block-Quantized Model Size (KB)':<30} {quantized_model_size:,.2f}")
 
@@ -307,7 +319,7 @@ class BlockQuantizer:
         print("Quantizing the model...")
 
         quantized_inputs = []
-        sqe = []
+        sqe = {}
 
         node_idx = 0
 
@@ -349,12 +361,14 @@ class BlockQuantizer:
                         )
                         continue
 
-                    quantized_inputs.append(input_name)
+
                     block_quantize_res = self.block_quantize(weight)
 
                     # Skip quantization if it wouldn't reduce the model size
                     if block_quantize_res.block_size == 1:
                         continue
+
+                    quantized_inputs.append(input_name)
 
                     dequantize_node = create_dequantize_node(
                         quantized_node_name,
@@ -429,7 +443,7 @@ class BlockQuantizer:
                         self.graph.value_info.insert(0, shape_info)
                     self.graph.value_info.insert(0, dequantized_weights_info)
 
-                    sqe.append(block_quantize_res.quantization_error**2)
+                    sqe[input_name] = block_quantize_res.quantization_error
 
             node_idx += 1
 
@@ -473,6 +487,13 @@ def setup_args() -> argparse.Namespace:
         default="block_quantized_model.onnx",
         required=False,
     )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Enable verbose output",
+        required=False,
+    )
 
     return parser.parse_args()
 
@@ -485,6 +506,7 @@ if __name__ == "__main__":
         output_model_path=args.output_model,
         block_size=args.block_size,
         bits=args.bits,
+        verbose=args.verbose
     )
 
     quantizer = BlockQuantizer(quantization_config)
