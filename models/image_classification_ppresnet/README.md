@@ -9,9 +9,11 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 | Models          | Top-1 Accuracy | Top-5 Accuracy |
 | --------------- | -------------- | -------------- |
 | PP-ResNet       | 82.28          | 96.15          |
+| PP-ResNet block | 82.27          | 96.15          |
 | PP-ResNet quant | 0.22           | 0.96           |
 
 \*: 'quant' stands for 'quantized'.
+\*\*: 'block' stands for 'blockwise quantized'.
 
 ## Demo
 
