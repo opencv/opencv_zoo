@@ -8,6 +8,23 @@ Notes:
 - The included model combines a pretrained MobileFaceNet backbone, with a quality regression head trained using the proceedure presented in the original paper.
 - The model predicts quality scores of aligned face samples, where a higher predicted score corresponds to a higher quality of the input sample.
 
+- In the figure below we show the quality distribution on two distinct datasets: LFW[[1]](#1) and XQLFW[[2]](#2). The LFW dataset contains images of relatively high quality, whereas the XQLFW dataset contains images of variable quality. There is a clear difference between the two distributions, with high quality images from the LFW dataset receiving quality scores higher than 0.5, while the mixed images from XQLFW receive much lower quality scores on average.
+
+
+![qualityDist](./quality_distribution.png)
+
+
+<a id="1">[1]</a> 
+B. Huang, M. Ramesh, T. Berg, and E. Learned-Miller 
+“Labeled Faces in the Wild: A Database for Studying Face Recognition in Unconstrained Environments” 
+University of Massachusetts, Amherst, Tech. Rep. 07-49,
+October 2007.
+
+<a id="2">[2]</a> 
+M. Knoche, S. Hormann, and G. Rigoll
+“Cross-Quality LFW: A Database for Analyzing Cross-Resolution Image Face Recognition in Unconstrained Environments,” in Proceedings of the IEEE International Conference on Automatic Face and Gesture Recognition (FG), 2021, pp. 1–5.
+
+
 
 ## Demo
 
