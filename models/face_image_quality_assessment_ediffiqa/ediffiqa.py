@@ -1,9 +1,6 @@
 # This file is part of OpenCV Zoo project.
 # It is subject to the license terms in the LICENSE file found in the same directory.
 
-
-from itertools import product
-
 import numpy as np
 import cv2 as cv
 
