@@ -8,8 +8,6 @@ import argparse
 import numpy as np
 import cv2 as cv
 
-from skimage import transform as trans
-
 # Check OpenCV version
 opencv_python_version = lambda str_version: tuple(map(int, (str_version.split("."))))
 assert opencv_python_version(cv.__version__) >= opencv_python_version("4.10.0"), \
@@ -98,9 +96,7 @@ def align_image(image, detection_data):
     if src_pts_shp[0] == 2:
         src_pts = src_pts.T
 
-    tform = trans.SimilarityTransform()
-    tform.estimate(src_pts, ref_pts)
-    tfm = tform.params[0:2, :]
+    tfm, _ = cv.estimateAffinePartial2D(src_pts, ref_pts, method=cv.LMEDS)
 
     face_img = cv.warpAffine(image, tfm, (112, 112))
 
