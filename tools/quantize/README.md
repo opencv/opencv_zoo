@@ -7,7 +7,7 @@ Install dependencies before trying quantization:
 pip install -r requirements.txt
 ```
 
-## Usage
+## Quantization Usage
 
 Quantize all models in the Zoo:
 ```shell
@@ -50,6 +50,16 @@ models = dict(
 # 2. prepare your YAML config model1.yaml (see configs in ./inc_configs)
 # 3. quantize your model
 python quantize-inc.py model1
+```
+
+## Blockwise quantization usage
+
+`block_quantize.py` requires Python>=3.7
+
+To perform weight-only blockwise quantization:
+
+```shell
+python block_quantize.py --input_model INPUT_MODEL.onnx --output_model OUTPUT_MODEL.onnx --block_size {block size} --bits {8,16}
 ```
 
 ## Dataset
