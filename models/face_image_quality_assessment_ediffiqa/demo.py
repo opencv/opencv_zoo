@@ -65,7 +65,7 @@ args = parser.parse_args()
 
 def visualize(image, results):
     output = image.copy()
-    cv.putText(output, f"{results:.3f}", (0, 15), cv.FONT_HERSHEY_DUPLEX, 0.5, (0, 0, 255))
+    cv.putText(output, f"{results:.3f}", (0, 20), cv.FONT_HERSHEY_DUPLEX, .8, (0, 0, 255))
 
     return output
 
