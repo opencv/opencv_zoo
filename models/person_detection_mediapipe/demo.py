@@ -36,7 +36,7 @@ parser.add_argument('--score_threshold', type=float, default=0.5,
                     help='Usage:  Set the minimum needed confidence for the model to identify a person, defaults to 0.5. Smaller values may result in faster detection, but will limit accuracy. Filter out persons of confidence < conf_threshold.')
 parser.add_argument('--nms_threshold', type=float, default=0.3,
                     help='Usage: Suppress bounding boxes of iou >= nms_threshold. Default = 0.3.')
-parser.add_argument('--top_k', type=int, default=1,
+parser.add_argument('--top_k', type=int, default=5000,
                     help='Usage: Keep top_k bounding boxes before NMS.')
 parser.add_argument('--save', '-s', action='store_true',
                     help='Usage: Specify to save file with results (i.e. bounding box, confidence level). Invalid in case of camera input.')
