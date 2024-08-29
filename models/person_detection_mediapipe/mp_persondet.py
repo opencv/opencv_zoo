@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 
 class MPPersonDet:
-    def __init__(self, modelPath, nmsThreshold=0.3, scoreThreshold=0.5, topK=1, backendId=0, targetId=0):
+    def __init__(self, modelPath, nmsThreshold=0.3, scoreThreshold=0.5, topK=5000, backendId=0, targetId=0):
         self.model_path = modelPath
         self.nms_threshold = nmsThreshold
         self.score_threshold = scoreThreshold
