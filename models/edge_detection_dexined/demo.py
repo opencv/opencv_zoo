@@ -28,14 +28,18 @@ def main(func_args=None):
     cv.moveWindow('Output', 200, 50)
 
     # Process frames
+    tm = cv.TickMeter()
     while cv.waitKey(1) < 0:
         hasFrame, image = cap.read()
         if not hasFrame:
             print("Press any key to exit")
             cv.waitKey(0)
             break
-
-        result, label = dexined.infer(image)
+        
+        tm.start()
+        result = dexined.infer(image)
+        tm.stop()
+        label = 'Inference time: {:.2f} ms, FPS: {:.2f}'.format(tm.getTimeMilli(), tm.getFPS())
 
         cv.imshow("Input", image)
         cv.putText(result, label, (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))

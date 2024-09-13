@@ -19,12 +19,12 @@ Run the following command to try the demo:
 
 ```shell
 # detect on camera input
-python edge_detection.py
+python demo.py
 # detect on an image
-python edge_detection.py --input /path/to/image
+python demo.py --input /path/to/image
 
 # get help regarding various parameters
-python edge_detection.py --help
+python demo.py --help
 ```
 
 ### C++
@@ -35,11 +35,11 @@ cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
 cmake --build build
 
 # detect on camera input
-./build/edge_detection
+./build/demo
 # detect on an image
-./build/edge_detection --input=/path/to/image
+./build/demo --input=/path/to/image
 # get help messages
-./build/edge_detection -h
+./build/demo -h
 ```
 
 ### Example outputs

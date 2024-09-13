@@ -46,7 +46,5 @@ class Dexined:
         # Forward pass through the model
         out = self._model.forward()
         result, _ = self.postProcessing(out, image.shape[:2])
-        t, _ = self._model.getPerfProfile()
-        
-        label = 'Inference time: %.2f ms' % (t * 1000.0 / cv.getTickFrequency())
-        return result, label
+
+        return result
