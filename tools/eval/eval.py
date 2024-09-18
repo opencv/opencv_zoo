@@ -95,6 +95,10 @@ models = dict(
         name="PPHumanSeg",
         topic="human_segmentation",
         modelPath=os.path.join(root_dir, "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2023mar_int8.onnx")),
+    vittrack=dict(
+        name="VitTrack",
+        topic="object_tracking",
+        model_path=os.path.join(root_dir, "models/object_tracking_vittrack/object_tracking_vittrack_2023sep.onnx")),
 )
 
 datasets = dict(
@@ -118,6 +122,9 @@ datasets = dict(
         mini_supervisely=dict(
             name="MiniSupervisely",
             topic="human_segmentation"),
+        otb100=dict(
+            name="OTB100",
+            topic="object_tracking"),
 )
 
 def main(args):

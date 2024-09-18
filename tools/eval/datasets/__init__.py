@@ -4,6 +4,7 @@ from .lfw import LFW
 from .icdar import ICDAR
 from .iiit5k import IIIT5K
 from .minisupervisely import MiniSupervisely
+from .otb100 import OTB100
 
 class Registery:
     def __init__(self, name):
@@ -23,3 +24,4 @@ DATASETS.register(LFW)
 DATASETS.register(ICDAR)
 DATASETS.register(IIIT5K)
 DATASETS.register(MiniSupervisely)
+DATASETS.register(OTB100)
