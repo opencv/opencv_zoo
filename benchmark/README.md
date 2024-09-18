@@ -26,7 +26,7 @@ python benchmark.py --cfg ./config/face_detection_yunet.yaml
 # All configs
 python benchmark.py --all
 
-# All configs but only fp32 models (--fp32, --fp16, --int8 are available for now)
+# All configs but only fp32 models (--fp32, --fp16, --int8 --bint8 are available for now)
 python benchmark.py --all --fp32
 
 # All configs but exclude some of them (fill with config name keywords, not sensitive to upper/lower case, seperate with colons)

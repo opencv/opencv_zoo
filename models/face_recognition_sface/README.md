@@ -14,9 +14,11 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 | Models      | Accuracy |
 | ----------- | -------- |
 | SFace       | 0.9940   |
+| SFace block | 0.9942   |
 | SFace quant | 0.9932   |
 
 \*: 'quant' stands for 'quantized'.
+\*\*: 'block' stands for 'blockwise quantized'.
 
 ## Demo
 
