@@ -3,6 +3,7 @@
 This model is contributed by Dong Xu (徐栋) from [watrix.ai](watrix.ai) (银河水滴).
 
 Please note that the model is trained with Chinese license plates, so the detection results of other license plates with this model may be limited.
+Quantization was done via Per Tensor method.
 
 ## Demo
 

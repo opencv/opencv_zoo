@@ -3,6 +3,7 @@
 [An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition](https://arxiv.org/abs/1507.05717)
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval) at different text recognition datasets.
+2021 Sep English model's Quantization was done via Per Channel method.
 
 | Model name   | ICDAR03(%) | IIIT5k(%) | CUTE80(%) |
 | ------------ | ---------- | --------- | --------- |

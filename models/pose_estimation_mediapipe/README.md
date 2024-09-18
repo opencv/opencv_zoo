@@ -10,6 +10,7 @@ This model is converted from TFlite to ONNX using following tools:
 
 **Note**:
 - Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#pose for models of larger scale.
+- Quantization was done via Per Channel method.
 ## Demo
 
 ### python

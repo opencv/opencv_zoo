@@ -14,7 +14,7 @@ from onnx import version_converter
 import onnxruntime
 from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType, QuantFormat, quant_pre_process
 
-from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert, HandAlign
+from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert, HandAlign, ImagePad
 
 class DataReader(CalibrationDataReader):
     def __init__(self, model_path, image_dir, transforms, data_dim):
@@ -79,7 +79,7 @@ class Quantize:
         quant_pre_process(new_model_path, new_model_path)
         output_name = '{}_{}.onnx'.format(self.model_path[:-5], self.wt_type)
         quantize_static(new_model_path, output_name, self.dr,
-                        quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
+                        quant_format=QuantFormat.QDQ, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
                         per_channel=self.per_channel,
                         weight_type=self.type_dict[self.wt_type],
                         activation_type=self.type_dict[self.act_type],
@@ -91,22 +91,63 @@ class Quantize:
 models=dict(
     yunet=Quantize(model_path='../../models/face_detection_yunet/face_detection_yunet_2023mar.onnx',
                    calibration_image_dir='../../benchmark/data/face_detection',
-                   transforms=Compose([Resize(size=(160, 120))]),
+                   transforms=Compose([Resize(size=(640, 640))]),
                    nodes_to_exclude=['MaxPool_5', 'MaxPool_18', 'MaxPool_25', 'MaxPool_32'],
-    ),
+    ), #COLOR_BGR2RGB
     sface=Quantize(model_path='../../models/face_recognition_sface/face_recognition_sface_2021dec.onnx',
                    calibration_image_dir='../../benchmark/data/face_recognition',
                    transforms=Compose([Resize(size=(112, 112))])),
+    # Facial Expression Recognition net
+    facexpnet=Quantize(model_path='../../models/facial_expression_recognition/facial_expression_recognition_mobilefacenet_2022july.onnx',
+                       calibration_image_dir='../../benchmark/data/facial_expression_recognition/fer_calibration',
+                       transforms=Compose([Resize(size=(112, 112)),
+                                        ColorConvert(ctype=cv.COLOR_BGR2RGB),
+                                        Normalize(std=[255, 255, 255])
+                                        ])),
+    # Object Detection nanonet
+    nanonet=Quantize(model_path='../../models/object_detection_nanodet/object_detection_nanodet_2022nov.onnx',
+                       calibration_image_dir='../../benchmark/data/object_detection',
+                       transforms=Compose([Resize(size=(112, 112))])),
+    # object_detection_yolox
+    yolox=Quantize(model_path='../../models/object_detection_yolox/object_detection_yolox_2022nov.onnx',
+                       calibration_image_dir='../../benchmark/data/object_detection',
+                       transforms=Compose([Resize(size=(640, 640))])),
+    # object_tracking_vittrack
+    vittrack=Quantize(model_path='../../models/object_tracking_vittrack/object_tracking_vittrack_2023sep.onnx',
+                       calibration_image_dir='../../benchmark/data/object_tracking_image',
+                       transforms=Compose([Resize(size=(640, 640))])),
+
     pphumanseg=Quantize(model_path='../../models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2023mar.onnx',
                         calibration_image_dir='../../benchmark/data/human_segmentation',
                         transforms=Compose([Resize(size=(192, 192))])),
+
+    mobilenetv1=Quantize(model_path='../../models/image_classification_mobilenet/image_classification_mobilenetv1_2022apr.onnx',
+                        calibration_image_dir='../../benchmark/data/image_classification',
+                        transforms=Compose([
+                            Resize(size=(224, 224)),
+                            Normalize(std=[255, 255, 255]),
+                            Normalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
+                        ])),
+    mobilenetv2=Quantize(model_path='../../models/image_classification_mobilenet/image_classification_mobilenetv2_2022apr.onnx',
+                        calibration_image_dir='../../benchmark/data/image_classification',
+                        transforms=Compose([
+                            Resize(size=(224, 224)),
+                            Normalize(std=[255, 255, 255]),
+                            Normalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
+                        ])),
+
     ppresnet50=Quantize(model_path='../../models/image_classification_ppresnet/image_classification_ppresnet50_2022jan.onnx',
                         calibration_image_dir='../../benchmark/data/image_classification',
                         transforms=Compose([Resize(size=(224, 224))])),
-    # TBD: VitTrack
     youtureid=Quantize(model_path='../../models/person_reid_youtureid/person_reid_youtu_2021nov.onnx',
                        calibration_image_dir='../../benchmark/data/person_reid',
                        transforms=Compose([Resize(size=(128, 256))])),
+    mppose=Quantize(model_path='../../models/pose_estimation_mediapipe/pose_estimation_mediapipe_2023mar.onnx',
+                    calibration_image_dir='../../benchmark/data/person_detection',
+                    transforms=Compose([Resize(size=(256, 256)),
+                                        ColorConvert(ctype=cv.COLOR_BGR2RGB),
+                                        Normalize(std=[255, 255, 255]),
+                                        ]),data_dim="hwc"),
     ppocrv3det_en=Quantize(model_path='../../models/text_detection_ppocr/text_detection_en_ppocrv3_2023may.onnx',
                           calibration_image_dir='../../benchmark/data/text',
                           transforms=Compose([Resize(size=(736, 736)),
@@ -122,18 +163,17 @@ models=dict(
                      calibration_image_dir='../../benchmark/data/text',
                      transforms=Compose([Resize(size=(100, 32))])),
     mp_palmdet=Quantize(model_path='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx',
-                        calibration_image_dir='path/to/dataset',
+                        calibration_image_dir='../../benchmark/data/FreiHAND/evaluation/rgb',
                         transforms=Compose([Resize(size=(192, 192)), Normalize(std=[255, 255, 255]),
                         ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
     mp_handpose=Quantize(model_path='../../models/handpose_estimation_mediapipe/handpose_estimation_mediapipe_2023feb.onnx',
-                        calibration_image_dir='path/to/dataset',
+                        calibration_image_dir='../../benchmark/data/FreiHAND/evaluation/rgb',
                         transforms=Compose([HandAlign("mp_handpose"), Resize(size=(224, 224)), Normalize(std=[255, 255, 255]),
                         ColorConvert(ctype=cv.COLOR_BGR2RGB)]), data_dim='hwc'),
     lpd_yunet=Quantize(model_path='../../models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2023mar.onnx',
                        calibration_image_dir='../../benchmark/data/license_plate_detection',
                        transforms=Compose([Resize(size=(320, 240))]),
-                       nodes_to_exclude=['MaxPool_5', 'MaxPool_18', 'MaxPool_25', 'MaxPool_32', 'MaxPool_39'],
-    ),
+                       nodes_to_exclude=['MaxPool_5', 'MaxPool_18', 'MaxPool_25', 'MaxPool_32', 'MaxPool_39'],),
 )
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ SSD Anchors are generated from [GenMediaPipePalmDectionSSDAnchors](https://githu
 
 **Note**:
 - Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#hands for models of larger scale.
+- Quantization was done via Per Tensor method.
 
 ## Demo
 

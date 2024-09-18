@@ -1,6 +1,6 @@
 # PPHumanSeg
 
-This model is ported from [PaddleHub](https://github.com/PaddlePaddle/PaddleHub) using [this script from OpenCV](https://github.com/opencv/opencv/blob/master/samples/dnn/dnn_model_runner/dnn_conversion/paddlepaddle/paddle_humanseg.py).
+This model is ported from [PaddleHub](https://github.com/PaddlePaddle/PaddleHub) using [this script from OpenCV](https://github.com/opencv/opencv/blob/master/samples/dnn/dnn_model_runner/dnn_conversion/paddlepaddle/paddle_humanseg.py). Quantization was done via Per Tensor method.
 
 ## Demo
 
@@ -47,7 +47,7 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval).
 | Models             | Accuracy       | mIoU          |
 | ------------------ | -------------- | ------------- |
 | PPHumanSeg         | 0.9581         | 0.8996        |
-| PPHumanSeg quant   | 0.4365         | 0.2788        |
+| PPHumanSeg quant   | 0.7261         | 0.3687        |
 
 
 \*: 'quant' stands for 'quantized'.
