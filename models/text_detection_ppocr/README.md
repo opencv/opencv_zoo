@@ -43,6 +43,19 @@ cmake --build build
 ./build/opencv_zoo_text_detection_ppocr -h
 ```
 
+### Java
+
+Install Maven to get started with:
+
+```shell
+# detect on camera input
+mvn compile exec:java -q
+# detect on an image
+mvn compile exec:java -q -Dexec.args="--input /path/to/image -v"
+# get help messages
+mvn compile exec:java -q -Dexec.args="--help"
+```
+
 ### Example outputs
 
 ![mask](./example_outputs/mask.jpg)
