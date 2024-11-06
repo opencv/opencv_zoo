@@ -146,7 +146,7 @@ python eval.py -m sface -d lfw -dr /path/to/lfw
 
 ### Prepare data
 
-Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions to download the ICDAR2003 dataset and the labels. 
+Please visit http://iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions to download the ICDAR2003 dataset and the labels. You have to download the Robust Word Recognition [TrialTrain Set](http://www.iapr-tc11.org/dataset/ICDAR2003_RobustReading/TrialTrain/word.zip) only.
 
 ```shell
 $ tree -L 2 /path/to/icdar
@@ -198,6 +198,20 @@ python eval.py -m crnn -d iiit5k -dr /path/to/iiit5k
 
 ### Prepare data
 Please download the mini_supervisely data from [here](https://paddleseg.bj.bcebos.com/humanseg/data/mini_supervisely.zip) which includes the validation dataset and unzip it.
+
+```shell
+$ tree -L 2 /path/to/mini_supervisely
+.
+├── Annotations
+│   ├── ache-adult-depression-expression-41253.png
+│   ├── ...
+├── Images
+│   ├── ache-adult-depression-expression-41253.jpg
+│   ├── ...
+├── test.txt
+├── train.txt
+└── val.txt
+```
 
 ### Evaluation
 

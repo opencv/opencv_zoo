@@ -8,7 +8,8 @@ if sys.version_info < MIN_PYTHON_VERSION:
 import argparse
 import os
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Dict, Tuple
+from enum import Enum, auto
 
 import numpy as np
 import onnx
@@ -22,12 +23,19 @@ SUPPORTED_OPS = {"Conv", "Gemm", "MatMul"}
 ONNX_OPSET = 21
 
 
+class WeightCategory(Enum):
+    INITIALIZER = auto()
+    CONSTANT = auto()
+    NONE = auto()
+
+
 @dataclass
 class BlockQuantizeConfig:
     input_model_path: str
     output_model_path: str
     block_size: int
     bits: int
+    verbose: bool
 
 
 @dataclass
@@ -75,9 +83,13 @@ def block_quantize_tensor(
     y_scale_elementwise = np.repeat(scale, repeats=repeats, axis=block_axis)
     y_zero_point_elementwise = np.repeat(zero_point, repeats=repeats, axis=block_axis)
 
-    y = np.rint(x / y_scale_elementwise + y_zero_point_elementwise).astype(
-        BITS_TO_NUMPY_TYPE[n_bits]
-    )
+    type_info = np.iinfo(BITS_TO_NUMPY_TYPE[n_bits])
+    min_value = type_info.min
+    max_value = type_info.max
+
+    y = np.rint(x / y_scale_elementwise + y_zero_point_elementwise)
+    y = np.clip(y, min_value, max_value)
+    y = y.astype(BITS_TO_NUMPY_TYPE[n_bits])
 
     return y
 
@@ -129,6 +141,13 @@ class BlockQuantizer:
         self.initializers_map = {
             init.name: init for init in self.model.graph.initializer
         }
+        self.costants_map = {
+            node.output[0]: next(
+                attr.t for attr in node.attribute if attr.name == "value"
+            )
+            for node in self.model.graph.node
+            if node.op_type == "Constant"
+        }
 
     def validate_conf(self):
         if not os.path.isfile(self.conf.input_model_path):
@@ -155,34 +174,59 @@ class BlockQuantizer:
                 f"Bits must be one of the following values: [{allowed_values}]."
             )
 
-    def get_initializer_tensor(self, name: str) -> Optional[np.ndarray]:
+    def get_weight_category(self, name: str) -> WeightCategory:
         if name in self.initializers_map:
-            return onnx.numpy_helper.to_array(self.initializers_map[name])
+            return WeightCategory.INITIALIZER
+        if name in self.costants_map:
+            return WeightCategory.CONSTANT
+        else:
+            return WeightCategory.NONE
 
-        return None
+    def get_weight_tensor(self, name: str, category: WeightCategory) -> np.ndarray:
+        if category == WeightCategory.INITIALIZER:
+            return onnx.numpy_helper.to_array(self.initializers_map[name])
+        elif category == WeightCategory.CONSTANT:
+            return onnx.numpy_helper.to_array(self.costants_map[name])
+        else:
+            raise AssertionError("Invalid weight category")
+
+    def remove_fp32_weights(self, name: str, category: WeightCategory):
+        if category == WeightCategory.INITIALIZER:
+            self.graph.initializer.remove(
+                next(init for init in self.graph.initializer if init.name == name)
+            )
+        elif category == WeightCategory.CONSTANT:
+            self.graph.node.remove(
+                next(
+                    node
+                    for node in self.graph.node
+                    if node.op_type == "Constant" and node.output[0] == name
+                )
+            )
+        else:
+            raise AssertionError("Invalid weight category")
 
     def compute_scale_zeropoint(
         self, b_min: np.ndarray, b_max: np.ndarray
     ) -> Tuple[np.ndarray, np.ndarray]:
         assert (
-            b_min < b_max
-        ).all(), (
-            "minimum must be lower than maximum when computing scale and zero point"
-        )
+            b_min <= b_max
+        ).all(), "minimum must not be greater than maximum when computing scale and zero point"
 
         # zero must be present in the range, this enforces qmin <= zero_point <= qmax
         b_min = np.minimum(b_min, np.zeros_like(b_min, dtype=b_min.dtype))
         b_max = np.maximum(b_max, np.zeros_like(b_max, dtype=b_max.dtype))
 
-        qmin = np.iinfo(BITS_TO_NUMPY_TYPE[self.conf.bits]).min
-        qmax = np.iinfo(BITS_TO_NUMPY_TYPE[self.conf.bits]).max
+        type_info = np.iinfo(BITS_TO_NUMPY_TYPE[self.conf.bits])
+        qmin = type_info.min
+        qmax = type_info.max
 
         dq = qmax - qmin
 
-        scales = (b_max - b_min) / dq
-        zeropoints = np.rint(qmin - b_min / scales).astype(
-            BITS_TO_NUMPY_TYPE[self.conf.bits]
-        )
+        scales = np.where(b_max != b_min, (b_max - b_min) / dq, 1.0)
+
+        zeropoints = np.where(b_max != b_min, np.rint(qmin - b_min / scales), 0.0)
+        zeropoints = zeropoints.astype(BITS_TO_NUMPY_TYPE[self.conf.bits])
 
         return (scales, zeropoints)
 
@@ -221,7 +265,8 @@ class BlockQuantizer:
             quantized_weight, quantization_axis, scales, zeropoints
         )
 
-        qerror = np.linalg.norm(reconstructed_mat - weight)
+        # Relative Norm
+        qerror = np.linalg.norm(reconstructed_mat - weight) / (np.linalg.norm(weight) + 1e-10)
 
         res = BlockQuantizeResult(
             quantized_weight,
@@ -241,16 +286,32 @@ class BlockQuantizer:
 
         return size_mb
 
-    def display_summary(self, sqe: List):
-        mse = sum(sqe) / len(sqe)
+    def display_summary(self, sqe: Dict[str, int]):
+        sqe_v = list(sqe.values())
+        if len(sqe_v) == 0:
+            mse = 0
+            print(
+                "Warning: No weights have been quantized, likely due to unsupported layers."
+            )
+        else:
+            mse = sum(sqe_v) / len(sqe_v)
         original_model_size = self.get_model_size(self.conf.input_model_path)
         quantized_model_size = self.get_model_size(self.conf.output_model_path)
+
+        if self.conf.verbose:
+            sorted_sqe = sorted(sqe.items(), key=lambda item: item[1], reverse=True)
+            longest_key_len = max(len(key) for key in sqe.keys())
+            
+            print("Quantization error (Relative Norm) sorted in ascending order:")
+
+            for key, value in sorted_sqe:
+                print(f"{key:<{longest_key_len}} : {value}")
 
         print("Done! Results saved in", self.conf.output_model_path)
         print("\nSummary of Results:\n")
         print(f"{'Metric':<30} {'Value':<10}")
         print(f"{'-'*40}")
-        print(f"{'Mean Squared Quantization Error':<30} {mse:.6f}")
+        print(f"{'Relative Norm Error':<31} {mse:.6f}")
         print(f"{'Original Model Size (KB)':<31} {original_model_size:,.2f}")
         print(f"{'Block-Quantized Model Size (KB)':<30} {quantized_model_size:,.2f}")
 
@@ -258,7 +319,7 @@ class BlockQuantizer:
         print("Quantizing the model...")
 
         quantized_inputs = []
-        sqe = []
+        sqe = {}
 
         node_idx = 0
 
@@ -267,7 +328,13 @@ class BlockQuantizer:
 
             if node.op_type in SUPPORTED_OPS:
                 for input_idx, input_name in enumerate(node.input):
-                    weight = self.get_initializer_tensor(input_name)
+                    weightCategory = self.get_weight_category(input_name)
+
+                    # Skip quantization if weights are taken as external input
+                    if weightCategory == WeightCategory.NONE:
+                        continue
+
+                    weight = self.get_weight_tensor(input_name, weightCategory)
 
                     quantized_weights_name = f"{input_name}_quantized"
                     quantized_node_name = f"{input_name}_quantized_node"
@@ -279,9 +346,8 @@ class BlockQuantizer:
                     shape_name = f"{input_name}_shape"
                     reshaped_weights_name = f"{input_name}_reshaped"
 
-                    # Skip quantization if weights are taken as external input
-                    # or if they don't contain enough elements to create at least 1 block
-                    if weight is None or weight.size < self.conf.block_size:
+                    # Skip quantization if weights don't contain enough elements to create at least 1 block
+                    if weight.size < self.conf.block_size:
                         continue
 
                     reshape_needed = weight.ndim > 2
@@ -295,8 +361,14 @@ class BlockQuantizer:
                         )
                         continue
 
-                    quantized_inputs.append(input_name)
+
                     block_quantize_res = self.block_quantize(weight)
+
+                    # Skip quantization if it wouldn't reduce the model size
+                    if block_quantize_res.block_size == 1:
+                        continue
+
+                    quantized_inputs.append(input_name)
 
                     dequantize_node = create_dequantize_node(
                         quantized_node_name,
@@ -352,14 +424,7 @@ class BlockQuantizer:
                         ]
                     )
 
-                    # Removing fp32 weights
-                    self.graph.initializer.remove(
-                        next(
-                            init
-                            for init in self.graph.initializer
-                            if init.name == input_name
-                        )
-                    )
+                    self.remove_fp32_weights(input_name, weightCategory)
 
                     node.input[input_idx] = (
                         reshaped_weights_name
@@ -374,11 +439,12 @@ class BlockQuantizer:
 
                     self.graph.node.insert(0, dequantize_node)
                     node_idx += 1
-                    self.graph.value_info.insert(0, shape_info)
+                    if reshape_needed:
+                        self.graph.value_info.insert(0, shape_info)
                     self.graph.value_info.insert(0, dequantized_weights_info)
 
-                    sqe.append(block_quantize_res.quantization_error**2)
-                    
+                    sqe[input_name] = block_quantize_res.quantization_error
+
             node_idx += 1
 
         onnx.checker.check_model(self.model, full_check=True)
@@ -421,6 +487,13 @@ def setup_args() -> argparse.Namespace:
         default="block_quantized_model.onnx",
         required=False,
     )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Enable verbose output",
+        required=False,
+    )
 
     return parser.parse_args()
 
@@ -433,6 +506,7 @@ if __name__ == "__main__":
         output_model_path=args.output_model,
         block_size=args.block_size,
         bits=args.bits,
+        verbose=args.verbose
     )
 
     quantizer = BlockQuantizer(quantization_config)

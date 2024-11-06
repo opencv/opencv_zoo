@@ -54,6 +54,8 @@ python quantize-inc.py model1
 
 ## Blockwise quantization usage
 
+Block-quantized models under each model directory are generated with `--block_size=64`
+
 `block_quantize.py` requires Python>=3.7
 
 To perform weight-only blockwise quantization:
