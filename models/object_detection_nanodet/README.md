@@ -4,7 +4,7 @@ Nanodet: NanoDet is a FCOS-style one-stage anchor-free object detection model wh
 
 **Note**:
 - This version of nanodet: Nanodet-m-plus-1.5x_416
-- `object_detection_nanodet_2022nov_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `object_detection_nanodet_2022nov_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 
 ## Demo

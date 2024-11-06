@@ -3,7 +3,7 @@
 This model is ported from [PaddleHub](https://github.com/PaddlePaddle/PaddleHub) using [this script from OpenCV](https://github.com/opencv/opencv/blob/master/samples/dnn/dnn_model_runner/dnn_conversion/paddlepaddle/paddle_humanseg.py).
 
 **Note**:
-- `human_segmentation_pphumanseg_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `human_segmentation_pphumanseg_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 

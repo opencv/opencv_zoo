@@ -10,7 +10,7 @@ This model is contributed by [Pengyu Liu](https://github.com/lpylpy0514) in GSoC
 
 **Note**:
 - OpenCV > 4.8.0 is required. Build from source with instructions from https://opencv.org/get-started/.**
-- `object_tracking_vittrack_2023sep_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `object_tracking_vittrack_2023sep_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 
 # Demo

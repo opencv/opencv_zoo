@@ -8,7 +8,7 @@ Notes:
 - This model can detect **faces of pixels between around 10x10 to 300x300** due to the training scheme.
 - For details on training this model, please visit https://github.com/ShiqiYu/libfacedetection.train.
 - This ONNX model has fixed input shape, but OpenCV DNN infers on the exact shape of input image. See https://github.com/opencv/opencv_zoo/issues/44 for more information.
-- `face_detection_yunet_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `face_detection_yunet_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 

@@ -2,7 +2,7 @@
 This model is originally created by Zachary Teed and Jia Deng of Princeton University. The source code for the model is at [their repository on GitHub](https://github.com/princeton-vl/RAFT), and the original [research paper](https://arxiv.org/abs/2003.12039) is published on [Arxiv](https://arxiv.org/abs/2003.12039). The model was converted to ONNX by [PINTO0309](https://github.com/PINTO0309) in his [model zoo](https://github.com/PINTO0309/PINTO_model_zoo/tree/main/252_RAFT). The ONNX model has several variations depending on the training dataset and input dimesnions. The model used in this demo is trained on Sintel dataset with input size of 360 $\times$ 480.
 
 **Note**:
-- `optical_flow_estimation_raft_2023aug_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `optical_flow_estimation_raft_2023aug_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 

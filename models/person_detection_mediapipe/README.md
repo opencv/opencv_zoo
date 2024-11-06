@@ -8,7 +8,7 @@ This model detects upper body and full body keypoints of a person, and is downlo
 SSD Anchors are generated from [GenMediaPipePalmDectionSSDAnchors](https://github.com/VimalMollyn/GenMediaPipePalmDectionSSDAnchors)
 
 **Note**:
-- `person_detection_mediapipe_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `person_detection_mediapipe_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 

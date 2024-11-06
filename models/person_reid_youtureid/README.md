@@ -4,7 +4,7 @@ This model is provided by Tencent Youtu Lab [[Credits]](https://github.com/openc
 
 **Note**:
 - Model source: https://github.com/ReID-Team/ReID_extra_testdata
-- `person_reid_youtu_2021nov_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `person_reid_youtu_2021nov_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 

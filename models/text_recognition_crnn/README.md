@@ -25,7 +25,7 @@ Results of accuracy evaluation with [tools/eval](../../tools/eval) at different 
 - `text_recognition_CRNN_CH_2021sep.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), and some special characters (see `CHARSET_CH_94` for details in `crnn.py`).
 - `text_recognition_CRNN_CN_2021nov.onnx` can detect digits (0\~9), upper/lower-case letters (a\~z and A\~Z), some Chinese characters and some special characters (see `CHARSET_CN_3944` for details in `crnn.py`).
 - For details on training this model series, please visit https://github.com/zihaomu/deep-text-recognition-benchmark.
-- `text_recognition_CRNN_XX_2021xxx_int8bq.onnx` represents the block-quantized version in int8 precision.
+- `text_recognition_CRNN_XX_2021xxx_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 
