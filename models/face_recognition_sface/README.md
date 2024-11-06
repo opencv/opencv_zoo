@@ -8,6 +8,7 @@ Note:
 - Model files encode MobileFaceNet instances trained on the SFace loss function, see the [SFace paper](https://arxiv.org/abs/2205.12010) for reference.
 - ONNX file conversions from [original code base](https://github.com/zhongyy/SFace) thanks to [Chengrui Wang](https://github.com/crywang).
 - (As of Sep 2021) Supporting 5-landmark warping for now, see below for details.
+- `face_recognition_sface_2021dec_int8bq.onnx` represents the block-quantized version in int8 precision.
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 

@@ -58,7 +58,7 @@ class ModuleRegistery:
                     int8_model_paths.append([r])
                 elif "fp16" in r: # exclude fp16 for now
                     fp16_model_paths.append([r])
-                elif "blocked" in r:
+                elif "int8bq" in r:
                     bint8_model_paths.append([r])
                 else:
                     fp32_model_paths.append([r])

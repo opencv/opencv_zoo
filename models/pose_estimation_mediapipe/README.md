@@ -10,6 +10,8 @@ This model is converted from TFlite to ONNX using following tools:
 
 **Note**:
 - Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#pose for models of larger scale.
+- `pose_estimation_mediapipe_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision.
+
 ## Demo
 
 ### python

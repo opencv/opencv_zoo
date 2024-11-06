@@ -4,6 +4,9 @@ This model is contributed by Dong Xu (徐栋) from [watrix.ai](watrix.ai) (银�
 
 Please note that the model is trained with Chinese license plates, so the detection results of other license plates with this model may be limited.
 
+**Note**:
+- `license_plate_detection_lpd_yunet_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision.
+
 ## Demo
 
 Run the following command to try the demo:

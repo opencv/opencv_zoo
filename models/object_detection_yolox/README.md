@@ -8,8 +8,10 @@ Key features of the YOLOX object detector
 - **SimOTA advanced label assignment strategy** reduces training time and avoids additional solver hyperparameters
 - **Strong data augmentations like MixUp and Mosiac** to boost YOLOX performance
 
-Note:
+**Note**:
 - This version of YoloX: YoloX_s
+- `object_detection_yolox_2022nov_int8bq.onnx` represents the block-quantized version in int8 precision.
+
 
 ## Demo
 

@@ -2,9 +2,9 @@
 
 This model is provided by Tencent Youtu Lab [[Credits]](https://github.com/opencv/opencv/blob/394e640909d5d8edf9c1f578f8216d513373698c/samples/dnn/person_reid.py#L6-L11).
 
-Note:
-
+**Note**:
 - Model source: https://github.com/ReID-Team/ReID_extra_testdata
+- `person_reid_youtu_2021nov_int8bq.onnx` represents the block-quantized version in int8 precision.
 
 ## Demo
 

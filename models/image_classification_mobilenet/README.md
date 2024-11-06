@@ -4,6 +4,9 @@ MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applicatio
 
 MobileNetV2: Inverted Residuals and Linear Bottlenecks
 
+**Note**:
+- `image_classification_mobilenetvX_2022apr_int8bq.onnx` represents the block-quantized version in int8 precision.
+
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models             | Top-1 Accuracy | Top-5 Accuracy |
