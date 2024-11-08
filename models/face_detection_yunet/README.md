@@ -9,6 +9,7 @@ Notes:
 - For details on training this model, please visit https://github.com/ShiqiYu/libfacedetection.train.
 - This ONNX model has fixed input shape, but OpenCV DNN infers on the exact shape of input image. See https://github.com/opencv/opencv_zoo/issues/44 for more information.
 - `face_detection_yunet_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
+- Paper source: [Yunet: A tiny millisecond-level face detector](https://link.springer.com/article/10.1007/s11633-023-1423-y).
 
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
@@ -70,3 +71,20 @@ All files in this directory are licensed under [MIT License](./LICENSE).
 
 - https://github.com/ShiqiYu/libfacedetection
 - https://github.com/ShiqiYu/libfacedetection.train
+
+## Citation
+
+If you use `YuNet` in your work, please use the following BibTeX entries:
+
+```
+@article{wu2023yunet,
+  title={Yunet: A tiny millisecond-level face detector},
+  author={Wu, Wei and Peng, Hanyang and Yu, Shiqi},
+  journal={Machine Intelligence Research},
+  volume={20},
+  number={5},
+  pages={656--665},
+  year={2023},
+  publisher={Springer}
+}
+```
