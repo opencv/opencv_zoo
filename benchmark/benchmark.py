@@ -46,6 +46,7 @@ parser.add_argument("--model_exclude", type=str, help="Models to be excluded. Sp
 parser.add_argument("--fp32", action="store_true", help="Benchmark models of float32 precision only.")
 parser.add_argument("--fp16", action="store_true", help="Benchmark models of float16 precision only.")
 parser.add_argument("--int8", action="store_true", help="Benchmark models of int8 precision only.")
+parser.add_argument("--int8bq", action="store_true", help="Benchmark models of blocked int8 precision only.")
 parser.add_argument("--all", action="store_true", help="Benchmark all models")
 args = parser.parse_args()
 
@@ -194,15 +195,17 @@ if __name__ == '__main__':
         model_handler, model_paths = MODELS.get(model_config.pop('name'))
 
         _model_paths = []
-        if args.fp32 or args.fp16 or args.int8:
+        if args.fp32 or args.fp16 or args.int8 or args.int8bq:
             if args.fp32:
                 _model_paths += model_paths['fp32']
             if args.fp16:
                 _model_paths += model_paths['fp16']
             if args.int8:
                 _model_paths += model_paths['int8']
+            if args.int8bq:
+                _model_paths += model_paths['int8bq']
         else:
-            _model_paths = model_paths['fp32'] + model_paths['fp16'] + model_paths['int8']
+            _model_paths = model_paths['fp32'] + model_paths['fp16'] + model_paths['int8'] + model_paths["int8bq"]
         # filter out excluded models
         excludes = []
         if args.model_exclude is not None:
