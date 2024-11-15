@@ -1,13 +1,11 @@
 #include <opencv2/opencv.hpp>
 #include "opencv2/dnn.hpp"
 #include <iostream>
-#include <filesystem>
 #include <vector>
 #include <map>
 #include <string>
 #include <numeric>
 
-namespace fs = std::filesystem;
 
 // YoutuReID class for person re-identification
 class YoutuReID {
@@ -77,15 +75,15 @@ public:
         std::vector<cv::Mat> query_features_list, gallery_features_list;
         cv::Mat query_features, gallery_features;
 
-        for (const auto& q_img : query_img_list) {
-            cv::Mat feature = infer(q_img);
+        for (size_t i = 0; i < query_img_list.size(); ++i) {
+            cv::Mat feature = infer(query_img_list[i]);
             query_features_list.push_back(feature.clone());
         }
         cv::vconcat(query_features_list, query_features);
         normalizeFeatures(query_features);
 
-        for (const auto& g_img : gallery_img_list) {
-            cv::Mat feature = infer(g_img);
+        for (size_t i = 0; i < gallery_img_list.size(); ++i) {
+            cv::Mat feature = infer(gallery_img_list[i]);
             gallery_features_list.push_back(feature.clone());
         }
         cv::vconcat(gallery_features_list, gallery_features);
@@ -139,21 +137,24 @@ private:
     cv::dnn::Net model_;
 };
 
-// Load images and file names from a directory, resizing them
+// Read images from directory and return a pair of image list and file list
 std::pair<std::vector<cv::Mat>, std::vector<std::string>> readImagesFromDirectory(const std::string& img_dir, int w = 128, int h = 256) {
     std::vector<cv::Mat> img_list;
     std::vector<std::string> file_list;
+    
+    std::vector<std::string> file_names;
+    cv::glob(img_dir + "/*", file_names, false); 
 
-    for (const auto& entry : fs::directory_iterator(img_dir)) {
-        std::string file_name = entry.path().filename().string();
-        cv::Mat img = cv::imread(entry.path().string());
+    for (size_t i = 0; i < file_names.size(); ++i) {
+        std::string file_name = file_names[i].substr(file_names[i].find_last_of("/\\") + 1); 
+        cv::Mat img = cv::imread(file_names[i]);
         if (!img.empty()) {
             cv::resize(img, img, cv::Size(w, h));
             img_list.push_back(img);
             file_list.push_back(file_name);
         }
     }
-    return {img_list, file_list};
+    return std::make_pair(img_list, file_list);
 }
 
 // Visualize query and gallery results by creating concatenated images
@@ -165,7 +166,10 @@ std::map<std::string, cv::Mat> visualize(
 
     std::map<std::string, cv::Mat> results_vis;
 
-    for (const auto& [query_file, top_matches] : results) {
+    for (std::map<std::string, std::vector<std::string>>::const_iterator it = results.begin(); it != results.end(); ++it) {
+        const std::string& query_file = it->first;
+        const std::vector<std::string>& top_matches = it->second;
+
         cv::Mat query_img = cv::imread(query_dir + "/" + query_file);
         if (query_img.empty()) continue;
 
@@ -262,22 +266,22 @@ int main(int argc, char** argv) {
                    cv::Scalar(0.229, 0.224, 0.225), 
                    backend_id, target_id);
 
-    auto [query_imgs, query_file_list] = readImagesFromDirectory(query_dir);
-    auto [gallery_imgs, gallery_file_list] = readImagesFromDirectory(gallery_dir);
+    std::pair<std::vector<cv::Mat>, std::vector<std::string>> query_data = readImagesFromDirectory(query_dir);
+    std::pair<std::vector<cv::Mat>, std::vector<std::string>> gallery_data = readImagesFromDirectory(gallery_dir);
 
-    auto indices = reid.query(query_imgs, gallery_imgs, topK);
+    std::vector<std::vector<int>> indices = reid.query(query_data.first, gallery_data.first, topK);
 
     std::map<std::string, std::vector<std::string>> results;
-    for (size_t i = 0; i < query_file_list.size(); ++i) {
+    for (size_t i = 0; i < query_data.second.size(); ++i) {
         std::vector<std::string> top_matches;
         for (int idx : indices[i]) {
-            top_matches.push_back(gallery_file_list[idx]);
+            top_matches.push_back(gallery_data.second[idx]);
         }
-        results[query_file_list[i]] = top_matches;
-        std::cout << "Query: " << query_file_list[i] << "\n";
+        results[query_data.second[i]] = top_matches;
+        std::cout << "Query: " << query_data.second[i] << "\n";
         std::cout << "\tTop-" << topK << " from gallery: ";
-        for (const auto& match : top_matches) {
-            std::cout << match << " ";
+        for (size_t j = 0; j < top_matches.size(); ++j) {
+            std::cout << top_matches[j] << " ";
         }
         std::cout << std::endl;
     }
@@ -285,16 +289,16 @@ int main(int argc, char** argv) {
     std::map<std::string, cv::Mat> results_vis = visualize(results, query_dir, gallery_dir);
 
     if (save_flag) {
-        for (const auto& [query_file, result_img] : results_vis) {
-            std::string save_path = "result-" + query_file;
-            cv::imwrite(save_path, result_img);
+        for (std::map<std::string, cv::Mat>::iterator it = results_vis.begin(); it != results_vis.end(); ++it) {
+            std::string save_path = "result-" + it->first;
+            cv::imwrite(save_path, it->second);
         }
     }
 
     if (vis_flag) {
-        for (const auto& [query_file, result_img] : results_vis) {
-            cv::namedWindow("result-" + query_file, cv::WINDOW_AUTOSIZE);
-            cv::imshow("result-" + query_file, result_img);
+        for (std::map<std::string, cv::Mat>::iterator it = results_vis.begin(); it != results_vis.end(); ++it) {
+            cv::namedWindow("result-" + it->first, cv::WINDOW_AUTOSIZE);
+            cv::imshow("result-" + it->first, it->second);
             cv::waitKey(0);
             cv::destroyAllWindows();
         }
