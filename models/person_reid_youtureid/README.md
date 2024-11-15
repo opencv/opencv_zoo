@@ -10,11 +10,24 @@ This model is provided by Tencent Youtu Lab [[Credits]](https://github.com/openc
 
 Run the following command to try the demo:
 
+### Python
 ```shell
 python demo.py --query_dir /path/to/query --gallery_dir /path/to/gallery -v
 
 # get help regarding various parameters
 python demo.py --help
+```
+
+### C++
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+./build/demo --query_dir=/path/to/query --gallery_dir=/path/to/gallery -v
+
+# get help regarding various parameters
+./build/demo --help
 ```
 
 ### License
