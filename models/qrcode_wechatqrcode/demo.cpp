@@ -127,7 +127,10 @@ int main(int argc, char** argv) {
                 return -1;
             }
 
-            auto [results, points] = qrDetector.detect(image);
+            std::pair<std::vector<std::string>, std::vector<cv::Mat>> detectionResult = qrDetector.detect(image);
+            auto& results = detectionResult.first;
+            auto& points = detectionResult.second;
+
             for (const auto& result : results) {
                 std::cout << result << std::endl;
             }
@@ -161,7 +164,10 @@ int main(int argc, char** argv) {
                     break;
                 }
 
-                auto [results, points] = qrDetector.detect(frame);
+                std::pair<std::vector<std::string>, std::vector<cv::Mat>> detectionResult = qrDetector.detect(frame);
+                auto& results = detectionResult.first;
+                auto& points = detectionResult.second;
+
                 tm.start();
                 double fps = tm.getFPS();
                 tm.stop();
