@@ -25,7 +25,7 @@ python demo.py --help
 
 ### C++
 
-Install latest OpenCV and CMake >= 3.24.0 to get started with:
+Install latest OpenCV (with opencv_contrib) and CMake >= 3.24.0 to get started with:
 
 ```shell
 # A typical and default installation path of OpenCV is /usr/local
