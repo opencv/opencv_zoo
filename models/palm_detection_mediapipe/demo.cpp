@@ -2045,7 +2045,7 @@ class MPPalmDet {
         };
         return anchors;
     }
-
+    
     std::pair<cv::Mat, cv::Point2i> preprocess(const cv::Mat& image) {
         cv::Point2i pad_bias(0, 0);
         float ratio =
@@ -2223,76 +2223,98 @@ class MPPalmDet {
     }
 };
 
-class HandDetectorDemo {
-   private:
-    MPPalmDet detector;
+cv::Mat visualize(const cv::Mat& image,
+                  const std::vector<std::vector<float>>& results,
+                  bool print_results = false, float fps = 0.0f) {
+    cv::Mat output = image.clone();
 
-    cv::Mat visualize(const cv::Mat& image,
-                      const std::vector<std::vector<float>>& results,
-                      bool print_results = false, float fps = 0.0f) {
-        cv::Mat output = image.clone();
-
-        if (fps > 0) {
-            cv::putText(output, cv::format("FPS: %.2f", fps), cv::Point(0, 15),
-                        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255));
-        }
-
-        for (size_t i = 0; i < results.size(); i++) {
-            const std::vector<float>& result = results[i];
-            float score = result.back();
-
-            // Draw box - using direct coordinates like Python version
-            cv::rectangle(output,
-                          cv::Point(static_cast<int>(result[0]),
-                                    static_cast<int>(result[1])),
-                          cv::Point(static_cast<int>(result[2]),
-                                    static_cast<int>(result[3])),
-                          cv::Scalar(0, 255, 0), 2);
-
-            // Put score - using first coordinate of box
-            cv::putText(output, cv::format("%.4f", score),
-                        cv::Point(static_cast<int>(result[0]),
-                                  static_cast<int>(result[1]) + 12),
-                        cv::FONT_HERSHEY_DUPLEX, 0.5, cv::Scalar(0, 255, 0));
-
-            // Draw landmarks
-            for (size_t j = 0; j < 7; j++) {
-                cv::Point point(static_cast<int>(result[4 + j * 2]),
-                                static_cast<int>(result[4 + j * 2 + 1]));
-                cv::circle(output, point, 2, cv::Scalar(0, 0, 255), 2);
-            }
-
-            if (print_results) {
-                std::cout << "-----------palm " << i + 1 << "-----------\n";
-                std::cout << "score: " << score << "\n";
-                std::cout << "palm box: [" << result[0] << ", " << result[1]
-                          << ", " << result[2] << ", " << result[3] << "]\n";
-                std::cout << "palm landmarks:\n";
-                for (size_t j = 0; j < 7; j++) {
-                    std::cout << "\t(" << result[4 + j * 2] << ", "
-                              << result[4 + j * 2 + 1] << ")\n";
-                }
-            }
-        }
-
-        return output;
+    if (fps > 0) {
+        cv::putText(output, cv::format("FPS: %.2f", fps), cv::Point(0, 15),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255));
     }
 
-   public:
-    HandDetectorDemo(const std::string& model_path, float nms_threshold = 0.3f,
-                     float score_threshold = 0.8f,
-                     int backend_id = cv::dnn::DNN_BACKEND_DEFAULT,
-                     int target_id = cv::dnn::DNN_TARGET_CPU)
-        : detector(model_path, nms_threshold, score_threshold, 5000, backend_id,
-                   target_id) {}
+    for (size_t i = 0; i < results.size(); i++) {
+        const std::vector<float>& result = results[i];
+        float score = result.back();
 
-    void processImage(const std::string& input_path, bool save = false,
-                      bool vis = false) {
-        cv::Mat image = cv::imread(input_path);
+        // Draw box - using direct coordinates like Python version
+        cv::rectangle(
+            output,
+            cv::Point(static_cast<int>(result[0]), static_cast<int>(result[1])),
+            cv::Point(static_cast<int>(result[2]), static_cast<int>(result[3])),
+            cv::Scalar(0, 255, 0), 2);
+
+        // Put score - using first coordinate of box
+        cv::putText(output, cv::format("%.4f", score),
+                    cv::Point(static_cast<int>(result[0]),
+                              static_cast<int>(result[1]) + 12),
+                    cv::FONT_HERSHEY_DUPLEX, 0.5, cv::Scalar(0, 255, 0));
+
+        // Draw landmarks
+        for (size_t j = 0; j < 7; j++) {
+            cv::Point point(static_cast<int>(result[4 + j * 2]),
+                            static_cast<int>(result[4 + j * 2 + 1]));
+            cv::circle(output, point, 2, cv::Scalar(0, 0, 255), 2);
+        }
+
+        if (print_results) {
+            std::cout << "-----------palm " << i + 1 << "-----------\n";
+            std::cout << "score: " << score << "\n";
+            std::cout << "palm box: [" << result[0] << ", " << result[1] << ", "
+                      << result[2] << ", " << result[3] << "]\n";
+            std::cout << "palm landmarks:\n";
+            for (size_t j = 0; j < 7; j++) {
+                std::cout << "\t(" << result[4 + j * 2] << ", "
+                          << result[4 + j * 2 + 1] << ")\n";
+            }
+        }
+    }
+
+    return output;
+}
+
+int main(int argc, char** argv) {
+    cv::CommandLineParser parser(
+        argc, argv,
+        "{help h usage ? |      | print this message }"
+        "{input i       |      | path to input image }"
+        "{model m       | palm_detection_mediapipe_2023feb.onnx | path to "
+        "model file }"
+        "{backend_target bt | 0 | backend-target pair (0:OpenCV CPU, 1:CUDA, "
+        "2:CUDA FP16, 3:TIM-VX NPU, 4:CANN NPU) }"
+        "{score_threshold | 0.8 | minimum confidence threshold }"
+        "{nms_threshold   | 0.3 | NMS threshold }"
+        "{save s         |     | save results to file }"
+        "{vis v         |     | visualize results }");
+
+    if (parser.has("help")) {
+        parser.printMessage();
+        return 0;
+    }
+
+    int backend_target = parser.get<int>("backend_target");
+    if (backend_target < 0 || backend_target >= backend_target_pairs.size()) {
+        std::cerr << "Error: Invalid backend_target value" << std::endl;
+        return -1;
+    }
+
+    int backend_id = backend_target_pairs[backend_target].first;
+    int target_id = backend_target_pairs[backend_target].second;
+
+    // Create detector directly
+    MPPalmDet detector(parser.get<std::string>("model"),
+                       parser.get<float>("nms_threshold"),
+                       parser.get<float>("score_threshold"),
+                       5000,  // topK
+                       backend_id, target_id);
+
+    // Process image if input is provided
+    if (parser.has("input")) {
+        cv::Mat image = cv::imread(parser.get<std::string>("input"));
         if (image.empty()) {
-            std::cerr << "Error: Could not read image: " << input_path
-                      << std::endl;
-            return;
+            std::cerr << "Error: Could not read image: "
+                      << parser.get<std::string>("input") << std::endl;
+            return -1;
         }
 
         std::vector<std::vector<float>> results = detector.infer(image);
@@ -2302,23 +2324,24 @@ class HandDetectorDemo {
 
         cv::Mat output = visualize(image, results, true);
 
-        if (save) {
+        if (parser.has("save")) {
             cv::imwrite("result.jpg", output);
             std::cout << "Results saved to result.jpg\n" << std::endl;
         }
 
-        if (vis) {
-            cv::namedWindow(input_path, cv::WINDOW_AUTOSIZE);
-            cv::imshow(input_path, output);
+        if (parser.has("vis")) {
+            cv::namedWindow(parser.get<std::string>("input"),
+                            cv::WINDOW_AUTOSIZE);
+            cv::imshow(parser.get<std::string>("input"), output);
             cv::waitKey(0);
         }
     }
-
-    void processCamera(int device_id = 0) {
-        cv::VideoCapture cap(device_id);
+    // Process camera feed if no input image
+    else {
+        cv::VideoCapture cap(0);
         if (!cap.isOpened()) {
             std::cerr << "Error: Could not open camera" << std::endl;
-            return;
+            return -1;
         }
 
         std::chrono::steady_clock::time_point start_time =
@@ -2349,46 +2372,6 @@ class HandDetectorDemo {
 
             if (cv::waitKey(1) >= 0) break;
         }
-    }
-};
-
-int main(int argc, char** argv) {
-    cv::CommandLineParser parser(
-        argc, argv,
-        "{help h usage ? |      | print this message }"
-        "{input i       |      | path to input image }"
-        "{model m       | palm_detection_mediapipe_2023feb.onnx | path to "
-        "model file }"
-        "{backend_target bt | 0 | backend-target pair (0:OpenCV CPU, 1:CUDA, "
-        "2:CUDA FP16, 3:TIM-VX NPU, 4:CANN NPU) }"
-        "{score_threshold | 0.8 | minimum confidence threshold }"
-        "{nms_threshold   | 0.3 | NMS threshold }"
-        "{save s         |     | save results to file }"
-        "{vis v         |     | visualize results }");
-
-    if (parser.has("help")) {
-        parser.printMessage();
-        return 0;
-    }
-
-    int backend_target = parser.get<int>("backend_target");
-    if (backend_target < 0 || backend_target >= backend_target_pairs.size()) {
-        std::cerr << "Error: Invalid backend_target value" << std::endl;
-        return -1;
-    }
-
-    int backend_id = backend_target_pairs[backend_target].first;
-    int target_id = backend_target_pairs[backend_target].second;
-
-    HandDetectorDemo demo(
-        parser.get<std::string>("model"), parser.get<float>("nms_threshold"),
-        parser.get<float>("score_threshold"), backend_id, target_id);
-
-    if (parser.has("input")) {
-        demo.processImage(parser.get<std::string>("input"), parser.has("save"),
-                          parser.has("vis"));
-    } else {
-        demo.processCamera();
     }
 
     return 0;
