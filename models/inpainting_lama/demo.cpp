@@ -1,7 +1,7 @@
 /*
 This sample inpaints the masked area in the given image.
 
-Copyright (C) 20245, Bigvision LLC.
+Copyright (C) 2025, Bigvision LLC.
 */
 
 #include <iostream>
