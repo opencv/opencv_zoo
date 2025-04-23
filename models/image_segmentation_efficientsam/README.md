@@ -4,8 +4,12 @@ EfficientSAM: Leveraged Masked Image Pretraining for Efficient Segment Anything
 
 Notes:
 - The current implementation of the EfficientSAM demo uses the EfficientSAM-Ti model, which is specifically tailored for scenarios requiring higher speed and lightweight. 
-- MD5 value of "efficient_sam_vitt.pt" is 7A804DA508F30EFC59EC06711C8DCD62
-- SHA-256 value of "efficient_sam_vitt.pt" is DFF858B19600A46461CBB7DE98F796B23A7A888D9F5E34C0B033F7D6EB9E4E6A
+- image_segmentation_efficientsam_ti_2024may.onnx(supports single point infering)
+  - MD5 value: 117d6a6cac60039a20b399cc133c2a60
+  - SHA-256 value: e3957d2cd1422855f350aa7b044f47f5b3eafada64b5904ed330b696229e2943
+- image_segmentation_efficientsam_ti_2025april.onnx
+  - MD5 value: f23cecbb344547c960c933ff454536a3
+  - SHA-256 value: 4eb496e0a7259d435b49b66faf1754aa45a5c382a34558ddda9a8c6fe5915d77
 
 
 ## Demo
@@ -17,7 +21,7 @@ Run the following command to try the demo:
 python demo.py --input /path/to/image
 ```
 
-Click only **once** on the object you wish to segment in the displayed image. After the click, the segmentation result will be shown in a new window.
+**Click** to select frontground points, **drag** to use box to select and **long press** to select background points on the object you wish to segment in the displayed image. After clicking the **Enter**, the segmentation result will be shown in a new window. Clicking the **Backspace** to clear all the prompts.
 
 ## Result
 
@@ -42,3 +46,4 @@ All files in this directory are licensed under [Apache 2.0 License](./LICENSE).
 
 - https://arxiv.org/abs/2312.00863
 - https://github.com/yformer/EfficientSAM
+- https://github.com/facebookresearch/segment-anything
