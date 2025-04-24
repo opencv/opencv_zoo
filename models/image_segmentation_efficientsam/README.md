@@ -21,7 +21,7 @@ Run the following command to try the demo:
 python demo.py --input /path/to/image
 ```
 
-**Click** to select frontground points, **drag** to use box to select and **long press** to select background points on the object you wish to segment in the displayed image. After clicking the **Enter**, the segmentation result will be shown in a new window. Clicking the **Backspace** to clear all the prompts.
+**Click** to select foreground points, **drag** to use box to select and **long press** to select background points on the object you wish to segment in the displayed image. After clicking the **Enter**, the segmentation result will be shown in a new window. Clicking the **Backspace** to clear all the prompts.
 
 ## Result
 
