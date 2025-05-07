@@ -154,7 +154,6 @@ if __name__ == '__main__':
         image_window = "Origin image"
         cv.namedWindow(image_window, cv.WINDOW_NORMAL)
         # change window size
-        print(image.shape)
         rate = 1
         rate1 = 1
         rate2 = 1
