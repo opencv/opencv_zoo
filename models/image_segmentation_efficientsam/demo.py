@@ -19,8 +19,8 @@ backend_target_pairs = [
 parser = argparse.ArgumentParser(description='EfficientSAM Demo')
 parser.add_argument('--input', '-i', type=str,
                     help='Set input path to a certain image.')
-parser.add_argument('--model', '-m', type=str, default='image_segmentation_efficientsam_ti_2025april.onnx',
-                    help='Set model path, defaults to image_segmentation_efficientsam_ti_2025april.onnx.')
+parser.add_argument('--model', '-m', type=str, default='image_segmentation_efficientsam_ti_2024may.onnx',
+                    help='Set model path, defaults to image_segmentation_efficientsam_ti_2024may.onnx.')
 parser.add_argument('--backend_target', '-bt', type=int, default=0,
                     help='''Choose one of the backend-target pair to run this demo:
                         {:d}: (default) OpenCV implementation + CPU,
@@ -34,7 +34,7 @@ parser.add_argument('--save', '-s', action='store_true',
 args = parser.parse_args()
 
 # Global configuration
-WINDOW_SIZE = (480, 360)  # Fixed window size (width, height)
+WINDOW_SIZE = (800, 600)  # Fixed window size (width, height)
 MAX_POINTS = 6             # Maximum allowed points
 points = []                # Store clicked coordinates (original image scale)
 labels = []                # Point labels (-1: useless, 0: background, 1: foreground, 2: top-left, 3: bottom right)
@@ -154,7 +154,18 @@ if __name__ == '__main__':
         image_window = "Origin image"
         cv.namedWindow(image_window, cv.WINDOW_NORMAL)
         # change window size
-        cv.resizeWindow(image_window, WINDOW_SIZE[0] if image.shape[0] > WINDOW_SIZE[0] else image.shape[0], WINDOW_SIZE[1] if image.shape[1] > WINDOW_SIZE[0] else image.shape[1])
+        print(image.shape)
+        rate = 1
+        rate1 = 1
+        rate2 = 1
+        if(image.shape[1]>WINDOW_SIZE[0]):
+            rate1 = WINDOW_SIZE[0]/image.shape[1]
+        if(image.shape[0]>WINDOW_SIZE[1]):
+            rate2 = WINDOW_SIZE[1]/image.shape[0]
+        rate = min(rate1, rate2)
+        # width, height
+        WINDOW_SIZE = (int(image.shape[1] * rate), int(image.shape[0] * rate))
+        cv.resizeWindow(image_window, WINDOW_SIZE[0], WINDOW_SIZE[1])
         # put the window on the left of the screen
         cv.moveWindow(image_window, 50, 100)
         # set listener to record user's click point
@@ -177,7 +188,7 @@ if __name__ == '__main__':
         vis_image = image.copy()
         segmentation_window = "Segment result"
         cv.namedWindow(segmentation_window, cv.WINDOW_NORMAL)
-        cv.resizeWindow(segmentation_window, WINDOW_SIZE[0] if vis_image.shape[0] > WINDOW_SIZE[0] else vis_image.shape[0], WINDOW_SIZE[1] if vis_image.shape[1] > WINDOW_SIZE[1] else vis_image.shape[1])
+        cv.resizeWindow(segmentation_window, WINDOW_SIZE[0], WINDOW_SIZE[1])
         cv.moveWindow(segmentation_window, WINDOW_SIZE[0]+51, 100)
         cv.imshow(segmentation_window, vis_image)
         # waiting for click
