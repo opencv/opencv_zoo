@@ -14,6 +14,7 @@ This model is converted from TFlite to ONNX using following tools:
 **Note**:
 - The int8-quantized model may produce invalid results due to a significant drop of accuracy.
 - Visit https://github.com/google/mediapipe/blob/master/docs/solutions/models.md#hands for models of larger scale.
+- `handpose_estimation_mediapipe_2023feb_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 

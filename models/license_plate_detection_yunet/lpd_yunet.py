@@ -21,6 +21,9 @@ class LPD_YuNet:
 
         # load model
         self.model = cv.dnn.readNet(self.model_path)
+        # set backend and target
+        self.model.setPreferableBackend(self.backend_id)
+        self.model.setPreferableTarget(self.target_id)
         # generate anchors/priorboxes
         self._priorGen()
 

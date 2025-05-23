@@ -3,11 +3,12 @@ import argparse
 import cv2 as cv
 import numpy as np
 
-from raft import Raft
-
 # Check OpenCV version
-assert cv.__version__ >= "4.9.0", \
-       "Please install latest opencv-python to try this demo: python3 -m pip install --upgrade opencv-python"
+opencv_python_version = lambda str_version: tuple(map(int, (str_version.split("."))))
+assert opencv_python_version(cv.__version__) >= opencv_python_version("4.10.0"), \
+       "Please install latest opencv-python for benchmark: python3 -m pip install --upgrade opencv-python"
+
+from raft import Raft
 
 parser = argparse.ArgumentParser(description='RAFT (https://github.com/princeton-vl/RAFT)')
 parser.add_argument('--input1', '-i1', type=str,

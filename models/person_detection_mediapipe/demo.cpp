@@ -31,7 +31,7 @@ private:
     Mat anchors;
 
 public:
-    MPPersonDet(string modPath, float nmsThresh = 0.5, float scoreThresh = 0.3, int tok = 1, dnn::Backend bId = DNN_BACKEND_DEFAULT, dnn::Target tId = DNN_TARGET_CPU) :
+    MPPersonDet(string modPath, float nmsThresh = 0.3, float scoreThresh = 0.5, int tok = 5000, dnn::Backend bId = DNN_BACKEND_DEFAULT, dnn::Target tId = DNN_TARGET_CPU) :
         modelPath(modPath), nmsThreshold(nmsThresh),
         scoreThreshold(scoreThresh), topK(tok),
         backendId(bId), targetId(tId)
