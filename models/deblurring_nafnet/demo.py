@@ -1,5 +1,11 @@
 import cv2 as cv
 import argparse
+
+# Check OpenCV version
+opencv_python_version = lambda str_version: tuple(map(int, [p.split('-')[0] for p in str_version.split('.')]))
+assert opencv_python_version(cv.__version__) >= opencv_python_version("5.0.0"), \
+       "Please install latest opencv-python for benchmark: python3 -m pip install --upgrade opencv-python"
+
 from nafnet import Nafnet
 
 def get_args_parser(func_args):
