@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser(description='EfficientSAM Demo')
 parser.add_argument('--input', '-i', type=str,
                     help='Set input path to a certain image.')
 parser.add_argument('--model', '-m', type=str, default='image_segmentation_efficientsam_ti_2025april.onnx',
-                    help='Set model path, defaults to image_segmentation_efficientsam_ti_2024april.onnx.')
+                    help='Set model path, defaults to image_segmentation_efficientsam_ti_2025april.onnx.')
 parser.add_argument('--backend_target', '-bt', type=int, default=0,
                     help='''Choose one of the backend-target pair to run this demo:
                         {:d}: (default) OpenCV implementation + CPU,
