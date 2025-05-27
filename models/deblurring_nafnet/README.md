@@ -5,6 +5,7 @@ NAFNet is a lightweight image deblurring model that eliminates nonlinear activat
 Notes:
 
 - Model source: [.pth](https://drive.google.com/file/d/14D4V4raNYIOhETfcuuLI3bGLB-OYIv6X/view).
+- ONNX Model link: [ONNX](https://drive.google.com/uc?export=dowload&id=1ZLRhkpCekNruJZggVpBgSoCx3k7bJ-5v)
 
 ## Requirements 
 Install latest OpenCV >=5.0.0 and CMake >= 3.22.2 to get started with.
