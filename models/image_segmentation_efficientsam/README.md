@@ -3,7 +3,7 @@
 EfficientSAM: Leveraged Masked Image Pretraining for Efficient Segment Anything
 
 Notes:
-- The current implementation of the EfficientSAM demo uses the EfficientSAM-Ti model, which is specifically tailored for scenarios requiring higher speed and lightweight. 
+- The current implementation of the EfficientSAM demo uses the EfficientSAM-Ti model, which is specifically tailored for scenarios requiring higher speed and lightweight.
 - image_segmentation_efficientsam_ti_2024may.onnx(supports only single point infering)
   - MD5 value: 117d6a6cac60039a20b399cc133c2a60
   - SHA-256 value: e3957d2cd1422855f350aa7b044f47f5b3eafada64b5904ed330b696229e2943

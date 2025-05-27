@@ -59,14 +59,14 @@ def visualize(image, result):
     mask = np.copy(result)
     # change mask to binary image
     t, binary = cv.threshold(mask, 127, 255, cv.THRESH_BINARY)
-    assert set(np.unique(binary)) <= {0, 255}, "The mask must be a binary image"
+    assert set(np.unique(binary)) <= {0, 255}, "The mask must be a binary image."
     # enhance red channel to make the segmentation more obviously
     enhancement_factor = 1.8
-    red_channel = vis_result[:, :, 2]  
+    red_channel = vis_result[:, :, 2]
     # update the channel
     red_channel = np.where(binary == 255, np.minimum(red_channel * enhancement_factor, 255), red_channel)
-    vis_result[:, :, 2] = red_channel  
-    
+    vis_result[:, :, 2] = red_channel
+
     # draw borders
     contours, hierarchy = cv.findContours(binary, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
     cv.drawContours(vis_result, contours, contourIdx = -1, color = (255,255,255), thickness=2)
@@ -77,7 +77,7 @@ def select(event, x, y, flags, param):
     global points, labels, backend_point, rectangle, current_img
     orig_img = param['original_img']
     image_window = param['image_window']
-    
+
     if event == cv.EVENT_LBUTTONDOWN:
         param['mouse_down_time'] = cv.getTickCount()
         backend_point = [x, y]
@@ -87,25 +87,28 @@ def select(event, x, y, flags, param):
             rectangle_change_img = current_img.copy()
             cv.rectangle(rectangle_change_img, (backend_point[0], backend_point[1]), (x, y), (255,0,0) , 2)
             cv.imshow(image_window, rectangle_change_img)
-        elif len(backend_point) != 0:
+        elif len(backend_point) != 0 and len(points) < MAX_POINTS:
             rectangle = True
-        
+
 
     elif event == cv.EVENT_LBUTTONUP:
         if len(points) >= MAX_POINTS:
-            print(f"Maximum points reached ({MAX_POINTS})")
+            print(f"Maximum points reached {MAX_POINTS}.")
             return
 
         if rectangle == False:
             duration = (cv.getTickCount() - param['mouse_down_time'])/cv.getTickFrequency()
             label = -1 if duration > 0.5 else 1  # Long press = background
-            
+
             points.append([backend_point[0], backend_point[1]])
             labels.append(label)
-            print(f"Added {['background','foreground','background'][label]} point {backend_point}")
+            print(f"Added {['background','foreground','background'][label]} point {backend_point}.")
         else:
             if len(points) + 1 >= MAX_POINTS:
-                print(f"Points reached ({MAX_POINTS}), could not add box")
+                rectangle = False
+                backend_point.clear()
+                cv.imshow(image_window, current_img)
+                print(f"Points reached {MAX_POINTS}, could not add box.")
                 return
             point_leftup = []
             point_rightdown = []
@@ -117,27 +120,27 @@ def select(event, x, y, flags, param):
                 point_rightdown.extend(backend_point)
             points.append(point_leftup)
             points.append(point_rightdown)
-            print(f"Added box from {point_leftup} to {point_rightdown}")
+            print(f"Added box from {point_leftup} to {point_rightdown}.")
             labels.append(2)
             labels.append(3)
             rectangle = False
         backend_point.clear()
-        
+
         marked_img = orig_img.copy()
-        top_left = None 
+        top_left = None
         for (px, py), lbl in zip(points, labels):
             if lbl == -1:
                 cv.circle(marked_img, (px, py), 5, (0, 0, 255), -1)
             elif lbl == 1:
                 cv.circle(marked_img, (px, py), 5, (0, 255, 0), -1)
             elif lbl == 2:
-                top_left = (px, py)  
+                top_left = (px, py)
             elif lbl == 3:
-                bottom_right = (px, py)  
-                cv.rectangle(marked_img, top_left, bottom_right, (255,0,0) , 2)            
+                bottom_right = (px, py)
+                cv.rectangle(marked_img, top_left, bottom_right, (255,0,0) , 2)
         cv.imshow(image_window, marked_img)
         current_img = marked_img.copy()
-        
+
 
 if __name__ == '__main__':
     backend_id = backend_target_pairs[args.backend_target][0]
@@ -180,7 +183,8 @@ if __name__ == '__main__':
         "Long press — Select background point\n"
         "Drag — Create selection box\n"
         "Enter — Infer\n"
-        "Backspace — Clear the prompts")
+        "Backspace — Clear the prompts\n"
+        "Q - Quit")
         # show image
         cv.imshow(image_window, image)
         current_img = image.copy()
@@ -195,28 +199,28 @@ if __name__ == '__main__':
         while True:
             # Check window status
             # if click × to close the image window then ending
-            if (cv.getWindowProperty(image_window, cv.WND_PROP_VISIBLE) < 1 or 
+            if (cv.getWindowProperty(image_window, cv.WND_PROP_VISIBLE) < 1 or
                 cv.getWindowProperty(segmentation_window, cv.WND_PROP_VISIBLE) < 1):
                 break
-        
+
             # Handle keyboard input
             key = cv.waitKey(1)
-            
+
             # receive enter
             if key == 13:
-                
+
                 vis_image = image.copy()
-                cv.putText(vis_image, "infering...", 
-                            (50, vis_image.shape[0]//2), 
+                cv.putText(vis_image, "infering...",
+                            (50, vis_image.shape[0]//2),
                             cv.FONT_HERSHEY_SIMPLEX, 10, (255,255,255), 5)
                 cv.imshow(segmentation_window, vis_image)
-                
+
                 result = model.infer(image=image, points=points, labels=labels)
                 if len(result) == 0:
                     print("clear and select points again!")
-                else:    
+                else:
                     vis_result = visualize(image, result)
-                    
+
                     cv.imshow(segmentation_window, vis_result)
             elif key == 8:  # ASCII for Backspace
                 points.clear()
@@ -224,18 +228,20 @@ if __name__ == '__main__':
                 backend_point = []
                 rectangle = False
                 current_img = image
-                print("poins clear up")
+                print("Points are cleared.")
                 cv.imshow(image_window, image)
-                
+            elif key == 81 or key == 113:
+                break
+
         cv.destroyAllWindows()
-        
+
         # Save results if save is true
         if args.save:
             cv.imwrite('./example_outputs/vis_result.jpg', vis_result)
             cv.imwrite("./example_outputs/mask.jpg", result)
             print('vis_result.jpg and mask.jpg are saved to ./example_outputs/')
-        
+
     else:
         print('Set input path to a certain image.')
         pass
-        
+
