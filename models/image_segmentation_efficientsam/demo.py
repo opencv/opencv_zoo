@@ -222,7 +222,7 @@ if __name__ == '__main__':
                     vis_result = visualize(image, result)
 
                     cv.imshow(segmentation_window, vis_result)
-            elif key == 8:  # ASCII for Backspace
+            elif key == 8 or key == 127:  # ASCII for Backspace or Delete
                 points.clear()
                 labels.clear()
                 backend_point = []
@@ -230,7 +230,7 @@ if __name__ == '__main__':
                 current_img = image
                 print("Points are cleared.")
                 cv.imshow(image_window, image)
-            elif key == 81 or key == 113:
+            elif key == ord('q') or key == ord('Q'):
                 break
 
         cv.destroyAllWindows()
