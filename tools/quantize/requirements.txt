@@ -1,4 +1,5 @@
-opencv-python>=4.9.0
+opencv-python>=4.10.0
+numpy
 onnx
 onnxruntime
 onnxruntime-extensions

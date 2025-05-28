@@ -26,7 +26,7 @@ python benchmark.py --cfg ./config/face_detection_yunet.yaml
 # All configs
 python benchmark.py --all
 
-# All configs but only fp32 models (--fp32, --fp16, --int8 are available for now)
+# All configs but only fp32 models (--fp32, --fp16, --int8 --int8bq are available for now)
 python benchmark.py --all --fp32
 
 # All configs but exclude some of them (fill with config name keywords, not sensitive to upper/lower case, seperate with colons)
@@ -55,7 +55,7 @@ python benchmark.py --all --cfg_overwrite_backend_target 1
 
 ## Detailed Results
 
-Benchmark is done with latest `opencv-python==4.8.0.74` and `opencv-contrib-python==4.8.0.74` on the following platforms. Some models are excluded because of support issues.
+Benchmark is done with latest opencv-python & opencv-contrib-python (current 4.10.0) on the following platforms. Some models are excluded because of support issues.
 
 ### Intel 12700K
 

@@ -2,7 +2,7 @@
 
 PP-OCRv3: More Attempts for the Improvement of Ultra Lightweight OCR System.
 
-Note:
+**Note**:
 
 - The int8 quantization model may produce unstable results due to some loss of accuracy.
 - Original Paddle Models source of English: [here](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_infer.tar).
@@ -10,6 +10,7 @@ Note:
 - `IC15` in the filename means the model is trained on [IC15 dataset](https://rrc.cvc.uab.es/?ch=4&com=introduction), which can detect English text instances only.
 - `TD500` in the filename means the model is trained on [TD500 dataset](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500)), which can detect both English & Chinese instances.
 - Visit https://docs.opencv.org/master/d4/d43/tutorial_dnn_text_spotting.html for more information.
+- `text_detection_xx_ppocrv3_2023may_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
 ## Demo
 

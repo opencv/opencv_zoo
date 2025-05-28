@@ -9,7 +9,8 @@ from models import MODELS
 from utils import METRICS, DATALOADERS
 
 # Check OpenCV version
-assert cv.__version__ >= "4.9.0", \
+opencv_python_version = lambda str_version: tuple(map(int, (str_version.split("."))))
+assert opencv_python_version(cv.__version__) >= opencv_python_version("4.10.0"), \
        "Please install latest opencv-python for benchmark: python3 -m pip install --upgrade opencv-python"
 
 # Valid combinations of backends and targets
@@ -45,6 +46,7 @@ parser.add_argument("--model_exclude", type=str, help="Models to be excluded. Sp
 parser.add_argument("--fp32", action="store_true", help="Benchmark models of float32 precision only.")
 parser.add_argument("--fp16", action="store_true", help="Benchmark models of float16 precision only.")
 parser.add_argument("--int8", action="store_true", help="Benchmark models of int8 precision only.")
+parser.add_argument("--int8bq", action="store_true", help="Benchmark models of blocked int8 precision only.")
 parser.add_argument("--all", action="store_true", help="Benchmark all models")
 args = parser.parse_args()
 
@@ -193,15 +195,17 @@ if __name__ == '__main__':
         model_handler, model_paths = MODELS.get(model_config.pop('name'))
 
         _model_paths = []
-        if args.fp32 or args.fp16 or args.int8:
+        if args.fp32 or args.fp16 or args.int8 or args.int8bq:
             if args.fp32:
                 _model_paths += model_paths['fp32']
             if args.fp16:
                 _model_paths += model_paths['fp16']
             if args.int8:
                 _model_paths += model_paths['int8']
+            if args.int8bq:
+                _model_paths += model_paths['int8bq']
         else:
-            _model_paths = model_paths['fp32'] + model_paths['fp16'] + model_paths['int8']
+            _model_paths = model_paths['fp32'] + model_paths['fp16'] + model_paths['int8'] + model_paths["int8bq"]
         # filter out excluded models
         excludes = []
         if args.model_exclude is not None:
