@@ -20,8 +20,8 @@ backend_target_pairs = [
 parser = argparse.ArgumentParser(description='EfficientSAM Demo')
 parser.add_argument('--input', '-i', type=str,
                     help='Set input path to a certain image.')
-parser.add_argument('--model', '-m', type=str, default='image_segmentation_efficientsam_ti_2024may.onnx',
-                    help='Set model path, defaults to image_segmentation_efficientsam_ti_2024may.onnx.')
+parser.add_argument('--model', '-m', type=str, default='image_segmentation_efficientsam_ti_2025april.onnx',
+                    help='Set model path, defaults to image_segmentation_efficientsam_ti_2025april.onnx.')
 parser.add_argument('--backend_target', '-bt', type=int, default=0,
                     help='''Choose one of the backend-target pair to run this demo:
                         {:d}: (default) OpenCV implementation + CPU,
@@ -34,10 +34,14 @@ parser.add_argument('--save', '-s', action='store_true',
                     help='Specify to save a file with results. Invalid in case of camera input.')
 args = parser.parse_args()
 
-#global click listener
-clicked_left = False
-#global point record in the window
-point = []
+# Global configuration
+WINDOW_SIZE = (800, 600)  # Fixed window size (width, height)
+MAX_POINTS = 6             # Maximum allowed points
+points = []                # Store clicked coordinates (original image scale)
+labels = []                # Point labels (-1: useless, 0: background, 1: foreground, 2: top-left, 3: bottom right)
+backend_point = []
+rectangle = False
+current_img = None
 
 def visualize(image, result):
     """
@@ -55,26 +59,88 @@ def visualize(image, result):
     mask = np.copy(result)
     # change mask to binary image
     t, binary = cv.threshold(mask, 127, 255, cv.THRESH_BINARY)
-    assert set(np.unique(binary)) <= {0, 255}, "The mask must be a binary image"
+    assert set(np.unique(binary)) <= {0, 255}, "The mask must be a binary image."
     # enhance red channel to make the segmentation more obviously
     enhancement_factor = 1.8
-    red_channel = vis_result[:, :, 2]  
+    red_channel = vis_result[:, :, 2]
     # update the channel
     red_channel = np.where(binary == 255, np.minimum(red_channel * enhancement_factor, 255), red_channel)
-    vis_result[:, :, 2] = red_channel  
-    
+    vis_result[:, :, 2] = red_channel
+
     # draw borders
     contours, hierarchy = cv.findContours(binary, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
     cv.drawContours(vis_result, contours, contourIdx = -1, color = (255,255,255), thickness=2)
     return vis_result
 
 def select(event, x, y, flags, param):
-    global clicked_left
-    # When the left mouse button is pressed, record the coordinates of the point where it is pressed
-    if event == cv.EVENT_LBUTTONUP:
-        point.append([x,y])
-        print("point:",point[0])
-        clicked_left = True
+    """Handle mouse events with coordinate conversion"""
+    global points, labels, backend_point, rectangle, current_img
+    orig_img = param['original_img']
+    image_window = param['image_window']
+
+    if event == cv.EVENT_LBUTTONDOWN:
+        param['mouse_down_time'] = cv.getTickCount()
+        backend_point = [x, y]
+
+    elif event == cv.EVENT_MOUSEMOVE:
+        if rectangle == True:
+            rectangle_change_img = current_img.copy()
+            cv.rectangle(rectangle_change_img, (backend_point[0], backend_point[1]), (x, y), (255,0,0) , 2)
+            cv.imshow(image_window, rectangle_change_img)
+        elif len(backend_point) != 0 and len(points) < MAX_POINTS:
+            rectangle = True
+
+
+    elif event == cv.EVENT_LBUTTONUP:
+        if len(points) >= MAX_POINTS:
+            print(f"Maximum points reached {MAX_POINTS}.")
+            return
+
+        if rectangle == False:
+            duration = (cv.getTickCount() - param['mouse_down_time'])/cv.getTickFrequency()
+            label = -1 if duration > 0.5 else 1  # Long press = background
+
+            points.append([backend_point[0], backend_point[1]])
+            labels.append(label)
+            print(f"Added {['background','foreground','background'][label]} point {backend_point}.")
+        else:
+            if len(points) + 1 >= MAX_POINTS:
+                rectangle = False
+                backend_point.clear()
+                cv.imshow(image_window, current_img)
+                print(f"Points reached {MAX_POINTS}, could not add box.")
+                return
+            point_leftup = []
+            point_rightdown = []
+            if x > backend_point[0] or y > backend_point[1]:
+                point_leftup.extend(backend_point)
+                point_rightdown.extend([x,y])
+            else:
+                point_leftup.extend([x,y])
+                point_rightdown.extend(backend_point)
+            points.append(point_leftup)
+            points.append(point_rightdown)
+            print(f"Added box from {point_leftup} to {point_rightdown}.")
+            labels.append(2)
+            labels.append(3)
+            rectangle = False
+        backend_point.clear()
+
+        marked_img = orig_img.copy()
+        top_left = None
+        for (px, py), lbl in zip(points, labels):
+            if lbl == -1:
+                cv.circle(marked_img, (px, py), 5, (0, 0, 255), -1)
+            elif lbl == 1:
+                cv.circle(marked_img, (px, py), 5, (0, 255, 0), -1)
+            elif lbl == 2:
+                top_left = (px, py)
+            elif lbl == 3:
+                bottom_right = (px, py)
+                cv.rectangle(marked_img, top_left, bottom_right, (255,0,0) , 2)
+        cv.imshow(image_window, marked_img)
+        current_img = marked_img.copy()
+
 
 if __name__ == '__main__':
     backend_id = backend_target_pairs[args.backend_target][0]
@@ -89,49 +155,93 @@ if __name__ == '__main__':
             print('Could not open or find the image:', args.input)
             exit(0)
         # create window
-        image_window = "image: click on the thing whick you want to segment!"
+        image_window = "Origin image"
         cv.namedWindow(image_window, cv.WINDOW_NORMAL)
         # change window size
-        cv.resizeWindow(image_window, 800 if image.shape[0] > 800 else image.shape[0], 600 if image.shape[1] > 600 else image.shape[1])
+        rate = 1
+        rate1 = 1
+        rate2 = 1
+        if(image.shape[1]>WINDOW_SIZE[0]):
+            rate1 = WINDOW_SIZE[0]/image.shape[1]
+        if(image.shape[0]>WINDOW_SIZE[1]):
+            rate2 = WINDOW_SIZE[1]/image.shape[0]
+        rate = min(rate1, rate2)
+        # width, height
+        WINDOW_SIZE = (int(image.shape[1] * rate), int(image.shape[0] * rate))
+        cv.resizeWindow(image_window, WINDOW_SIZE[0], WINDOW_SIZE[1])
         # put the window on the left of the screen
         cv.moveWindow(image_window, 50, 100)
         # set listener to record user's click point
-        cv.setMouseCallback(image_window, select)
+        param = {
+            'original_img': image,
+            'mouse_down_time': 0,
+            'image_window' : image_window
+        }
+        cv.setMouseCallback(image_window, select, param)
         # tips in the terminal
-        print("click the picture on the LEFT and see the result on the RIGHT!")
+        print("Click — Select foreground point\n"
+        "Long press — Select background point\n"
+        "Drag — Create selection box\n"
+        "Enter — Infer\n"
+        "Backspace — Clear the prompts\n"
+        "Q - Quit")
         # show image
         cv.imshow(image_window, image)
+        current_img = image.copy()
+        # create window to show visualized result
+        vis_image = image.copy()
+        segmentation_window = "Segment result"
+        cv.namedWindow(segmentation_window, cv.WINDOW_NORMAL)
+        cv.resizeWindow(segmentation_window, WINDOW_SIZE[0], WINDOW_SIZE[1])
+        cv.moveWindow(segmentation_window, WINDOW_SIZE[0]+51, 100)
+        cv.imshow(segmentation_window, vis_image)
         # waiting for click
-        while cv.waitKey(1) == -1 or clicked_left:
-            # receive click
-            if clicked_left:
-                # put the click point (x,y) into the model to predict
-                result = model.infer(image=image, points=point, labels=[1])
-                # get the visualized result
-                vis_result = visualize(image, result)
-                # create window to show visualized result
-                cv.namedWindow("vis_result", cv.WINDOW_NORMAL)
-                cv.resizeWindow("vis_result", 800 if vis_result.shape[0] > 800 else vis_result.shape[0], 600 if vis_result.shape[1] > 600 else vis_result.shape[1])
-                cv.moveWindow("vis_result", 851, 100)
-                cv.imshow("vis_result", vis_result)
-                # set click false to listen another click
-                clicked_left = False
-            elif cv.getWindowProperty(image_window, cv.WND_PROP_VISIBLE) < 1: 
-                # if click × to close the image window then ending
+        while True:
+            # Check window status
+            # if click × to close the image window then ending
+            if (cv.getWindowProperty(image_window, cv.WND_PROP_VISIBLE) < 1 or
+                cv.getWindowProperty(segmentation_window, cv.WND_PROP_VISIBLE) < 1):
                 break
-            else:
-                # when not clicked, set point to empty
-                point = []
+
+            # Handle keyboard input
+            key = cv.waitKey(1)
+
+            # receive enter
+            if key == 13:
+
+                vis_image = image.copy()
+                cv.putText(vis_image, "infering...",
+                            (50, vis_image.shape[0]//2),
+                            cv.FONT_HERSHEY_SIMPLEX, 10, (255,255,255), 5)
+                cv.imshow(segmentation_window, vis_image)
+
+                result = model.infer(image=image, points=points, labels=labels)
+                if len(result) == 0:
+                    print("clear and select points again!")
+                else:
+                    vis_result = visualize(image, result)
+
+                    cv.imshow(segmentation_window, vis_result)
+            elif key == 8 or key == 127:  # ASCII for Backspace or Delete
+                points.clear()
+                labels.clear()
+                backend_point = []
+                rectangle = False
+                current_img = image
+                print("Points are cleared.")
+                cv.imshow(image_window, image)
+            elif key == ord('q') or key == ord('Q'):
+                break
+
         cv.destroyAllWindows()
-        
+
         # Save results if save is true
         if args.save:
             cv.imwrite('./example_outputs/vis_result.jpg', vis_result)
             cv.imwrite("./example_outputs/mask.jpg", result)
             print('vis_result.jpg and mask.jpg are saved to ./example_outputs/')
 
-        
     else:
         print('Set input path to a certain image.')
         pass
-        
+
