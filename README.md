@@ -1,3 +1,5 @@
+# ***This Project is now hosted in Hugging Face. Check https://huggingface.co/opencv to get models and online demos!***
+
 # OpenCV Zoo and Benchmark
 
 A zoo for models tuned for OpenCV DNN with benchmarks on different platforms.
