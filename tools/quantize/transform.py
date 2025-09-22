@@ -65,11 +65,19 @@ class ColorConvert:
 class HandAlign:
     def __init__(self, model):
         self.model = model
-        sys.path.append('../../models/palm_detection_mediapipe')
-        from mp_palmdet import MPPalmDet
-        self.palm_detector = MPPalmDet(modelPath='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx', nmsThreshold=0.3, scoreThreshold=0.9)
+        # Lazy initialization to avoid loading dependencies when not used
+        self.palm_detector = None
 
     def __call__(self, img):
+        # Initialize palm detector on first use only
+        if self.palm_detector is None:
+            sys.path.append('../../models/palm_detection_mediapipe')
+            from mp_palmdet import MPPalmDet
+            self.palm_detector = MPPalmDet(
+                modelPath='../../models/palm_detection_mediapipe/palm_detection_mediapipe_2023feb.onnx',
+                nmsThreshold=0.3,
+                scoreThreshold=0.9
+            )
         return self.mp_handpose_align(img)
 
     def mp_handpose_align(self, img):

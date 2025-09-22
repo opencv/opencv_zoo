@@ -12,17 +12,26 @@ import cv2 as cv
 import onnx
 from onnx import version_converter
 import onnxruntime
-from onnxruntime.quantization import quantize_static, CalibrationDataReader, QuantType, QuantFormat, quant_pre_process
+from onnxruntime.quantization import (
+    quantize_static,
+    CalibrationDataReader,
+    QuantType,
+    QuantFormat,
+    quant_pre_process,
+    CalibrationMethod,
+)
 
 from transform import Compose, Resize, CenterCrop, Normalize, ColorConvert, HandAlign
 
 class DataReader(CalibrationDataReader):
-    def __init__(self, model_path, image_dir, transforms, data_dim):
+    def __init__(self, model_path, image_dir, transforms, data_dim, max_samples=None):
         model = onnx.load(model_path)
         self.input_name = model.graph.input[0].name
         self.transforms = transforms
         self.data_dim = data_dim
         self.data = self.get_calibration_data(image_dir)
+        if max_samples is not None and len(self.data) > max_samples:
+            self.data = self.data[:max_samples]
         self.enum_data_dicts = iter([{self.input_name: x} for x in self.data])
 
     def get_next(self):
@@ -46,7 +55,7 @@ class DataReader(CalibrationDataReader):
         return blobs
 
 class Quantize:
-    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8', data_dim='chw', nodes_to_exclude=[]):
+    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='uint8', wt_type='int8', data_dim='chw', nodes_to_exclude=[], max_samples=None, quant_format=QuantFormat.QDQ, op_types_to_quantize=None):
         self.type_dict = {"uint8" : QuantType.QUInt8, "int8" : QuantType.QInt8}
 
         self.model_path = model_path
@@ -56,14 +65,18 @@ class Quantize:
         self.act_type = act_type
         self.wt_type = wt_type
         self.nodes_to_exclude = nodes_to_exclude
+        self.data_dim = data_dim
+        self.max_samples = max_samples
+        self.quant_format = quant_format
+        self.op_types_to_quantize = op_types_to_quantize
 
-        # data reader
-        self.dr = DataReader(self.model_path, self.calibration_image_dir, self.transforms, data_dim)
+        # DataReader is created in run() to avoid touching all model paths at import time
 
     def check_opset(self):
         model = onnx.load(self.model_path)
-        if model.opset_import[0].version != 13:
-            print('\tmodel opset version: {}. Converting to opset 13'.format(model.opset_import[0].version))
+        current_opset = model.opset_import[0].version
+        if current_opset < 13:
+            print('\tmodel opset version: {}. Converting to opset 13'.format(current_opset))
             # convert opset version to 13
             model_opset13 = version_converter.convert_version(model, 13)
             # save converted model
@@ -71,19 +84,57 @@ class Quantize:
             onnx.save_model(model_opset13, output_name)
             # update model_path for quantization
             return output_name
+        # opset >= 13: keep as-is to avoid conversion errors with newer opsets (e.g., blocked quantization)
         return self.model_path
 
     def run(self):
         print('Quantizing {}: act_type {}, wt_type {}'.format(self.model_path, self.act_type, self.wt_type))
         new_model_path = self.check_opset()
-        quant_pre_process(new_model_path, new_model_path)
+        # quant_pre_process may require onnxruntime-extensions; make it optional
+        try:
+            quant_pre_process(new_model_path, new_model_path)
+        except Exception as e:
+            print('\tquant_pre_process skipped:', e)
         output_name = '{}_{}.onnx'.format(self.model_path[:-5], self.wt_type)
-        quantize_static(new_model_path, output_name, self.dr,
-                        quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
-                        per_channel=self.per_channel,
-                        weight_type=self.type_dict[self.wt_type],
-                        activation_type=self.type_dict[self.act_type],
-                        nodes_to_exclude=self.nodes_to_exclude)
+        # Create data reader lazily here so only selected model accesses its calibration data
+        dr = DataReader(new_model_path, self.calibration_image_dir, self.transforms, self.data_dim, max_samples=self.max_samples)
+        # Auto-detect Conv nodes without bias and exclude them to avoid bias=None errors
+        try:
+            model_for_scan = onnx.load(new_model_path)
+            initializer_names = {init.name for init in model_for_scan.graph.initializer}
+            convs_without_bias = []
+            for node in model_for_scan.graph.node:
+                if node.op_type == 'Conv':
+                    # Conv inputs: [X, W] or [X, W, B]
+                    if len(node.input) < 3 or node.input[2] not in initializer_names:
+                        if node.name:
+                            convs_without_bias.append(node.name)
+            if convs_without_bias:
+                print('\tAuto-excluding Conv nodes without bias:', convs_without_bias[:5], ('... (+%d more)' % (len(convs_without_bias)-5) if len(convs_without_bias)>5 else ''))
+            combined_excludes = list(set(self.nodes_to_exclude + convs_without_bias))
+        except Exception as _:
+            combined_excludes = self.nodes_to_exclude
+        try:
+            quantize_static(new_model_path, output_name, dr,
+                            quant_format=self.quant_format,
+                            per_channel=self.per_channel,
+                            weight_type=self.type_dict[self.wt_type],
+                            activation_type=self.type_dict[self.act_type],
+                            nodes_to_exclude=combined_excludes,
+                            calibrate_method=CalibrationMethod.MinMax,
+                            op_types_to_quantize=self.op_types_to_quantize)
+        except Exception as e:
+            print('\tPrimary quantization failed:', e)
+            print('\tRetrying with fallback: QuantFormat.QDQ and Conv-only')
+            # Fallback to a more robust configuration
+            quantize_static(new_model_path, output_name, dr,
+                            quant_format=QuantFormat.QDQ,
+                            per_channel=True,
+                            weight_type=self.type_dict[self.wt_type],
+                            activation_type=self.type_dict[self.act_type],
+                            nodes_to_exclude=combined_excludes,
+                            calibrate_method=CalibrationMethod.MinMax,
+                            op_types_to_quantize=['Conv'])
         if new_model_path != self.model_path:
             os.remove(new_model_path)
         print('\tQuantized model saved to {}'.format(output_name))
@@ -134,6 +185,19 @@ models=dict(
                        transforms=Compose([Resize(size=(320, 240))]),
                        nodes_to_exclude=['MaxPool_5', 'MaxPool_18', 'MaxPool_25', 'MaxPool_32', 'MaxPool_39'],
     ),
+    deblurring_nafnet=Quantize(model_path='../../models/deblurring_nafnet/deblurring_nafnet_2025may.onnx',
+                               calibration_image_dir='../../models/deblurring_nafnet/example_outputs',
+                               transforms=Compose([
+                                   Resize(size=(512, 512)),
+                                   Normalize(std=[255, 255, 255]),
+                                   ColorConvert(ctype=cv.COLOR_BGR2RGB)
+                               ]),
+                               per_channel=True,
+                               act_type='uint8',
+                               wt_type='int8',
+                               max_samples=1,
+                               quant_format=QuantFormat.QOperator,
+                               op_types_to_quantize=['Conv', 'MatMul']),
 )
 
 if __name__ == '__main__':
