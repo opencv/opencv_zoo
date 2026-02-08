@@ -11,6 +11,9 @@ Notes:
 - `face_detection_yunet_2023mar_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 - Paper source: [Yunet: A tiny millisecond-level face detector](https://link.springer.com/article/10.1007/s11633-023-1423-y).
 
+### Download
+Model file: [face_detection_yunet_2023mar.onnx](https://huggingface.co/opencv/opencv_zoo/resolve/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx)
+
 Results of accuracy evaluation with [tools/eval](../../tools/eval).
 
 | Models      | Easy AP | Medium AP | Hard AP |

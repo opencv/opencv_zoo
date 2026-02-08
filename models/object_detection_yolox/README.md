@@ -12,6 +12,9 @@ Key features of the YOLOX object detector
 - This version of YoloX: YoloX_s
 - `object_detection_yolox_2022nov_int8bq.onnx` represents the block-quantized version in int8 precision and is generated using [block_quantize.py](../../tools/quantize/block_quantize.py) with `block_size=64`.
 
+### Download
+Model file: [object_detection_yolox_2022nov.onnx](https://huggingface.co/opencv/opencv_zoo/resolve/main/models/object_detection_yolox/object_detection_yolox_2022nov.onnx)
+
 
 ## Demo
 
