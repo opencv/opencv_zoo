@@ -985,3 +985,19 @@ mean       median     min        input size   model
 173.46     162.85     135.52     [1280, 720]  CRNN with ['text_recognition_CRNN_CN_2021nov_int8.onnx']
 175.28     145.22     135.52     [1280, 720]  CRNN with ['text_recognition_CRNN_EN_2022oct_int8.onnx']
 ```
+
+### Windows (Intel 12th Gen Core i5)
+
+Specs:
+- CPU: Intel(R) Core(TM) i5-12400F
+
+CPU:
+
+```
+$ python benchmark.py --cfg config/object_detection_yolox.yaml
+Benchmarking ...
+backend=cv.dnn.DNN_BACKEND_OPENCV
+target=cv.dnn.DNN_TARGET_CPU
+mean       median     min        input size   model
+264.86     265.03     254.11     [640, 640]   YoloX with ['object_detection_yolox_2022nov.onnx']
+```

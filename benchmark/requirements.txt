@@ -1,5 +1,0 @@
-numpy
-opencv-python<5.0
-pyyaml
-requests
-matplotlib>=3.7.1

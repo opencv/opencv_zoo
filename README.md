@@ -19,6 +19,9 @@ Guidelines:
   git lfs install
   git lfs pull
   ```
+- **Alternative (Manual Download)**:
+  If `git lfs pull` fails or you prefer manual download, you can find all models hosted on **[Hugging Face](https://huggingface.co/opencv/opencv_zoo)**.
+  Simply navigate to the `models` directory on Hugging Face and download the `.onnx` files you need.
 - To run benchmarks on your hardware settings, please refer to [benchmark/README](./benchmark/README.md).
 
 ## Models & Benchmark Results
