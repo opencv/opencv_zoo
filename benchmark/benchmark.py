@@ -111,6 +111,19 @@ class Benchmark:
         self._backend = available_backends[backend_id]
         self._target = available_targets[target_id]
 
+        # --- GSoC 'Quantization Paradox' Mitigation ---
+        import platform
+        arch = platform.machine().lower()
+        if arch in ['aarch64', 'armv8l', 'arm64']:
+            is_int8 = getattr(args, 'int8', False) or getattr(args, 'int8bq', False)
+            if is_int8 and target_id == 'cpu':
+                print("[WARN] ARM64 Edge AI Context: 'Quantization Paradox' detected.")
+                print("[WARN] INT8 quantized models on fallback CPU incur severe latency.")
+                print("[WARN] Auto-routing backend to TIM-VX / NPU for hardware intrinsic execution.")
+                self._backend = cv.dnn.DNN_BACKEND_TIMVX
+                self._target = cv.dnn.DNN_TARGET_NPU
+        # ----------------------------------------------
+
         self._benchmark_results = dict()
         self._benchmark_results_brief = dict()
 
