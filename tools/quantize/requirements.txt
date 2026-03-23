@@ -1,6 +1,0 @@
-opencv-python>=4.10.0
-numpy
-onnx
-onnxruntime
-onnxruntime-extensions
-neural-compressor

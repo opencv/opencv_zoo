@@ -46,7 +46,7 @@ class DataReader(CalibrationDataReader):
         return blobs
 
 class Quantize:
-    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8', data_dim='chw', nodes_to_exclude=[]):
+    def __init__(self, model_path, calibration_image_dir, transforms=Compose(), per_channel=False, act_type='int8', wt_type='int8', data_dim='chw', nodes_to_exclude=[], quant_format='qdq'):
         self.type_dict = {"uint8" : QuantType.QUInt8, "int8" : QuantType.QInt8}
 
         self.model_path = model_path
@@ -56,6 +56,11 @@ class Quantize:
         self.act_type = act_type
         self.wt_type = wt_type
         self.nodes_to_exclude = nodes_to_exclude
+        
+        # FIX: The legacy QOperator format breaks TensorRT, CUDA, and NPU execution providers 
+        # because hardware accelerators cannot fuse QLinear Conv/MatMul ops natively.
+        # QDQ (QuantizeLinear/DequantizeLinear) is the industry standard required for deep hardware acceleration.
+        self.quant_format = QuantFormat.QDQ if quant_format == 'qdq' else QuantFormat.QOperator
 
         # data reader
         self.dr = DataReader(self.model_path, self.calibration_image_dir, self.transforms, data_dim)
@@ -77,9 +82,9 @@ class Quantize:
         print('Quantizing {}: act_type {}, wt_type {}'.format(self.model_path, self.act_type, self.wt_type))
         new_model_path = self.check_opset()
         quant_pre_process(new_model_path, new_model_path)
-        output_name = '{}_{}.onnx'.format(self.model_path[:-5], self.wt_type)
+        output_name = '{}_{}_{}.onnx'.format(self.model_path[:-5], self.wt_type, self.quant_format.name.lower())
         quantize_static(new_model_path, output_name, self.dr,
-                        quant_format=QuantFormat.QOperator, # start from onnxruntime==1.11.0, quant_format is set to QuantFormat.QDQ by default, which performs fake quantization
+                        quant_format=self.quant_format, # Replaced hardcoded QOperator with dynamically fusable QDQ format
                         per_channel=self.per_channel,
                         weight_type=self.type_dict[self.wt_type],
                         activation_type=self.type_dict[self.act_type],

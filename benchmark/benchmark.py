@@ -48,6 +48,7 @@ parser.add_argument("--fp16", action="store_true", help="Benchmark models of flo
 parser.add_argument("--int8", action="store_true", help="Benchmark models of int8 precision only.")
 parser.add_argument("--int8bq", action="store_true", help="Benchmark models of blocked int8 precision only.")
 parser.add_argument("--all", action="store_true", help="Benchmark all models")
+parser.add_argument("--paradox_strict", action="store_true", help="Verification Layer: Fail CI if INT8 is slower than FP32 (Quantization Paradox).")
 args = parser.parse_args()
 
 def build_from_cfg(cfg, registery, key=None, name=None):
@@ -121,6 +122,10 @@ class Benchmark:
     def run(self, model):
         model.setBackendAndTarget(self._backend, self._target)
 
+        # Clear previous run results to prevent cross-model contamination
+        self._benchmark_results = dict()
+        self._benchmark_results_brief = dict()
+
         for idx, data in enumerate(self._dataloader):
             filename, input_data = data[:2]
 
@@ -138,11 +143,14 @@ class Benchmark:
             self._benchmark_results_brief[str(size)] += self._benchmark_results[str(size)][filename]
 
     def printResults(self, model_name, model_path):
+        stats = {}
         for imgSize, res in self._benchmark_results_brief.items():
             mean, median, minimum = self._metric.getPerfStats(res)
             print("{:<10.2f} {:<10.2f} {:<10.2f} {:<12} {} with {}".format(
                 mean, median, minimum, imgSize, model_name, model_path
             ))
+            stats[imgSize] = {'mean': mean, 'median': median, 'min': minimum}
+        return stats
 
 if __name__ == '__main__':
     cfgs = []
@@ -222,11 +230,40 @@ if __name__ == '__main__':
             _model_paths_excluded.append(model_path)
         _model_paths = _model_paths_excluded
 
+        latency_records = {} # Paradox Verification Layer
         for model_path in _model_paths:
             model = model_handler(*model_path, **model_config)
+            path_str = str(model_path).lower()
             # Format model_path
             for i in range(len(model_path)):
                 model_path[i] = model_path[i].split('/')[-1]
             # Run benchmark
             benchmark.run(model)
-            benchmark.printResults(model.name, model_path)
+            stats = benchmark.printResults(model.name, model_path)
+            
+            if stats:
+                first_sz = list(stats.keys())[0]
+                mean_latency = stats[first_sz]['mean']
+                if 'int8' in path_str:
+                    latency_records['int8'] = mean_latency
+                elif 'fp16' in path_str:
+                    latency_records['fp16'] = mean_latency
+                else:
+                    latency_records['fp32'] = mean_latency
+
+        # Verification Layer
+        if 'fp32' in latency_records and 'int8' in latency_records:
+            t_fp32 = latency_records['fp32']
+            t_int8 = latency_records['int8']
+            reduction = ((t_fp32 - t_int8) / t_fp32) * 100
+            print(f"\n[Verification Layer] Quantization Paradox Analysis:")
+            print(f"FP32: {t_fp32:.2f}ms | INT8: {t_int8:.2f}ms | Reduction: {reduction:.2f}%")
+            if reduction < 0:
+                print(f"[!] PARADOX DETECTED: INT8 is {abs(reduction):.2f}% SLOWER than FP32.")
+                print("[!] Architecture Flaw / ORT Threading Overhead on target.")
+                if args.paradox_strict:
+                    print("[!] --paradox_strict flag active. Failing CI.")
+                    exit(1)
+            else:
+                print(f"[+] Quantization validated (INT8 is {reduction:.2f}% faster).")
+        print("-" * 80)
