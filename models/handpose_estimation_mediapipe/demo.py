@@ -285,9 +285,11 @@ if __name__ == '__main__':
                                    confThreshold=args.conf_threshold,
                                    backendId=backend_id,
                                    targetId=target_id)
+    
 
-    # If input is an image
-    if args.input is not None:
+    #if Input is NOT a digit(i.e input is a file path like thumbs up)
+    if args.input is not None and not args.input.isdigit():
+
         image = cv.imread(args.input)
 
         # Palm detector inference
@@ -319,8 +321,11 @@ if __name__ == '__main__':
             cv.imshow(args.input, image)
             cv.imshow('3D HandPose Demo', view_3d)
             cv.waitKey(0)
-    else:  # Omit input to call default camera
-        deviceId = 0
+    else:   
+        #If args.input is None,choose 0 as default else leave it as -
+        # the digit the string was before  the conversion to an integer i.e "1" as 1
+
+        deviceId = int(args.input) if args.input else 0
         cap = cv.VideoCapture(deviceId)
 
         tm = cv.TickMeter()
