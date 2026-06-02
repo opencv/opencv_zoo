@@ -9,15 +9,35 @@ Please note that the model is trained with Chinese license plates, so the detect
 
 ## Demo
 
-Run the following command to try the demo:
+### Python
+
+Run the following commands to try the demo:
 
 ```shell
 # detect on camera input
 python demo.py
 # detect on an image
 python demo.py --input /path/to/image -v
+
 # get help regarding various parameters
 python demo.py --help
+```
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+# A typical and default installation path of OpenCV is /usr/local
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/demo
+# detect on an image
+./build/demo -i=/path/to/image -v
+# get help messages
+./build/demo -h
 ```
 
 ### Example outputs
