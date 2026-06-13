@@ -3,7 +3,12 @@
 **/__pycache__/**
 
 .vscode
+.idea
 
 build/
 **/build
 **/build/**
+
+target/
+**/target
+**/target/**
