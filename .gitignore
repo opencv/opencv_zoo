@@ -7,3 +7,8 @@
 build/
 **/build
 **/build/**
+
+# Generated quantized models and outputs (do not commit)
+models/deblurring_nafnet/*_int8.onnx
+models/deblurring_nafnet/*_output.png
+tools/quantize/*-opset13.onnx
