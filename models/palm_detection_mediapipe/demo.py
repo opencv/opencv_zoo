@@ -87,8 +87,8 @@ if __name__ == '__main__':
                       backendId=backend_id,
                       targetId=target_id)
 
-    # If input is an image
-    if args.input is not None:
+    # if Input is NOT a digit(i.e input is a file path like thumb.jpg or index_finger.jpg)
+    if args.input is not None and not args.input.isdigit():
         image = cv.imread(args.input)
 
         # Inference
@@ -109,8 +109,9 @@ if __name__ == '__main__':
             cv.namedWindow(args.input, cv.WINDOW_AUTOSIZE)
             cv.imshow(args.input, image)
             cv.waitKey(0)
+    #If it is a digit(or None),go to webcam mode
     else: # Omit input to call default camera
-        deviceId = 0
+        deviceId =  int(args.input) if args.input else 0
         cap = cv.VideoCapture(deviceId)
 
         tm = cv.TickMeter()
