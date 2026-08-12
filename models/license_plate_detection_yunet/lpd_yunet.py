@@ -65,20 +65,27 @@ class LPD_YuNet:
         # Decode
         dets = self._decode(blob)
 
+        # Convert 4-corner format to [x, y, w, h] for NMSBoxes
+        x_min = dets[:, 0::2].min(axis=1)
+        y_min = dets[:, 1::2].min(axis=1)
+        x_max = dets[:, 0::2].max(axis=1)
+        y_max = dets[:, 1::2].max(axis=1)
+        bboxes_xywh = np.stack([x_min, y_min, x_max - x_min, y_max - y_min], axis=1)
+
         # NMS
         keepIdx = cv.dnn.NMSBoxes(
-            bboxes=dets[:, 0:4].tolist(),
+            bboxes=bboxes_xywh.tolist(),
             scores=dets[:, -1].tolist(),
             score_threshold=self.confidence_threshold,
             nms_threshold=self.nms_threshold,
             top_k=self.top_k
-        ) # box_num x class_num
+        )
+        keepIdx = np.array(keepIdx).flatten()  # normalize across OpenCV versions
         if len(keepIdx) > 0:
             dets = dets[keepIdx]
             return dets[:self.keep_top_k]
         else:
             return np.empty(shape=(0, 9))
-
     def _priorGen(self):
         w, h = self.input_size
         feature_map_2th = [int(int((h + 1) / 2) / 2),
