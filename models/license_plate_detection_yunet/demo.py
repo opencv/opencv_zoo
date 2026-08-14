@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
         # Save results if save is true
         if args.save:
-            print('Resutls saved to result.jpg')
+            print('Results saved to result.jpg')
             cv.imwrite('result.jpg', image)
 
         # Visualize results in a new window
