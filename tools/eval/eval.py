@@ -128,6 +128,27 @@ models = dict(
         name="PPHumanSeg",
         topic="human_segmentation",
         modelPath=os.path.join(root_dir, "models/human_segmentation_pphumanseg/human_segmentation_pphumanseg_2023mar_int8bq.onnx")),
+    lpdyunet=dict(
+        name="LPD_YuNet",
+        topic="license_plate_detection",
+        modelPath=os.path.join(root_dir, "models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2023mar.onnx"),
+        topK=5000,
+        confThreshold=0.3,
+        nmsThreshold=0.3),
+    lpdyunet_q=dict(
+        name="LPD_YuNet",
+        topic="license_plate_detection",
+        modelPath=os.path.join(root_dir, "models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2023mar_int8.onnx"),
+        topK=5000,
+        confThreshold=0.3,
+        nmsThreshold=0.3),
+    lpdyunet_bq=dict(
+        name="LPD_YuNet",
+        topic="license_plate_detection",
+        modelPath=os.path.join(root_dir, "models/license_plate_detection_yunet/license_plate_detection_lpd_yunet_2023mar_int8bq.onnx"),
+        topK=5000,
+        confThreshold=0.3,
+        nmsThreshold=0.3),
 )
 
 datasets = dict(
@@ -151,6 +172,9 @@ datasets = dict(
         mini_supervisely=dict(
             name="MiniSupervisely",
             topic="human_segmentation"),
+        ccpd=dict(
+            name="CCPD",
+            topic="license_plate_detection"),
 )
 
 def main(args):
