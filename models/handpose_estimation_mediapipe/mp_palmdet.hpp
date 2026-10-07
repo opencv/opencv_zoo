@@ -11,7 +11,10 @@ const std::vector<std::pair<cv::dnn::Backend, cv::dnn::Target>>
         {cv::dnn::DNN_BACKEND_CUDA, cv::dnn::DNN_TARGET_CUDA},
         {cv::dnn::DNN_BACKEND_CUDA, cv::dnn::DNN_TARGET_CUDA_FP16},
         {cv::dnn::DNN_BACKEND_TIMVX, cv::dnn::DNN_TARGET_NPU},
-        {cv::dnn::DNN_BACKEND_CANN, cv::dnn::DNN_TARGET_NPU}};
+#if CV_VERSION_MAJOR > 4 || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 8)
+        {cv::dnn::DNN_BACKEND_CANN, cv::dnn::DNN_TARGET_NPU}
+#endif
+};
 
 class MPPalmDet {
    private:
@@ -52,18 +55,15 @@ class MPPalmDet {
             processed_image = image.clone();
         }
 
-        // Create blob with correct parameters
-        cv::Mat blob;
-        cv::dnn::Image2BlobParams params;
-        params.datalayout = cv::dnn::DNN_LAYOUT_NHWC;
-        params.ddepth = CV_32F;
-        params.mean = cv::Scalar::all(0);
-        params.scalefactor = cv::Scalar::all(1.0 / 255.0);
-        params.size = input_size;
-        params.swapRB = true;
-        params.paddingmode = cv::dnn::DNN_PMODE_NULL;
+        // Create NHWC blob: convert BGR to RGB, normalize to [0, 1]
+        cv::Mat rgb_img;
+        cv::cvtColor(processed_image, rgb_img, cv::COLOR_BGR2RGB);
+        cv::Mat blob_f;
+        rgb_img.convertTo(blob_f, CV_32FC3, 1.0 / 255.0);
 
-        blob = cv::dnn::blobFromImageWithParams(processed_image, params);
+        int sz[] = {1, input_size.height, input_size.width, 3};
+        cv::Mat blob(4, sz, CV_32F);
+        std::memcpy(blob.data, blob_f.data, input_size.height * input_size.width * 3 * sizeof(float));
 
         pad_bias.x = static_cast<int>(pad_bias.x / ratio);
         pad_bias.y = static_cast<int>(pad_bias.y / ratio);
