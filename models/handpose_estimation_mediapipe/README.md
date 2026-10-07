@@ -18,12 +18,30 @@ This model is converted from TFlite to ONNX using following tools:
 
 ## Demo
 
+### Python
+
 Run the following commands to try the demo:
 ```bash
 # detect on camera input
 python demo.py
 # detect on an image
 python demo.py -i /path/to/image -v
+```
+
+### C++
+
+Install latest OpenCV and CMake >= 3.24.0 to get started with:
+
+```shell
+cmake -B build -D OPENCV_INSTALLATION_PATH=/path/to/opencv/installation .
+cmake --build build
+
+# detect on camera input
+./build/demo
+# detect on an image
+./build/demo -i=/path/to/image -v
+# get help messages
+./build/demo -h
 ```
 
 ### Example outputs
