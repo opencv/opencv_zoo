@@ -133,7 +133,9 @@ if __name__=='__main__':
 
     tm = cv.TickMeter()
     tm.reset()
-    if args.input is not None:
+
+    #if Input is NOT a digit(i.e input is a file path like dog.jpg or cat.jpg)
+    if args.input is not None and not args.input.isdigit():
         image = cv.imread(args.input)
         input_blob = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
@@ -157,9 +159,14 @@ if __name__=='__main__':
             cv.imshow(args.input, img)
             cv.waitKey(0)
 
+    #If it is a digit(or None),go to webcam mode
     else:
         print("Press any key to stop video capture")
-        deviceId = 0
+
+        #If args.input is None,choose 0 as default else leave it as -
+        # the digit the string was before  the conversion to an integer i.e "1" as 1
+
+        deviceId = int(args.input) if args.input else 0
         cap = cv.VideoCapture(deviceId)
 
         while cv.waitKey(1) < 0:
