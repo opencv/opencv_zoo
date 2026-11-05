@@ -64,17 +64,28 @@ class LPD_YuNet:
     def _postprocess(self, blob):
         # Decode
         dets = self._decode(blob)
+        if dets.shape[0] == 0:
+            return np.empty(shape=(0, 9))
+
+        # Get enclosing bounding boxes [x, y, w, h] from 4 vertices for NMS
+        xs = dets[:, [0, 2, 4, 6]]
+        ys = dets[:, [1, 3, 5, 7]]
+        x_min = np.min(xs, axis=1)
+        y_min = np.min(ys, axis=1)
+        w = np.max(xs, axis=1) - x_min
+        h = np.max(ys, axis=1) - y_min
+        nms_bboxes = np.column_stack([x_min, y_min, w, h])
 
         # NMS
         keepIdx = cv.dnn.NMSBoxes(
-            bboxes=dets[:, 0:4].tolist(),
+            bboxes=nms_bboxes.tolist(),
             scores=dets[:, -1].tolist(),
             score_threshold=self.confidence_threshold,
             nms_threshold=self.nms_threshold,
             top_k=self.top_k
         ) # box_num x class_num
         if len(keepIdx) > 0:
-            dets = dets[keepIdx]
+            dets = dets[np.array(keepIdx).flatten()]
             return dets[:self.keep_top_k]
         else:
             return np.empty(shape=(0, 9))
